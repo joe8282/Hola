@@ -1,0 +1,1005 @@
+﻿//语言包
+var cn2 = {
+            "con_top_1" : "首页",
+            "con_top_2" : "客户管理中心",   
+            "primary" : "设为主要",
+        };
+
+var en2 = {
+            "con_top_1" : "Home",
+            "con_top_2" : "CRM Home", 
+            "primary" : "set primary",            
+        };
+        
+var oTable,oblTable,oFollow,oDemand;
+var typeId;
+var Id = GetQueryString('Id');
+var userCompanyId;
+
+$(document).ready(function() {
+//	initModal();
+	
+	this.title = get_lan('nav_2_1')
+	$('.navli2').addClass("active open")
+	$('.crm1').addClass("active")	
+	$('#title1').text(get_lan('nav_2_1'))
+	$('#title2').text(get_lan('nav_2_1'))
+	$('#mySmallModalLabel').text(get_lan('nav_2_1'))
+	
+	$('#send5').hide()
+	
+	GetDetail();	
+	$('#send1').on('click', function() {
+		location.href = 'crmcompanyadd.html?action=modify&Id='+Id;
+	})
+		
+	oTable=GetContact();
+
+	$('#send3').on('click', function() {
+		location.href = 'crmcompanycontactadd.html?action=add&back=1&companyId='+Id;
+	})
+	
+	oFollow=GetFollow();
+	
+	oDemand=GetDemand();	
+	$('#send00').hide()
+	
+	
+});
+function GetDetail() 
+{
+	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+		"Id": Id
+	}, function(data) {
+		//console.log(data.Data)
+		//初始化信息;
+		var _data = data.Data;
+		userCompanyId = _data.comp_customerId;
+		oblTable=initBlListTable();
+		$('.companyName').text(_data.comp_name)
+		$('.companyContent').text(_data.comp_content)
+		if(_data.comp_isSupplier==1){
+			$('.companyIsSupplier').text("是")
+		}else{
+			$('.companyIsSupplier').text("否")
+		}
+			$('.companyType').text(_data.comp_type)
+			$('.companyAddress').text(_data.comp_address)
+			$('.companyCountry').text(_data.comp_country)
+			$('.companyTel').text(_data.comp_tel)
+			$('.companyFax').text(_data.comp_fax)
+			$('.companyWeb').text(_data.comp_web)
+			$('.companyOrg').text(_data.comp_org)
+			$('.companyUpdateTime').text(_data.comp_updateTime.substring(0, 19).replace('T',' '))
+			$('.companyRemark').text(_data.comp_remark)
+		//$('.adRemark1').html(HtmlDecode(_data.prin_beizhu))	
+	}, function(err) {
+		console.log(err)
+	}, 5000)
+	
+	oBill = GetBill();
+	$('#send22').hide()
+}
+
+/**
+ * 表格初始化
+ * @returns {*|jQuery}
+ */
+function GetContact() {
+	var table = $("#example").dataTable({
+		//"iDisplayLength":10,
+		"sAjaxSource": dataUrl+'ajax/crmcompanycontact.ashx?action=readtop&companyId='+Id,
+		'bPaginate': false,
+		"bInfo" : false,
+//		"bDestory": true,
+//		"bRetrieve": true,
+		"bFilter": false,
+		"bSort": false,
+		"aaSorting": [[ 0, "desc" ]],
+//		"bProcessing": true,
+		"aoColumns": [
+			{ "mDataProp": "coco_name" },
+			{ "mDataProp": "coco_email" },
+			{ "mDataProp": "coco_phone" },
+			{ "mDataProp": "coco_position" },
+			{ "mDataProp": "coco_qq" },
+			{ "mDataProp": "coco_skype" },
+			{ "mDataProp": "coco_whatsapp" },
+			{ "mDataProp": "coco_facebook" },
+			{ "mDataProp": "coco_linkedin" },						
+			{
+				"mDataProp": "coco_id",
+				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
+					if(oData.coco_first==1){
+						$(nTd).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+	                    +"<ul class='dropdown-menu dropdown-azure'>"
+	                    +"<li><a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a></li>"
+	                    +"<li><a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a></li>"
+	                    +"</ul></div>")
+					// $(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+					// 	.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")					
+					}else{
+						$(nTd).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+	                    +"<ul class='dropdown-menu dropdown-azure'>"
+	                    +"<li><a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a></li>"
+	                    +"<li><a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a></li>"
+	                    +"<li><a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a></li>"
+	                    +"</ul></div>")
+						// $(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+						// .append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
+						// .append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
+					}
+
+				}
+			},
+		]
+	});
+	return table;
+}
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteContactFun(id) {
+	bootbox.confirm("Are you sure?", function(result) {
+		if(result) {
+			$.ajax({
+				url: dataUrl + 'ajax/crmcompanycontact.ashx?action=cancel',
+				data: {
+					"Id": id
+				},
+				dataType: "json",
+				type: "post",
+				success: function(backdata) {
+					if(backdata.State) {
+						comModel("删除成功")
+						oTable.fnReloadAjax(oTable.fnSettings());
+					} else {
+						alert("Delete Failed！");
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+	});
+}
+
+
+/**
+ * 设为主要
+ * @param id
+ * @private
+ */
+function _primaryFun(cocoId) {
+	$.ajax({
+		url: dataUrl+'ajax/crmcompanycontact.ashx?action=primary',
+		data: {
+			"Id": cocoId,
+			"companyId": Id
+		},
+		dataType: "json",
+		type: "post",
+		success: function(backdata) {
+			if(backdata.State) {
+				comModel("更新成功")
+				oTable.fnReloadAjax(oTable.fnSettings());
+			} else {
+				alert("Update Failed！");
+			}
+		},
+		error: function(error) {
+			console.log(error);
+		}
+	});
+}
+
+$("#id-date-picker-1").val(getDate());
+function GetFollow() {
+	var table1 = $("#follow").dataTable({
+		//"iDisplayLength":10,
+		"sAjaxSource": dataUrl+'ajax/crmcompanyfollow.ashx?action=read&companyId='+Id,
+//		'bPaginate': true,
+//		"bDestory": true,
+//		"bRetrieve": true,
+//		"bFilter": false,
+		"bSort": false,
+		"aaSorting": [[ 0, "desc" ]],
+//		"bProcessing": true,
+		"aoColumns": [
+			{ "mDataProp": "usin_name" },
+			{ "mDataProp": "cofo_content" },
+			{ "mDataProp": "cofo_followWay" },
+			{
+				"mDataProp": "cofo_followTime",
+				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
+					$(nTd).html(oData.cofo_followTime.substring(0, 10));
+				}			
+			},					
+			{
+				"mDataProp": "cofo_id",
+				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
+					$(nTd).html("<a href='javascript:void(0);' " +
+								"onclick='_editFollowFun(\"" + oData.cofo_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+						.append("<a href='javascript:void(0);' onclick='_deleteFollowFun(" + sData + ")'>" + get_lan('delete') + "</a>")
+
+				}
+			},
+		],
+//		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+//		"sPaginationType": "bootstrap",
+		"oLanguage": {
+//			"sUrl": "js/zh-CN.txt"
+//			"sSearch": "快速过滤："
+			"sProcessing": "正在加载数据，请稍后...",
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": get_lan('nodata'),
+			"sEmptyTable": "表中无数据存在！",
+			"sInfo": get_lan('page'),
+			"sInfoEmpty": "显示0到0条记录",
+			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+			//"sInfoPostFix": "",
+			"sSearch": get_lan('search'),
+			//"sUrl": "",
+			//"sLoadingRecords": "载入中...",
+			//"sInfoThousands": ",",
+			"oPaginate": {
+				"sFirst": get_lan('first'),
+				"sPrevious": get_lan('previous'),
+				"sNext": get_lan('next'),
+				"sLast": get_lan('last'),
+			}
+			//"oAria": {
+			//    "sSortAscending": ": 以升序排列此列",
+			//    "sSortDescending": ": 以降序排列此列"
+			//}
+		}		
+	});
+	return table1;
+}
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteFollowFun(id) {
+	bootbox.confirm("Are you sure?", function(result) {
+		if(result) {
+			$.ajax({
+				url: dataUrl + 'ajax/crmcompanyfollow.ashx?action=cancel',
+				data: {
+					"Id": id
+				},
+				dataType: "json",
+				type: "post",
+				success: function(backdata) {
+					if(backdata.State) {
+						comModel("删除成功")
+						oFollow.fnReloadAjax(oFollow.fnSettings());
+					} else {
+						alert("Delete Failed！");
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+	});
+
+}
+
+
+var followId, followWay, followTime, followContent;
+
+/**
+ * 编辑数据带出值
+ */
+function _editFollowFun(fId) {
+	followId=fId;
+	common.ajax_req("get", true, dataUrl, "crmcompanyfollow.ashx?action=readbyid", {
+		"Id": fId
+	}, function(data) {
+		//console.log(data.Data)
+		//初始化信息
+		var _data = data.Data
+		$("input[name='radio1'][value='"+_data.cofo_followWay+"']").attr("checked",true),
+		$("#id-date-picker-1").val(_data.cofo_followTime.substring(0, 10));
+		$("#editor").html(_data.cofo_content);
+		$("#send4").hide();
+		$("#send5").show();		
+	}, function(err) {
+		console.log(err)
+	}, 5000)
+	
+
+}
+
+/*下一步*/
+$('#send4').on('click', function() {
+	followWay = $("input[name='radio1']:checked").val(),
+	followTime = $('#id-date-picker-1').val(),
+	followContent= $('#editor').html();
+    
+	if(!followTime) {
+		comModel("请输入跟进时间")
+	} else if(!followContent) {
+		comModel("请输入跟进内容")
+	} else {
+		var parm = {
+			'userId': userID,
+			'companyId': Id,
+			'content': followContent,
+			'followWay': followWay,
+			'followTime': followTime
+		}
+	
+		common.ajax_req('POST', true, dataUrl, 'crmcompanyfollow.ashx?action=new', parm, function(data) {
+			if(data.State == 1) {
+				comModel("新增跟进信息成功")
+				$("input[name='radio1'][value='Phone']").attr("checked",true),
+				$('#id-date-picker-1').val("")
+				$('#editor').html("")
+				oFollow.fnReloadAjax(oFollow.fnSettings());
+				//location.href = 'crmcompanydetail.html?Id=' + Id;
+			} else {
+				comModel("新增跟进信息失败")
+			}
+		}, function(error) {
+			console.log(parm)
+		}, 10000)
+	}
+});
+
+$('#send5').on('click', function() {
+	followWay = $("input[name='radio1']:checked").val(),
+	followTime = $('#id-date-picker-1').val(),
+	followContent= $('#editor').html();
+    
+	if(!followTime) {
+		comModel("请输入跟进时间")
+	} else if(!followContent) {
+		comModel("请输入跟进内容")
+	} else {
+		var parm = {
+			'Id': followId,
+			'userId': userID,
+			'content': followContent,
+			'followWay': followWay,
+			'followTime': followTime
+		}
+	
+		common.ajax_req('POST', true, dataUrl, 'crmcompanyfollow.ashx?action=modify', parm, function(data) {
+			if(data.State == 1) {
+				comModel("修改跟进信息成功")
+				$("input[name='radio1'][value='Phone']").attr("checked",true),
+				$('#id-date-picker-1').val("")
+				$('#editor').html("")
+				oFollow.fnReloadAjax(oFollow.fnSettings());
+				//location.href = 'crmcompanydetail.html?Id=' + Id;
+			} else {
+				comModel("修改跟进信息失败")
+			}
+		}, function(error) {
+			console.log(parm)
+		}, 10000)
+	}
+});
+
+//需求管理
+function GetDemand() {
+	var table1 = $("#Demand").dataTable({
+		//"iDisplayLength":10,
+		"sAjaxSource": dataUrl+'ajax/crmcompanydemand.ashx?action=read&companyId='+Id,
+//		'bPaginate': true,
+//		"bDestory": true,
+//		"bRetrieve": true,
+//		"bFilter": false,
+		"bSort": false,
+		"aaSorting": [[ 0, "desc" ]],
+//		"bProcessing": true,
+		"aoColumns": [
+			{ "mDataProp": "dema_incoterm" },
+			{ "mDataProp": "dema_port1" },
+			{ "mDataProp": "dema_port2" },
+			{ "mDataProp": "dema_movement" },
+			{ "mDataProp": "dema_product" },							
+			{
+				"mDataProp": "dema_id",
+				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
+					$(nTd).html("<a href='javascript:void(0);' " +
+								"onclick='_editDemandFun(\"" + oData.dema_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+						.append("<a href='javascript:void(0);' onclick='_deleteDemandFun(" + sData + ")'>" + get_lan('delete') + "</a>")
+
+				}
+			},
+		],
+//		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+//		"sPaginationType": "bootstrap",
+		"oLanguage": {
+//			"sUrl": "js/zh-CN.txt"
+//			"sSearch": "快速过滤："
+			"sProcessing": "正在加载数据，请稍后...",
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": get_lan('nodata'),
+			"sEmptyTable": "表中无数据存在！",
+			"sInfo": get_lan('page'),
+			"sInfoEmpty": "显示0到0条记录",
+			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+			//"sInfoPostFix": "",
+			"sSearch": get_lan('search'),
+			//"sUrl": "",
+			//"sLoadingRecords": "载入中...",
+			//"sInfoThousands": ",",
+			"oPaginate": {
+				"sFirst": get_lan('first'),
+				"sPrevious": get_lan('previous'),
+				"sNext": get_lan('next'),
+				"sLast": get_lan('last'),
+			}
+			//"oAria": {
+			//    "sSortAscending": ": 以升序排列此列",
+			//    "sSortDescending": ": 以降序排列此列"
+			//}
+		}	
+	});
+	return table1;
+}
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteDemandFun(id) {
+	bootbox.confirm("Are you sure?", function(result) {
+		if(result) {
+			$.ajax({
+				url: dataUrl + 'ajax/crmcompanydemand.ashx?action=cancel',
+				data: {
+					"Id": id
+				},
+				dataType: "json",
+				type: "post",
+				success: function(backdata) {
+					if(backdata.State) {
+						comModel("删除成功")
+						oDemand.fnReloadAjax(oDemand.fnSettings())
+					} else {
+						alert("Delete Failed！");
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+	});
+
+}
+
+
+var demandId, incoterm,port1,port2,movement,product;
+
+$('#send0').on('click', function() {
+	incoterm = $("#e1").val(),
+	port1 = $("#e2").val(),
+	port2 = $("#e3").val(),
+	movement = $("#e4").val(),
+	product = $("#inputProduct").val();
+    
+	if(!incoterm) {
+		comModel("请输入贸易条款")
+	} else if(!port1) {
+		comModel("请输入起运港口")
+	} else if(!port2) {
+		comModel("请输入到运港口")
+	} else if(!movement) {
+		comModel("请输入运输方式")
+	} else if(!product) {
+		comModel("请输入产品")		
+	} else {
+		var parm = {
+			'userId': userID,
+			'companyId': Id,
+			'incoterm': incoterm,
+			'port1': port1,
+			'port2': port2,
+			'movement': movement,
+			'product': product
+		}
+	
+		common.ajax_req('POST', true, dataUrl, 'crmcompanydemand.ashx?action=new', parm, function(data) {
+			if(data.State == 1) {
+				comModel("新增需求信息成功")
+				$("#e1").val(null).trigger("change");
+				$("#e2").val(null).trigger("change");
+				$("#e3").val(null).trigger("change");
+				$("#e4").val(null).trigger("change");
+				$("#inputProduct").val("FAK")
+				oDemand.fnReloadAjax(oDemand.fnSettings())
+				//location.href = 'crmcompanydetail.html?Id=' + Id;
+			} else {
+				comModel("新增需求信息失败")
+			}
+		}, function(error) {
+			console.log(parm)
+		}, 10000)
+	}
+});
+
+/**
+ * 编辑数据带出值
+ */
+function _editDemandFun(fId) {
+	demandId=fId;
+	common.ajax_req("get", true, dataUrl, "crmcompanydemand.ashx?action=readbyid", {
+		"Id": fId
+	}, function(data) {
+		//console.log(data.Data)
+		//初始化信息
+		var _data = data.Data
+		$("#inputProduct").val(_data.dema_product);
+		$("#e1").val(_data.dema_incoterm).trigger("change")
+		$("#e2").val(_data.dema_port1).trigger("change")
+		$("#e3").val(_data.dema_port2).trigger("change")
+		$("#e4").val(_data.dema_movement).trigger("change")
+		
+		$('#send00').show()
+		$('#send0').hide()
+		
+	}, function(err) {
+		console.log(err)
+	}, 5000)
+}
+
+$('#send00').on('click', function() {
+	incoterm = $("#e1").val(),
+	port1 = $("#e2").val(),
+	port2 = $("#e3").val(),
+	movement = $("#e4").val(),
+	product = $("#inputProduct").val();
+    
+	if(!incoterm) {
+		comModel("请输入贸易条款")
+	} else if(!port1) {
+		comModel("请输入起运港口")
+	} else if(!port2) {
+		comModel("请输入到运港口")
+	} else if(!movement) {
+		comModel("请输入运输方式")
+	} else if(!product) {
+		comModel("请输入产品")		
+	} else {
+		var parm = {
+			'userId': userID,
+			'Id': demandId,
+			'incoterm': incoterm,
+			'port1': port1,
+			'port2': port2,
+			'movement': movement,
+			'product': product
+		}
+	
+		common.ajax_req('POST', true, dataUrl, 'crmcompanydemand.ashx?action=modify', parm, function(data) {
+			if(data.State == 1) {
+				comModel("修改需求信息成功")
+				$("#e1").val(null).trigger("change");
+				$("#e2").val(null).trigger("change");
+				$("#e3").val(null).trigger("change");
+				$("#e4").val(null).trigger("change");
+				$("#inputProduct").val("FAK")
+				oDemand.fnReloadAjax(oDemand.fnSettings())
+				//location.href = 'crmcompanydetail.html?Id=' + Id;
+			} else {
+				comModel("修改需求信息失败")
+			}
+		}, function(error) {
+			console.log(parm)
+		}, 10000)
+	}
+});
+
+
+//提单管理
+function GetBill() {
+	console.log(userCompanyId)
+//	var table1 = $("#Bill").dataTable({
+//		//"iDisplayLength":10,
+//		"sAjaxSource": dataUrl+'ajax/crmcompanybill.ashx?action=read&actionId='+companyID+'&companyId='+userCompanyId,
+////		'bPaginate': true,
+////		"bDestory": true,
+////		"bRetrieve": true,
+////		"bFilter": false,
+//		"bAutoWidth":false,
+//		"bSort": false,
+//		"aaSorting": [[ 0, "desc" ]],
+////		"bProcessing": true,
+//		"aoColumns": [
+////			{ "mDataProp": "cobi_name"},
+//			{ "mDataProp": "cobi_typeName" },
+//			{
+//				"mDataProp": "cobi_content"
+////				"createdCell": function (td, cellData, rowData, row, col) {
+////					$(td).html(HtmlEncode(rowData.cobi_content));
+////				}			
+//			},
+//			{
+//				"mDataProp": "cobi_updateTime",
+//				"createdCell": function (td, cellData, rowData, row, col) {
+//					$(td).html(rowData.cobi_updateTime.substring(0, 10));
+//				}			
+//			},					
+//			{
+//				"mDataProp": "cobi_id",
+//				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
+//					$(nTd).html("<a href='javascript:void(0);' " +
+//								"onclick='_editBillFun(\"" + oData.cobi_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+//						.append("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>")
+//
+//				}
+//			},
+//		],
+////		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+////		"sPaginationType": "bootstrap",
+//		"oLanguage": {
+////			"sUrl": "js/zh-CN.txt"
+////			"sSearch": "快速过滤："
+//			"sProcessing": "正在加载数据，请稍后...",
+//			"sLengthMenu": "每页显示 _MENU_ 条记录",
+//			"sZeroRecords": get_lan('nodata'),
+//			"sEmptyTable": "表中无数据存在！",
+//			"sInfo": get_lan('page'),
+//			"sInfoEmpty": "显示0到0条记录",
+//			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+//			//"sInfoPostFix": "",
+//			"sSearch": get_lan('search'),
+//			//"sUrl": "",
+//			//"sLoadingRecords": "载入中...",
+//			//"sInfoThousands": ",",
+//			"oPaginate": {
+//				"sFirst": get_lan('first'),
+//				"sPrevious": get_lan('previous'),
+//				"sNext": get_lan('next'),
+//				"sLast": get_lan('last'),
+//			}
+//			//"oAria": {
+//			//    "sSortAscending": ": 以升序排列此列",
+//			//    "sSortDescending": ": 以降序排列此列"
+//			//}
+//		}	
+//	});
+//	return table1;
+}
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteBillFun(id) {
+	bootbox.confirm("Are you sure?", function(result) {
+		if(result) {
+			$.ajax({
+				url: dataUrl + 'ajax/crmcompanybill.ashx?action=cancel',
+				data: {
+					"Id": id
+				},
+				dataType: "json",
+				type: "post",
+				success: function(backdata) {
+					if(backdata.State) {
+						comModel("删除成功")
+						oBill.fnReloadAjax(oBill.fnSettings())
+					} else {
+						alert("Delete Failed！");
+					}
+				},
+				error: function(error) {
+					console.log(error);
+				}
+			});
+		}
+	});
+
+}
+
+
+var billId, billName,billTypeId,billTypeName,billContent;
+
+$('#send11').on('click', function() {
+	billTypeId = $("#e11").val(),
+	billTypeName = $("#e11").find("option:selected").text(),
+	//billName = $("#inputBillName").val(),
+	billContent = HtmlEncode($("#inputBillContent").val());
+//	var reg=new RegExp("\n","g");
+	if(billContent.indexOf("<br>") == -1){
+		billContent=insert_flg(billContent,"<br>",40);	
+	}
+    console.log(billContent)
+	if(!billContent) {
+		comModel("请输入提单信息内容")	
+	} else {
+		var parm = {
+			'userId': userID,
+			'actionId': companyID,
+			'companyId': userCompanyId,
+			//'name': billName,
+			'content': billContent,
+			'typeId': billTypeId,
+			'typeName': billTypeName
+		}
+	
+		common.ajax_req('POST', true, dataUrl, 'crmcompanybill.ashx?action=new', parm, function(data) {
+			if(data.State == 1) {
+				comModel("新增提单信息成功")
+				$("#inputBillName").val("")
+				$("#inputBillContent").val("")
+				oBill.fnReloadAjax(oBill.fnSettings())
+				//location.href = 'crmcompanydetail.html?Id=' + Id;
+			} else {
+				comModel("新增提单信息失败")
+			}
+		}, function(error) {
+			console.log(parm)
+		}, 10000)
+	}
+});
+
+/**
+ * 编辑数据带出值
+ */
+function _editBillFun(fId) {
+	billId=fId;
+	common.ajax_req("get", true, dataUrl, "crmcompanybill.ashx?action=readbyid", {
+		"Id": fId
+	}, function(data) {
+		//console.log(data.Data)
+		//初始化信息
+		var _data = data.Data
+		//$("#inputBillName").val(_data.cobi_name);
+		$("#inputBillContent").val(HtmlDecode(_data.cobi_content));
+		$("#e11").val(_data.cobi_typeId).trigger("change")
+		
+		$('#send22').show()
+		$('#send11').hide()
+		
+	}, function(err) {
+		console.log(err)
+	}, 5000)
+}
+
+$('#send22').on('click', function() {
+	billTypeId = $("#e11").val(),
+	billTypeName = $("#e11").find("option:selected").text(),
+	//billName = $("#inputBillName").val(),
+	billContent = HtmlEncode($("#inputBillContent").val());
+    
+	if(!billContent) {
+		comModel("请输入提单信息内容")	
+	} else {
+		var parm = {
+			'userId': userID,
+			'Id': billId,
+			//'name': billName,
+			'content': billContent,
+			'typeId': billTypeId,
+			'typeName': billTypeName
+		}
+	
+		common.ajax_req('POST', true, dataUrl, 'crmcompanybill.ashx?action=modify', parm, function(data) {
+			if(data.State == 1) {
+				comModel("修改提单信息成功")
+				$("#inputBillName").val("")
+				$("#inputBillContent").val("")				
+				oBill.fnReloadAjax(oBill.fnSettings())
+				//location.href = 'crmcompanydetail.html?Id=' + Id;
+			} else {
+				comModel("修改提单信息失败")
+			}
+		}, function(error) {
+			console.log(parm)
+		}, 10000)
+	}
+});
+
+
+//港口
+common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readport', {'companyId':companyID}, function(data) {
+	var _data = data.data;
+	for(var i = 0; i < _data.length; i++) {
+		var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+		$('#e2').append(_html)
+		$('#e3').append(_html)
+	}
+
+//	console.log(_data)
+}, function(error) {
+	//console.log(parm)
+}, 10000)
+
+
+//港口
+common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {'typeId':3,'companyId':companyID}, function(data) {
+	var _data = data.data;
+	for(var i = 0; i < _data.length; i++) {
+		var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+		$('#e1').append(_html)
+	}
+}, function(error) {
+	console.log(parm)
+}, 10000)
+
+//港口
+common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {'typeId':7,'companyId':companyID}, function(data) {
+	var _data = data.data;
+	for(var i = 0; i < _data.length; i++) {
+		var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+		$('#e4').append(_html)
+	}
+}, function(error) {
+	console.log(parm)
+}, 10000)
+
+/*
+add this plug in
+// you can call the below function to reload the table with current state
+Datatables刷新方法
+oTable.fnReloadAjax(oTable.fnSettings());
+*/
+$.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings) {
+	//oSettings.sAjaxSource = sNewSource;
+	this.fnClearTable(this);
+	this.oApi._fnProcessingDisplay(oSettings, true);
+	var that = this;
+
+	$.getJSON(oSettings.sAjaxSource, null, function(json) {
+		/* Got the data - add it to the table */
+		for(var i = 0; i < json.data.length; i++) {
+			that.oApi._fnAddData(oSettings, json.data[i]);
+		}
+		oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+		that.fnDraw(that);
+		that.oApi._fnProcessingDisplay(oSettings, false);
+	});
+}
+
+
+function initBlListTable() {   //这里加一个相关的订单，但是还不知道如何查询这些订单是相关的公司的 20190816 by daniel
+    var ajaxUrlBl,tableTitleBl,columnsBl
+    //console.log(userCompanyId)
+    	ajaxUrlBl=dataUrl+'ajax/booking.ashx?action=read&crmId='+userCompanyId
+    	tableTitleBl='<th>订单号</th><th>客户名称</th><th>运输方式</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>货量</th><th>订舱时间</th><th>离港时间</th><th>财务状况</th><th>状态</th><th>操作</th>'
+    	$('#tableTitleBl').html(tableTitleBl)
+    	columnsBl = [
+    		{
+    			"mDataProp": "book_orderCode"
+    		},
+    		{
+    			"mDataProp": "comp_name2"
+    		},
+    		{
+    			"mDataProp": "book_movementType"
+    		},
+    		{
+    			"mDataProp": "book_port1",
+	            "mRender" : function(data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
+	                      return (full.book_port1 +" <i class='fa fa-long-arrow-right'></i></br> "+ full.book_port2)
+	                    }
+    		},
+    		// {
+    		// 	"mDataProp": "book_port2"
+    		// },
+    		{
+    			"mDataProp": "book_allContainer"
+//  			"mDataProp": "book_id",
+//  			"createdCell": function(td, cellData, rowData, row, col) {
+//  				var tohtml = ''
+//  				if(rowData.book_20GP.substr(0, 1) != ' ') {
+//  					tohtml = rowData.book_20GP;
+//  				}
+//  				if(rowData.book_40GP.substr(0, 1) != ' ') {
+//  					tohtml = tohtml + '<br/>' + rowData.book_40GP;
+//  				}
+//  				if(rowData.book_40HQ.substr(0, 1) != ' ') {
+//  					tohtml = tohtml + '<br/>' + rowData.book_40HQ;
+//  				}
+//  				$(td).html(tohtml);
+//  			}
+    		},
+    		{
+    			"mDataProp": "book_time",
+    			"createdCell": function(td, cellData, rowData, row, col) {
+    				if(rowData.book_time != null) {
+    					$(td).html(rowData.book_time.substring(0, 10));
+    				} else {
+    					$(td).html("NULL");
+    				}
+    			}
+    		},    		
+    		{
+    			"mDataProp": "book_okPortTime",
+    			"createdCell": function(td, cellData, rowData, row, col) {
+    				if(rowData.book_okPortTime != null) {
+    					$(td).html(rowData.book_okPortTime.substring(0, 10));
+    				} else {
+    					$(td).html("NULL");
+    				}
+    			}
+    		},
+    		{
+    			"mDataProp": "book_id",
+    			"createdCell": function(td, cellData, rowData, row, col) {
+    				$(td).html("NULL");
+    			}    			
+    		},    		
+    		{
+    			"mDataProp": "orderstate_name_cn"
+    		},
+			{
+				"mDataProp": "book_id",
+				"createdCell": function (td, cellData, rowData, row, col) {
+					$(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+                    +"<ul class='dropdown-menu dropdown-azure'>"
+                    +"<li><a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a></li>"
+                    +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
+                    +"</ul></div>")
+					// $(td).html("<a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")	
+					// .append("<a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a>")						
+				}
+			},    		
+    	]
+    
+	var tableBl = $("#blpanel_list").dataTable({
+		//"iDisplayLength":10,
+		"sAjaxSource": ajaxUrlBl,
+//		'bPaginate': true,
+//		"bDestory": true,
+//		"bRetrieve": true,
+//		"bFilter": false,
+		"bLengthChange":false,
+        "aaSorting": [[0, 'desc']],
+        "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
+            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+            {"bSortable": false, "aTargets": [4,7,8,9]}
+        ],
+//		"bSort": true,
+//		"aaSorting": [[ 9, "desc" ]],
+//		"bProcessing": true,
+		"aoColumns": columnsBl,
+//		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+//		"sPaginationType": "bootstrap",
+		"oLanguage": {
+//			"sUrl": "js/zh-CN.txt"
+//			"sSearch": "快速过滤："
+			"sProcessing": "正在加载数据，请稍后...",
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": get_lan('nodata'),
+			"sEmptyTable": "表中无数据存在！",
+			"sInfo": get_lan('page'),
+			"sInfoEmpty": "显示0到0条记录",
+			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+			//"sInfoPostFix": "",
+			"sSearch": get_lan('search'),
+			//"sUrl": "",
+			//"sLoadingRecords": "载入中...",
+			//"sInfoThousands": ",",
+			"oPaginate": {
+				"sFirst": get_lan('first'),
+				"sPrevious": get_lan('previous'),
+				"sNext": get_lan('next'),
+				"sLast": get_lan('last'),
+			}
+			//"oAria": {
+			//    "sSortAscending": ": 以升序排列此列",
+			//    "sSortDescending": ": 以降序排列此列"
+			//}
+		}
+	});
+    
+	return tableBl;
+}

@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>PriceSheet Detail</title>
+
+    <meta name="description" content="form layouts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+ <!--    <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css"> -->
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+    <!--<link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
+
+    <!--Page Related styles-->  
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="assets/css/select2.min.css" rel="stylesheet" />
+    
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left">
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <img src="assets/img/logo.png" alt="" />
+                        </small>
+                    </a>
+                </div>
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div>
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="right: 10px;" >                       
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar">
+                <!-- Page Sidebar Header-->
+                <div class="sidebar-header-wrapper">
+                    <input type="text" class="searchinput" />
+                    <i class="searchicon fa fa-search"></i>
+                    <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+                </div>
+                <!-- /Page Sidebar Header -->
+                <!-- Sidebar Menu -->
+                <ul class="nav sidebar-menu">
+                </ul>
+                <!-- /Sidebar Menu -->
+            </div>
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs page-header position-relative">
+                    <div class="header-title">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="#" set-lan="html:con_top_1">Home</a>
+                            </li>
+                            <li>
+                                <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
+                            </li>
+                            <li id="title1" class="active">Booking Add</li>
+                        </ul>
+                    </div>
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /Page Breadcrumb -->    
+                <!-- Page Body -->
+                <div class="page-body">
+                	<div class="widget">
+                		<!--<div class="widget-header bordered-left bordered-darkorange">
+                			<span class="widget-caption">主要信息</span>
+                		</div>-->
+                		<div class="widget-body">
+                            <div class="companyNameEn" style="font-size: 20px; font-weight: bold; height: 40px; ">
+                                HOLA INTERNATIONAL SOURCING LOGISTICS CO., LTD.
+                            </div> 
+                            <div style="float: left; width: 100%; height: 80px; ">
+                                <div class="companyName" style="float: left; width: 320px; height:50px; margin-top:5px; font-size: 24px; font-weight:bold;">和乐国际采购物流有限公司 ｜</div>
+                                <div style="float: left; height: 50px; margin-top: 5px; line-height: 18px; ">
+                                    Tel: <span class ="companyTel"></span>&nbsp;&nbsp;Fax: <span class="companyFax"></span><br />
+                                    Email: <span class="companyEmail"></span>&nbsp;&nbsp;Faceboo: 
+                                </div>
+                            </div>
+                            <div style="font-size: 22px; font-weight: bold; ">Quotation Sheet 报价表</div>
+                            <div style="width: 100%; height:70px; margin-top: 30px;">
+                                <div style="float: left; width: 50%; font-size: 16px; ">
+                                    TO致：<span class="toCompany"></span><br/>
+                                    RIC联系人：<span class="toCompanyContact"></span>
+                                </div>
+                                <div style="float: left; width: 50%; text-align: right; ">
+                                    Date: <span class="addTime"></span>
+                                </div>
+                            </div>
+                            <div style="width: 100%; height: 50px;">
+                                <div style="float: left; width: 50%; font-size: 14px; ">
+                                    POL起运港：<br />
+                                    <span class="port1"></span>
+                                </div>
+                                <div style="float: left; width: 50%; font-size: 14px; ">
+                                    POD目的港：<br />
+                                    <span class="port2"></span>
+                                </div>
+                            </div>
+                            <div style="width: 100%; margin-top: 10px;">
+                                <table class="table table-hover table-striped table-bordered">
+                                    <thead class="bordered-blueberry">
+                                        <tr>
+                                            <th>20GP</th>
+                                            <th>40GP</th>
+                                            <th>40'HQ</th>
+                                            <th>承运人</th>
+                                            <th>航期</th>
+                                            <th>航程</th>
+                                            <th>中转</th>
+                                            <th>有效期</th>
+                                            <th>备注</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="feeItem">
+                                        <!--<tr>
+                                            <td>20GP</td>
+                                            <td>40GP</td>
+                                            <td>40'HQ</td>
+                                            <td>承运人</td>
+                                            <td>航期</td>
+                                            <td>航程</td>
+                                            <td>中转</td>
+                                            <td>有效期</td>
+                                            <td>备注</td>
+                                        </tr>-->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="width: 100%; margin-top: 30px;">
+                                <p>本地费用：</p>
+                                <table class="table table-hover table-striped table-bordered">
+                                    <thead class="bordered-blueberry">
+                                        <tr>
+                                            <th>费用名称</th>
+                                            <th>套/票</th>
+                                            <th>20GP</th>
+                                            <th>40GP</th>
+                                            <th>40'HQ</th>
+                                            <th>适用期</th>
+                                            <th>备注</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="localChargeItem">
+                                        <!--<tr>
+                                            <td>费用名称</td>
+                                            <td>套/票</td>
+                                            <td>20GP</td>
+                                            <td>40GP</td>
+                                            <td>40'HQ</td>
+                                            <td>适用期</td>
+                                            <td>备注</td>
+                                        </tr>-->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="width: 100%; margin-top: 30px;">
+                                <p>拖车费用：</p>
+                                <table class="table table-hover table-striped table-bordered">
+                                    <thead class="bordered-blueberry">
+                                        <tr>
+                                            <th>Delivery</th>
+                                            <th>20GP</th>
+                                            <th>40GP</th>
+                                            <th>40'HQ</th>
+                                            <th>Validity</th>
+                                            <th>备注</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="truckingChargeItem">
+                                        <!--<tr>
+            <td>Delivery</td>
+            <td>20GP</td>
+            <td>40GP</td>
+            <td>40'HQ</td>
+            <td>适用期</td>
+            <td>备注</td>
+        </tr>-->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>               					
+                	</div>
+				</div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+    
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script>
+    <!--Bootstrap Date Picker-->
+    <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
+    <script src="assets/js/select2/select2.min.js"></script>
+    <script src="assets/js/select2/zh-CN.js"></script>
+    
+    <!--Page Related Scripts-->
+    <script src="js/common.js"></script>
+    <script src="js/pricesheetdetail.js"></script> 
+    <script src="js/lan.js"></script> 
+    <script>
+        //--Bootstrap Date Picker--
+        $('.date-picker').datepicker();
+       
+    </script>   
+</body>
+<!--  /Body -->
+</html>

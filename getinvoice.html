@@ -1,0 +1,497 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>BILL OF LADING</title>
+
+    <meta name="description" content="data tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+    <!-- <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css"> -->
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+    <!--<link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
+
+    <!--Page Related styles-->
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="assets/css/select2.min.css" rel="stylesheet" />
+
+<style>
+    th{font-weight: bolder;}
+	.detail td{padding: 10px;}
+	.detail span{line-height: 160%; display: block;}
+	.detail .biaozhi{color:#2dc3e8;font-weight: bold;}
+	.detail a{line-height: 150%; color: #333;}
+	.detail a:hover{text-decoration: none;}
+    .allPkgsCbmKgs input{width: 100px; float: left;}
+    .allPkgsCbmKgs select{width: 100px;}
+    .select2-container{float: left; margin-right: 10px; }
+    .select2-container--default .select2-selection--single select{border-radius: 1px; height: 24px;border: 1px solid #ccc;}
+    label{text-align: right;}
+</style>
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>  
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left">
+                    <a  href="javascript:void(0);" class="navbar-brand">
+                        <small>
+                            <img src="assets/img/logo.png" alt="" />
+                        </small>
+                    </a>
+                </div>
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div>
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="right: 10px;" >                       
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar" style="z-index: 2;">
+                <!-- Page Sidebar Header-->
+                <div class="sidebar-header-wrapper">
+                    <input type="text" class="searchinput" />
+                    <i class="searchicon fa fa-search"></i>
+                    <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+                </div>
+                <!-- /Page Sidebar Header -->
+                <!-- Sidebar Menu -->
+                <ul class="nav sidebar-menu">                	
+                </ul>               
+                <!-- /Sidebar Menu -->
+            </div>
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs page-header position-relative">
+                    <div class="header-title">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a  href="javascript:void(0);" set-lan="html:con_top_1">Home</a>
+                            </li>
+                            <li>
+                                <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
+                            </li>
+                            <li id="title1" class="active">Booking Add</li>
+                        </ul>
+                    </div>
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler"  href="javascript:void(0);">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler"  href="javascript:void(0);">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                        <a href="#" class="label label-primary tooltip-darkorange">
+                            <i class="glyphicon glyphicon-print"></i>
+                        </a>
+                        <a href="#" class="label label-primary tooltip-darkorange">
+                            <i class="glyphicon glyphicon-save"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /Page Breadcrumb -->             
+                <div class="page-header position-relative" style="z-index: 1;">
+                    <div class="header-title">
+                        <h1>
+                            <span id="title2">我的订舱</span>
+                            <small>
+                                <i class="fa fa-angle-right"></i>
+                                <span id="title3">账单</span>
+                            </small>
+                        </h1>                    
+                    </div>
+                    <div class="widget-buttons" style="float: right;">
+                        <div class="btn-group">
+                            <a class="btn btn-blue btn-sm " href="javascript:void(0);" id="confirmDebitnoteBtn">确认账单/账单已确认</a>
+                            <a class="btn btn-blue btn-sm dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);"><i class="fa fa-list-ul"></i></a>
+                            <ul class="dropdown-menu dropdown-blue pull-left">
+                                <li>
+                                    <a href="javascript:void(0);">2019-09-01: 录入账单</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">2019-09-02: 确认账单</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">2019-09-04: 确认付款</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">2019-09-07: 确认销账</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--Header Buttons-->
+                </div>
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Warning</strong> 
+                    <p>1，这个是账单</p>
+                </div>       
+                    <!--Header Buttons End-->
+                <!-- Page Body -->
+                <div class="page-body">
+                	<div class="row">
+                        <div class="col-lg-12 col-sm-12 col-xs-12">
+                            <div class="well invoice-container">
+                                <div class="row text-center">
+                                    <h1 id="billfromHeader">深圳市和乐国际采购物流有限公司<BR>HOLA INT'L SOURCING LOGITICS CO., LTD.</h1><span style="font-size: 16px;">Rm.4013-4018,40th International Trade Center Building,Souht Remin Rd.,Luohu District,Shenzhen,China.<br>TEL.: 0755-82219017    FAX.: 0755-82219017</span>
+                                    <hr class="wide">
+                                </div>
+                                <div class="row text-center">
+                                    <h3 class=""><strong>Debit Note</strong></h3>
+                                    <div>
+                                        <span>Invoice:</span>
+                                        <span>#121212</span>
+                                        <span> | </span>
+                                        <span>Date:</span>
+                                        <span>04/04/2014</span>
+                                    </div>
+                                    <div class="horizontal-space"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-5">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h6><strong>To: 厦门嘉联恒进出口有限公司</strong></h6>
+                                            </div>
+                                            <div class="panel-body">
+                                                <ul>
+                                                    <li><strong>POL:</strong> SHENZHEN</li>
+                                                    <li><strong>POD:</strong> HAMBURG</li>
+                                                    <li><strong>VSL/VOY.:</strong> OOCL HONGKONG 021S</li>
+                                                    <li><strong>ETD:</strong> 2019-09-21</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-7">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h6><strong>Shipment Information</strong></h6>
+                                            </div>
+                                            <div class="panel-body">
+                                                <ul>
+                                                    <li><strong>REF.:</strong> HL19090031</li>
+                                                    <li><strong>HB/L:</strong> HL19090031</li>
+                                                    <li><strong>MB/L:</strong> CULSHK19013769</li>
+                                                    <li><strong>CNTR NO.:</strong> MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ, MAGU5161872/ 40'HQ</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- / end client details section -->
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th style="font-weight: bolder;">Description of Charges</th>
+                                            <th class="text-center" style="font-weight: bolder;">Ctrns/Qty</th>
+                                            <th class="text-center" style="font-weight: bolder;">Rate/Price</th>
+                                            <th class="text-center" style="font-weight: bolder;">Sub Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>OCEAN FREIGHT PREPAID海运费(预付)</td>
+                                            <td class="text-center">10</td>
+                                            <td class="text-center">USD 200.00</td>
+                                            <td class="text-center">USD 2000.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>THC码头</td>
+                                            <td class="text-center">10</td>
+                                            <td class="text-center">USD 75.00</td>
+                                            <td class="text-center">USD 750.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td>TELEX RELEASE FEE电放费</td>
+                                            <td class="text-center">1</td>
+                                            <td class="text-center">RMB 500.00</td>
+                                            <td class="text-center">RMB 500.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" class="invisible bg-snow"></td>
+                                            <td class="text-center"><strong>Sub Total</strong></td>
+                                            <td class="text-center"><strong>USD 2750.00<br>RMB 500.00</strong></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr class="wide">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h6>Bank details</h6>
+                                            </div>
+                                            <div class="panel-body">
+                                                <p>汇率：USD：RMB=1:7.50，RMB：USD=6.80:1</p><br>
+                                                <p>对公账号: 深圳市和乐国际采购物流有限公司</p>
+                                                <p>开户行：工商银行深圳市国贸支行</p>
+                                                <p>人民币账号：RMB:40000 2281 9200 3756 95</p>
+                                                <p>美金账号： USD:40000 2281 9200 3799 77</p>
+                                                <p>税号：91440300359346585Q</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="wide">
+                                <div class="invoice-notes">
+                                    <h5><strong>REMARK:</strong></h5>
+                                    <p>1.请核对费用，并请在第一个工作日确认及附上发票抬头及寄件地址回传！否则我司将视为贵司默认以上费用！</p>
+                                    <p>2.费用确认后请在三日内通知开票逾期将不予补开，由贵公司原因引起的发票作废将产生手续费RMB20.00！</p>
+                                    <p>3.运费付至香港帐号或未转入我司帐号(即支付现金或付至其他帐号)将不能开税务发票！</p>
+                                    <p>4.付款后请迅速将水单传予我司并注明提单号码，付款后三个工作日内，财务部核查贵司汇款到帐后即安排放单。</p>
+                                    <p>5.如紧急提单请提前两个工作日通知我司！如有不便处敬请谅解，多謝合作！！！</p>
+                                    <p>6.不接受海运费美金及港币现金,海运费请转支我司指定对公帐户.由深圳以外的银行汇款到我公司帐户而产生的任何银行手续费（包括中转银行手续费）由贵司承担。</p>
+                                </div>
+                                <div style="width: 300px; height: 130px; float: right; margin-right: 50px;"><p>For and on behalf of</p><br><br><div style="border-top:1px solid black;">Authorised Signature</div></div>
+                                <hr class="wide" style="clear: both;">
+                                <div class="invoice-notes">
+                                    <p>All business transactions are subject to Company's Standard Trading Terms and Conditions and copy of which can be provided upon request.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script> 
+    
+    <!--Page Related Scripts-->
+
+
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">确认账单</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th style="font-weight: bolder;">Description of Charges</th>
+                                <th class="text-center" style="font-weight: bolder;">Ctrns/Qty</th>
+                                <th class="text-center" style="font-weight: bolder;">Rate/Price</th>
+                                <th class="text-center" style="font-weight: bolder;">Sub Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>OCEAN FREIGHT PREPAID海运费(预付)</td>
+                                <td class="text-center">10</td>
+                                <td class="text-center">USD 200.00</td>
+                                <td class="text-center">USD 2000.00</td>
+                            </tr>
+                            <tr>
+                                <td>THC码头</td>
+                                <td class="text-center">10</td>
+                                <td class="text-center">USD 75.00</td>
+                                <td class="text-center">USD 750.00</td>
+                            </tr>
+                            <tr>
+                                <td>TELEX RELEASE FEE电放费</td>
+                                <td class="text-center">1</td>
+                                <td class="text-center">RMB 500.00</td>
+                                <td class="text-center">RMB 500.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="invisible bg-snow"></td>
+                                <td class="text-center"><strong>Sub Total</strong></td>
+                                <td class="text-center"><strong>USD 2750.00<br>RMB 500.00</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr class="wide">
+                    <div class="widget">
+                        <div class="widget-header bordered-left bordered-darkorange">
+                            <span class="widget-caption"><input type="checkbox" class="inverted" id="setInvoiceChk"> 我想开发票</span>
+                        </div>
+                        <div class="widget-body none" id="setInvoice">
+                            <div id="horizontal-form">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">发票抬头：<sup>*</sup></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-xs" id="invCom" placeholder="发票抬头">
+                                        </div>       
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">公司税号：<sup>*</sup></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-xs" id="invTax" placeholder="公司税号">
+                                        </div>     
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">公司地址：<sup>*</sup></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-xs" id="invAdd" placeholder="公司地址">
+                                        </div>     
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">开户行：<sup>*</sup></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-xs" id="invBank" placeholder="开户行信息">
+                                        </div>     
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">银行账号：<sup>*</sup></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-xs" id="invBank" placeholder="银行账号">
+                                        </div>     
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">银行地址：<sup>*</sup></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-xs" id="invBank" placeholder="银行地址">
+                                        </div>     
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">开票金额：<sup>*</sup></label>
+                                        <div class="col-sm-8">
+                                            <input type="text" class="form-control input-xs" id="invAmount" placeholder="开票金额">
+                                        </div>     
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button data-bb-handler="confirm" type="button" class="btn btn-primary" id="okInv">确认账单</button>
+                    <button type="button" class="btn btn-primary" id="uploadPayment">上传付款凭证</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+    <!--Summernote Scripts-->
+    <!--<script src="assets/js/editors/summernote/summernote.js"></script>
+    <script>
+        $('#summernote').summernote({ height: 300 });
+    </script>-->
+
+    <!--Bootstrap Date Picker-->
+    <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
+    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/select2/zh-CN.js"></script>
+    <script>
+       
+        //--Bootstrap Date Picker--
+        $('.date-picker').datepicker();
+
+    </script>
+    
+    <script src="js/common.js"></script>
+    <script src="js/getinvoice.js"></script> 
+    <script src="js/lan.js"></script> 
+    
+    <!--Google Analytics::Demo Only-->
+    <!--<script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-52103994-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>-->  
+    
+</body>
+<!--  /Body -->
+</html>

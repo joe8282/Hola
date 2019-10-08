@@ -1,0 +1,9 @@
+/*语言选择*/
+.ohead{width: 100px;  }
+.ohead span{ margin-right: 5px; height: 45px;line-height: 45px;color: #fff;font-size: 14px;  }
+.ohead i{height: 45px;line-height: 45px;color: #fff;  }
+.select{top: 45px; margin-left: -10px;}
+.option{background:#DCDCDC; font-size: 14px; line-height: 40px;width: 100px; height: 40px; border-bottom: 1px solid #ccc; padding-left: 10px; display:none; }
+
+.none{display: none;}
+

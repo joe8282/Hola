@@ -1,0 +1,321 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>Booking List</title>
+
+    <meta name="description" content="data tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+    <!-- <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css"> -->
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+    <!--<link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
+
+    <!--Page Related styles-->
+    <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet" />   
+    <link href="css/common.css" rel="stylesheet" />
+
+    <style>
+     	#example input{
+     		width: 85px;
+     	}
+    </style>
+    
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>    
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left">
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <img src="assets/img/logo.png" alt="" />
+                        </small>
+                    </a>
+                </div>
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div>
+                <!-- /Sidebar Collapse -->               
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="right: 10px;" >                       
+                        </ul>
+                        <!--<div class="setting">
+							<div class="ohead" typeid="en"><span>Language</span> <i class="typcn typcn-arrow-sorted-down"></i></div>
+							<div class="select">
+								<div class="option" typeid="en"><span>Englist</span></div>
+								<div class="option" typeid="cn"><span>中文</span></div>
+							</div>
+                        </div>-->
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar">
+                <!-- Page Sidebar Header-->
+                <div class="sidebar-header-wrapper">
+                    <input type="text" class="searchinput" />
+                    <i class="searchicon fa fa-search"></i>
+                    <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+                </div>
+                <!-- /Page Sidebar Header -->
+                <!-- Sidebar Menu -->
+                <ul class="nav sidebar-menu">                	
+                    <!--<li>
+                        <a href="index.html">
+                            <i class="menu-icon glyphicon glyphicon-home"></i>
+                            <span class="menu-text" set-lan="html:navHome"> Home </span>
+                        </a>
+                    </li>
+                    <li class="active open">
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-desktop"></i>
+                            <span class="menu-text" set-lan="html:nav_1"> Warehouse Home </span>
+                            <i class="menu-expand"></i>
+                        </a>
+
+                        <ul class="submenu">
+                            <li class="typeId1">
+                                <a href="publicdata.html?typeid=1">
+                                    <span class="menu-text" set-lan="html:nav_1_1">Carriers</span>
+                                </a>
+                            </li>
+                            <li class="typeId2">
+                                <a href="publicdata.html?typeid=2">
+                                    <span class="menu-text" set-lan="html:nav_1_2">Sea Ports</span>
+                                </a>
+                            </li>
+                            <li class="typeId3">
+                                <a href="publicdata.html?typeid=3">
+                                    <span class="menu-text" set-lan="html:nav_1_3">Incoterms</span>
+                                </a>
+                            </li>
+                            <li class="typeId4">
+                                <a href="publicdata.html?typeid=4">
+                                    <span class="menu-text" set-lan="html:nav_1_4">Container Type</span>
+                                </a>
+                            </li>
+                            <li class="typeId5">
+                                <a href="publicdata.html?typeid=5">
+                                    <span class="menu-text" set-lan="html:nav_1_5">Air Ports</span>
+                                </a>
+                            </li>
+                            <li class="typeId6">
+                                <a href="publicdata.html?typeid=6">
+                                    <span class="menu-text" set-lan="html:nav_1_6">Charge Item</span>
+                                </a>
+                            </li>
+                            <li class="typeId7">
+                                <a href="publicdata.html?typeid=7">
+                                    <span class="menu-text" set-lan="html:nav_1_7">Movement Type</span>
+                                </a>
+                            </li>
+                            <li class="typeId8">
+                                <a href="publicdata.html?typeid=8">
+                                    <span class="menu-text" set-lan="html:nav_1_8">Weight Unit</span>
+                                </a>
+                            </li>
+                            <li class="typeId9">
+                                <a href="publicdata.html?typeid=9">
+                                    <span class="menu-text" set-lan="html:nav_1_9">Volume Unit</span>
+                                </a>
+                            </li>
+                            <li class="typeId10">
+                                <a href="publicdata.html?typeid=10">
+                                    <span class="menu-text" set-lan="html:nav_1_10">Package Unit</span>
+                                </a>
+                            </li>                            
+                        </ul>
+                    </li>-->
+                </ul>               
+                <!-- /Sidebar Menu -->
+            </div>
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs page-header position-relative">
+                    <div class="header-title">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="#" set-lan="html:con_top_1">Home</a>
+                            </li>
+                            <li>
+                                <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
+                            </li>
+                            <li id="title1" class="active">Booking Add</li>
+                        </ul>
+                    </div>
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /Page Breadcrumb -->  
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Warning</strong> 
+                    <p>1，需要修改表格结果功能：搜索出来的内容需要是在适用日期内的。</p>
+                </div>     
+                <!-- Page Body -->
+                <div class="page-body">
+                	<div class="widget">
+                		<div class="widget-header bordered-left bordered-darkorange" style="height: 45px;">
+                			<span class="widget-caption" style="line-height: 45px;">选择货型:</span>
+                			<span class="widget-caption" style="margin-left: 10px;">
+	                			<select id="movementType" style="margin-top: 6px;">
+	                				<!-- <option value=""></option>-->
+	                			</select>
+                			</span><!--移动表格的搜索框到这里来了 20190822 by daniel-->
+                            <span class="widget-caption" style="line-height: 45px;float: right; margin-right: 10px; width: 300px;">
+                            <input type="text" class="form-control global_filter" id="global_filter" placeholder="Search POL POD..." style="margin-top: 6px;">
+                            </span>
+                		</div>
+                		<div class="widget-body">
+                			<table class="table table-striped table-hover table-no-bordered" cellspacing="0" width="100%" id="example" style="border: 1px solid #e5e9ee;">
+                				<thead style="border: 1px solid #e5e9ee;">
+                					<tr class="tableTitle">
+                						<!--<th>订舱委托号</th>
+                						<th>类型</th>
+                						<th>客户名称</th>
+                						<th>运输方式</th>
+                						<th>起运港</th>
+                						<th>目的港</th>
+                						<th>货量</th>                						
+               							<th>货好时间</th>
+                						<th>订舱时间</th>
+                						<th>状态</th>
+                						<th>操作</th>                						-->
+                					</tr>
+                				</thead>                	
+                				<!--<tbody>
+                					<tr>
+                						<td>alex</td>
+                						<td>Alex Nilson</td>
+                						<td>1234</td>
+                						<td class="center ">power user</td>
+                						<td>
+                							<a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                							<a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                						</td>
+                					</tr>
+                				</tbody>-->
+                			</table>
+                		</div>
+                	</div>
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+    </div>   
+    
+    
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script> 
+    
+    <!--Page Related Scripts-->
+    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>    
+    <script src="assets/js/bootbox/bootbox.js"></script>
+    
+    <script src="js/common.js"></script>
+    <script src="js/rate.js"></script> 
+    <script src="js/lan.js"></script> 
+    
+    <!--Google Analytics::Demo Only-->
+    <!--<script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-52103994-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>-->  
+    
+</body>
+<!--  /Body -->
+</html>

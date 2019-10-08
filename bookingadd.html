@@ -1,0 +1,667 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>新增订舱单</title>
+
+    <meta name="description" content="form layouts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+ <!--    <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css"> -->
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+    <!--<link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
+
+    <!--Page Related styles-->  
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="assets/css/select2.min.css" rel="stylesheet" />
+    
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>
+    
+	<style>
+		.widget{margin-bottom: 10px;}
+        .select2-container{float: left; margin-right: 10px; }
+        .select2-container--default .select2-selection--single{border-radius: 0px; height: 24px;border: 1px solid #ccc;}
+        label{text-align: right;}
+	</style>    
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left">
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <img src="assets/img/logo.png" alt="" />
+                        </small>
+                    </a>
+                </div>
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div>
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="right: 10px;" >                       
+                        </ul>
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar">
+                <!-- Page Sidebar Header-->
+                <div class="sidebar-header-wrapper">
+                    <input type="text" class="searchinput" />
+                    <i class="searchicon fa fa-search"></i>
+                    <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+                </div>
+                <!-- /Page Sidebar Header -->
+                <!-- Sidebar Menu -->
+                <ul class="nav sidebar-menu">
+                </ul>
+                <!-- /Sidebar Menu -->
+            </div>
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs page-header position-relative">
+                    <div class="header-title">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="#" set-lan="html:con_top_1">Home</a>
+                            </li>
+                            <li>
+                                <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
+                            </li>
+                            <li id="title1" class="active">Booking Add</li>
+                        </ul>
+                    </div>
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- /Page Breadcrumb -->    
+                <!-- Page Header -->
+                <div class="page-header position-relative">
+                    <div class="header-title">
+                        <h1>
+                            <span id="title2">新增订舱单</span>
+                            <small>
+                                <i class="fa fa-angle-right"></i>
+                                <span id="title3">公司名称</span>
+                            </small>
+                         
+                        </h1>
+                    </div>
+                    <div style="float: right;margin-right: 20px; padding-top: 5px;">                   
+	                    <select id="sellId" style="height: 30px;">
+	                    	<option value="0">请选择销售人员</option>
+	                    </select>	                    
+                    </div>                    
+                    <div style="float: right;margin-right: 20px; padding-top: 5px;">                   
+                    	<select id="toId" style="height: 30px;">
+                    		<option value="0">请选择货代公司</option>
+                    	</select>                    
+                    </div>                    
+
+                </div>
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Warning</strong> 
+                    <p>1，当修改的时候，费用修改不能正常更新，这个要看下是什么问题</p>
+                </div>   
+                <!-- /Page Header -->                
+                <!-- Page Body -->
+                <div class="page-body">
+					<div class="widget" id="crmhead">                    
+                        <div id="simplewizard" class="wizard" data-target="#simplewizard-steps">
+                            <ul class="steps" id="shipmentMilestone">
+                            </ul>
+                        </div>
+						<div class="widget-header bordered-left bordered-darkorange">
+							<span class="widget-caption"><input type="checkbox" class="inverted" id="iscrm"> 供应商/指定联系公司信息【当提交该订舱委托书时，我们将尽快联系指定联系公司，系统将自动发邮件给相关邮箱。】</span>
+						</div>
+						<div class="widget-body none" id="crmlist">
+							<div id="horizontal-form">
+								<div class="form-horizontal" role="form">
+									<!--div class="form-group crmlist"-->
+                                    <table class="table table-striped table-hover table-bordered crmlist" cellspacing="0" width="100%" id="example"></table>
+										<!--<input type="checkbox" name="crmli" class="margin-left-40" value="1"> 公司名称1 联系人
+						                					<input type="checkbox" name="crmli" class="margin-left-40" value="2"> 公司名称2 联系人
+						                					<input type="checkbox" name="crmli" class="margin-left-40" value="3"> 公司名称3 联系人-->
+									<!--/div-->
+                                    <hr class="wide">
+									<div class="form-group" id="addNewSuppliers">
+										<label for="inputPassword3" class="col-sm-2 control-label no-padding-right">新增供应商/联系公司</label>
+										<div class="col-sm-3">
+											<input type="email" class="form-control input-xs" id="companyName" placeholder="公司名称">
+										</div>
+										<div class="col-sm-2">
+											<input type="email" class="form-control input-xs" id="contact" placeholder="联系人">
+										</div>
+										<div class="col-sm-2">
+											<input type="email" class="form-control input-xs" id="phone" placeholder="联系电话">
+										</div>
+										<div class="col-sm-2">
+											<input type="email" class="form-control input-xs" id="email" placeholder="邮箱">
+										</div>
+										<div class="col-sm-1">
+											<button type="submit" id="send22" class="btn btn-default">添加</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="widget" id="bill1Div">
+						<div class="widget-header bordered-left bordered-darkorange" id="bill1head">
+							<span class="widget-caption"><input type="checkbox" class="inverted" id="isbill1"> 承运人提单信息</span>
+							<span class="widget-caption" style="margin-left: 30px;">
+					                		        <input name="bill1Type" type="radio" checked="checked" value="FREIGHT PREPAID"> FREIGHT PREPAID
+					                		        &nbsp;&nbsp;&nbsp;&nbsp;<input name="bill1Type" type="radio" value="FREIGHT COLLECT"> FREIGHT COLLECT
+					                		    </span>
+						</div>
+						<div class="widget-body" id="bill1list">
+							<div id="horizontal-form">
+								<div class="form-horizontal" role="form">
+									<div class="form-group">
+										<div class="col-sm-4">SHIPPER
+											<select id="Shipper" style="width:81%;">
+											</select>
+										</div>
+										<div class="col-sm-4">CONSIGNEE
+											<select id="Consignee" style="width:74%;">
+											</select>
+										</div>
+										<div class="col-sm-4">NOTIFYPARTY
+											<select id="NotifyParty" style="width:70%;">
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-4">
+											<textarea class="form-control input-xs" style="width:100%;" rows="4" id="inShipper"></textarea>
+										</div>
+										<div class="col-sm-4">
+											<textarea class="form-control input-xs" style="width:100%;" rows="4" id="inConsignee"></textarea>
+										</div>
+										<div class="col-sm-4">
+											<textarea class="form-control input-xs" style="width:100%;" rows="4" id="inNotifyParty"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="widget" id="bill2Div">
+						<div class="widget-header bordered-left bordered-darkorange" id="bill2head">
+							<span class="widget-caption"><input type="checkbox" class="inverted" id="isbill2"> 货代提单信息</span>
+							<span class="widget-caption" style="margin-left: 42px;">
+					                		        <input name="bill2Type" type="radio" value="FREIGHT PREPAID"> FREIGHT PREPAID
+					                		        &nbsp;&nbsp;&nbsp;&nbsp;<input name="bill2Type" type="radio" checked="checked" value="FREIGHT COLLECT"> FREIGHT COLLECT
+					                		    </span>
+						</div>
+						<div class="widget-body none" id="bill2list">
+							<div id="horizontal-form">
+								<div class="form-horizontal" role="form">
+									<div class="form-group">
+										<div class="col-sm-4">SHIPPER
+											<select id="Shipper2" style="width:81%;" class="input-xs">
+											</select>
+										</div>
+										<div class="col-sm-4">CONSIGNEE
+											<select id="Consignee2" style="width:74%;">
+											</select>
+										</div>
+										<div class="col-sm-4">NOTIFYPARTY
+											<select id="NotifyParty2" style="width:70%;">
+											</select>
+										</div>
+									</div>
+									<div class="form-group">
+										<div class="col-sm-4">
+											<textarea class="form-control input-xs" style="width:100%;" rows="5" id="inShipper2"></textarea>
+										</div>
+										<div class="col-sm-4">
+											<textarea class="form-control input-xs" style="width:100%;" rows="5" id="inConsignee2"></textarea>
+										</div>
+										<div class="col-sm-4">
+											<textarea class="form-control input-xs" style="width:100%;" rows="5" id="inNotifyParty2"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>			
+                	<div class="widget">
+                		<div class="widget-header bordered-left bordered-darkorange" style="height: 45px;">
+                			<span class="widget-caption" style="line-height: 45px;">订单信息</span>
+                			<span class="widget-caption" style="margin-left: 20px;">
+	                			<select id="movementType" style="margin-top: 6px;">
+	                				<!-- <option value=""></option>-->
+	                			</select>
+                			</span>
+                		</div>
+                		<div class="widget-body">
+                			<div id="horizontal-form">
+                				<div class="form-horizontal" role="form">
+                					<div class="form-group none" id="carrier1">
+                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">收货人 </label>
+                						<div class="col-sm-11">
+                							<input type="email" class="form-control input-xs" id="inputConsignee" placeholder="收货人">
+                						</div>
+                					</div>
+                					<div class="form-group" id="carrier2">
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">承运人  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<select id="carrier" style="width:100%;">
+                								<option value=""></option>
+                							</select>
+                						</div>
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">合约号  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<input type="email" class="form-control input-xs" id="inputContractNo" placeholder="合约号">
+                						</div>
+                                        <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">货好时间 </label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input class="form-control input-xs date-picker" id="okTime" type="text" data-date-format="yyyy-mm-dd">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                					</div>    					
+                					<div class="form-group">
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">起运港  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<select id="port1" style="width:100%;">
+                								<!--<option value=""></option>-->
+                							</select>             							
+                						</div>
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">提货地  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<input type="email" class="form-control input-xs" id="fromAddress" placeholder="提货地">
+                						</div>     
+                                        <div id="cyTime_div" class="none">
+                                            <label class="col-sm-1 control-label no-padding-right">截关时间 </label>
+                                            <div class="col-sm-2">
+                                                <div class="input-group">
+                                                    <input class="form-control input-xs date-picker" id="cyTime" type="text" data-date-format="yyyy-mm-dd">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar" style="height: 20px; line-height: 20px;"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>          						
+                					</div>
+                					<div class="form-group">
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">目的港  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<select id="port2" style="width:100%;">
+                								<option value=""></option>
+                							</select>             							
+                						</div>
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">送货地  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<input type="email" class="form-control input-xs" id="toAddress" placeholder="送货地">
+                						</div>      
+                                        <div id="etdTime_div" class="none">
+                                            <label class="col-sm-1 control-label no-padding-right">预计开船时间 </label>
+                                            <div class="col-sm-2">
+                                                <div class="input-group">
+                                                    <input class="form-control input-xs date-picker" id="etdTime" type="text" data-date-format="yyyy-mm-dd">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>            						
+                					</div>         
+                					<div class="form-group">
+                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">包装  <sup>*</sup></label>
+                						<div class="col-sm-1">
+                							<input type="text" class="form-control input-xs" id="packageNum" name="packageNum" placeholder="0">
+                                        </div>
+                                        <div class="col-sm-1">
+                							<select id="package" class="input-xs">
+                								<!--<option value=""></option>-->
+                							</select>
+                						</div>
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">重量  <sup>*</sup></label>
+                						<div class="col-sm-1">
+                							<input type="email" class="form-control input-xs" id="weightNum" placeholder="0.00">
+                                        </div>
+                                        <div class="col-sm-1">
+                							<select id="weight" class="input-xs">
+                								<!--<option value=""></option>-->
+                							</select>
+                						</div>
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">体积  <sup>*</sup></label>
+                						<div class="col-sm-1">
+                							<input type="email" class="form-control input-xs" id="volumeNum" placeholder="0.00">
+                                        </div>
+                                        <div class="col-sm-1">
+                							<select id="volume" class="input-xs">
+                								<!--<option value=""></option>-->
+                							</select>
+                						</div>                						
+                					</div>
+                					<div class="form-group" id="Movement">
+                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">货柜信息  <sup>*</sup></label>
+                						<div class="col-sm-1 no-margin-right no-padding-right">
+                							<input type="text" class="form-control input-xs" id="GP20" placeholder="0">
+                						</div>
+                						<div class="col-sm-1">
+	                						<select id="20GP" class="input-xs">
+	                							<!--<option value="20'GP">20'GP</option>-->
+	                						</select>
+                						</div>
+                                        <label class="col-sm-1 control-label no-padding-right"></label>
+                						<div class="col-sm-1 no-margin-right no-padding-right">
+                							<input type="email" class="form-control input-xs" id="GP40" placeholder="0">
+                						</div>
+                						<div class="col-sm-1">
+	                						<select id="40GP" class="input-xs">
+	                							<!--<option value="40'GP">40'GP</option>-->
+	                						</select>
+                						</div>
+                                        <label class="col-sm-1 control-label no-padding-right"></label>
+                						<div class="col-sm-1 no-margin-right no-padding-right">
+                							<input type="email" class="form-control input-xs" id="HQ40" placeholder="0">
+                						</div>
+                						<div class="col-sm-1">
+	                						<select id="40HQ" class="input-xs">
+	                							<!--<option value="40'HQ">40'HQ</option>-->
+	                						</select>
+                						</div>                						
+                					</div>
+                					<div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">外包装唛头  <sup>*</sup></label>
+                                        <div class="col-sm-4">
+                                            <textarea class="form-control input-xs" rows="3" id="packageMarks" placeholder="N/M">N/M</textarea>
+                                        </div>
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">货物描述  <sup>*</sup></label>
+                						<div class="col-sm-4">
+                							<textarea class="form-control input-xs" rows="3" id="goodAbout" placeholder="货物描述"></textarea>
+                						</div>
+                					</div>                					
+                				</div>
+                			</div>
+                		</div>
+                	</div>
+                	<div class="widget">
+                		<div class="widget-header bordered-left bordered-darkorange">
+                			<span class="widget-caption"><input type="checkbox" class="inverted" id="isfee"> 费用信息</span>
+                		</div>
+                		<div class="widget-body none" id="isfeeList">
+                			<div id="horizontal-form">
+                				<div class="form-horizontal" role="form">	
+                					<!--<div class="form-group">
+                						<label for="inputPassword3" class="col-sm-2 control-label no-padding-right">新增运费计算  <sup>*</sup></label>               						
+                						<div class="col-sm-1 margin-right-20">
+                							<select id="feeType">
+                							</select>
+                						</div>
+                						<div class="col-sm-1 margin-right-20">
+                							<select id="feeUnit">
+                							</select>
+                						</div>
+                						<div class="col-sm-2 no-padding">
+                							<input type="email" class="form-control input-xs" id="fee"  placeholder="0">
+                						</div>
+                						<div class="col-sm-1 text-align-center no-margin no-padding">
+                							<label class="control-label">*</label>
+                						</div>
+                						<div class="col-sm-1">
+                							<input type="email" class="form-control input-xs" id="num" placeholder="0">
+                						</div>	
+                						<div class="col-sm-1 no-padding">
+                							<select id="numUnit">
+                							</select>
+                						</div>
+                						<div class="col-sm-1">
+                							
+                						</div>              						
+                					</div> -->
+                					<!--<div class="form-group">
+                						<label for="inputPassword3" class="col-sm-2 control-label no-padding-right"></label>               						
+                						<div class="col-sm-10" id="feelist">
+                						</div>
+                					</div>-->   
+                					<!--<div class="form-group ">
+                						<button type="submit" id="newFee1"  class="btn btn-default margin-left-20">添加应收</button>
+                						<button type="submit" id="newFee2"  class="btn btn-default margin-left-20">添加应付</button>
+                					</div>   -->
+                					<div class="form-group">
+                						<div class="col-sm-12">
+                							<label for="inputPassword3" class="margin-right-5 margin-left-5" style="width:6%; float: left;">类别</label>
+                							<label for="inputPassword3" class="margin-right-5" style="width:15%; float: left;">结算公司</label>
+                							<label for="inputPassword3" class="margin-right-5" style="width:10%; float: left;">费用项目</label>
+                							<label for="inputPassword3" class="margin-right-5" style="width:10%; float: left;">币种</label>
+                							<label for="inputPassword3" class="margin-right-5" style="width:10%; float: left;">金额</label>
+                							<label for="inputPassword3" class="margin-right-5" style="width:5%; float: left;">数量</label>
+                							<label for="inputPassword3" class="margin-right-5" style="width:10%; float: left;">单位</label>
+                							<label for="inputPassword3" class="margin-right-5" style="width:10%; float: left;">备注</label>
+                						</div>
+                					</div>				
+                					<div class="form-group feeAll">
+                                        <div id="feeAll_add">
+                						<div class="col-sm-12 feeList" style="margin-bottom: 5px;">
+                							<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5 input-xs" disabled="disabled" style="width:6%; float: left;">
+                								<option value="应收">应收</option><option value="应付" selected="selected">应付</option>
+                							</select>
+                							<select id="toCompany" class="no-padding-left no-padding-right margin-right-5 input-xs" style="width:15%;float: left;">
+                								<option value="请选择">请选择</option>
+                							</select>
+                							<select id="feeItem" class="no-padding-left no-padding-right margin-right-5 input-xs" style="width:10%;float: left;">
+                								<option value="请选择">请选择</option>
+                							</select>
+                							<select id="feeUnit" class="no-padding-left no-padding-right margin-right-5 input-xs" style="width:10%;float: left;">
+                								<option value="请选择">请选择</option>
+                							</select>
+                							<input type="email" class="form-control input-xs margin-right-5" id="feePrice" placeholder="" style="width:10%;float: left;">
+                							<input type="email" class="form-control input-xs margin-right-5" id="feeNum" placeholder="" style="width:5%;float: left;">
+                							<select id="numUnit" class="no-padding-left no-padding-right margin-right-5 input-xs" style="width:10%;float: left;">
+                								<option value="请选择">请选择</option>
+                							</select>
+                							<input type="email" class="form-control input-xs margin-right-5" id="feeBeizhu" placeholder="" style="width:10%;float: left;">
+                							<!--button type="submit" class="newFee btn btn-blue margin-right-5" style="width:3%;float: left;">+</button>
+                							<button type="submit" class="removeFee btn btn-blue" style="width:3%;float: left;">-</button-->
+                                                    <a class="newFee btn btn-info input-xs"><i class="fa fa-plus-circle"></i></a> 
+                                                    <a class="removeFee btn btn-danger input-xs"><i class="fa fa-times-circle"></i></a>
+                                        </div>
+                						</div>
+                					</div>
+                				</div>
+                			</div>
+                		</div>                		
+                	</div>
+                	<div class="widget">
+                		<div class="widget-body">
+                			<div id="horizontal-form">
+                				<div class="form-horizontal" role="form">
+                					<div class="form-group">
+                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">备注 </label>
+                						<div class="col-sm-10">
+                							<textarea class="form-control input-xs" rows="3" id="beizhu" placeholder="Content"></textarea>
+                						</div>                						
+                					</div>
+                					<div class="form-group">
+                						<div class="col-sm-offset-1 col-sm-10">
+                								<label>
+                					                <input type="checkbox" class="inverted" id="agreement" checked="checked">
+                                                    <span><a href="#">我已阅读了深圳市和乐国际采购物流有限公司的在线订舱条款，并确认接受如上条款。</a></span>
+                					            </label>
+                						</div>
+                					</div>
+                					<div class="form-group">
+                						<div class="col-sm-offset-2 col-sm-10">
+                							<button type="submit" id="send1"  class="btn btn-darkorange">确认订舱</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                							<button type="submit" id="send2"  class="btn btn-darkorange">确认订舱并存为模板</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                							<button type="submit" id="send3"  class="btn btn-darkorange">确认订舱并再次新增订舱单</button>
+                						</div>
+                					</div>
+                					<div class="form-group"></div>                					
+                				</div>
+                			</div>
+                		</div>                					
+                	</div>
+				</div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+        <!--//start 想添加当数据已经不是“未处理”了，那么就不能编辑了，仅能查看。by daniel 20190803-->
+        <div class="alert alert-info fade in toast-bottom-right none" id="toast-container" name="tipsNoedit">
+            <button class="close" data-dismiss="alert">
+                ×
+            </button>
+            <i class="fa-fw fa fa-info"></i>
+            <strong>Info!</strong> 已处理的订舱单无法编辑，仅能查看！！！
+        </div>
+        <!--//end 想添加当数据已经不是“未处理”了，那么就不能编辑了，仅能查看。by daniel 20190803-->
+    </div>
+    
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script>
+
+	<script src="assets/js/bootbox/bootbox.js"></script>
+    <!--Bootstrap Date Picker-->
+    <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
+    <script src="assets/js/select2/select2.min.js"></script>
+    <script src="assets/js/select2/zh-CN.js"></script>
+    <script>
+
+        //--Jquery Select2--
+////      $("#port1").select2({
+////          minimumInputLength: 3
+////      });
+//
+//      $("#port2").select2({
+//          minimumInputLength: 3
+//      });     
+////      $("#carrier").select2({
+////          minimumInputLength: 3
+////      });    
+        //--Bootstrap Date Picker--
+        $('.date-picker').datepicker(
+        );
+        $('#okTrailerTime').datepicker(
+        	{ onSelect: gotoDate }
+        ).on('changeDate',gotoDate);
+        function gotoDate(ev){
+			//console.log(ev.date)
+			$("#okBillTime").val(getNewDay(formatTime(ev.date) ,2))
+			$("#okPortTime").val($("#okBillTime").val())
+        }
+		//时间格式化
+		function formatTime(date) {
+		  var year = date.getFullYear();
+		  var month = date.getMonth()+1, month = month < 10 ? '0' + month : month;
+		  var day = date.getDate(), day =day < 10 ? '0' + day : day;
+		  return year + '-' + month + '-' + day;
+		}        
+		//日期加上天数得到新的日期
+		//dateTemp 需要参加计算的日期，days要添加的天数，返回新的日期，日期格式：YYYY-MM-DD
+		function getNewDay(dateTemp, days) {
+		    var dateTemp = dateTemp.split("-");
+		    var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]); //转换为MM-DD-YYYY格式  
+		    var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);
+		    var rDate = new Date(millSeconds);
+		    var year = rDate.getFullYear();
+		    var month = rDate.getMonth() + 1;
+		    if (month < 10) month = "0" + month;
+		    var date = rDate.getDate();
+		    if (date < 10) date = "0" + date;
+		    return (year + "-" + month + "-" + date);
+		}
+
+    </script>
+    
+    <!--Page Related Scripts-->
+    <script src="js/common.js"></script>
+    <script src="js/bookingadd.js?v=1.9"></script> 
+    <script src="js/lan.js"></script> 
+
+</body>
+<!--  /Body -->
+</html>
