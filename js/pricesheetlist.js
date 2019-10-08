@@ -50,11 +50,9 @@ function initTable() {
 			{ "mDataProp": "prsh_port2" },
 			{ "mDataProp": "prsh_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					if(rowData.prsh_time!=null){
-						$(td).html(rowData.prsh_time.substring(0, 10));
-					}else{
-						$(td).html("NULL");
-					}
+
+					rowData.prsh_20GP==""?p20gp="":p20gp=rowData.prsh_20GP;
+					$(td).html(p20gp);
 				}
 			},
 			// { "mDataProp": "prsh_20GP" },
