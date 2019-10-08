@@ -19,7 +19,7 @@ $(document).ready(function() {
 	$('#title1').text(get_lan('nav_5_3'))
 	$('#title2').text(get_lan('nav_5_3'))
 
-	$('.btn-blue').on('click', function() {
+	$('#newPricesheet').on('click', function() {
 		location.href = 'pricesheetadd.html?action=add';
 	})
 	oTable = initTable();
