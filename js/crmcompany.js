@@ -27,6 +27,10 @@ $(document).ready(function() {
 	$('#title2').text(get_lan('nav_2_1'))
 	$('#mySmallModalLabel').text(get_lan('nav_2_1'))
 
+	$('#addFun').on('click', function() {
+		location.href = 'crmcompanyadd.html?action=add';
+	})
+
 	oTable = initTable();
 });
 
@@ -54,7 +58,7 @@ function initTable() {
 		"bSort": true,
 		"aaSorting": [[ 7, "desc" ]],
 		"aoColumnDefs":[//设置列的属性，此处设置第一列不排序
-            {"bSortable": false, "aTargets": [0,3,4,5,8]}
+            {"bSortable": false, "aTargets": [0,3,4,5,7]}
         ],
 //		"bProcessing": true,
 		"aoColumns": [
@@ -73,7 +77,19 @@ function initTable() {
 					
 				}
 			},
-			{ "mDataProp": "comp_type" },
+			{ "mDataProp": "comp_type" ,
+				"createdCell": function (td, cellData, rowData, row, col) {
+					var checkBoxArray=[];
+					var _checkboxValues="";
+					checkBoxArray = cellData.split(",");
+				    for(var i=0;i<checkBoxArray.length;i++){
+				    	var _checkboxValue = '<span class="badge badge-primary badge-square">'+checkBoxArray[i]+'</span> ';
+				    	_checkboxValues=_checkboxValues + _checkboxValue;
+				    }
+				    console.log(_checkboxValues)
+					$(td).html(_checkboxValues);
+				}
+			},
 			{ "mDataProp": "comp_contactPhone" },
 			{ "mDataProp": "comp_contactEmail" },
 			{ "mDataProp": "comp_country" },  //去掉供应商，变成国家，但是没有显示数据，不知道是否没有数据。20190815 by daniel
@@ -90,15 +106,15 @@ function initTable() {
 			{
 				"mDataProp": "comp_followTime",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html(rowData.comp_followTime.substring(0, 10));
+					$(td).html(rowData.comp_followTime.substring(0, 10)+"<br>"+rowData.comp_updateTime.substring(0, 10));
 				}			
 			},	
-			{
-				"mDataProp": "comp_updateTime",
-				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html(rowData.comp_updateTime.substring(0, 10));
-				}			
-			},				
+			// {
+			// 	"mDataProp": "comp_updateTime",
+			// 	"createdCell": function (td, cellData, rowData, row, col) {
+			// 		$(td).html(rowData.comp_updateTime.substring(0, 10));
+			// 	}			
+			// },				
 			{
 				"mDataProp": "comp_id",
 // 				"createdCell": function (td, cellData, rowData, row, col) {

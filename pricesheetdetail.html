@@ -38,6 +38,9 @@ Purchase: http://wrapbootstrap.com
     
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="assets/js/skins.min.js"></script>
+    <style>
+        .invoice-container li{height: 26px; line-height: 26px; font-size: 16px;}
+    </style>
 </head>
 <!-- /Head -->
 <!-- Body -->
@@ -140,6 +143,12 @@ Purchase: http://wrapbootstrap.com
                         <a class="fullscreen" id="fullscreen-toggler" href="#">
                             <i class="glyphicon glyphicon-fullscreen"></i>
                         </a>
+                        <a href="#" class="label label-primary tooltip-darkorange">
+                            <i class="glyphicon glyphicon-print"></i>
+                        </a>
+                        <a href="#" class="label label-primary tooltip-darkorange">
+                            <i class="glyphicon glyphicon-save"></i>
+                        </a>
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->    
@@ -150,43 +159,52 @@ Purchase: http://wrapbootstrap.com
                 			<span class="widget-caption">主要信息</span>
                 		</div>-->
                 		<div class="widget-body">
-                            <div class="companyNameEn" style="font-size: 20px; font-weight: bold; height: 40px; ">
-                                HOLA INTERNATIONAL SOURCING LOGISTICS CO., LTD.
-                            </div> 
-                            <div style="float: left; width: 100%; height: 80px; ">
-                                <div class="companyName" style="float: left; width: 320px; height:50px; margin-top:5px; font-size: 24px; font-weight:bold;">和乐国际采购物流有限公司 ｜</div>
-                                <div style="float: left; height: 50px; margin-top: 5px; line-height: 18px; ">
-                                    Tel: <span class ="companyTel"></span>&nbsp;&nbsp;Fax: <span class="companyFax"></span><br />
-                                    Email: <span class="companyEmail"></span>&nbsp;&nbsp;Faceboo: 
+                            <div class="row text-center">
+                                <h1 class="companyNameEn">
+                                    HOLA INTERNATIONAL SOURCING LOGISTICS CO., LTD.
+                                </h1> 
+                                <h1 class="companyName">和乐国际采购物流有限公司 ｜</h1>
+                                <div style="margin-top: 5px; line-height: 18px; ">
+                                    Tel: <span class ="companyTel"></span>&nbsp;&nbsp;Fax: <span class="companyFax"></span>
+                                    Email: <span class="companyEmail"></span>
+                                </div>
+                                <hr class="wide">
+                            </div>
+                            <h3 style="text-align: center;margin-bottom: 10px;"><strong>Quotation Sheet / 报价表</strong><br><div style="font-size: 14px;">Date: <span class="addTime"></span></div></h3>
+                            <div class="row invoice-container">
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li><strong>TO/致：</strong><span class="toCompany"></span></li>
+                                                <li><strong>RIC/联系人：</strong><span class="toCompanyContact"></span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-6">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <ul>
+                                                <li><strong>POL/起运港：</strong><span class="port1"></span></li>
+                                                <li><strong>POD/目的港：</strong><span class="port2"></span></li>
+                                                <li><strong>Shipments/货物信息: </strong> <span class="shipments_containers"></span></li>
+                                                <li><strong></strong> <span class="shipments_datas"></span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="font-size: 22px; font-weight: bold; ">Quotation Sheet 报价表</div>
-                            <div style="width: 100%; height:70px; margin-top: 30px;">
-                                <div style="float: left; width: 50%; font-size: 16px; ">
-                                    TO致：<span class="toCompany"></span><br/>
-                                    RIC联系人：<span class="toCompanyContact"></span>
-                                </div>
-                                <div style="float: left; width: 50%; text-align: right; ">
-                                    Date: <span class="addTime"></span>
-                                </div>
-                            </div>
-                            <div style="width: 100%; height: 50px;">
-                                <div style="float: left; width: 50%; font-size: 14px; ">
-                                    POL起运港：<br />
-                                    <span class="port1"></span>
-                                </div>
-                                <div style="float: left; width: 50%; font-size: 14px; ">
-                                    POD目的港：<br />
-                                    <span class="port2"></span>
-                                </div>
-                            </div>
-                            <div style="width: 100%; margin-top: 10px;">
-                                <table class="table table-hover table-striped table-bordered">
+                            <div style="width: 100%;" id="freight_div">
+                                <h5 class="row-title before-darkorange"><i class="fa fa-list-alt darkorange"></i>运费：</h5>
+                                <table class="table table-hover table-striped table-bordered feeItem_table">
                                     <thead class="bordered-blueberry">
                                         <tr>
-                                            <th>20GP</th>
-                                            <th>40GP</th>
-                                            <th>40'HQ</th>
+                                            <th class="labelKgs">KGS</th>
+                                            <th class="labelRt">CBM/TON</th>
+                                            <th class="contTypeOne">20GP</th>
+                                            <th class="contTypeTwo">40GP</th>
+                                            <th class="contTypeThree">40'HQ</th>
                                             <th>承运人</th>
                                             <th>航期</th>
                                             <th>航程</th>
@@ -209,17 +227,20 @@ Purchase: http://wrapbootstrap.com
                                         </tr>-->
                                     </tbody>
                                 </table>
+                                <hr class="wide">
                             </div>
-                            <div style="width: 100%; margin-top: 30px;">
-                                <p>本地费用：</p>
-                                <table class="table table-hover table-striped table-bordered">
+                            <div style="width: 100%; margin-top: 30px;" id="localcharge_div">
+                                <h5 class="row-title before-darkorange"><i class="fa fa-list-alt darkorange"></i>本地费用：</h5>
+                                <table class="table table-hover table-striped table-bordered localChargeItem_table">
                                     <thead class="bordered-blueberry">
                                         <tr>
                                             <th>费用名称</th>
                                             <th>套/票</th>
-                                            <th>20GP</th>
-                                            <th>40GP</th>
-                                            <th>40'HQ</th>
+                                            <th class="labelKgs">KGS</th>
+                                            <th class="labelRt">CBM/TON</th>
+                                            <th class="contTypeOne">20GP</th>
+                                            <th class="contTypeTwo">40GP</th>
+                                            <th class="contTypeThree">40'HQ</th>
                                             <th>适用期</th>
                                             <th>备注</th>
                                         </tr>
@@ -236,16 +257,19 @@ Purchase: http://wrapbootstrap.com
                                         </tr>-->
                                     </tbody>
                                 </table>
+                                <hr class="wide">
                             </div>
-                            <div style="width: 100%; margin-top: 30px;">
-                                <p>拖车费用：</p>
-                                <table class="table table-hover table-striped table-bordered">
+                            <div style="width: 100%; margin-top: 30px;" id="truckingcharge_div">
+                                <h5 class="row-title before-darkorange"><i class="fa fa-list-alt darkorange"></i>拖车费用：</h5>
+                                <table class="table table-hover table-striped table-bordered truckingChargeItem_table">
                                     <thead class="bordered-blueberry">
                                         <tr>
                                             <th>Delivery</th>
-                                            <th>20GP</th>
-                                            <th>40GP</th>
-                                            <th>40'HQ</th>
+                                            <th class="labelKgs">KGS</th>
+                                            <th class="labelRt">CBM/TON</th>
+                                            <th class="contTypeOne">20GP</th>
+                                            <th class="contTypeTwo">40GP</th>
+                                            <th class="contTypeThree">40'HQ</th>
                                             <th>Validity</th>
                                             <th>备注</th>
                                         </tr>
@@ -261,6 +285,11 @@ Purchase: http://wrapbootstrap.com
         </tr>-->
                                     </tbody>
                                 </table>
+                                <hr class="wide">
+                            </div>
+                            <div class="invoice-notes">
+                                <h5><strong>Remark:</strong></h5>
+                                <div id="remark"></div>
                             </div>
                         </div>               					
                 	</div>

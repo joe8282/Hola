@@ -8,7 +8,6 @@ var en2 = {
             "con_top_1" : "Home",
             "con_top_2" : "CRM Home",        
         };
-
 $(function(){
 	this.title = get_lan('nav_2_2') 	
 	$('.navli2').addClass("active open")
@@ -24,11 +23,12 @@ $(function(){
 		ContactLinkined, ContactQq;
 	
 	if(action == 'modify') {
-		setTimeout(function() {
-			common.ajax_req("get", true, "crmcompanycontact.ashx?action=readbyid", {
+		//setTimeout(function() {
+				console.log(Id)
+			common.ajax_req("get", true, dataUrl,"crmcompanycontact.ashx?action=readbyid", {
 				"Id": Id
 			}, function(data) {
-				//console.log(data.Data)
+				console.log("data.Data")
 				//初始化信息
 				var _data = data.Data
 				$('#inputContactName').val(_data.coco_name)
@@ -44,8 +44,7 @@ $(function(){
 			}, function(err) {
 				console.log(err)
 			}, 5000)
-		}, 100)
-	
+		//}, 100)
 	} else {
 	
 	}

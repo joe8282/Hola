@@ -22,51 +22,38 @@ $(function(){
 	var _toCompany = '', _feeItem = '', _localChargeItem = '', _truckingChargeItem = '', _feeUnit = '', _feeType = ''
 	//var AccountName, AccountPw;
 
-	$("#checkAll").on("click", function () {
-	    var xz = $(this).prop("checked");//判断全选按钮的选中状态
-	    var ck = $("input[name='checkList']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	$("#20GPSel").on("change", function () {
+		$('[cont-type-id$="contTypeOne"]').html($("#20GPSel").val())
 	});
-	$("#checkAll2").on("click", function () {
-	    var xz = $(this).prop("checked");//判断全选按钮的选中状态
-	    var ck = $("input[name='checkList2']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	$("#40GPSel").on("change", function () {
+		$('[cont-type-id$="contTypeTwo"]').html($("#40GPSel").val())
 	});
 
-    //本地费用
-	common.ajax_req("get", false, dataUrl, "localcharge.ashx?action=read", {
-	    "companyId": companyID
-	}, function (data) {
-	    var _data = data.data;
-	    console.log(_data)
-	    if (_data != null) {
-	        for (var i = 0; i < _data.length; i++) {
-	            var feeItemAll = _data[i].loch_feeItem.split(';')
-	            for (var j = 0; j < feeItemAll.length - 1; j++) {
-	                var feeItem = feeItemAll[j].split(',')
-	                var _html = '<tr class="feelist"><td><input type="checkbox" name="checkList" value="' + _data[i].loch_id + '"></td><td class="feeType">' + feeItem[0] + '</td><td class="feeUnit">' + feeItem[1] + '</td><td class="feePrice">' + feeItem[2] + '</td><td class="fee20GP">' + feeItem[3] + '</td><td class="fee40GP">' + feeItem[4] + '</td><td class="fee40HQ">' + feeItem[5] + '</td><td><span class="feeUseTime1">' + _data[i].loch_useTime1.substring(0, 10) + '</span> -- <span class="feeUseTime2">' + _data[i].loch_useTime2.substring(0, 10) + '</span></td><td class="feeRemark">' + feeItem[6] + '</td></tr>'
-	                $('.localChargeItem').append(_html)
+	$("#40HQSel").on("change", function () {
+		$('[cont-type-id$="contTypeThree"]').html($("#40HQSel").val())
+	});
+	$('#load_localchargelist').on('click', function () {
+		$('#pricesheet_tabel_localcharge').dataTable();
+	});
 
-	            }
-	        }
-	    }
-	}, function (err) {
-	    console.log(err)
-	}, 2000)
+	//运输方式
+	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+		'typeId': 7,
+		'companyId': companyID
+	}, function(data) {
+		var _data = data.data;
+		for(var i = 0; i < _data.length; i++) {
+			var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+			$('#movementType').append(_html)
+		}
+		
+		//$("#movementType").val(fromId)
+		
+	}, function(error) {
+		//console.log(parm)
+	}, 1000)
 
-    //拖车费用
-	common.ajax_req("get", false, dataUrl, "truckingcharge.ashx?action=read", {
-	    "companyId": companyID
-	}, function (data) {
-	    var _data = data.data;
-	    console.log(_data)
-	    if (_data != null) {
-	        for (var i = 0; i < _data.length; i++) {
-	            var _html = '<tr class="feelist"><td><input type="checkbox" name="checkList2" value="' + _data[i].trch_id + '"></td><td class="feeDelivery">' + _data[i].trch_delivery + '</td><td class="feeUnit">' + _data[i].trch_feeUnit + '</td><td class="fee20GP">' + _data[i].trch_20GP + '</td><td class="fee40GP">' + _data[i].trch_40GP + '</td><td class="fee40HQ">' + _data[i].trch_40HQ + '</td><td><span class="feeUseTime1">' + _data[i].trch_useTime1.substring(0, 10) + '</span> -- <span class="feeUseTime2">' + _data[i].trch_useTime2.substring(0, 10) + '</span></td><td class="feeRemark">' + _data[i].trch_remark + '</td></tr>'
-	            $('.truckingChargeItem').append(_html)
-	        }
-	    }
-	}, function (err) {
-	    console.log(err)
-	}, 2000)
+
 
 	$("#port1,#port2").select2({
 		ajax: {
@@ -87,6 +74,10 @@ $(function(){
 			processResults: function(res, params) {
 				var users = res.data;
 				var options = [];
+				if(!users){
+					console.log(params.term);
+					//$(this).val(params.term);
+				}
 				for(var i = 0, len = users.length; i < len; i++) {
 					var option = {
 						"id": users[i]["puda_name_en"],
@@ -117,7 +108,54 @@ $(function(){
 			return repo.text;
 		} // 函数用于呈现当前的选择
 	});
+
+	$('#port2').on('select2:close', function(e) {
+   		tabel_localcharge.api().search($(this).val()).draw(); //加载localcharge和truckcharge的默认搜索框 20191017 by daniel
+	});
 	
+	$('#port1').on('select2:close', function(e) {
+   		table_truckcharge.api().search($(this).val()).draw();
+	 //    var $me = $(this);
+	 //    //var $tag = $me.find('option[data-select2-tag]');
+	 //    var $tag = $me.find('option[data-select2-tag]');
+		// console.log($tag)
+	 //    //We only want to select this tag if its the only tag there
+	 //    if ($tag && $tag.length && $me.find('option').length === 1) {
+	 //        $me.val($tag.attr('value'));
+	 //        $me.trigger('change');
+	 //        //Do stuff with $me.val()
+	 //    }
+	});
+
+	$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+	$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
+	$("#movementType").change(function() {
+		var opt = $("#movementType").val();
+		if(opt=="FCL"){
+			$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+			$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
+		}else if(opt=="AIR"){			
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyRT,#label20gp,#label40gp,#label40hq,#labelRt').css({"display":"none"});
+			$('#feebyKgs,#labelKgs').css({"display":""});
+		}else{
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyKgs,#label20gp,#label40gp,#label40hq,#labelKgs').css({"display":"none"});
+			$('#feebyRT,#labelRt').css({"display":""});
+		}
+	})
+
+	// $("#checkAll").on("click", function () {
+	//     var xz = $(this).prop("checked");//判断全选按钮的选中状态
+	//     var ck = $("input[name='checkList']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	// });
+	// $("#checkAll2").on("click", function () {
+	//     var xz = $(this).prop("checked");//判断全选按钮的选中状态
+	//     var ck = $("input[name='checkList2']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	// });
+
+	//var table=$('#pricesheet_tabel_localcharge').dataTable();
+	//$("#pricesheet_tabel_localcharge").DataTable().ajax.reload(null, false );
+
+
     //承运人
 	$("#carrier").select2({
 	    ajax: {
@@ -224,43 +262,97 @@ $(function(){
 	        var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
 	        $('#feeUnit').append(_html)
 	        $('#feeUnit2').append(_html)
+	        $('#feeCurrency').append(_html)
 	        _feeUnit = _feeUnit + _html
 	    }
 	}, function (error) {
 	    console.log(parm)
 	}, 1000)
 
-    //本地运费
+	//柜型	
+	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+		'typeId': 4,
+		'companyId': companyID
+	}, function(data) {
+		var _data = data.data;
+		for(var i = 0; i < _data.length; i++) {
+			var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+			$('#20GPSel').append(_html)
+			$('#40GPSel').append(_html)
+			$('#40HQSel').append(_html)						
+		}
+		$("#20GPSel").val("20'GP").trigger("change")
+		$("#40GPSel").val("40'GP").trigger("change")
+		$("#40HQSel").val("40'HQ").trigger("change")
+	}, function(error) {
+		console.log(parm)
+	}, 1000)
+
+    //添加
 	var feeboxRow0 = $('.feeList0').clone()
 	$('.feeAll0').delegate('.addFee', 'click', function () {
 	    var newid = parseInt(Math.random() * 1000)
 	    var feeboxRow0 = '<div class="col-sm-12 feeList0">'+
                                             '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>'+
-                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" value="0" placeholder="" style="width:80px; float: left;">'+
-                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" value="0" placeholder="" style="width:80px; float: left;">'+
-                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" value="0" placeholder="" style="width:80px; float: left;">'+
-                                            '<label for="inputPassword3" class="margin-right-5" style="float:left;">'+
-                                                '<select id=' + newid + '  class="carrier no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>' +
-                                            '</label>'+
-                                            '<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="0" style="width:100px; float: left;">' +
-                                            '<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="" value="0" style="width:100px; float: left;">'+
-                                            '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="" value="0" style="width:100px; float: left;">'+
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
-                                                '<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd">'+
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
-                                            '</div>'+
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
-                                                '<input class="form-control date-picker" id="id-date-picker-2" type="text" data-date-format="yyyy-mm-dd">'+
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
+                                            '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>'+
+                                            '<input type="text" class="form-control margin-right-5" id="feebyKgs" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            '<input type="text" class="form-control margin-right-5" id="feebyRT" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            // '<label for="inputPassword3" class="margin-right-5" style="float:left;">'+
+                                            //     '<select id=' + newid + '  class="carrier no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>' +
+                                            // '</label>'+
+                                            '<select id=' + newid + ' class="carrier no-padding-left no-padding-right" style="width:180px;float:left;"></select>'+
+                                            //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="0" style="width:100px; float: left;">' +
+                                            '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;">' +
+                                                '<option value="Mon">Mon</option>' +
+                                                '<option value="Tur">Tue</option>' +
+                                                '<option value="Wed">Wed</option>' +
+                                                '<option value="Thu">Thu</option>' +
+                                                '<option value="Fri">Fri</option>' +
+                                                '<option value="Sat">Sat</option>' +
+                                                '<option value="Sun">Sun</option>' +
+                                            '</select>' +
+                                            //'<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="" value="0" style="width:100px; float: left;">'+
+                                            '<div class="input-group margin-right-5" style="width:80px; float: left;">' +
+                                                '<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="0" value="">' +
+                                                '<span class="input-group-addon">Days</span>' +
+                                            '</div>' +
+                                            '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="Ports" value="" style="width:100px; float: left;">'+
+                                            '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+                                                '<div class="input-group">'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd">'+
+                                                     '<span class="input-group-addon">to</span>'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" type="text" data-date-format="yyyy-mm-dd">'+
+                                                '</div>'+
+                                            //     '<input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd">'+
+                                            //     '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
+                                            // '</div>'+
+                                            // '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
+                                            //     '<input class="form-control date-picker" id="id-date-picker-2" type="text" data-date-format="yyyy-mm-dd">'+
+                                            //     '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
                                             '</div>'+
                                             '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:150px; float: left;">'+
                                             '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">'+
-                                                '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>'+
-                                                '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>'+
+                                                // '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>'+
+                                                // '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>'+
+                                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+                                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
                                             '</label>'+
                                         '</div>'
 	    $('.feeAll0').append(feeboxRow0)
+	    $('.feeList0:last').find('#feeCurrency').html(_feeUnit);
 	    $('.date-picker').datepicker();
+	    $('.date-picker').datepicker();
+
+		$(this).parents('.feeList0').find("input").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的input, by daniel 20190730
+			$('.feeList0:last').find("input[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
+
+		$(this).parents('.feeList0').find("select").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的select, by daniel 20190730
+			$('.feeList0:last').find("select[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
 	    //承运人
 	    $("#" + newid).select2({
 	        ajax: {
@@ -311,9 +403,28 @@ $(function(){
 	            return repo.text;
 	        } // 函数用于呈现当前的选择
 	    });
+
+		if($("#movementType").val()=="FCL"){         //by daniel 20191015
+			console.log("test")
+			$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+			$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
+		}else if($("#movementType").val()=="AIR"){			
+			console.log("test2")
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyRT,#label20gp,#label40gp,#label40hq,#labelRt').css({"display":"none"});
+			$('#feebyKgs,#labelKgs').css({"display":""});
+		}else{
+			console.log("test3")
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyKgs,#label20gp,#label40gp,#label40hq,#labelKgs').css({"display":"none"});
+			$('#feebyRT,#labelRt').css({"display":""});
+		}
 	})
-	$('.feeAll0').delegate('.removeFee', 'click', function () {
-	    $(this).parents('.feeList0').remove()
+	// $('.feeAll0').delegate('.removeFee', 'click', function () {
+	//     $(this).parents('.feeList0').remove()
+	// })
+	$('.feeAll0').delegate('.removeFee', 'click', function() {
+		if($('.feeAll0 .removeFee').length>1){
+			$(this).parents('.feeList0').remove()
+		}
 	})
 
     //本地费用
@@ -325,9 +436,37 @@ $(function(){
 	    $('.feeList:last').find('#feeItem').append(_feeItem)
 	    $('.feeList:last').find('#feeUnit').append(_feeUnit)
 	    $('.date-picker').datepicker();
+		$(this).parents('.feeList').find("input").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的input, by daniel 20190730
+			$('.feeList:last').find("input[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
+
+		$(this).parents('.feeList').find("select").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的select, by daniel 20190730
+			$('.feeList:last').find("select[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
+		if($("#movementType").val()=="FCL"){         //by daniel 20191015
+			console.log("test")
+			$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+			$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
+		}else if($("#movementType").val()=="AIR"){			
+			console.log("test2")
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyRT,#label20gp,#label40gp,#label40hq,#labelRt').css({"display":"none"});
+			$('#feebyKgs,#labelKgs').css({"display":""});
+		}else{
+			console.log("test3")
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyKgs,#label20gp,#label40gp,#label40hq,#labelKgs').css({"display":"none"});
+			$('#feebyRT,#labelRt').css({"display":""});
+		}
 	})
-	$('.feeAll').delegate('.removeFee', 'click', function () {
-	    $(this).parents('.feeList').remove()
+	// $('.feeAll').delegate('.removeFee', 'click', function () {
+	//     $(this).parents('.feeList').remove()
+	// })
+	$('.feeAll').delegate('.removeFee', 'click', function() {
+		if($('.feeAll .removeFee').length>1){
+			$(this).parents('.feeList').remove()
+			if($('.feeList').length==1 && $('.feeList2').length==1){
+				$("#movementType").attr("disabled",false);//添加了这个拖车费后不能修改这个货物类型。 by daniel 20191015
+			}
+		}
 	})
 	
     //拖车费用
@@ -338,9 +477,37 @@ $(function(){
 	    feeboxRow2 = feeboxRow2.clone()
 	    $('.feeList2:last').find('#feeUnit').append(_feeUnit)
 	    $('.date-picker').datepicker();
+		$(this).parents('.feeList2').find("input").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的input, by daniel 20190730
+			$('.feeList2:last').find("input[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
+
+		$(this).parents('.feeList2').find("select").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的select, by daniel 20190730
+			$('.feeList2:last').find("select[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
+		if($("#movementType").val()=="FCL"){         //by daniel 20191015
+			console.log("test")
+			$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+			$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
+		}else if($("#movementType").val()=="AIR"){			
+			console.log("test2")
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyRT,#label20gp,#label40gp,#label40hq,#labelRt').css({"display":"none"});
+			$('#feebyKgs,#labelKgs').css({"display":""});
+		}else{
+			console.log("test3")
+			$('#fee20GP,#fee40GP,#fee40HQ,#feebyKgs,#label20gp,#label40gp,#label40hq,#labelKgs').css({"display":"none"});
+			$('#feebyRT,#labelRt').css({"display":""});
+		}
 	})
-	$('.feeAll2').delegate('.removeFee', 'click', function () {
-	    $(this).parents('.feeList2').remove()
+	// $('.feeAll2').delegate('.removeFee', 'click', function () {
+	//     $(this).parents('.feeList2').remove()
+	// })
+	$('.feeAll2').delegate('.removeFee', 'click', function() {
+		if($('.feeAll2 .removeFee').length>1){
+			$(this).parents('.feeList2').remove()
+			if($('.feeList').length==1 && $('.feeList2').length==1){
+				$("#movementType").attr("disabled",false);//添加了这个拖车费后不能修改这个货物类型。 by daniel 20191015
+			}
+		}
 	})
 
 	if(action == 'modify') {		
@@ -352,44 +519,167 @@ $(function(){
 			var _data = data.Data
 			$('#carrier').html('<option value="' + _data.prsh_carrier + '">' + _data.prsh_carrier + '</option>').trigger("change")
 			$('#port1').html('<option value="' + _data.prsh_port1 + '">' + _data.prsh_port1 + '</option>').trigger("change")
-			$('#port2').html('<option value="' + _data.prsh_port1 + '">' + _data.prsh_port1 + '</option>').trigger("change")
+			$('#port2').html('<option value="' + _data.prsh_port2 + '">' + _data.prsh_port2 + '</option>').trigger("change")
 			$('#toCompany').val(_data.prsh_toCompany).trigger("change")
-			$('#20GP').val(_data.prsh_20GP)
-			$('#40GP').val(_data.prsh_40GP)
-			$('#40HQ').val(_data.prsh_40HQ)
+			$('#movementType').val(_data.prsh_movetype).trigger("change")
+			$('#20GP').val(_data.prsh_20GP.split("*")[0])
+			$('#40GP').val(_data.prsh_40GP.split("*")[0])
+			$('#40HQ').val(_data.prsh_40HQ.split("*")[0])
 			$('#remark').val(_data.prsh_remark)
 			$('#CBM').val(_data.prsh_CBM)
 			$('#KGS').val(_data.prsh_KGS)
 			$('#CTNS').val(_data.prsh_CTNS)
 
+//$('#pricesheet_tabel_localcharge').on('search.dt', function (e, settings) {
+       		tabel_localcharge.api().search(_data.prsh_port2).draw(); //加载localcharge和truckcharge的默认搜索框 20191017 by daniel
+       		table_truckcharge.api().search(_data.prsh_port1).draw();
+  //  });
 			$('.feeAll0').empty()
-			var feeItemAll0 = _data.prsh_feeItem.split(';')
-			for (var i = 0; i < feeItemAll0.length-1; i++) {
-			    var feeItem0 = feeItemAll0[i].split(',')
-			    var newid = parseInt(Math.random() * 1000)
+			if(feeItemAll0!=""){
+				//var feeItemAll0 = _data.prsh_feeItem.split(';')
+				var feeItemAll0 = _data.prsh_feeItem.split('||')
+				for (var i = 0; i < feeItemAll0.length-1; i++) {
+				    var feeItem0 = feeItemAll0[i].split(';')
+				    var newid = parseInt(Math.random() * 1000)
+				    var _html = '<div class="col-sm-12 feeList0">' +
+	                                            '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
+	                                            '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>'+
+	                                            '<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">'+
+	                                            '<input type="text" class="form-control margin-right-5" id="feebyRT" value="' + feeItem0[2] + '" placeholder="0" style="width:80px; float: left;">'+
+	                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" placeholder="0" value="' + feeItem0[3] + '" style="width:80px; float: left;">' +
+	                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" placeholder="0" value="' + feeItem0[4] + '" style="width:80px; float: left;">' +
+	                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" placeholder="0" value="' + feeItem0[5] + '" style="width:80px; float: left;">' +
+	                                            '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+	                                            //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
+	                                            '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="' + feeItem0[7] + '">' +
+	                                                '<option value="Mon">Mon</option>' +
+	                                                '<option value="Tur">Tue</option>' +
+	                                                '<option value="Wed">Wed</option>' +
+	                                                '<option value="Thu">Thu</option>' +
+	                                                '<option value="Fri">Fri</option>' +
+	                                                '<option value="Sat">Sat</option>' +
+	                                                '<option value="Sun">Sun</option>' +
+	                                            '</select>' +
+	                                            //'<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="" value="' + feeItem0[5] + '" style="width:100px; float: left;">' +
+	                                            '<div class="input-group margin-right-5" style="width:80px; float: left;">' +
+	                                                '<input type="text" class="form-control margin-right-5" id="hangcheng" value="' + feeItem0[8] + '" placeholder="0" value="">' +
+	                                                '<span class="input-group-addon">Days</span>' +
+	                                            '</div>' +
+	                                            '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="Ports" value="' + feeItem0[9] + '" style="width:100px; float: left;">' +
+	                                            '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+	                                                '<div class="input-group">'+
+	                                                    '<input class="form-control date-picker date_select" id="id-date-picker-1" value="' + feeItem0[10] + '" type="text" data-date-format="yyyy-mm-dd">'+
+	                                                     '<span class="input-group-addon">to</span>'+
+	                                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem0[11] + '" type="text" data-date-format="yyyy-mm-dd">'+
+	                                                '</div>'+
+	                                            // '<div class="input-group margin-right-5" style="width:130px; float: left;">' +
+	                                            //     '<input class="form-control date-picker" id="id-date-picker-1" value="' + feeItem0[7] + '" type="text" data-date-format="yyyy-mm-dd">' +
+	                                            //     '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
+	                                            // '</div>' +
+	                                            // '<div class="input-group margin-right-5" style="width:130px; float: left;">' +
+	                                            //     '<input class="form-control date-picker" id="id-date-picker-2" value="' + feeItem0[8] + '" type="text" data-date-format="yyyy-mm-dd">' +
+	                                            //     '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
+	                                            '</div>' +
+	                                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem0[12] + '" style="width:150px; float: left;">' +
+	                                            '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">' +
+	                                                // '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>' +
+	                                                // '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>' +
+	                                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+	                                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
+	                                            '</label>' +
+	                                        '</div>'
+				    $('.feeAll0').append(_html)
+
+				    //承运人
+				    $("#" + newid).select2({
+				        ajax: {
+				            url: dataUrl + "ajax/publicdata.ashx?action=readcarrier&companyId=" + companyID,
+				            dataType: 'json',
+				            delay: 250,
+				            data: function (params) {
+				                params.offset = 10; //显示十条 
+				                params.page = params.page || 1; //页码 
+				                return {
+				                    q: params.term,
+				                    page: params.page,
+				                    offset: params.offset
+				                };
+				            },
+				            cache: true,
+				            /* *@params res 返回值 *@params params 参数 */
+				            processResults: function (res, params) {
+				                var users = res.data;
+				                var options = [];
+				                for (var i = 0, len = users.length; i < len; i++) {
+				                    var option = {
+				                        "id": users[i]["puda_name_en"],
+				                        "text": users[i]["puda_name_en"]
+				                    };
+				                    options.push(option);
+				                }
+				                return {
+				                    results: options,
+				                    pagination: {
+				                        more: (params.page * params.offset) < res.total
+				                    }
+				                };
+				            }
+				        },
+				        placeholder: '请选择', //默认文字提示
+				        language: "zh-CN",
+				        tags: true, //允许手动添加
+				        allowClear: true, //允许清空
+				        escapeMarkup: function (markup) {
+				            return markup;
+				        }, // 自定义格式化防止xss注入
+				        minimumInputLength: 3,
+				        formatResult: function formatRepo(repo) {
+				            return repo.text;
+				        }, // 函数用来渲染结果
+				        formatSelection: function formatRepoSelection(repo) {
+				            return repo.text;
+				        } // 函数用于呈现当前的选择
+				    });
+				    $('.feeList0').eq(i).find('#' + newid).html('<option value="' + feeItem0[6] + '">' + feeItem0[6] + '</option>').trigger("change");
+				    $('.feeList0').eq(i).find('#feeCurrency').html(_feeUnit);
+				    $('.feeList0').eq(i).find('#feeCurrency').val(feeItem0[0]).trigger("change");
+				}
+			}else{
+				var newid = parseInt(Math.random() * 1000)
 			    var _html = '<div class="col-sm-12 feeList0">' +
                                             '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
-                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" placeholder="" value="' + feeItem0[0] + '" style="width:80px; float: left;">' +
-                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" placeholder="" value="' + feeItem0[1] + '" style="width:80px; float: left;">' +
-                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" placeholder="" value="' + feeItem0[2] + '" style="width:80px; float: left;">' +
-                                            '<label for="inputPassword3" class="margin-right-5" style="float:left;">' +
-                                                '<select id=' + newid + '  class="carrier no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>' +
-                                            '</label>' +
-                                            '<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
-                                            '<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="" value="' + feeItem0[5] + '" style="width:100px; float: left;">' +
-                                            '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="" value="' + feeItem0[6] + '" style="width:100px; float: left;">' +
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">' +
-                                                '<input class="form-control date-picker" id="id-date-picker-1" value="' + feeItem0[7] + '" type="text" data-date-format="yyyy-mm-dd">' +
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
+                                            '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>'+
+                                            '<input type="text" class="form-control margin-right-5" id="feebyKgs" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            '<input type="text" class="form-control margin-right-5" id="feebyRT" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" placeholder="0" value="" style="width:80px; float: left;">' +
+                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" placeholder="0" value="" style="width:80px; float: left;">' +
+                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" placeholder="0" value="" style="width:80px; float: left;">' +
+                                            '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+                                            '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="">' +
+                                                '<option value="Mon">Mon</option>' +
+                                                '<option value="Tur">Tue</option>' +
+                                                '<option value="Wed">Wed</option>' +
+                                                '<option value="Thu">Thu</option>' +
+                                                '<option value="Fri">Fri</option>' +
+                                                '<option value="Sat">Sat</option>' +
+                                                '<option value="Sun">Sun</option>' +
+                                            '</select>' +
+                                            '<div class="input-group margin-right-5" style="width:80px; float: left;">' +
+                                                '<input type="text" class="form-control margin-right-5" id="hangcheng" value="" placeholder="0" value="">' +
+                                                '<span class="input-group-addon">Days</span>' +
                                             '</div>' +
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">' +
-                                                '<input class="form-control date-picker" id="id-date-picker-2" value="' + feeItem0[8] + '" type="text" data-date-format="yyyy-mm-dd">' +
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
+                                            '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="Ports" value="" style="width:100px; float: left;">' +
+                                            '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+                                                '<div class="input-group">'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-1" value="" type="text" data-date-format="yyyy-mm-dd">'+
+                                                     '<span class="input-group-addon">to</span>'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" value="" type="text" data-date-format="yyyy-mm-dd">'+
+                                                '</div>'+
                                             '</div>' +
-                                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem0[9] + '" style="width:150px; float: left;">' +
+                                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="" style="width:150px; float: left;">' +
                                             '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">' +
-                                                '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>' +
-                                                '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>' +
+                                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+                                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
                                             '</label>' +
                                         '</div>'
 			    $('.feeAll0').append(_html)
@@ -444,54 +734,167 @@ $(function(){
 			            return repo.text;
 			        } // 函数用于呈现当前的选择
 			    });
-			    $('.feeList0').eq(i).find('#' + newid).html('<option value="' + feeItem0[3] + '">' + feeItem0[3] + '</option>').trigger("change")
+			    $('.feeList0').eq(0).find('#feeCurrency').html(_feeUnit);
 			}
 
 			$('.feeAll').empty()
-			var feeItemAll = _data.prsh_localChargeItem.split(';')
-			for (var i = 0; i < feeItemAll.length - 1; i++) {
-			    var feeItem = feeItemAll[i].split(',')
-			    var _html = '<div class="col-sm-12 feeList"><label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label><select id="feeType" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" value="' + feeItem[2] + '" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="fee20GP" value="' + feeItem[3] + '" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="fee40GP" value="' + feeItem[4] + '" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="fee40HQ" value="' + feeItem[5] + '" placeholder="" style="width:100px; float: left;"><div class="input-group margin-right-5" style="width:130px; float: left;"><input class="form-control date-picker" id="id-date-picker-1" type="text" value="' + feeItem[6] + '" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div><div class="input-group margin-right-5" style="width:130px; float: left;"><input class="form-control date-picker" id="id-date-picker-2" type="text" value="' + feeItem[7] + '" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div><input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + feeItem[8] + '" placeholder="" style="width:150px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;"><button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button><button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button></label></div>'
-			    $('.feeAll').append(_html)
+			if(feeItemAll!=""){
+				var feeItemAll = _data.prsh_localChargeItem.split('||')
+				for (var i = 0; i < feeItemAll.length - 1; i++) {
+				    var feeItem = feeItemAll[i].split(';')
+				    var _html = '<div class="col-sm-12 feeList">'+
+				    				'<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>'+
+				    				'<select id="feeType" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>'+
+				    				'<select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>'+
+				    				'<input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" value="' + feeItem[2] + '" style="width:100px; float: left;">'+
+	                                '<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem[3] + '" placeholder="0" style="width:80px; float: left;">'+
+	                                '<input type="text" class="form-control margin-right-5" id="feebyRT" value="' + feeItem[4] + '" placeholder="0" style="width:80px; float: left;">'+
+				    				'<input type="text" class="form-control margin-right-5" id="fee20GP" value="' + feeItem[5] + '" placeholder="" style="width:100px; float: left;">'+
+				    				'<input type="text" class="form-control margin-right-5" id="fee40GP" value="' + feeItem[6] + '" placeholder="" style="width:100px; float: left;">'+
+				    				'<input type="text" class="form-control margin-right-5" id="fee40HQ" value="' + feeItem[7] + '" placeholder="" style="width:100px; float: left;">'+
+	                                '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+	                                    '<div class="input-group">'+
+	                                        '<input class="form-control date-picker date_select" id="id-date-picker-1" value="' + feeItem[8] + '" type="text" data-date-format="yyyy-mm-dd">'+
+	                                         '<span class="input-group-addon">to</span>'+
+	                                        '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem[9] + '" type="text" data-date-format="yyyy-mm-dd">'+
+	                                    '</div>'+
+				    				// '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
+				    				// 	'<input class="form-control date-picker" id="id-date-picker-1" type="text" value="' + feeItem[6] + '" data-date-format="yyyy-mm-dd">'+
+				    				// 	'<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
+				    				// '</div>'+
+				    				// '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
+				    				// 	'<input class="form-control date-picker" id="id-date-picker-2" type="text" value="' + feeItem[7] + '" data-date-format="yyyy-mm-dd">'+
+				    				// 	'<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
+				    				'</div>'+
+				    				'<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + feeItem[10] + '" placeholder="" style="width:150px; float: left;">'+
+				    				'<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">'+
+					    				// '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>'+
+					    				// '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>'+
+	                                    '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+	                                    '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
+				    				'</label></div>'
+				    $('.feeAll').append(_html)
 
+				    $('.date-picker').datepicker();
+				    $('.feeList').eq(i).find('#feeType').html(_feeType)
+				    $('.feeList').eq(i).find('#feeType').val(feeItem[0]).trigger("change")
+				    $('.feeList').eq(i).find('#feeUnit').html(_feeUnit)
+				    $('.feeList').eq(i).find('#feeUnit').val(feeItem[1]).trigger("change")
+				}
+			}else{
+			    var _html = '<div class="col-sm-12 feeList">'+
+			    				'<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>'+
+			    				'<select id="feeType" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>'+
+			    				'<select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>'+
+			    				'<input type="text" class="form-control margin-right-5" id="feePrice" placeholder="0" value="" style="width:100px; float: left;">'+
+                                '<input type="text" class="form-control margin-right-5" id="feebyKgs" value="" placeholder="0" style="width:80px; float: left;">'+
+                                '<input type="text" class="form-control margin-right-5" id="feebyRT" value="" placeholder="0" style="width:80px; float: left;">'+
+			    				'<input type="text" class="form-control margin-right-5" id="fee20GP" value="" placeholder="" style="width:100px; float: left;">'+
+			    				'<input type="text" class="form-control margin-right-5" id="fee40GP" value="" placeholder="" style="width:100px; float: left;">'+
+			    				'<input type="text" class="form-control margin-right-5" id="fee40HQ" value="" placeholder="" style="width:100px; float: left;">'+
+                                '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+                                    '<div class="input-group">'+
+                                        '<input class="form-control date-picker date_select" id="id-date-picker-1" value="" type="text" data-date-format="yyyy-mm-dd">'+
+                                         '<span class="input-group-addon">to</span>'+
+                                        '<input class="form-control date-picker date_select" id="id-date-picker-2" value="" type="text" data-date-format="yyyy-mm-dd">'+
+                                    '</div>'+
+			    				'</div>'+
+			    				'<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="" placeholder="" style="width:150px; float: left;">'+
+			    				'<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">'+
+                                    '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+                                    '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
+			    				'</label></div>'
+			    $('.feeAll').append(_html)
 			    $('.date-picker').datepicker();
-			    $('.feeList').eq(i).find('#feeType').html(_feeType)
-			    $('.feeList').eq(i).find('#feeType').val(feeItem[0]).trigger("change")
-			    $('.feeList').eq(i).find('#feeUnit').html(_feeUnit)
-			    $('.feeList').eq(i).find('#feeUnit').val(feeItem[1]).trigger("change")
+			    $('.feeList').eq(0).find('#feeType').html(_feeType)
+			    $('.feeList').eq(0).find('#feeUnit').html(_feeUnit)
 			}
 
 			$('.feeAll2').empty()
-			var feeItemAll2 = _data.prsh_truckingChargeItem.split(';')
-			for (var i = 0; i < feeItemAll2.length - 1; i++) {
-			    var feeItem2 = feeItemAll2[i].split(',')
+			if(feeItemAll2!=""){
+				var feeItemAll2 = _data.prsh_truckingChargeItem.split('||')
+				for (var i = 0; i < feeItemAll2.length - 1; i++) {
+				    var feeItem2 = feeItemAll2[i].split(';')
+				    var _html = '<div class="col-sm-12 feeList2">'+
+	                                            '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>'+
+	                                            '<input type="text" class="form-control margin-right-5" id="delivery" placeholder="" value="' + feeItem2[0] + '" style="width:120px; float: left;">' +
+	                                            '<select id="feeUnit2" class="no-padding-left no-padding-right margin-right-5" style="width: 100px; float: left;"></select>'+
+				                                '<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem[2] + '" placeholder="0" style="width:80px; float: left;">'+
+				                                '<input type="text" class="form-control margin-right-5" id="feebyRT" value="' + feeItem[3] + '" placeholder="0" style="width:80px; float: left;">'+
+	                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" value="' + feeItem2[4] + '" placeholder="" style="width: 100px; float: left;">' +
+	                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" value="' + feeItem2[5] + '" placeholder="" style="width: 100px; float: left;">' +
+	                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" value="' + feeItem2[6] + '" placeholder="" style="width: 100px; float: left;">' +
+	                                            '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+	                                                '<div class="input-group">'+
+	                                                    '<input class="form-control date-picker date_select" id="id-date-picker-1" type="text" value="' + feeItem2[7] + '" data-date-format="yyyy-mm-dd">'+
+	                                                     '<span class="input-group-addon">to</span>'+
+	                                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" type="text" value="' + feeItem2[8] + '" data-date-format="yyyy-mm-dd">'+
+	                                                '</div>'+
+	                                            // '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
+	                                            //     '<input class="form-control date-picker" id="id-date-picker-1" type="text" value="' + feeItem2[5] + '" data-date-format="yyyy-mm-dd">' +
+	                                            //     '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
+	                                            // '</div>'+
+	                                            // '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
+	                                            //     '<input class="form-control date-picker" id="id-date-picker-2" type="text" value="' + feeItem2[6] + '" data-date-format="yyyy-mm-dd">' +
+	                                            //     '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
+	                                            '</div>'+
+	                                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem2[9] + '" style="width:150px; float: left;">' +
+	                                            '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">'+
+	                                                // '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>'+
+	                                                // '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>'+
+	                                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+	                                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
+	                                            '</label>'+
+	                                        '</div>' 
+				    $('.feeAll2').append(_html)
+
+				    $('.date-picker').datepicker();
+				    $('.feeList2').eq(i).find('#feeUnit2').html(_feeUnit)
+				    $('.feeList2').eq(i).find('#feeUnit2').val(feeItem2[1]).trigger("change")
+				}
+			}else{
 			    var _html = '<div class="col-sm-12 feeList2">'+
                                             '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>'+
-                                            '<input type="text" class="form-control margin-right-5" id="delivery" placeholder="" value="' + feeItem2[0] + '" style="width:120px; float: left;">' +
+                                            '<input type="text" class="form-control margin-right-5" id="delivery" placeholder="" value="" style="width:120px; float: left;">' +
                                             '<select id="feeUnit2" class="no-padding-left no-padding-right margin-right-5" style="width: 100px; float: left;"></select>'+
-                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" value="' + feeItem2[2] + '" placeholder="" style="width: 100px; float: left;">' +
-                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" value="' + feeItem2[3] + '" placeholder="" style="width: 100px; float: left;">' +
-                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" value="' + feeItem2[4] + '" placeholder="" style="width: 100px; float: left;">' +
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
-                                                '<input class="form-control date-picker" id="id-date-picker-1" type="text" value="' + feeItem2[5] + '" data-date-format="yyyy-mm-dd">' +
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
+			                                '<input type="text" class="form-control margin-right-5" id="feebyKgs" value="" placeholder="0" style="width:80px; float: left;">'+
+			                                '<input type="text" class="form-control margin-right-5" id="feebyRT" value="" placeholder="0" style="width:80px; float: left;">'+
+                                            '<input type="text" class="form-control margin-right-5" id="fee20GP" value="" placeholder="" style="width: 100px; float: left;">' +
+                                            '<input type="text" class="form-control margin-right-5" id="fee40GP" value="" placeholder="" style="width: 100px; float: left;">' +
+                                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" value="" placeholder="" style="width: 100px; float: left;">' +
+                                            '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+                                                '<div class="input-group">'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-1" type="text" value="" data-date-format="yyyy-mm-dd">'+
+                                                     '<span class="input-group-addon">to</span>'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" type="text" value="" data-date-format="yyyy-mm-dd">'+
+                                                '</div>'+
                                             '</div>'+
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">'+
-                                                '<input class="form-control date-picker" id="id-date-picker-2" type="text" value="' + feeItem2[6] + '" data-date-format="yyyy-mm-dd">' +
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>'+
-                                            '</div>'+
-                                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem2[7] + '" style="width:150px; float: left;">' +
+                                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="" style="width:150px; float: left;">' +
                                             '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">'+
-                                                '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>'+
-                                                '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>'+
+                                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+                                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
                                             '</label>'+
                                         '</div>' 
 			    $('.feeAll2').append(_html)
 
 			    $('.date-picker').datepicker();
-			    $('.feeList2').eq(i).find('#feeUnit2').html(_feeUnit)
-			    $('.feeList2').eq(i).find('#feeUnit2').val(feeItem2[1]).trigger("change")
+			    $('.feeList2').eq(0).find('#feeUnit2').html(_feeUnit)
 			}
+
+			
+			var opt_if = _data.prsh_movetype;
+			if(opt_if=="FCL"){         //by daniel 20191015
+				$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+				$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
+			}else if(opt_if=="AIR"){			
+				$('#fee20GP,#fee40GP,#fee40HQ,#feebyRT,#label20gp,#label40gp,#label40hq,#labelRt').css({"display":"none"});
+				$('#feebyKgs,#labelKgs').css({"display":""});
+			}else{
+				$('#fee20GP,#fee40GP,#fee40HQ,#feebyKgs,#label20gp,#label40gp,#label40hq,#labelKgs').css({"display":"none"});
+				$('#feebyRT,#labelRt').css({"display":""});
+			}
+			$("#movementType").attr("disabled","disabled");//修改的时候不能修改这个货物类型。 by daniel 20191015
+			$("#toCompany").attr("disabled","disabled");//修改的时候不能修改这个公司。 by daniel 20191015
 
 		}, function(err) {
 			console.log(err)
@@ -500,69 +903,109 @@ $(function(){
 	} else {
 	
 	}
-	
+	$('tr').on('click', function () { //点击TR即可选择上了。不需要每次都点击那个checkbox, by daniel 20191015
+		checkbox_or=$(this).find(':checkbox');
+		if(checkbox_or.prop('checked')){
+			checkbox_or.prop("checked", false);
+		}else{
+			checkbox_or.prop("checked", true);
+		}
+	})
+
+	$('#myModal,#myModal2').on('shown.bs.modal', function () { //非整柜类型询盘不支持导入数据。 by daniel 20191015
+		if($("#movementType").val()!="FCL"){
+			alert("非整柜类型询盘不支持导入数据。")
+			$('#btnSave,#btnSave2').prop("disabled","disabled");
+		}else{
+			$('#btnSave,#btnSave2').prop("disabled",false);
+		}
+  	})
+
 	/*下一步*/
 	$('#send1').on('click', function () {
 		var bt= $(this).attr("id");
 		_port1 = $('#port1').val(),
 		_port2 = $('#port2').val(),
-		_20GP = $('#20GP').val(),
-        _40GP = $('#40GP').val(),
-        _40HQ = $('#40HQ').val(),
+		_20GP = $('#20GP').val()?($('#20GP').val()+'*'+$('#20GPSel').val()):'*'+$('#20GPSel').val(),
+        _40GP = $('#40GP').val()?($('#40GP').val()+'*'+$('#40GPSel').val()):'*'+$('#40GPSel').val(),
+        _40HQ = $('#40HQ').val()?($('#40HQ').val()+'*'+$('#40HQSel').val()):'*'+$('#40HQSel').val(),
 		_remark = $('#remark').val(),
 		_toCompany = $('#toCompany').val(),
 		_CBM = $('#CBM').val(),
         _KGS = $('#KGS').val(),
 		_CTNS = $('#CTNS').val();
+		_movementType = $('#movementType').val();
 
 		var feeData = ''
-		for (var i = 0; i < $('.feeList0').length; i++) {
-		    var fee20GP = $('.feeList0').eq(i).find('#fee20GP').val()
-		    var fee40GP = $('.feeList0').eq(i).find('#fee40GP').val()
-		    var fee40HQ = $('.feeList0').eq(i).find('#fee40HQ').val()
-		    var carrier = $('.feeList0').eq(i).find('.carrier').val()
-		    var hangqi = $('.feeList0').eq(i).find('#hangqi').val()
-		    var hangcheng = $('.feeList0').eq(i).find('#hangcheng').val()
-		    var zhongzhuang = $('.feeList0').eq(i).find('#zhongzhuang').val()
-		    var useTime1 = $('.feeList0').eq(i).find('#id-date-picker-1').val()
-		    var useTime2 = $('.feeList0').eq(i).find('#id-date-picker-2').val()
-		    var feeBeizhu = $('.feeList0').eq(i).find('#feeBeizhu').val()
+		if($('.feeList0').length==1 && $('.feeList0').eq(0).find('#feebyKgs').val()=="" && $('.feeList0').eq(0).find('#feebyRT').val()=="" && $('.feeList0').eq(0).find('#fee20GP').val()=="" && $('.feeList0').eq(0).find('#fee40GP').val()=="" && $('.feeList0').eq(0).find('#fee40HQ').val()==""){
+			var feeoneData="";
+		}else{
+			for (var i = 0; i < $('.feeList0').length; i++) {
+			    var feeCurrency = $('.feeList0').eq(i).find('#feeCurrency').val()
+			    var feebyKgs = $('.feeList0').eq(i).find('#feebyKgs').val()
+			    var feebyRT = $('.feeList0').eq(i).find('#feebyRT').val()
+			    var fee20GP = $('.feeList0').eq(i).find('#fee20GP').val()
+			    var fee40GP = $('.feeList0').eq(i).find('#fee40GP').val()
+			    var fee40HQ = $('.feeList0').eq(i).find('#fee40HQ').val()
+			    var carrier = $('.feeList0').eq(i).find('.carrier').val()
+			    var hangqi = $('.feeList0').eq(i).find('#hangqi').val()
+			    var hangcheng = $('.feeList0').eq(i).find('#hangcheng').val()
+			    var zhongzhuang = $('.feeList0').eq(i).find('#zhongzhuang').val()
+			    var useTime1 = $('.feeList0').eq(i).find('#id-date-picker-1').val()
+			    var useTime2 = $('.feeList0').eq(i).find('#id-date-picker-2').val()
+			    var feeBeizhu = $('.feeList0').eq(i).find('#feeBeizhu').val()
 
-		    var feeoneData = fee20GP + ',' + fee40GP + ',' + fee40HQ + ',' + carrier + ',' + hangqi + ',' + hangcheng + ',' + zhongzhuang + ',' + useTime1 + ',' + useTime2 + ',' + feeBeizhu + ';'
-		    feeData = feeData + feeoneData
+			    //var feeoneData = fee20GP + ',' + fee40GP + ',' + fee40HQ + ',' + carrier + ',' + hangqi + ',' + hangcheng + ',' + zhongzhuang + ',' + useTime1 + ',' + useTime2 + ',' + feeBeizhu + ';'
+			    var feeoneData =   feeCurrency + ';'+feebyKgs + ';'+feebyRT + ';'+fee20GP + ';' + fee40GP + ';' + fee40HQ + ';' + carrier + ';' + hangqi + ';' + hangcheng + ';' + zhongzhuang + ';' + useTime1 + ';' + useTime2 + ';' + feeBeizhu + '||'
+			    feeData = feeData + feeoneData
+			}
 		}
 		console.log(feeData)
 
 		var localChargeData = ''
-		for (var i = 0; i < $('.feeList').length; i++) {
-		    var feeType = $('.feeList').eq(i).find('#feeType').val()
-		    var feeUnit = $('.feeList').eq(i).find('#feeUnit').val()
-		    var feePrice = $('.feeList').eq(i).find('#feePrice').val()
-		    var fee20GP = $('.feeList').eq(i).find('#fee20GP').val()
-		    var fee40GP = $('.feeList').eq(i).find('#fee40GP').val()
-		    var fee40HQ = $('.feeList').eq(i).find('#fee40HQ').val()
-		    var useTime1 = $('.feeList').eq(i).find('#id-date-picker-1').val()
-		    var useTime2 = $('.feeList').eq(i).find('#id-date-picker-2').val()
-		    var feeBeizhu = $('.feeList').eq(i).find('#feeBeizhu').val()
+		if($('.feeList').length==1 && $('.feeList').eq(0).find('#feebyKgs').val()=="" && $('.feeList').eq(0).find('#feebyRT').val()=="" && $('.feeList').eq(0).find('#fee20GP').val()=="" && $('.feeList').eq(0).find('#fee40GP').val()=="" && $('.feeList').eq(0).find('#fee40HQ').val()==""){
+			var feeoneData="";
+		}else{
+			for (var i = 0; i < $('.feeList').length; i++) {
+			    var feeType = $('.feeList').eq(i).find('#feeType').val()
+			    var feeUnit = $('.feeList').eq(i).find('#feeUnit').val()
+			    var feePrice = $('.feeList').eq(i).find('#feePrice').val()
+			    var feebyKgs = $('.feeList').eq(i).find('#feebyKgs').val()
+			    var feebyRT = $('.feeList').eq(i).find('#feebyRT').val()
+			    var fee20GP = $('.feeList').eq(i).find('#fee20GP').val()
+			    var fee40GP = $('.feeList').eq(i).find('#fee40GP').val()
+			    var fee40HQ = $('.feeList').eq(i).find('#fee40HQ').val()
+			    var useTime1 = $('.feeList').eq(i).find('#id-date-picker-1').val()
+			    var useTime2 = $('.feeList').eq(i).find('#id-date-picker-2').val()
+			    var feeBeizhu = $('.feeList').eq(i).find('#feeBeizhu').val()
 
-		    var feeoneData = feeType + ',' + feeUnit + ',' + feePrice + ',' + fee20GP + ',' + fee40GP + ',' + fee40HQ + ',' + useTime1 + ',' + useTime2 + ',' + feeBeizhu + ';'
-		    localChargeData = localChargeData + feeoneData
+			    //var feeoneData = feeType + ',' + feeUnit + ',' + feePrice + ',' + fee20GP + ',' + fee40GP + ',' + fee40HQ + ',' + useTime1 + ',' + useTime2 + ',' + feeBeizhu + ';'
+			    var feeoneData =  feeType + ';' + feeUnit + ';' + feePrice + ';' + feebyKgs + ';'+feebyRT + ';'+fee20GP + ';' + fee40GP + ';' + fee40HQ + ';' + useTime1 + ';' + useTime2 + ';' + feeBeizhu + '||'
+			    localChargeData = localChargeData + feeoneData
+			}
 		}
 		console.log(localChargeData)
 
 		var truckingChargeData = ''
-		for (var i = 0; i < $('.feeList2').length; i++) {
-		    var delivery = $('.feeList2').eq(i).find('#delivery').val()
-		    var feeUnit = $('.feeList2').eq(i).find('#feeUnit2').val()
-		    var fee20GP = $('.feeList2').eq(i).find('#fee20GP').val()
-		    var fee40GP = $('.feeList2').eq(i).find('#fee40GP').val()
-		    var fee40HQ = $('.feeList2').eq(i).find('#fee40HQ').val()
-		    var useTime1 = $('.feeList2').eq(i).find('#id-date-picker-1').val()
-		    var useTime2 = $('.feeList2').eq(i).find('#id-date-picker-2').val()
-		    var feeBeizhu = $('.feeList2').eq(i).find('#feeBeizhu').val()
+		if($('.feeList2').length==1 && $('.feeList2').eq(0).find('#feebyKgs').val()=="" && $('.feeList2').eq(0).find('#feebyRT').val()=="" && $('.feeList2').eq(0).find('#fee20GP').val()=="" && $('.feeList2').eq(0).find('#fee40GP').val()=="" && $('.feeList2').eq(0).find('#fee40HQ').val()==""){
+			var feeoneData="";
+		}else{
+			for (var i = 0; i < $('.feeList2').length; i++) {
+			    var delivery = $('.feeList2').eq(i).find('#delivery').val()
+			    var feeUnit = $('.feeList2').eq(i).find('#feeUnit2').val()
+			    var feebyKgs = $('.feeList2').eq(i).find('#feebyKgs').val()
+			    var feebyRT = $('.feeList2').eq(i).find('#feebyRT').val()
+			    var fee20GP = $('.feeList2').eq(i).find('#fee20GP').val()
+			    var fee40GP = $('.feeList2').eq(i).find('#fee40GP').val()
+			    var fee40HQ = $('.feeList2').eq(i).find('#fee40HQ').val()
+			    var useTime1 = $('.feeList2').eq(i).find('#id-date-picker-1').val()
+			    var useTime2 = $('.feeList2').eq(i).find('#id-date-picker-2').val()
+			    var feeBeizhu = $('.feeList2').eq(i).find('#feeBeizhu').val()
 
-		    var feeoneData = delivery + ',' + feeUnit + ',' + fee20GP + ',' + fee40GP + ',' + fee40HQ + ',' + useTime1 + ',' + useTime2 + ',' + feeBeizhu + ';'
-		    truckingChargeData = truckingChargeData + feeoneData
+			    //var feeoneData = delivery + ',' + feeUnit + ',' + fee20GP + ',' + fee40GP + ',' + fee40HQ + ',' + useTime1 + ',' + useTime2 + ',' + feeBeizhu + ';'
+			    var feeoneData =  delivery + ';' + feeUnit + ';' + feebyKgs + ';'+feebyRT + ';'+fee20GP + ';' + fee40GP + ';' + fee40HQ + ';' + useTime1 + ';' + useTime2 + ';' + feeBeizhu + '||'
+			    truckingChargeData = truckingChargeData + feeoneData
+			}
 		}
 		console.log(truckingChargeData)
 
@@ -585,13 +1028,14 @@ $(function(){
 					'remark': _remark,
 					'CBM': _CBM,
 					'KGS': _KGS,
-					'CTNS': _CTNS
+					'CTNS': _CTNS,
+					'movetype':_movementType
 				}
 				console.log(parm)
 				common.ajax_req('POST', false, dataUrl, 'pricesheet.ashx?action=new', parm, function(data) {
 					if(data.State == 1) {
 						comModel("新增成功")
-						location.href = 'pricesheetlist.html';
+						//location.href = 'pricesheetlist.html';
 
 					} else {
 						comModel("新增失败")
@@ -621,13 +1065,14 @@ $(function(){
 					'remark': _remark,
 					'CBM': _CBM,
 					'KGS': _KGS,
-					'CTNS': _CTNS
+					'CTNS': _CTNS,
+					'movetype':_movementType
 				}
 				
 				common.ajax_req('POST', false, dataUrl, 'pricesheet.ashx?action=modify', parm, function(data) {
 					if(data.State == 1) {
 						comModel("修改成功")
-						location.href = 'pricesheetlist.html';
+						//location.href = 'pricesheetlist.html';
 					} else {
 						comModel("修改失败")
 					}
@@ -643,36 +1088,68 @@ $(function(){
 	$('#btnSave').on('click', function () {
 	    var feeData = '';
 	    $("input[name='checkList']:checked").each(function (i, o) {  
-	        var _feeType = $(this).parents(".feelist").find('.feeType').text();
-	        var _feeUnit = $(this).parents(".feelist").find('.feeUnit').text();
-	        var _feePrice = $(this).parents(".feelist").find('.feePrice').text();
-	        var _fee20GP = $(this).parents(".feelist").find('.fee20GP').text();
-	        var _fee40GP = $(this).parents(".feelist").find('.fee40GP').text();
-	        var _fee40HQ = $(this).parents(".feelist").find('.fee40HQ').text();
-	        var _feeUseTime1 = $(this).parents(".feelist").find('.feeUseTime1').text();
-	        var _feeUseTime2 = $(this).parents(".feelist").find('.feeUseTime2').text();
-	        var _feeRemark = $(this).parents(".feelist").find('.feeRemark').text();
-	        var feeoneData = _feeType + ',' + _feeUnit + ',' + _feePrice + ',' + _fee20GP + ',' + _fee40GP + ',' + _fee40HQ + ',' + _feeUseTime1 + ',' + _feeUseTime2 + ',' + _feeRemark + ';'
+	        var _feeType = $(this).parents("tr").find('.feeType').text();
+	        var _feeUnit = $(this).parents("tr").find('.feeUnit').text();
+	        var _feePrice = $(this).parents("tr").find('.feePrice').text();
+	        var _fee20GP = $(this).parents("tr").find('.fee20GP').text();
+	        var _fee40GP = $(this).parents("tr").find('.fee40GP').text();
+	        var _fee40HQ = $(this).parents("tr").find('.fee40HQ').text();
+	        var _feeUseTime1 = $(this).parents("tr").find('.feeUseTime1').text();
+	        var _feeUseTime2 = $(this).parents("tr").find('.feeUseTime2').text();
+	        var _feeRemark = $(this).parents("tr").find('.feeRemark').text();
+	        var feeoneData = _feeType + ';' + _feeUnit + ';' + _feePrice + ';' + _fee20GP + ';' + _fee40GP + ';' + _fee40HQ + ';' + _feeUseTime1 + ';' + _feeUseTime2 + ';' + _feeRemark + '||'
 	        feeData = feeData + feeoneData
 	    });
 	    if (feeData.length > 0) {
+	    	//$('.feeList').find("#fee20GP")==
+	    	////////////////////检测复制这条数据得时候，是否有原来未修改的数据，如果有的话，那么就删除，如果已经修改，那么就保留。by daniel 20191015////////////////////////////////////////////////
+	    	var z_total=''
+	    	for(j=0;j<$('.feeList').find("input").length;j++){
+	    		var z=$('.feeList input:eq('+j+')').val();
+	    		z_total=z_total+z;
+	    	}
+	    	if(!z_total){
+	    		$('.feeList:eq(0)').remove();
+	    	}
+	    	////////////////////////////////////////////////////////////////////
 	        //alert("你选择的是：" + feeData);
 	        //location.href = 'truckingchargeadd.html?action=modify&Id=' + IDS;
-	        var feeItemAll = feeData.split(';')
+	        var feeItemAll = feeData.split('||')
 	        for (var i = 0; i < feeItemAll.length - 1; i++) {
-	            var feeItem = feeItemAll[i].split(',')
-	            var _html = '<div class="col-sm-12 feeList"><label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label><select id="feeType" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" value="' + feeItem[2] + '" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="fee20GP" value="' + feeItem[3] + '" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="fee40GP" value="' + feeItem[4] + '" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="fee40HQ" value="' + feeItem[5] + '" placeholder="" style="width:100px; float: left;"><div class="input-group margin-right-5" style="width:130px; float: left;"><input class="form-control date-picker" id="id-date-picker-1" type="text" value="' + feeItem[6] + '" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div><div class="input-group margin-right-5" style="width:130px; float: left;"><input class="form-control date-picker" id="id-date-picker-2" type="text" value="' + feeItem[7] + '" data-date-format="yyyy-mm-dd"><span class="input-group-addon"><i class="fa fa-calendar"></i></span></div><input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + feeItem[8] + '" placeholder="" style="width:150px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;"><button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button><button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button></label></div>'
+	            var feeItem = feeItemAll[i].split(';')
+	            var _html = '<div class="col-sm-12 feeList">'+
+	            				'<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>'+
+	            				'<select id="feeType" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>'+
+	            				'<select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>'+
+	            				'<input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" value="' + feeItem[2] + '" style="width:100px; float: left;">'+
+	            				'<input type="text" class="form-control margin-right-5" id="fee20GP" value="' + feeItem[3] + '" placeholder="" style="width:100px; float: left;">'+
+	            				'<input type="text" class="form-control margin-right-5" id="fee40GP" value="' + feeItem[4] + '" placeholder="" style="width:100px; float: left;">'+
+	            				'<input type="text" class="form-control margin-right-5" id="fee40HQ" value="' + feeItem[5] + '" placeholder="" style="width:100px; float: left;">'+
+                                '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+                                    '<div class="input-group">'+
+                                        '<input class="form-control date-picker date_select" id="id-date-picker-1" value="' + feeItem[6] + '" type="text" data-date-format="yyyy-mm-dd">'+
+                                         '<span class="input-group-addon">to</span>'+
+                                        '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem[7] + '" type="text" data-date-format="yyyy-mm-dd">'+
+                                    '</div>'+
+                                '</div>'+
+	            				'<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + feeItem[8] + '" placeholder="" style="width:150px; float: left;">'+
+	            				'<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">'+
+                                    '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+                                    '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
+	            				'</label>'+
+	            			'</div>'
 	            $('.feeAll').append(_html)
 
 	            $('.date-picker').datepicker();
-	            $('.feeList').find('#feeType').html(_feeType)
-	            $('.feeList').find('#feeType').val(feeItem[0]).trigger("change")
-	            $('.feeList').find('#feeUnit').html(_feeUnit)
-	            $('.feeList').find('#feeUnit').val(feeItem[1]).trigger("change")
+	            $('.feeList:last').find('#feeType').html(_feeType)
+	            $('.feeList:last').find('#feeType').val(feeItem[0]).trigger("change")
+	            $('.feeList:last').find('#feeUnit').html(_feeUnit)
+	            $('.feeList:last').find('#feeUnit').val(feeItem[1]).trigger("change")
 	        }
-	        $("#checkAll").attr("checked", false)
+	        //$("#checkAll").attr("checked", false)
 	        $("input[name='checkList']").attr("checked", false)
 	        $("#myModal").modal("hide");
+			$("#movementType").attr("disabled","disabled");//添加了这个拖车费后不能修改这个货物类型。 by daniel 20191015
 	    } else {
 	        alert("请选择要导入的费用!");
 	    }
@@ -682,23 +1159,33 @@ $(function(){
 	$('#btnSave2').on('click', function () {
 	    var feeData = '';
 	    $("input[name='checkList2']:checked").each(function (i, o) {
-	        var _feeDelivery = $(this).parents(".feelist").find('.feeDelivery').text();
-	        var _feeUnit = $(this).parents(".feelist").find('.feeUnit').text();
-	        var _fee20GP = $(this).parents(".feelist").find('.fee20GP').text();
-	        var _fee40GP = $(this).parents(".feelist").find('.fee40GP').text();
-	        var _fee40HQ = $(this).parents(".feelist").find('.fee40HQ').text();
-	        var _feeUseTime1 = $(this).parents(".feelist").find('.feeUseTime1').text();
-	        var _feeUseTime2 = $(this).parents(".feelist").find('.feeUseTime2').text();
-	        var _feeRemark = $(this).parents(".feelist").find('.feeRemark').text();
-	        var feeoneData = _feeDelivery + ',' + _feeUnit + ',' + _fee20GP + ',' + _fee40GP + ',' + _fee40HQ + ',' + _feeUseTime1 + ',' + _feeUseTime2 + ',' + _feeRemark + ';'
+	        var _feeDelivery = $(this).parents("tr").find('.feeDelivery').text();
+	        var _feeUnit = $(this).parents("tr").find('.feeUnit').text();
+	        var _fee20GP = $(this).parents("tr").find('.fee20GP').text();
+	        var _fee40GP = $(this).parents("tr").find('.fee40GP').text();
+	        var _fee40HQ = $(this).parents("tr").find('.fee40HQ').text();
+	        var _feeUseTime1 = $(this).parents("tr").find('.feeUseTime1').text();
+	        var _feeUseTime2 = $(this).parents("tr").find('.feeUseTime2').text();
+	        var _feeRemark = $(this).parents("tr").find('.feeRemark').text();
+	        var feeoneData = _feeDelivery + ';' + _feeUnit + ';' + _fee20GP + ';' + _fee40GP + ';' + _fee40HQ + ';' + _feeUseTime1 + ';' + _feeUseTime2 + ';' + _feeRemark + '||'
 	        feeData = feeData + feeoneData
 	    });
 	    if (feeData.length > 0) {
+	    	////////////////////检测复制这条数据得时候，是否有原来未修改的数据，如果有的话，那么就删除，如果已经修改，那么就保留。by daniel 20191015////////////////////////////////////////////////
+	    	var z_total=''
+	    	for(j=0;j<$('.feeList2').find("input").length;j++){
+	    		var z=$('.feeList2 input:eq('+j+')').val();
+	    		z_total=z_total+z;
+	    	}
+	    	if(!z_total){
+	    		$('.feeList2:eq(0)').remove();
+	    	}
+	    	////////////////////////////////////////////////////////////////////
 	        //alert("你选择的是：" + feeData);
 	        //location.href = 'truckingchargeadd.html?action=modify&Id=' + IDS;
-	        var feeItemAll2 = feeData.split(';')
+	        var feeItemAll2 = feeData.split('||')
 	        for (var i = 0; i < feeItemAll2.length - 1; i++) {
-	            var feeItem2 = feeItemAll2[i].split(',')
+	            var feeItem2 = feeItemAll2[i].split(';')
 	            var _html = '<div class="col-sm-12 feeList2">' +
                                             '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
                                             '<input type="text" class="form-control margin-right-5" id="delivery" placeholder="" value="' + feeItem2[0] + '" style="width:120px; float: left;">' +
@@ -706,29 +1193,29 @@ $(function(){
                                             '<input type="text" class="form-control margin-right-5" id="fee20GP" value="' + feeItem2[2] + '" placeholder="" style="width: 100px; float: left;">' +
                                             '<input type="text" class="form-control margin-right-5" id="fee40GP" value="' + feeItem2[3] + '" placeholder="" style="width: 100px; float: left;">' +
                                             '<input type="text" class="form-control margin-right-5" id="fee40HQ" value="' + feeItem2[4] + '" placeholder="" style="width: 100px; float: left;">' +
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">' +
-                                                '<input class="form-control date-picker" id="id-date-picker-1" type="text" value="' + feeItem2[5] + '" data-date-format="yyyy-mm-dd">' +
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
-                                            '</div>' +
-                                            '<div class="input-group margin-right-5" style="width:130px; float: left;">' +
-                                                '<input class="form-control date-picker" id="id-date-picker-2" type="text" value="' + feeItem2[6] + '" data-date-format="yyyy-mm-dd">' +
-                                                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
+                                            '<div class="input-group margin-right-5" style="width:220px; float: left;">'+
+                                                '<div class="input-group">'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-1" value="' + feeItem2[5] + '" type="text" data-date-format="yyyy-mm-dd">'+
+                                                     '<span class="input-group-addon">to</span>'+
+                                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem2[6] + '" type="text" data-date-format="yyyy-mm-dd">'+
+                                                '</div>'+
                                             '</div>' +
                                             '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem2[7] + '" style="width:150px; float: left;">' +
                                             '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">' +
-                                                '<button type="submit" class="addFee btn btn-blue" style="width:40px;float: left; margin-right:5px;">+</button>' +
-                                                '<button type="submit" class="removeFee btn btn-blue" style="width:40px;float: left;">-</button>' +
+                                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> '+
+                                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>'+
                                             '</label>' +
                                         '</div>'
 	            $('.feeAll2').append(_html)
 
 	            $('.date-picker').datepicker();
-	            $('.feeList2').find('#feeUnit2').html(_feeUnit)
-	            $('.feeList2').find('#feeUnit2').val(feeItem2[1]).trigger("change")
+	            $('.feeList2:last').find('#feeUnit2').html(_feeUnit)
+	            $('.feeList2:last').find('#feeUnit2').val(feeItem2[1]).trigger("change")
 	        }
-	        $("#checkAll2").attr("checked", false)
+	        //$("#checkAll2").attr("checked", false)
 	        $("input[name='checkList2']").attr("checked", false)
 	        $("#myModal2").modal("hide");
+			$("#movementType").attr("disabled","disabled");//添加了这个拖车费后不能修改这个货物类型。 by daniel 20191015
 	    } else {
 	        alert("请选择要导入的费用!");
 	    }
@@ -736,5 +1223,208 @@ $(function(){
 	
 })
 
+	var _dataArrs=[];
+    //本地费用
+	common.ajax_req("get", false, dataUrl, "localcharge.ashx?action=read", {
+	    "companyId": companyID
+	}, function (data) {
+	    var _data = data.data;
+	    //var _dataArrs=[];
+	    console.log(_data)
+	    if (_data != null) {
+	        for (var i = 0; i < _data.length; i++) {
+	            var feeItemAll = _data[i].loch_feeItem.split(';')
+	            for (var j = 0; j < feeItemAll.length - 1; j++) {
+	                var feeItem = feeItemAll[j].split(',')
+	                // var _html = '<tr class="feelist">'+
+	                // 				'<td><input type="checkbox" name="checkList" value="' + _data[i].loch_id + '" id="' + _data[i].loch_id + '"></td>'+
+	                // 				'<td class="lochtype">' + _data[i].loch_type + '</td>'+
+	                // 				'<td class="lochport1">' + _data[i].loch_port1 + '</td>'+
+	                // 				'<td class="feeType">' + feeItem[0] + '</td>'+
+	                // 				'<td class="feeUnit">' + feeItem[1] + '</td>'+
+	                // 				'<td class="feePrice">' + feeItem[2] + '</td>'+
+	                // 				'<td class="fee20GP">' + feeItem[3] + '</td>'+
+	                // 				'<td class="fee40GP">' + feeItem[4] + '</td>'+
+	                // 				'<td class="fee40HQ">' + feeItem[5] + '</td>'+
+	                // 				'<td><span class="feeUseTime1">' + _data[i].loch_useTime1.substring(0, 10) + '</span> <i class="fa fa-long-arrow-right"></i> <span class="feeUseTime2">' + _data[i].loch_useTime2.substring(0, 10) + '</span></td>'+
+	                // 				'<td class="feeRemark">' + feeItem[6] + '</td>'+
+	                // 			'</tr>'
+	                //$('.localChargeItem').append(_html)
+					var _dataArr = {
+						"loch_id": _data[i].loch_id,
+						"loch_type": _data[i].loch_type,
+						"loch_port1":_data[i].loch_port1,
+						"feeType":feeItem[0],
+						"feeUnit":feeItem[1],
+						"feePrice":feeItem[2],
+						"fee20GP":feeItem[3],
+						"fee40GP":feeItem[4],
+						"fee40HQ":feeItem[5],
+						"feeUseTime1":_data[i].loch_useTime1.substring(0, 10),
+						"feeUseTime2":_data[i].loch_useTime1.substring(0, 10),
+						"feeRemark":feeItem[6]
+					};
+					_dataArrs.push(_dataArr);
+	            }
+	        }
+	    }
+	}, function (err) {
+	    console.log(err)
+	}, 2000)
 
 
+	var tabel_localcharge=$('#pricesheet_tabel_localcharge').dataTable({
+		data:_dataArrs,
+		"bSort": false,
+		// "search": {
+		//     "search": ($("#port1").val())
+		//  },
+		"aoColumns": [
+			{ "mDataProp": "loch_id",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td><input type="checkbox" name="checkList" value="' + cellData + '" id="' + cellData + '"></td>');
+				}
+			},
+			{ "mDataProp": "loch_type",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="lochtype">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "loch_port1",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="loch_port1">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "feeType" ,
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="feeType">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "feeUnit",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="feeUnit">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "feePrice",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="feePrice">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "fee20GP",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="fee20GP">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "fee40GP",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="fee40GP">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "fee40HQ",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="fee40HQ">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "feeUseTime1",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td><span class="feeUseTime1">' + rowData.feeUseTime1.substring(0, 10) + '</span> <i class="fa fa-long-arrow-right"></i> <span class="feeUseTime2">'  + rowData.feeUseTime2.substring(0, 10)+'</span></td>');
+				}
+			},
+			{ "mDataProp": "feeRemark",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="feeRemark">'+cellData+'</td>');
+				}
+			}
+		]
+	});
+
+    //拖车费用
+	var _dataArrs2=[];
+	common.ajax_req("get", false, dataUrl, "truckingcharge.ashx?action=read", {
+	    "companyId": companyID
+	}, function (data) {
+	    var _data = data.data;
+	    console.log(_data)
+	    if (_data != null) {
+	        for (var i = 0; i < _data.length; i++) {
+	            // var _html = '<tr class="feelist">'+
+	            // 				'<td><input type="checkbox" name="checkList2" value="' + _data[i].trch_id + '" id="' + _data[i].trch_id + '"></td>'+
+	            // 				'<td class="feeDelivery">' + _data[i].trch_delivery + '</td>'+
+	            // 				'<td class="feeUnit">' + _data[i].trch_feeUnit + '</td>'+
+	            // 				'<td class="fee20GP">' + _data[i].trch_20GP + '</td>'+
+	            // 				'<td class="fee40GP">' + _data[i].trch_40GP + '</td>'+
+	            // 				'<td class="fee40HQ">' + _data[i].trch_40HQ + '</td>'+
+	            // 				'<td><span class="feeUseTime1">' + _data[i].trch_useTime1.substring(0, 10) + '</span> <i class="fa fa-long-arrow-right"></i> <span class="feeUseTime2">' + _data[i].trch_useTime2.substring(0, 10) + '</span></td>'+
+	            // 				'<td class="feeRemark">' + _data[i].trch_remark + '</td>'+
+	            // 			'</tr>'
+	            // $('.truckingChargeItem').append(_html)
+				var _dataArr2 = {
+					"trch_id": _data[i].trch_id,
+					"trch_delivery": _data[i].trch_delivery,
+					"trch_feeUnit":_data[i].trch_feeUnit,
+					"trch_port":_data[i].trch_port,
+					"trch_20GP":_data[i].trch_20GP,
+					"trch_40GP":_data[i].trch_40GP,
+					"trch_40HQ":_data[i].trch_40HQ,
+					"trch_useTime1":_data[i].trch_useTime1.substring(0, 10),
+					"trch_useTime2":_data[i].trch_useTime2.substring(0, 10),
+					"trch_remark":_data[i].trch_remark
+				};
+				_dataArrs2.push(_dataArr2);
+	        }
+	    }
+	}, function (err) {
+	    console.log(err)
+	}, 2000)
+
+	var table_truckcharge=$('#pricesheet_tabel_truckcharge').dataTable({
+		data:_dataArrs2,
+		"bSort": false,
+		"aoColumns": [
+			{ "mDataProp": "trch_id",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td><input type="checkbox" name="checkList2" value="' + cellData + '" id="' + cellData + '"></td>');
+				}
+			},
+			{ "mDataProp": "trch_delivery",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="feeDelivery">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "trch_port" ,
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td>'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "trch_feeUnit",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="feeUnit">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "trch_20GP",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="fee20GP">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "trch_40GP",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="fee40GP">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "trch_40HQ",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="fee40HQ">'+cellData+'</td>');
+				}
+			},
+			{ "mDataProp": "trch_useTime1",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td><span class="feeUseTime1">' + rowData.trch_useTime1.substring(0, 10) + '</span> <i class="fa fa-long-arrow-right"></i> <span class="feeUseTime2">'  + rowData.trch_useTime2.substring(0, 10)+'</span></td>');
+				}
+			},
+			{ "mDataProp": "trch_remark",
+				"createdCell": function (td, cellData, rowData, row, col) {
+			    	$(td).html('<td class="feeRemark">'+cellData+'</td>');
+				}
+			}
+		]
+	});

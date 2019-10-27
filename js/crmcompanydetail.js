@@ -11,7 +11,7 @@ var en2 = {
             "primary" : "set primary",            
         };
         
-var oTable,oblTable,oFollow,oDemand;
+var oTable,oblTable,oFollow,oDemand,ogetOrderSum;
 var typeId;
 var Id = GetQueryString('Id');
 var userCompanyId;
@@ -33,7 +33,8 @@ $(document).ready(function() {
 		location.href = 'crmcompanyadd.html?action=modify&Id='+Id;
 	})
 		
-	oTable=GetContact();
+	//oTable=GetContact();
+	oTable2=GetContact2();
 
 	$('#send3').on('click', function() {
 		location.href = 'crmcompanycontactadd.html?action=add&back=1&companyId='+Id;
@@ -42,6 +43,7 @@ $(document).ready(function() {
 	oFollow=GetFollow();
 	
 	oDemand=GetDemand();	
+	//oBill=GetBill();	
 	$('#send00').hide()
 	
 	
@@ -51,7 +53,6 @@ function GetDetail()
 	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
 		"Id": Id
 	}, function(data) {
-		//console.log(data.Data)
 		//初始化信息;
 		var _data = data.Data;
 		userCompanyId = _data.comp_customerId;
@@ -63,21 +64,30 @@ function GetDetail()
 		}else{
 			$('.companyIsSupplier').text("否")
 		}
-			$('.companyType').text(_data.comp_type)
+		if(_data.comp_type){
+			var _compType=[];
+			var _compTypeHtml="";
+			_compType=_data.comp_type.split(",");
+			for (var i = 0; i < _compType.length; i++) {
+				_compTypeHtml+='<span class="badge badge-green badge-square">'+_compType[i]+'</span> ';
+			}
+		}
+			$('.companyType').html(_compTypeHtml)
 			$('.companyAddress').text(_data.comp_address)
 			$('.companyCountry').text(_data.comp_country)
 			$('.companyTel').text(_data.comp_tel)
 			$('.companyFax').text(_data.comp_fax)
 			$('.companyWeb').text(_data.comp_web)
-			$('.companyOrg').text(_data.comp_org)
+			if(_data.comp_org){$('.companyOrg').text("Member of "+_data.comp_org+"; ")}
 			$('.companyUpdateTime').text(_data.comp_updateTime.substring(0, 19).replace('T',' '))
 			$('.companyRemark').text(_data.comp_remark)
 		//$('.adRemark1').html(HtmlDecode(_data.prin_beizhu))	
+			oBill = GetBill(); //这里获取提单的信息，要不然会出现userCompanyId获取不到
+			getOrderSum();
 	}, function(err) {
 		console.log(err)
-	}, 5000)
+	}, 2000)
 	
-	oBill = GetBill();
 	$('#send22').hide()
 }
 
@@ -137,6 +147,53 @@ function GetContact() {
 	return table;
 }
 
+function GetContact2() {
+		$(".companyPersons").empty();
+	common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+		"companyId": Id
+	}, function(data) {
+		if(data) {
+			var _data = data.data;
+			var _htmlSkype="";
+			var _htmlWhatsapp="";
+			var _htmlFacebook="";
+			var _htmlLinkedin="";
+			var _htmlQq="";
+			for(var i = 0; i < _data.length; i++) {
+				var _htmlFirst="";
+				var _htmlFirstStyle=""; //放在这里可以区分是否是关键人
+
+				_data[i].coco_skype?(_htmlSkype='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_skype+'</i></div>'):_htmlSkype="";
+				_data[i].coco_whatsapp?(_htmlWhatsapp='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_whatsapp+'</i></div>'):_htmlWhatsapp="";
+				_data[i].coco_facebook?(_htmlFacebook='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_facebook+'</i></div>'):_htmlFacebook="";
+				_data[i].coco_linkedin?(_htmlLinkedin='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_linkedin+'</i></div>'):_htmlLinkedin="";
+				_data[i].coco_qq?(_htmlQq='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_qq+'</i></div>'):_htmlQq="";
+				if(_data[i].coco_first==1){
+					_htmlFirstStyle='background-image: linear-gradient(to right,#f9f499,#fff)';
+				}else{
+					_htmlFirst='<a href="javascript:void(0);" onclick="_primaryFun(' + _data[i].coco_id + ')"><i class="glyphicon glyphicon-thumbs-up green" style="float:right; margin-right:10px;"></i></a>';
+				};
+				var contactlist='<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
+                                    '<div class="databox radius-bordered databox-shadowed databox-graded" style="margin-bottom: 10px; height: auto;'+_htmlFirstStyle+'">'+
+                                        '<div class="databox-right" style="width: 100%; height: auto;">'+
+                                            '<div class="databox-text">'+
+                                        		'<a href="javascript:void(0);" onclick="_deleteContactFun(' + _data[i].coco_id + ')"><i class="glyphicon glyphicon-remove orange" style="float:right;"></i></a>'+
+                                        		'<a href="crmcompanycontactadd.html?action=modify&Id='+_data[i].coco_id +'"><i class="glyphicon glyphicon-cog blue" style="float:right; margin-right:10px;"></i></a>'+_htmlFirst+
+                                            	'<strong><span style="font-size: 14px;">'+_data[i].coco_name+'</span></strong> <span>'+_data[i].coco_position+'</span></div>'+
+                                                '<div class="databox-text"><i class="stat-icon icon-xlg fa fa-phone" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_phone+'</i>' +
+                                                '<i class="stat-icon icon-xlg fa fa-envelope" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_email+'</i> '+
+                                            '</div>'+_htmlSkype+_htmlWhatsapp+_htmlFacebook+_htmlLinkedin+_htmlQq+                                                
+                                        '</div>'+
+                                    '</div>'+
+                                '</div>'
+						$(".companyPersons").prepend(contactlist)
+			}
+		}
+	
+	}, function(err) {
+		console.log(err)
+	}, 2000)
+}
 /**
  * 删除
  * @param id
@@ -545,8 +602,10 @@ function _editDemandFun(fId) {
 		var _data = data.Data
 		$("#inputProduct").val(_data.dema_product);
 		$("#e1").val(_data.dema_incoterm).trigger("change")
-		$("#e2").val(_data.dema_port1).trigger("change")
-		$("#e3").val(_data.dema_port2).trigger("change")
+		$('#e2').html('<option value="' + _data.dema_port1 + '">' + _data.dema_port1 + '</option>').trigger("change")
+		$('#e3').html('<option value="' + _data.dema_port2 + '">' + _data.dema_port2 + '</option>').trigger("change")
+		// $("#e2").val(_data.dema_port1).trigger("change")
+		// $("#e3").val(_data.dema_port2).trigger("change")
 		$("#e4").val(_data.dema_movement).trigger("change")
 		
 		$('#send00').show()
@@ -608,72 +667,72 @@ $('#send00').on('click', function() {
 //提单管理
 function GetBill() {
 	console.log(userCompanyId)
-//	var table1 = $("#Bill").dataTable({
-//		//"iDisplayLength":10,
-//		"sAjaxSource": dataUrl+'ajax/crmcompanybill.ashx?action=read&actionId='+companyID+'&companyId='+userCompanyId,
-////		'bPaginate': true,
-////		"bDestory": true,
-////		"bRetrieve": true,
-////		"bFilter": false,
-//		"bAutoWidth":false,
-//		"bSort": false,
-//		"aaSorting": [[ 0, "desc" ]],
-////		"bProcessing": true,
-//		"aoColumns": [
-////			{ "mDataProp": "cobi_name"},
-//			{ "mDataProp": "cobi_typeName" },
-//			{
-//				"mDataProp": "cobi_content"
-////				"createdCell": function (td, cellData, rowData, row, col) {
-////					$(td).html(HtmlEncode(rowData.cobi_content));
-////				}			
-//			},
-//			{
-//				"mDataProp": "cobi_updateTime",
+	var table1 = $("#Bill").dataTable({
+		//"iDisplayLength":10,
+		"sAjaxSource": dataUrl+'ajax/crmcompanybill.ashx?action=read&actionId='+companyID+'&companyId='+userCompanyId,
+//		'bPaginate': true,
+//		"bDestory": true,
+//		"bRetrieve": true,
+//		"bFilter": false,
+		"bAutoWidth":false,
+		"bSort": false,
+		"aaSorting": [[ 2, "desc" ]],
+//		"bProcessing": true,
+		"aoColumns": [
+//			{ "mDataProp": "cobi_name"},
+			{ "mDataProp": "cobi_typeName" },
+			{
+				"mDataProp": "cobi_content"
 //				"createdCell": function (td, cellData, rowData, row, col) {
-//					$(td).html(rowData.cobi_updateTime.substring(0, 10));
+//					$(td).html(HtmlEncode(rowData.cobi_content));
 //				}			
-//			},					
-//			{
-//				"mDataProp": "cobi_id",
-//				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-//					$(nTd).html("<a href='javascript:void(0);' " +
-//								"onclick='_editBillFun(\"" + oData.cobi_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-//						.append("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>")
-//
-//				}
-//			},
-//		],
-////		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
-////		"sPaginationType": "bootstrap",
-//		"oLanguage": {
-////			"sUrl": "js/zh-CN.txt"
-////			"sSearch": "快速过滤："
-//			"sProcessing": "正在加载数据，请稍后...",
-//			"sLengthMenu": "每页显示 _MENU_ 条记录",
-//			"sZeroRecords": get_lan('nodata'),
-//			"sEmptyTable": "表中无数据存在！",
-//			"sInfo": get_lan('page'),
-//			"sInfoEmpty": "显示0到0条记录",
-//			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
-//			//"sInfoPostFix": "",
-//			"sSearch": get_lan('search'),
-//			//"sUrl": "",
-//			//"sLoadingRecords": "载入中...",
-//			//"sInfoThousands": ",",
-//			"oPaginate": {
-//				"sFirst": get_lan('first'),
-//				"sPrevious": get_lan('previous'),
-//				"sNext": get_lan('next'),
-//				"sLast": get_lan('last'),
-//			}
-//			//"oAria": {
-//			//    "sSortAscending": ": 以升序排列此列",
-//			//    "sSortDescending": ": 以降序排列此列"
-//			//}
-//		}	
-//	});
-//	return table1;
+			},
+			{
+				"mDataProp": "cobi_updateTime",
+				"createdCell": function (td, cellData, rowData, row, col) {
+					$(td).html(rowData.cobi_updateTime.substring(0, 10));
+				}			
+			},					
+			{
+				"mDataProp": "cobi_id",
+				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
+					$(nTd).html("<a href='javascript:void(0);' " +
+								"onclick='_editBillFun(\"" + oData.cobi_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+						.append("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>")
+
+				}
+			},
+		],
+//		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+//		"sPaginationType": "bootstrap",
+		"oLanguage": {
+//			"sUrl": "js/zh-CN.txt"
+//			"sSearch": "快速过滤："
+			"sProcessing": "正在加载数据，请稍后...",
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": get_lan('nodata'),
+			"sEmptyTable": "表中无数据存在！",
+			"sInfo": get_lan('page'),
+			"sInfoEmpty": "显示0到0条记录",
+			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+			//"sInfoPostFix": "",
+			"sSearch": get_lan('search'),
+			//"sUrl": "",
+			//"sLoadingRecords": "载入中...",
+			//"sInfoThousands": ",",
+			"oPaginate": {
+				"sFirst": get_lan('first'),
+				"sPrevious": get_lan('previous'),
+				"sNext": get_lan('next'),
+				"sLast": get_lan('last'),
+			}
+			//"oAria": {
+			//    "sSortAscending": ": 以升序排列此列",
+			//    "sSortDescending": ": 以降序排列此列"
+			//}
+		}	
+	});
+	return table1;
 }
 
 /**
@@ -758,7 +817,6 @@ function _editBillFun(fId) {
 	common.ajax_req("get", true, dataUrl, "crmcompanybill.ashx?action=readbyid", {
 		"Id": fId
 	}, function(data) {
-		//console.log(data.Data)
 		//初始化信息
 		var _data = data.Data
 		//$("#inputBillName").val(_data.cobi_name);
@@ -808,20 +866,60 @@ $('#send22').on('click', function() {
 });
 
 
+$(function(){
 //港口
-common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readport', {'companyId':companyID}, function(data) {
-	var _data = data.data;
-	for(var i = 0; i < _data.length; i++) {
-		var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
-		$('#e2').append(_html)
-		$('#e3').append(_html)
-	}
+$("#e2,#e3").select2({
+	ajax: {
+		url: dataUrl+"ajax/publicdata.ashx?action=readport&companyId="+companyID,
+		dataType: 'json',
+		delay: 250,
+		data: function(params) {
+			params.offset = 10; //显示十条 
+			params.page = params.page || 1; //页码 
+			return {
+				q: params.term,
+				page: params.page,
+				offset: params.offset
+			};
+		},
+		cache: true,
+		/* *@params res 返回值 *@params params 参数 */
+		processResults: function(res, params) {
+			var users = res.data;
+			var options = [];
+			for(var i = 0, len = users.length; i < len; i++) {
+				var option = {
+					"id": users[i]["puda_name_en"],
+					"text": users[i]["puda_name_en"]
+				};
+				options.push(option);
+			}
+			return {
+				results: options,
+				pagination: {
+					more: (params.page * params.offset) < res.total
+				}
+			};
+		}
+	},
+	placeholder: '请选择', //默认文字提示
+	language: "zh-CN",
+	tags: true, //允许手动添加
+	selectOnClose: true, //自动选择最匹配的那个数据
+	//allowClear: true, //允许清空
+	//minimumResultsForSearch: 1,
+	//minimumInputLength: 3,
 
-//	console.log(_data)
-}, function(error) {
-	//console.log(parm)
-}, 10000)
-
+	escapeMarkup: function(markup) {
+		return markup;
+	}, // 自定义格式化防止xss注入
+	formatResult: function formatRepo(repo) {
+		return repo.text;
+	}, // 函数用来渲染结果
+	formatSelection: function formatRepoSelection(repo) {
+		return repo.text;
+	} // 函数用于呈现当前的选择
+});
 
 //港口
 common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {'typeId':3,'companyId':companyID}, function(data) {
@@ -845,6 +943,8 @@ common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {'t
 	console.log(parm)
 }, 10000)
 
+
+
 /*
 add this plug in
 // you can call the below function to reload the table with current state
@@ -867,23 +967,16 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings) {
 		that.oApi._fnProcessingDisplay(oSettings, false);
 	});
 }
-
+});
 
 function initBlListTable() {   //这里加一个相关的订单，但是还不知道如何查询这些订单是相关的公司的 20190816 by daniel
     var ajaxUrlBl,tableTitleBl,columnsBl
-    //console.log(userCompanyId)
-    	ajaxUrlBl=dataUrl+'ajax/booking.ashx?action=read&crmId='+userCompanyId
-    	tableTitleBl='<th>订单号</th><th>客户名称</th><th>运输方式</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>货量</th><th>订舱时间</th><th>离港时间</th><th>财务状况</th><th>状态</th><th>操作</th>'
+    	ajaxUrlBl=dataUrl+'ajax/booking.ashx?action=read&fromId=1&companyId='+userCompanyId+'&crmId='+companyID;
+    	tableTitleBl='<th>订舱委托号</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>货量</th><th>订舱时间</th><th>离港时间</th><th>状态</th>'
     	$('#tableTitleBl').html(tableTitleBl)
     	columnsBl = [
     		{
-    			"mDataProp": "book_orderCode"
-    		},
-    		{
-    			"mDataProp": "comp_name2"
-    		},
-    		{
-    			"mDataProp": "book_movementType"
+    			"mDataProp": "book_code"
     		},
     		{
     			"mDataProp": "book_port1",
@@ -930,28 +1023,33 @@ function initBlListTable() {   //这里加一个相关的订单，但是还不�
     					$(td).html("NULL");
     				}
     			}
-    		},
+    		}, 		
     		{
-    			"mDataProp": "book_id",
-    			"createdCell": function(td, cellData, rowData, row, col) {
-    				$(td).html("NULL");
-    			}    			
-    		},    		
-    		{
-    			"mDataProp": "orderstate_name_cn"
+    			"mDataProp": "state_name_cn"
     		},
-			{
-				"mDataProp": "book_id",
-				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
-                    +"<ul class='dropdown-menu dropdown-azure'>"
-                    +"<li><a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a></li>"
-                    +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
-                    +"</ul></div>")
-					// $(td).html("<a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")	
-					// .append("<a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a>")						
-				}
-			},    		
+			// {
+			// 	"mDataProp": "book_id",
+			// 	"createdCell": function (td, cellData, rowData, row, col) {
+			// 		// $(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+   //   //                +"<ul class='dropdown-menu dropdown-azure'>"
+   //   //                +"<li><a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a></li>"
+   //   //                +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
+   //   //                +"</ul></div>")
+			// 		// $(td).html("<a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")	
+			// 		// .append("<a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a>")						
+   //                  $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
+
+   //                      var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
+   //                      +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+   //                      +"<ul class='dropdown-menu dropdown-azure'>"
+   //                      +"<li><a href='orderfee.html?Id=" + cellData + "'>财务状况</a></li>"
+   //                      +"</ul></div>"                        
+
+   //                      return (_thisHtml);
+
+   //                  })
+			// 	}
+			// }, 		
     	]
     
 	var tableBl = $("#blpanel_list").dataTable({
@@ -962,10 +1060,10 @@ function initBlListTable() {   //这里加一个相关的订单，但是还不�
 //		"bRetrieve": true,
 //		"bFilter": false,
 		"bLengthChange":false,
-        "aaSorting": [[0, 'desc']],
+        "aaSorting": [[3, 'desc']],
         "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
-            {"bSortable": false, "aTargets": [4,7,8,9]}
+            {"bSortable": false, "aTargets": [1,2,4,5]}
         ],
 //		"bSort": true,
 //		"aaSorting": [[ 9, "desc" ]],
@@ -1000,6 +1098,21 @@ function initBlListTable() {   //这里加一个相关的订单，但是还不�
 			//}
 		}
 	});
-    
+    setTimeout(function () {
+     	var _dataTable = $('#blpanel_list').DataTable();
+		var info = _dataTable.page.info();
+		var dataRows = info.recordsTotal; 
+		$("#bookingSum").text(dataRows);
+	}, 2000);
 	return tableBl;
+}
+//获取订单的数量，暂时还获取不了。 by daniel 20191028
+function getOrderSum(){
+	common.ajax_req('GET', true, dataUrl, 'booking.ashx?action=read', {'companyId':companyID,'crmId':userCompanyId}, function(data) {
+		var _data = data.data;
+		//console.log(userCompanyId);
+		$("#orderSum").text(_data.length);
+	}, function(error) {
+		console.log(parm)
+	}, 1000)
 }

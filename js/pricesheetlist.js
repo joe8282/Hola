@@ -51,9 +51,9 @@ function initTable() {
 			{ "mDataProp": "prsh_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
 					var p20gp="", p40gp="", p40hq="", pCbm="", pKgs="", pCtns="";
-					(rowData.prsh_20GP=="")?(p20gp=""):(p20gp='<span class="badge badge-primary badge-square">'+rowData.prsh_20GP+" * 20GP</span> ");
-					(rowData.prsh_40GP=="")?(p40gp=""):(p40gp='<span class="badge badge-primary badge-square">'+rowData.prsh_40GP+" * 40GP</span> ");
-					(rowData.prsh_40HQ=="")?(p40hq=""):(p40hq='<span class="badge badge-primary badge-square">'+rowData.prsh_40HQ+" * 40HQ</span> ");
+					(rowData.prsh_20GP.split("*")[0])?(p20gp='<span class="badge badge-primary badge-square">'+rowData.prsh_20GP+"</span> "):(p20gp="");
+					(rowData.prsh_40GP.split("*")[0])?(p40gp='<span class="badge badge-primary badge-square">'+rowData.prsh_40GP+"</span> "):(p40gp="");
+					(rowData.prsh_40HQ.split("*")[0])?(p40hq='<span class="badge badge-primary badge-square">'+rowData.prsh_40HQ+"</span> "):(p40hq="");
 					(rowData.prsh_CBM=="")?(pCbm=""):(pCbm='<span class="badge badge-primary badge-square">'+rowData.prsh_CBM+" CBM</span> ");
 					(rowData.prsh_KGS=="")?(pKgs=""):(pKgs='<span class="badge badge-primary badge-square">'+rowData.prsh_KGS+" KGS</span> ");
 					(rowData.prsh_CTNS=="")?(pCtns=""):(pCtns='<span class="badge badge-primary badge-square">'+rowData.prsh_CTNS+" CTNS</span> ");

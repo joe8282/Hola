@@ -466,7 +466,7 @@ function initTable() {
 			});
 		},
 		"fnInitComplete": function(oSettings, json) {
-			$('<a href="#myModal" id="addFun" class="btn btn-primary" data-toggle="modal">'+get_lan('new')+'</a>').appendTo($('.myBtnBox'));
+			$('<a href="#myModal" id="addFun" class="label label-primary tooltip-darkorange" data-toggle="modal"><i class="fa fa-plus-circle"></i></a>').appendTo($('.header-buttons'));
 //				'<a href="#" class="btn btn-primary" id="editFun">修改</a> ' + '&nbsp;' +
 //				'<a href="#" class="btn btn-danger" id="deleteFun">'+get_lan('delete')+'</a>' + '&nbsp;')
 

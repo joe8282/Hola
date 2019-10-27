@@ -37,7 +37,12 @@ function initTable() {
 //		"bFilter": false,
 		"bLengthChange":false,
 //		"bSort": true,
-		"aaSorting": [[ 6, "desc" ]],
+		//"aaSorting": [[ 6, "desc" ]],
+        "aaSorting": [[6, 'desc']],
+        "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
+            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+            {"bSortable": false, "aTargets": [0,1,2,3,7]}
+        ],
 //		"bProcessing": true,
 		"aoColumns": [
 			{ "mDataProp": "code_code"},
@@ -73,10 +78,19 @@ function initTable() {
 			{
 				"mDataProp": "code_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html("<a href='usercompanydepartmentadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
+					// $(td).html("<a href='usercompanydepartmentadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+					// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
 						//.append("<a href='crmcompanyadd.html?action=modify&Id="+sData +"'>" + get_lan('follow') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 //						.append("<a href='usercompanyadd.html?action=pw&uId="+rowData.comp_adminId +"'>" + get_lan('admin') + "</a>");
+                    $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
+
+                        var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='usercompanydepartmentadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
+                        +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+                        +"<ul class='dropdown-menu dropdown-azure'>"
+                        +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        +"</ul></div>"                        
+                        return (_thisHtml);
+					})
 				}
 			},
 		],

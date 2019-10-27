@@ -142,6 +142,14 @@ Purchase: http://wrapbootstrap.com
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->    
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Warning</strong> 
+                    <p>1，设定两道验证是否存在相同公司的条件，第一个是公司名称是否已经存在；第二个是联系人邮箱的@后面的是否已经存在，如果已经存在，就提醒，暂时不让添加。</p>
+                </div>   
                 <!-- Page Body -->
                 <div class="page-body">
                 	<div class="widget">
@@ -151,14 +159,21 @@ Purchase: http://wrapbootstrap.com
                 		<div class="widget-body">
                 			<div id="horizontal-form">
                 				<form class="form-horizontal" role="form">
-                					<div class="form-group">
-                						<label for="inputEmail3" class="col-sm-2 control-label no-padding-right">公司名称 <sup>*</sup></label>
-                						<div class="col-sm-10">
-                							<input type="email" class="form-control" id="inputCompanyName" placeholder="公司名称" style="float:left;width: 80%;">
-                                            <input type="email" class="form-control" id="inputCompanyCode" placeholder="公司代码" style="float: right;width: 20%;">
-                							<!--<p class="help-block">Example block-level help text here.</p>-->
-                						</div>
-                					</div>
+                                    <div class="form-group">
+                                        <label for="inputCompanyName" class="col-sm-2 control-label no-padding-right">公司名称 <sup>*</sup></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="inputCompanyName" placeholder="公司名称" style="float:left;width: 80%;">
+                                            <input type="text" class="form-control" id="inputCompanyCode" placeholder="公司代码" style="float: right;width: 20%;">
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label no-padding-right">跟进业务员 <sup>*</sup></label>
+                                        <div class="col-sm-10">
+                                            <select id="sellId" style="width:70%;">
+                                            </select>
+                                        </div>
+                                    </div>
                 					<div class="form-group">
                 						<label for="inputPassword3" class="col-sm-2 control-label no-padding-right">公司简介 <sup>*</sup></label>
                 						<div class="col-sm-10">
@@ -185,40 +200,6 @@ Purchase: http://wrapbootstrap.com
                 						<label for="inputPassword3" class="col-sm-2 control-label no-padding-right">公司类型 <sup>*</sup></label>
                 						<div class="col-sm-10">
                 							<div class="radio" id="companyType" style="padding-left: -20px;">
-                								<!--<label>
-                							            <input name="radio2" type="radio" value="OVERSEA AGENT" checked="checked">
-                							            <span>OVERSEA AGENT </span>
-                							    </label>
-                							    &nbsp;&nbsp;&nbsp;&nbsp;
-                								<label>
-                							            <input name="radio2" type="radio" value="TRADER">
-                							            <span>TRADER </span>
-                							    </label>
-                							    &nbsp;&nbsp;&nbsp;&nbsp;
-                								<label>
-                							            <input name="radio2" type="radio" value="AIR LINE">
-                							            <span>AIR LINE </span>
-                							    </label>
-                							    &nbsp;&nbsp;&nbsp;&nbsp;
-                								<label>
-                							            <input name="radio2" type="radio" value="CARRIER">
-                							            <span>CARRIER </span>
-                							    </label>
-                							    &nbsp;&nbsp;&nbsp;&nbsp;
-                								<label>
-                							            <input name="radio2" type="radio" value="BUYER">
-                							            <span>BUYER </span>
-                							    </label>
-                							    &nbsp;&nbsp;&nbsp;&nbsp;
-                								<label>
-                							            <input name="radio2" type="radio" value="LOCAL FORWARDER">
-                							            <span>LOCAL FORWARDER </span>
-                							    </label> 
-                							    &nbsp;&nbsp;&nbsp;&nbsp;
-                								<label>
-                							            <input name="radio2" type="radio" value="FACTORY">
-                							            <span>FACTORY </span>
-                							    </label>                							    -->
                 							</div>
                 						</div>
                 					</div>

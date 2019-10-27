@@ -212,6 +212,9 @@ Purchase: http://wrapbootstrap.com
                         <a class="fullscreen" id="fullscreen-toggler" href="#">
                             <i class="glyphicon glyphicon-fullscreen"></i>
                         </a>
+                        <a class="label label-primary tooltip-darkorange" id="addFun" data-toggle="modal">
+                            <i class="fa fa-plus-circle"></i>
+                        </a>
                         <a class="label label-primary" id="user-all" href="#">
                             <i class="fa fa-users tooltip-darkorange" data-toggle='tooltip' data-placement='bottom' data-original-title='Show all data'></i>
                         </a>
@@ -221,6 +224,16 @@ Purchase: http://wrapbootstrap.com
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->    
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Warning</strong> 
+                    <p>1，增加分别显示我自己的数据，以及显示全部的数据（权限设定）</p>
+                    <p>2，权限增加普通职员只可以修改自己的，如果该职员离职后，部门得负责人可以修改该职员的</p>
+                    <p>3，国家无法显示</p>
+                </div>   
                 <!-- Page Body -->
                 <div class="page-body">
                 	<div class="widget">
@@ -258,8 +271,8 @@ Purchase: http://wrapbootstrap.com
                 						<th>电话</th>
                 						<th>邮箱</th>
                 						<th>国家</th>                						
-                						<th>最近跟进</th>
-                						<th>更新时间</th>
+                						<th>最近跟进/新增时间</th>
+                						<!--th>更新时间</th-->
                 						<th>操作</th>                						
                 					</tr>
                 				</thead>
@@ -272,7 +285,7 @@ Purchase: http://wrapbootstrap.com
                 						<th>邮箱</th>
                 						<th>国家</th>                						
                 						<th>最近跟进</th>
-                						<th>更新时间</th>
+                						<!--th>更新时间</th-->
                 						<th></th>  
 						            </tr>
 						        </tfoot>                	

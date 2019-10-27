@@ -37,9 +37,14 @@ function initTable() {
 //		"bDestory": true,
 //		"bRetrieve": true,
 //		"bFilter": false,
-		"bLengthChange":false,
-		"bSort": true,
-		"aaSorting": [[ 0, "desc" ]],
+		"bLengthChange":true,
+		//"bSort": true,
+		//"aaSorting": [[ 0, "desc" ]],
+        "aaSorting": [[9, 'desc']],
+        "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
+            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+            {"bSortable": false, "aTargets": [0,1,2,3,4,5,6,10]}
+        ],
 //		"bProcessing": true,
 		"aoColumns": [
 			{ "mDataProp": "usin_code"},
@@ -78,11 +83,22 @@ function initTable() {
 			{
 				"mDataProp": "usin_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html("<a href='userinfoadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>")
-						//.append("<a href='crmcompanyadd.html?action=modify&Id="+sData +"'>" + get_lan('follow') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						.append("<a href='userinfoadd.html?action=pw&Id="+cellData +"'>" + get_lan('admin') + "</a>");
-				}
+					// $(td).html("<a href='userinfoadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+					// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>")
+					// 	//.append("<a href='crmcompanyadd.html?action=modify&Id="+sData +"'>" + get_lan('follow') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+					// 	.append("<a href='userinfoadd.html?action=pw&Id="+cellData +"'>" + get_lan('admin') + "</a>");
+
+                    $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
+
+                        var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='userinfoadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
+                        +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+                        +"<ul class='dropdown-menu dropdown-azure'>"
+                        +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        +"<li><a href='userinfoadd.html?action=pw&Id="+cellData +"'>" + get_lan('admin') + "</a></li>"
+                        +"</ul></div>"                        
+                        return (_thisHtml);
+					})
+                }
 			},
 		],
 //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
