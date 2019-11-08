@@ -42,7 +42,9 @@ Purchase: http://wrapbootstrap.com
 	<style>
 		.widget{margin-bottom: 10px;}
         .select2-container{float: left; margin-right: 10px; }
-        .select2-container--default .select2-selection--single{border-radius: 0px; height: 34px;border: 1px solid #ccc;}
+        .select2-container--default .select2-selection--single{border-radius: 0px; height: 24px;border: 1px solid #ccc; font-size: 11px; padding: 0;}
+        select{height: 24px; line-height: 24px; font-size: 11px; padding: 0;}
+        label{height: 24px; }
 	</style>    
 </head>
 <!-- /Head -->
@@ -148,20 +150,52 @@ Purchase: http://wrapbootstrap.com
                         </a>
                     </div>
                 </div>
-                <!-- /Page Breadcrumb -->    
+                <!-- /Page Breadcrumb -->   
+                <div class="alert alert-warning fade in">
+                    <button class="close" data-dismiss="alert">
+                        ×
+                    </button>
+                    <i class="fa-fw fa fa-warning"></i>
+                    <strong>Warning</strong> 
+                    <p>1，添加拖车报关信息，添加仓库信息，费用信息三个功能还不能使用</p>
+                    <p>2，当未选择客人的时候，以上三大功能应该不能使用才对。——已解决</p>
+                </div>    
                 <!-- Page Header -->
-                <div class="page-header position-relative">
-                    <div class="header-title">
-                        <h1>
-                            <span id="title2">新增联系单</span>
-                            <!--<small>
-                                <i class="fa fa-angle-right"></i>
-                                <span id="title3">公司名称</span>
-                            </small>-->
-                         
-                        </h1>
+                <div class="page-header position-relative" style="padding-top: 5px;">
+                    <div class="header-title col-sm-8" style="padding-top: 3px;">
+                        <div id="crm">
+                            <div>
+                                <div id="horizontal-form">
+                                    <div class="form-horizontal" role="form">
+                                        <div class="form-group">
+                                            <label class="col-sm-1 control-label">委托人</label>
+                                            <div class="col-sm-3">
+                                                <select id="crmuser" style="width:100%;">
+                                                    <option value="">选择委托人</option>
+                                                </select>
+                                            </div>
+                                            <label for="" class="col-sm-1 control-label">联系人</label>
+                                            <div class="col-sm-2">
+                                                <select id="crmcontact" style="width:100%;">
+                                                    <option value="0">选择联系人</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <select id="incoterm">
+                                                    <!--<option value=""></option>-->
+                                                </select>
+                                            </div>
+                                            <label for="" class="col-sm-1 control-label">参考号</label>
+                                            <div class="col-sm-2">
+                                                <input type="text" class="form-control input-xs" id="outCode">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="float: right;margin-right: 20px; padding-top: 5px;">                   
+                    <div class="col-sm-4" style="text-align: right;">                   
 	                    <select id="sellId" style="height: 30px;">
 	                    	<option value="0">请选择销售人员</option>
 	                    </select>
@@ -179,38 +213,6 @@ Purchase: http://wrapbootstrap.com
                 <!-- /Page Header -->                
                 <!-- Page Body -->
                 <div class="page-body">
-                    <div class="widget" id="crm">
-                    	<div class="widget-body">
-                    		<div id="horizontal-form">
-                    			<div class="form-horizontal" role="form">
-                    				<div class="form-group">
-                    					<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">委托人</label>
-                    					<div class="col-sm-3">
-                    						<select id="crmuser" style="width:100%;">
-                    							<option value="">选择委托人</option>
-                    						</select>
-                    					</div>
-                    					<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">联系人</label>
-                    					<div class="col-sm-2">
-                    						<select id="crmcontact" style="width:100%;">
-                    							<option value="0">选择联系人</option>
-                    						</select>
-                    					</div>
-                    					<label for="inputPassword3" class="col-sm-1 control-label"> — </label>
-                    					<div class="col-sm-1">
-                    						<select id="incoterm">
-                    							<!--<option value=""></option>-->
-                    						</select>
-                    					</div>
-                    					<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">参考号</label>
-                    					<div class="col-sm-2">
-                    						<input type="email" class="form-control" id="outCode">
-                    					</div>
-                    				</div>
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>
 					<div class="widget" id="crmhead">
 						<div class="widget-header bordered-left bordered-darkorange">
 							<span class="widget-caption"><input type="checkbox" class="inverted" id="iscrm"> 供应商/指定联系公司信息【当提交该订舱委托书时，我们将尽快联系指定联系公司，系统将自动发邮件给相关邮箱。】</span>
@@ -218,24 +220,23 @@ Purchase: http://wrapbootstrap.com
 						<div class="widget-body none" id="crmlist">
 							<div id="horizontal-form">
 								<div class="form-horizontal" role="form">
-									<div class="form-group crmlist">
-										<!--<input type="checkbox" name="crmli" class="margin-left-40" value="1"> 公司名称1 联系人
-						                					<input type="checkbox" name="crmli" class="margin-left-40" value="2"> 公司名称2 联系人
-						                					<input type="checkbox" name="crmli" class="margin-left-40" value="3"> 公司名称3 联系人-->
-									</div>
+                                    <table class="table table-striped table-hover table-bordered crmlist" cellspacing="0" width="100%" id="example"></table>
+                                    <hr class="wide">
+									<!--div class="form-group crmlist">
+									</div-->
 									<div class="form-group">
-										<label for="inputPassword3" class="col-sm-2 control-label no-padding-right">新增供应商/联系公司</label>
+										<label for="" class="col-sm-2 control-label no-padding-right">新增供应商/联系公司</label>
 										<div class="col-sm-3">
-											<input type="email" class="form-control" id="companyName" placeholder="公司名称">
+											<input type="text" class="form-control input-xs" id="companyName" placeholder="公司名称">
 										</div>
 										<div class="col-sm-2">
-											<input type="email" class="form-control" id="contact" placeholder="联系人">
+											<input type="text" class="form-control input-xs" id="contact" placeholder="联系人">
 										</div>
 										<div class="col-sm-2">
-											<input type="email" class="form-control" id="phone" placeholder="联系电话">
+											<input type="text" class="form-control input-xs" id="phone" placeholder="联系电话">
 										</div>
 										<div class="col-sm-2">
-											<input type="email" class="form-control" id="email" placeholder="邮箱">
+											<input type="text" class="form-control input-xs" id="email" placeholder="邮箱">
 										</div>
 										<div class="col-sm-1">
 											<button type="submit" id="send22" class="btn btn-default">添加</button>
@@ -272,13 +273,13 @@ Purchase: http://wrapbootstrap.com
 									</div>
 									<div class="form-group">
 										<div class="col-sm-4">
-											<textarea class="form-control" style="width:100%;" rows="5" id="inShipper"></textarea>
+											<textarea class="form-control" style="width:100%;" rows="4" id="inShipper"></textarea>
 										</div>
 										<div class="col-sm-4">
-											<textarea class="form-control" style="width:100%;" rows="5" id="inConsignee"></textarea>
+											<textarea class="form-control" style="width:100%;" rows="4" id="inConsignee"></textarea>
 										</div>
 										<div class="col-sm-4">
-											<textarea class="form-control" style="width:100%;" rows="5" id="inNotifyParty"></textarea>
+											<textarea class="form-control" style="width:100%;" rows="4" id="inNotifyParty"></textarea>
 										</div>
 									</div>
 								</div>
@@ -312,13 +313,13 @@ Purchase: http://wrapbootstrap.com
 									</div>
 									<div class="form-group">
 										<div class="col-sm-4">
-											<textarea class="form-control" style="width:100%;" rows="5" id="inShipper2"></textarea>
+											<textarea class="form-control" style="width:100%;" rows="4" id="inShipper2"></textarea>
 										</div>
 										<div class="col-sm-4">
-											<textarea class="form-control" style="width:100%;" rows="5" id="inConsignee2"></textarea>
+											<textarea class="form-control" style="width:100%;" rows="4" id="inConsignee2"></textarea>
 										</div>
 										<div class="col-sm-4">
-											<textarea class="form-control" style="width:100%;" rows="5" id="inNotifyParty2"></textarea>
+											<textarea class="form-control" style="width:100%;" rows="4" id="inNotifyParty2"></textarea>
 										</div>
 									</div>
 								</div>
@@ -329,159 +330,155 @@ Purchase: http://wrapbootstrap.com
                 		<div class="widget-header bordered-left bordered-darkorange" style="height: 45px;">
                 			<span class="widget-caption" style="line-height: 45px;">订单信息</span>
                 			<span class="widget-caption" style="margin-left: 20px;">
-	                			<select id="movementType" style="margin-top: 6px;">
+	                			<select id="movementType" style="margin-top: 6px; height: 30px;">
 	                				<!-- <option value=""></option>-->
 	                			</select>
                 			</span>
                 		</div>
                 		<div class="widget-body">
                 			<div id="horizontal-form">
-                				<div class="form-horizontal" role="form">
+                				<div class="form-horizontal" role="form" style="padding-right: 30px;">
                 					<div class="form-group" id="carrier1">
                 						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">收货人 </label>
                 						<div class="col-sm-11">
-                							<input type="email" class="form-control" id="inputConsignee" placeholder="收货人">
+                							<input type="text" class="form-control input-xs" id="inputConsignee" placeholder="收货人">
                 						</div>
                 					</div>
                 					<div class="form-group" id="carrier2">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">承运人  <sup>*</sup></label>
-                						<div class="col-sm-3">
+                						<label for="" class="col-sm-1 control-label no-padding-right">承运人  <sup>*</sup></label>
+                						<div class="col-sm-2">
                 							<select id="carrier" style="width:100%;">
                 								<option value=""></option>
                 							</select>
                 						</div>
                 						<div id="carrier3">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">自定货  <sup>*</sup></label>
-                						<div class="col-sm-3">
+                						<label for="" class="col-sm-1 control-label no-padding-right">自定货  <sup>*</sup></label>
+                						<div class="col-sm-2">
                 							<select id="forwarder" style="width:100%;">
                 								<option value="0">请选择自定货</option>
                 							</select>
                 						</div>  
                 						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">合约号  <sup>*</sup></label>
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control" id="inputContractNo" placeholder="合约号">
+                                        <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">货好时间 </label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker input-xs" id="okTime" type="text" data-date-format="yyyy-mm-dd">
+                                                <span class="input-group-addon input-xs">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                						<label for="" class="col-sm-1 control-label no-padding-right">合约号  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<input type="text" class="form-control input-xs" id="inputContractNo" placeholder="合约号">
                 						</div>
                 					</div>    					
                 					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">起运港  <sup>*</sup></label>
-                						<div class="col-sm-3">
+                						<label for="" class="col-sm-1 control-label no-padding-right">起运港  <sup>*</sup></label>
+                						<div class="col-sm-2">
                 							<select id="port1" style="width:100%;">
                 								<option value=""></option>
                 							</select>             							
                 						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">提货地  <sup>*</sup></label>
-                						<div class="col-sm-7">
-                							<input type="email" class="form-control" id="fromAddress" placeholder="提货地">
-                						</div>               						
+                						<label for="" class="col-sm-1 control-label no-padding-right">提货地  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<input type="text" class="form-control input-xs" id="fromAddress" placeholder="提货地">
+                						</div>       
+                                        <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">截关日期 </label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker input-xs" id="okTrailerTime" type="text" data-date-format="yyyy-mm-dd">
+                                                <span class="input-group-addon input-xs">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>     
+                                        <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">包装  <sup>*</sup></label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control input-xs" id="packageNum" placeholder="0" style="width:45%;float: left;margin-right: 5%;">
+                                            <select id="package" style="width:50%;">
+                                                <!--<option value=""></option>-->
+                                            </select>
+                                        </div>   						
                 					</div>
                 					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">目的港  <sup>*</sup></label>
-                						<div class="col-sm-3">
+                						<label for="" class="col-sm-1 control-label no-padding-right">目的港  <sup>*</sup></label>
+                						<div class="col-sm-2">
                 							<select id="port2" style="width:100%;">
                 								<option value=""></option>
                 							</select>             							
                 						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">送货地  <sup>*</sup></label>
-                						<div class="col-sm-7">
-                							<input type="email" class="form-control" id="toAddress" placeholder="送货地">
-                						</div>               						
+                						<label for="" class="col-sm-1 control-label no-padding-right">送货地  <sup>*</sup></label>
+                						<div class="col-sm-2">
+                							<input type="text" class="form-control input-xs" id="toAddress" placeholder="送货地">
+                						</div>           
+                                        <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">截单日期 </label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker input-xs" id="okBillTime" type="text" data-date-format="yyyy-mm-dd">
+                                                <span class="input-group-addon input-xs">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>    
+                                        <label for="" class="col-sm-1 control-label no-padding-right">重量  <sup>*</sup></label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control input-xs" id="weightNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
+                                            <select id="weight" style="width:55%;">
+                                                <!--<option value=""></option>-->
+                                            </select>
+                                        </div>						
                 					</div>
                 					<div class="form-group" id="carrier4">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">卸货港  <sup>*</sup></label>
-                						<div class="col-sm-3">
+                						<label for="" class="col-sm-1 control-label no-padding-right">卸货港  <sup>*</sup></label>
+                						<div class="col-sm-2">
                 							<select id="port3" style="width:100%;">
                 								<option value=""></option>
                 							</select>             							
                 						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">航线编码  </label>
-                						<div class="col-sm-7">
-                							<input type="email" class="form-control" id="route" placeholder="航线编码">
-                						</div>               						
-                					</div>                					
-                					<div class="form-group">
-                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">货好时间 </label>
+                						<label for="" class="col-sm-1 control-label no-padding-right">航线编码  </label>
                 						<div class="col-sm-2">
-                							<div class="input-group">
-                								<input class="form-control date-picker" id="okTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon">
-                							        <i class="fa fa-calendar"></i>
-                							    </span>
-                							</div>
-                						</div>
-                						<div id="carrier5">
-                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">截关日期 </label>
-                						<div class="col-sm-2">
-                							<div class="input-group">
-                								<input class="form-control date-picker" id="okTrailerTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon">
-                							        <i class="fa fa-calendar"></i>
-                							    </span>
-                							</div>
-                						</div>
-                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">截单日期 </label>
-                						<div class="col-sm-2">
-                							<div class="input-group">
-                								<input class="form-control date-picker" id="okBillTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon">
-                							        <i class="fa fa-calendar"></i>
-                							    </span>
-                							</div>
-                						</div>
-                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">预离港日 </label>
-                						<div class="col-sm-2">
-                							<div class="input-group">
-                								<input class="form-control date-picker" id="okPortTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon">
-                							        <i class="fa fa-calendar"></i>
-                							    </span>
-                							</div>
-                						</div>                						
-                						</div>
-                					</div>
-                					<div class="form-group">
-                						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">包装  <sup>*</sup></label>
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control" id="packageNum" placeholder="0" style="width:45%;float: left;margin-right: 5%;">
-                							<select id="package" style="width:50%;">
-                								<!--<option value=""></option>-->
-                							</select>
-                						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">重量  <sup>*</sup></label>
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control" id="weightNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                							<select id="weight" style="width:55%;">
-                								<!--<option value=""></option>-->
-                							</select>
-                						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">体积  <sup>*</sup></label>
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control" id="volumeNum" placeholder="0.00" style="width:45%;float: left;margin-right: 5%;">
-                							<select id="volume" style="width:50%;">
-                								<!--<option value=""></option>-->
-                							</select>
-                						</div>                						
+                							<input type="text" class="form-control input-xs" id="route" placeholder="航线编码">
+                						</div>         
+                                        <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">预离港日 </label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker input-xs" id="okPortTime" type="text" data-date-format="yyyy-mm-dd">
+                                                <span class="input-group-addon input-xs">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>   
+                                        <label for="" class="col-sm-1 control-label no-padding-right">体积  <sup>*</sup></label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control input-xs" id="volumeNum" placeholder="0.00" style="width:45%;float: left;margin-right: 5%;">
+                                            <select id="volume" style="width:50%;">
+                                                <!--<option value=""></option>-->
+                                            </select>
+                                        </div>            						
                 					</div>
                 					<div class="form-group" id="Movement">
                 						<label for="inputEmail3" class="col-sm-1 control-label no-padding-right">货柜信息  <sup>*</sup></label>
                 						<div class="col-sm-1 no-margin-right no-padding-right">
-                							<input type="email" class="form-control" id="GP20" placeholder="0">
+                							<input type="text" class="form-control input-xs" id="GP20" placeholder="0">
                 						</div>
-                						<div class="col-sm-1 margin-right-40">
+                						<div class="col-sm-1">
 	                						<select id="20GP">
 	                							<!--<option value=""></option>-->
 	                						</select>
                 						</div>
+                                        <label class="col-sm-1 control-label no-padding-right"></label>
                 						<div class="col-sm-1 no-margin-right no-padding-right">
-                							<input type="email" class="form-control" id="GP40" placeholder="0">
+                							<input type="text" class="form-control input-xs" id="GP40" placeholder="0">
                 						</div>
-                						<div class="col-sm-1 margin-right-40">
+                						<div class="col-sm-1">
 	                						<select id="40GP">
 	                							<!--<option value=""></option>-->
 	                						</select>
                 						</div>
+                                        <label class="col-sm-1 control-label no-padding-right"></label>
                 						<div class="col-sm-1 no-margin-right no-padding-right">
-                							<input type="email" class="form-control" id="HQ40" placeholder="0">
+                							<input type="text" class="form-control input-xs" id="HQ40" placeholder="0">
                 						</div>
                 						<div class="col-sm-1">
 	                						<select id="40HQ">
@@ -490,14 +487,12 @@ Purchase: http://wrapbootstrap.com
                 						</div>                						
                 					</div>
                 					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">外包装唛头  <sup>*</sup></label>
-                						<div class="col-sm-11">
+                						<label for="" class="col-sm-1 control-label no-padding-right">外包装唛头  <sup>*</sup></label>
+                						<div class="col-sm-5">
                 							<textarea class="form-control" rows="3" id="packageMarks" placeholder="N/M"></textarea>
                 						</div>
-                					</div>
-                					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">货物描述  <sup>*</sup></label>
-                						<div class="col-sm-11">
+                						<label for="" class="col-sm-1 control-label no-padding-right">货物描述  <sup>*</sup></label>
+                						<div class="col-sm-5">
                 							<textarea class="form-control" rows="3" id="goodAbout" placeholder="货物描述"></textarea>
                 						</div>
                 					</div>                					
@@ -507,7 +502,7 @@ Purchase: http://wrapbootstrap.com
                 	</div>
                 	<div class="widget" id="trailerDiv">
                 		<div class="widget-header bordered-left bordered-darkorange">
-                			<span class="widget-caption"><input type="checkbox" class="inverted" id="istrailer"> 添加拖车报关信息</span>
+                			<span class="widget-caption"><input type="checkbox" class="inverted" id="istrailer" disabled="disabled"> 添加拖车报关信息</span>
                 		</div>
                 		<div class="widget-body none" id="trailerlist">
                 			<div id="horizontal-form">
@@ -519,26 +514,30 @@ Purchase: http://wrapbootstrap.com
                 							</select>
                 						</div>
                 						<div class="col-sm-5">
-                							<input type="email" class="form-control" style="width: 40%; float: left;" id="trailerAddress" placeholder="地址：">
-                							<input type="email" class="form-control" style="width: 30%; float: left;" id="trailerContact" placeholder="联系人：">
-                							<input type="email" class="form-control" style="width: 30%;" id="trailerContactWay" placeholder="联系方式：">
+                							<input type="text" class="form-control input-xs" style="width: 60%; float: left;" id="trailerAddress" placeholder="地址：">
+                							<input type="text" class="form-control input-xs" style="width: 20%; float: left;" id="trailerContact" placeholder="联系人：">
+                							<input type="text" class="form-control input-xs" style="width: 20%;" id="trailerContactWay" placeholder="联系方式：">
                 						</div>
-                						<div class="col-sm-2">
+                						<div class="col-sm-1" style="padding: 0;">
                 							<div class="input-group">
-                								<input class="form-control date-picker" id="trailerTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon">
+                								<input class="form-control input-xs" id="trailerTime" type="text" data-date-format="yyyy-mm-dd">
+                								<span class="input-group-addon input-xs">
                 							            <i class="fa fa-calendar"></i>
                 							    </span>
                 							</div>
                 						</div>                						
-                						<div class="col-sm-2">
-                							<input type="email" class="form-control" style="width: 40%; float: left;" id="trailerNum" placeholder="0">
-                							<select id="trailerNumUnit" class="form-control" style="width: 60%; float: left;" >
-                								<!--<option value=""></option>-->
-                							</select>
+                						<div class="col-sm-1" style="padding: 0; padding-left: 10px;">
+                                            <div class="input-group">
+                    							<input type="text" class="form-control input-xs" id="trailerNum" placeholder="0">
+                                                <span class="input-group-addon" style="padding:0;">
+                        							<select id="trailerNumUnit" class="input-xs" style="height: 20px;">
+                        								<!--<option value=""></option>-->
+                        							</select>
+                                                </span>
+                                            </div>
                 						</div>
                 						<div class="col-sm-1">                							
-                							<button type="submit" id="addTrailer" class="btn btn-default">添加</button>
+                							<button type="submit" id="addTrailer" class="btn btn-default input-xs">添加</button>
                 						</div>
                 					</div>
                 					<div class="form-group">
@@ -552,59 +551,51 @@ Purchase: http://wrapbootstrap.com
                 	</div>                	
                 	<div class="widget" id="warehouseDiv">
                 		<div class="widget-header bordered-left bordered-darkorange">
-                			<span class="widget-caption"><input type="checkbox" class="inverted" id="iswarehouse"> 添加仓库信息</span>
+                			<span class="widget-caption"><input type="checkbox" class="inverted" id="iswarehouse" disabled="disabled"> 添加仓库信息</span>
                 		</div>
                 		<div class="widget-body none" id="warehouselist">
                 			<div id="horizontal-form">
                 				<div class="form-horizontal" role="form">
                 					<div class="form-group">
-                						<div class="col-sm-3">
+                						<div class="col-sm-2">
                 							<select id="warehouse" style="width:100%;">
                 								<option value="0">请选择仓储</option>
                 							</select>
                 						</div>
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control" id="warehouseAddress" placeholder="地址：">
+                						<div class="col-sm-5">
+                							<input type="text" class="form-control input-xs" style="width: 60%; float: left;" id="warehouseAddress" placeholder="地址：">
+                							<input type="text" class="form-control input-xs" style="width: 20%; float: left;" id="warehouseContact" placeholder="联系人">
+                							<input type="text" class="form-control input-xs" style="width: 20%; float: left;" id="warehouseContactWay" placeholder="联系方式">
                 						</div>
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control" id="warehouseContact" placeholder="联系人">
+                						<div class="col-sm-1">
+                							<input type="text" class="form-control input-xs" id="warehouseInCode" placeholder="入仓号">
                 						</div>
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control" id="warehouseContactWay" placeholder="联系方式">
-                						</div>
-                					</div>
-                					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">入仓号  </label>
-                						<div class="col-sm-2">
-                							<input type="email" class="form-control" id="warehouseInCode" placeholder="">
-                						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">入仓时间  </label>
+                						<!--label for="" class="col-sm-1 control-label no-padding-right">入仓时间  </label-->
                 						<div class="col-sm-2">
                 							<div class="input-group">
-                								<input class="form-control date-picker" id="warehouseInTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon">
+                								<input class="form-control date-picker input-xs" id="warehouseInTime" type="text" data-date-format="yyyy-mm-dd">
+                								<span class="input-group-addon input-xs">
+                							            <i class="fa fa-calendar"></i>
+                							    </span>
+                                                <input class="form-control date-picker input-xs" id="warehouseOutTime" type="text" data-date-format="yyyy-mm-dd">
+                							</div>
+                						</div>
+                						<div class="col-sm-1">
+                							<input type="text" class="form-control input-xs" id="warehouseOutCode" placeholder="出仓号">
+                						</div>
+                						<!--label for="" class="col-sm-1 control-label no-padding-right">出仓时间  </label>
+                						<div class="col-sm-2">
+                							<div class="input-group">
+                								<input class="form-control date-picker input-xs" id="warehouseOutTime" type="text" data-date-format="yyyy-mm-dd">
+                								<span class="input-group-addon input-xs">
                 							            <i class="fa fa-calendar"></i>
                 							    </span>
                 							</div>
-                						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">出仓号  </label>
-                						<div class="col-sm-2">
-                							<input type="email" class="form-control" id="warehouseOutCode" placeholder="">
-                						</div>
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">出仓时间  </label>
-                						<div class="col-sm-2">
-                							<div class="input-group">
-                								<input class="form-control date-picker" id="warehouseOutTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon">
-                							            <i class="fa fa-calendar"></i>
-                							    </span>
-                							</div>
-                						</div>
+                						</div-->
                 					</div> 
                 					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">备注  </label>
                 						<div class="col-sm-11">
-                							<input type="email" class="form-control" id="warehouseBeizhu" placeholder="">
+                							<input type="text" class="form-control input-xs" id="warehouseBeizhu" placeholder="备注">
                 						</div>
                 					</div>                					
                 				</div>
@@ -613,43 +604,83 @@ Purchase: http://wrapbootstrap.com
                 	</div>
                 	<div class="widget">
                 		<div class="widget-header bordered-left bordered-darkorange">
-                			<span class="widget-caption">费用信息</span>
+                			<span class="widget-caption"><input type="checkbox" class="inverted" id="isfeeinfo" disabled="disabled"> 费用信息</span>
                 		</div>
-                		<div class="widget-body">
+                		<div class="widget-body none" id="feeinfolist">
                 			<div id="horizontal-form">
                 				<div class="form-horizontal" role="form">	
-                					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-2 control-label no-padding-right">新增运费计算  <sup>*</sup></label>               						
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <label class="margin-right-5 margin-left-5" style="width:10%; float: left;">类别</label>
+                                            <label class="margin-right-5" style="width:20%; float: left;">费用项目</label>
+                                            <label class="margin-right-5" style="width:20%; float: left; margin-right: 10px;">金额</label>
+                                            <label class="margin-right-5" style="width:20%; float: left; margin-right: 10px;">数量</label>
+                                            <label class="margin-right-5" style="width:20%; float: left;">备注</label>
+                                        </div>
+                                    </div>  
+                                    <div class="form-group feeAll">
+                                        <div id="feeAll_add">
+                                        <div class="col-sm-12 feeList" style="margin-bottom: 5px;">
+                                            <select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5 input-xs" disabled="disabled" style="width:10%; float: left;">
+                                                <option selected="selected" value="应收">应收</option><option value="应付">应付</option>
+                                            </select>
+                                            <select id="feeItem" class="no-padding-left no-padding-right margin-right-5 input-xs" style="width:20%;float: left;">
+                                                <option value="请选择">请选择</option>
+                                            </select>
+                                            <div class="input-group" style="width:20%;float: left; margin-right: 10px;">
+                                                <span class="input-group-addon input-xs" style="padding: 0 5px;">
+                                                    <select id="feeUnit" class="no-padding-left no-padding-right margin-right-5 input-xs" style="height: 22px; border: 0;">
+                                                        <option value="请选择">请选择</option>
+                                                    </select>
+                                                </span>
+                                                <input type="email" class="form-control input-xs margin-right-5" id="feePrice" placeholder="">
+                                            </div>
+                                            <div class="input-group" style="width:20%;float: left; margin-right: 10px;">
+                                                <input type="email" class="form-control input-xs margin-right-5" id="feeNum" placeholder="">
+                                                <span class="input-group-addon input-xs" style="padding: 0 5px;">
+                                                    <select id="numUnit" class="no-padding-left no-padding-right margin-right-5 input-xs" style="height: 22px; border: 0;">
+                                                        <option value="请选择">请选择</option>
+                                                    </select>
+                                                </span>
+                                            </div>
+                                            <input type="email" class="form-control input-xs margin-right-5" id="feeBeizhu" placeholder="" style="width:20%;float: left;">
+                                                    <a class="newFee btn btn-info input-xs"><i class="fa fa-plus-circle"></i></a> 
+                                                    <a class="removeFee btn btn-danger input-xs"><i class="fa fa-times-circle"></i></a>
+                                        </div>
+                                        </div>
+                                    </div>    
+                					<!--div class="form-group">
+                						<label for="" class="col-sm-2 control-label no-padding-right">新增运费计算  <sup>*</sup></label>               						
                 						<div class="col-sm-1 margin-right-20">
                 							<select id="feeType">
-                								<!--<option value=""></option>-->
+                								<option value=""></option>
                 							</select>
                 						</div>
                 						<div class="col-sm-1 margin-right-20">
                 							<select id="feeUnit">
-                								<!--<option value=""></option>-->
+                								<option value=""></option>
                 							</select>
                 						</div>
                 						<div class="col-sm-2 no-padding">
-                							<input type="email" class="form-control" id="fee"  placeholder="0">
+                							<input type="text" class="form-control input-xs" id="fee"  placeholder="0">
                 						</div>
                 						<div class="col-sm-1 text-align-center no-margin no-padding">
                 							<label class="control-label">*</label>
                 						</div>
                 						<div class="col-sm-1">
-                							<input type="email" class="form-control" id="num" placeholder="0">
+                							<input type="text" class="form-control input-xs" id="num" placeholder="0">
                 						</div>	
                 						<div class="col-sm-1 no-padding">
                 							<select id="numUnit">
-                								<!--<option value=""></option>-->
+                								<option value=""></option>
                 							</select>
                 						</div>
                 						<div class="col-sm-1">
                 							<button type="submit" id="send11"  class="btn btn-default">添加</button>
                 						</div>              						
-                					</div> 
+                					</div--> 
                 					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-2 control-label no-padding-right"></label>               						
+                						<label for="" class="col-sm-2 control-label no-padding-right"></label>               						
                 						<div class="col-sm-10" id="feelist">
                 							<!--<div style="margin: 5px 0px;">海运费：1000*2(20GP)=USA2000&nbsp;&nbsp;&nbsp;&nbsp;<a Id='deleteFee'>删除</a></div>-->
                 						</div>
@@ -664,7 +695,7 @@ Purchase: http://wrapbootstrap.com
                 				<div class="form-horizontal" role="form">
                 					<div class="form-group"></div>
                 					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-2 control-label no-padding-right">备注 </label>
+                						<label for="" class="col-sm-2 control-label no-padding-right">备注 </label>
                 						<div class="col-sm-10">
                 							<textarea class="form-control" rows="3" id="beizhu" placeholder="Content"></textarea>
                 						</div>                						
@@ -752,6 +783,11 @@ Purchase: http://wrapbootstrap.com
 			$("#okBillTime").val(getNewDay(formatTime(ev.date) ,2))
 			$("#okPortTime").val($("#okBillTime").val())
         }
+        $('#trailerTime').datepicker({
+            format : 'yyyy-mm-dd hh:ii:ss',
+            language: 'zh-CN',
+            autoclose : true
+        })
 		//时间格式化
 		function formatTime(date) {
 		  var year = date.getFullYear();

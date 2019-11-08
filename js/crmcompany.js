@@ -56,7 +56,7 @@ function initTable() {
 //		"bRetrieve": true,
 //		"bFilter": false,
 		"bSort": true,
-		"aaSorting": [[ 7, "desc" ]],
+		"aaSorting": [[ 6, "desc" ]],
 		"aoColumnDefs":[//设置列的属性，此处设置第一列不排序
             {"bSortable": false, "aTargets": [0,3,4,5,7]}
         ],

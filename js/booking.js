@@ -20,8 +20,7 @@ var fromId = '0';
 if(GetQueryString('fromId')!=null){
 	fromId=GetQueryString('fromId')
 	$('.book1').addClass("active")	
-}
-else{
+}else{
 	$('.book3').addClass("active")	
 }
 
@@ -97,12 +96,14 @@ function initTable(fromId) {
 			{
 				"mDataProp": "book_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					var stateText = ''
+					var stateText = '';
+					var pol=rowData.book_port1;
+					var pod=rowData.book_port2;
 					if(rowData.book_state == 1) {
-						$(td).parent().css("background-color","yellow")
-						$(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+						$(td).parent().find("td").css("background-color","#fdfdbf");
+						$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + ","+rowData.book_userId+",\""+pol+"\",\""+pod+"\")'>" + get_lan('con_top_5') + "</a>"
+	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='javascript:void(0);' onclick='_sureFun(" + cellData + ","+rowData.book_crmCompanyId+")'>" + get_lan('con_top_5') + "</a></li>"
 	                    +"<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a></li>"
 	                    //+"<li><a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a></li>"
 	                    +"<li class='divider'></li>"
@@ -113,9 +114,10 @@ function initTable(fromId) {
 						// 	.append("<a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
 					} else if(rowData.book_state == 2) {
-						$(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+						$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a>"
+	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a></li>"
+	                    +"<li></li>"
 	                    //+"<li><a href='bookingadd.html?action=modify&Id=" + cellData + "&fromId=1'> " + get_lan('edit') + "</a></li>"
 	                    //+"<li class='divider'></li>"
 	                    //+"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
@@ -123,15 +125,6 @@ function initTable(fromId) {
 						// $(td).html("<a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a><br/>")
 						// 	.append("<a href='bookingadd.html?action=modify&Id=" + cellData + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
-					} else{
-						$(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
-	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    //+"<li><a href='bookingadd.html?action=modify&Id=" + cellData + "&fromId=1'> " + get_lan('edit') + "</a></li>"
-	                    +"<li class='divider'></li>"
-	                    //+"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
-	                    +"</ul></div>")
-						// $(td).html("<a href='bookingadd.html?action=modify&Id=" + cellData + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")						
 					}
 				
 				}
@@ -205,7 +198,7 @@ function initTable(fromId) {
     		{
     			"mDataProp": "book_id",
     			"createdCell": function(td, cellData, rowData, row, col) {
-    				$(td).html("NULL");
+    				$(td).html("NULL"); //这里是财务状况，还没有任何的数添加到这里来，到时候这里估计要体现从其他函数过来的数。
     			}    			
     		},    		
     		{
@@ -214,17 +207,20 @@ function initTable(fromId) {
 			{
 				"mDataProp": "book_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+					$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
+	    			+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                     +"<ul class='dropdown-menu dropdown-azure'>"
-                    +"<li><a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a></li>"
                     +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
                     +"</ul></div>")
+					if(rowData.book_orderState == 12) {
+						$(td).parent().find("td").css("background-color","#fdfdbf");
+					} 
 					// $(td).html("<a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")	
 					// .append("<a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a>")						
 				}
 			},    		
     	],
-        aaaSorting=[[0, 'desc']],
+        aaaSorting=[[5, 'desc']],
         aaaColumDefs=[//设置列的属性，此处设置第一列不排序
             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
             {"bSortable": false, "aTargets": [4,7,8,9]}
@@ -241,10 +237,16 @@ function initTable(fromId) {
 		"bLengthChange":false,
         "aaSorting": aaaSorting,
         "aoColumnDefs": aaaColumDefs,
+
 //		"bSort": true,
 //		"aaSorting": [[ 9, "desc" ]],
 //		"bProcessing": true,
 		"aoColumns": columns,
+		// createdRow: function ( row, data, index ) { //针对修改行的一些样式。
+  //           //if ( index %2 == 0 ) {
+  //               $('td', row).css("background-color","yellow");
+  //           //}
+  //       },
 //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
 //		"sPaginationType": "bootstrap",
 		"oLanguage": {
@@ -283,7 +285,7 @@ function initTable(fromId) {
 /**
  * 确认订舱
  */
- function _sureFun(id,crmId) {
+ function _sureFun(id,crmId,pol,pod) {
  	$("#myModal2").modal("show");
  	$('#bookId').val(id)
  
@@ -293,48 +295,73 @@ function initTable(fromId) {
  	}, function(data) {
  		//console.log(data)
  		var _data = data.data;
+ 		$('#crmuser').empty();
  		if(_data != null) {
  			for(var i = 0; i < _data.length; i++) {
- 				var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
+ 				var _html = '<option value="' + _data[i].comp_id + '" data-crmId="'+_data[i].comp_customerId+'">' + _data[i].comp_name + '</option>';
  				$('#crmuser').append(_html)
  			}
  		}
  	}, function(err) {
  		console.log(err)
  	}, 2000)
- 	
+
+
  	$("#crmuser").val(crmId).trigger("change")
  	//获取委托人订单
  	common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
  		"companyId": companyID,
- 		"crmId": $("#crmuser").val()
+ 		// "crmId": $("#crmuser").val()
+ 		"crmId": $("#crmuser").find("option:selected").attr("data-crmId")
  	}, function(data) {
  		//console.log(data)
+ 		$('#orderLi').empty();
  		var _data = data.data;
  		if(_data != null) {
+			var _html2 = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
+			$('#orderLi').append(_html2)
  			for(var i = 0; i < _data.length; i++) {
- 				var _html = '<option value="' + _data[i].book_id + '">' + _data[i].book_orderCode + '</option>';
+ 				var _html = '<option value="' + _data[i].book_id + '" data-pol="'+_data[i].book_port1+'" data-pod="'+_data[i].book_port2+'">' + _data[i].book_orderCode +' ['+ _data[i].book_port1 +' — '+_data[i].book_port2+']</option>';
  				$('#orderLi').append(_html)
+ 				if(_data[i].book_port1==pol && _data[i].book_port2==pod){
+ 					$("#orderLi").find("option[value='"+_data[i].book_id+"']").attr("selected",true);
+ 				}else{
+ 					$("#orderLi").find("option[value='0']").attr("selected",true);
+ 				}
  			}
+ 		}else{
+			var _html = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
+			$('#orderLi').append(_html)
  		}
  	}, function(err) {
  		console.log(err)
  	}, 2000)
  	
  	$("#crmuser").change(function() {
- 		$('#orderLi').empty()
+ 		$('#orderLi').empty();
  		//获取委托人订单
  		common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
  			"companyId": companyID,
- 			"crmId": $("#crmuser").val()
+ 			// "crmId": $("#crmuser").val()
+ 			"crmId": $("#crmuser").find("option:selected").attr("data-crmId")
  		}, function(data) {
  			//console.log(data)
  			var _data = data.data;
  			if(_data != null) {
+				var _html2 = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
+				$('#orderLi').append(_html2)
  				for(var i = 0; i < _data.length; i++) {
- 					var _html = '<option value="' + _data[i].book_id + '">' + _data[i].book_orderCode + '</option>';
+ 					var _html = '<option value="' + _data[i].book_id + '">' + _data[i].book_orderCode + ' ['+ _data[i].book_port1 +' — '+_data[i].book_port2+']</option>';
  					$('#orderLi').append(_html)
+	 				if(_data[i].book_port1==pol && _data[i].book_port2==pod){
+	 					$("#orderLi").find("option[value='"+_data[i].book_id+"']").attr("selected",true);
+	 				}else{
+	 					$("#orderLi").find("option[value='0']").attr("selected",true);
+	 				}
  				}
+ 			}else{	 				
+				var _html = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
+				$('#orderLi').append(_html)
  			}
  		}, function(err) {
  			console.log(err)
@@ -344,7 +371,8 @@ function initTable(fromId) {
  }
  $('#btnSave2').on('click', function() {
  	var isNew=0;
- 	if($("#ordermore").is(":checked")) {
+ 	//if($("#ordermore").is(":checked")) {
+ 	if($("#ismbl").is(":checked")) {
  		isNew=1
  	} else {
  		isNew=0

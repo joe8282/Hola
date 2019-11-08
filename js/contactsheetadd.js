@@ -18,7 +18,7 @@ $(function(){
 	$('#title2').text(get_lan('con_top_3'))
 	$('.book4').addClass("active")
 
-	var crmCompanyId = '0',crmContactId = '0';
+	var crmCompanyId = '0',crmContactId = '0', crmContactListId='0';
 	
 	var action = GetQueryString('action');	
 	var Id = GetQueryString('Id');
@@ -47,6 +47,7 @@ $(function(){
 			for(var i = 0; i < _data.length; i++) {
 				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
 				$('#sellId').append(_html)
+				console.log(_data[i].usin_id+"+"+_data[i].usin_name)
 			}
 		}
 	}, function(error) {
@@ -106,7 +107,7 @@ $(function(){
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].comp_customerId + '">' + _data[i].comp_name + '</option>';
+				var _html = '<option value="' + _data[i].comp_customerId + '" data-comId="' + _data[i].comp_id + '" data-sellId="'+_data[i].comp_adminId+'">' + _data[i].comp_name + '</option>';
 				$('#crmuser').append(_html)
 			}
 		}	
@@ -116,11 +117,13 @@ $(function(){
 	$("#crmuser").change(function() {
 		$('#crmcontact').empty()
 		crmCompanyId = $("#crmuser").val();
+		crmContactListId=$("#crmuser").find("option:selected").attr("data-comId");
 		_selectSupplier(crmCompanyId)
 		_selectBill(crmCompanyId)
 		//获取联系人列表
 		common.ajax_req("get", false, dataUrl, "crmcompanycontact.ashx?action=readtop", {
-			"companyId": crmCompanyId
+			//"companyId": crmCompanyId
+			"companyId": crmContactListId
 		}, function(data) {
 			console.log(data)
 			var _data = data.data;
@@ -129,11 +132,17 @@ $(function(){
 				for(var i = 0; i < _data.length; i++) {
 					var _html = '<option value="' + _data[i].coco_id + '">' + _data[i].coco_name + '</option>';
 					$('#crmcontact').append(_html)
+					if(_data[i].coco_first==1){$("#crmcontact").val(_data[i].coco_id)};
 				}
 			}
+			$("#sellId").val($("#crmuser").find("option:selected").attr("data-sellId"));
+			$('#istrailer').attr("disabled", false);
+			$('#isfeeinfo').attr("disabled", false);
+			$('#iswarehouse').attr("disabled", false);
 		}, function(err) {
 			console.log(err)
 		}, 2000)
+		console.log(crmContactListId)
 	})	
 
 	function _selectSupplier(crmId){
@@ -146,7 +155,8 @@ $(function(){
 			var _data = data.data;
 			if(_data != null) {
 				for(var i = 0; i < _data.length; i++) {
-					var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"> ' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].comp_contactName + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：' + _data[i].comp_contactPhone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：' + _data[i].comp_contactEmail + '</div>'
+					//var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"> ' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].comp_contactName + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：' + _data[i].comp_contactPhone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：' + _data[i].comp_contactEmail + '</div>'
+					var crmlist = '<tr class="margin-left-40"><td><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"></td><td> ' + _data[i].comp_name + '</td><td>联系人：' + _data[i].comp_contactName + '</td><td>联系电话：' + _data[i].comp_contactPhone + '</td><td>邮箱：' + _data[i].comp_contactEmail + '</td></tr>'
 					$(".crmlist").append(crmlist)
 				}
 			}
@@ -666,7 +676,7 @@ $(function(){
 	}, function(data) {
 		var _data = data.data;
 		for(var i = 0; i < _data.length; i++) {
-			var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+			var _html = '<option selected="selected" value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
 			$('#feeUnit').append(_html)
 		}
 	}, function(error) {
@@ -720,6 +730,13 @@ $(function(){
     		$("#trailerlist").removeClass('none')
     	}
     	else{ $("#trailerlist").addClass('none') }
+    })
+
+    $('#isfeeinfo').on('click', function() {
+    	if($("#isfeeinfo").is(":checked")) {
+    		$("#feeinfolist").removeClass('none')
+    	}
+    	else{ $("#feeinfolist").addClass('none') }
     })
     
     //获取系统信息
@@ -1035,7 +1052,9 @@ $(function(){
 					'upId': crmCompanyId
 				}, function(data) {
 					if(data.State == 1) {
-						var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" checked="checked" value="' + data.Data + '"> ' + companyName + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：'+ contact + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：'+ phone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：'+ email + '</div>'
+						//var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" checked="checked" value="' + data.Data + '"> ' + companyName + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：'+ contact + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：'+ phone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：'+ email + '</div>'
+						
+						var crmlist = '<tr class="margin-left-40"><td><input type="checkbox" name="crmli" checked="checked" value="' + data.Data + '"> </td><td>' + companyName + '</td><td>联系人：'+ contact + '</td><td>联系电话：'+ phone + '</td><td>邮箱：'+ email + '<td></tr>'
 						$(".crmlist").append(crmlist)
 						//comModel("新增成功")
 				

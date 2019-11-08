@@ -57,6 +57,7 @@ function GetDetail()
 		var _data = data.Data;
 		userCompanyId = _data.comp_customerId;
 		oblTable=initBlListTable();
+		relatedComTable=initRelateComListTable();
 		$('.companyName').text(_data.comp_name)
 		$('.companyContent').text(_data.comp_content)
 		if(_data.comp_isSupplier==1){
@@ -1106,6 +1107,86 @@ function initBlListTable() {   //这里加一个相关的订单，但是还不�
 	}, 2000);
 	return tableBl;
 }
+
+function initRelateComListTable() {   //这里加一个相关的订单，但是还不知道如何查询这些订单是相关的公司的 20190816 by daniel
+    var ajaxUrlBl,tableTitleRelatedCom,columnsBl
+    	ajaxUrlBl=dataUrl+'ajax/crmcompany.ashx?action=read&upId='+userCompanyId;
+    	tableTitleRelatedCom='<th>公司名称</th><th>联系人</th><th>联系电话</th><th>邮箱</th><th>添加时间</th>'
+    	$('#tableTitleRelatedCom').html(tableTitleRelatedCom)
+    	columnsBl = [
+    		{
+    			"mDataProp": "comp_name"
+    		},
+    		{
+    			"mDataProp": "comp_contactName"
+    		},
+    		{
+    			"mDataProp": "comp_contactPhone"
+    		},
+    		{
+    			"mDataProp": "comp_contactEmail"
+    		},    		
+    		{
+    			"mDataProp": "comp_updateTime",
+    			"createdCell": function(td, cellData, rowData, row, col) {
+    				if(rowData.comp_updateTime != null) {
+    					$(td).html(rowData.comp_updateTime.substring(0, 10));
+    				} else {
+    					$(td).html("NULL");
+    				}
+    			}
+    		},
+    	]
+    
+	var tableBl = $("#relatedComPanel_list").dataTable({
+		//"iDisplayLength":10,
+		"sAjaxSource": ajaxUrlBl,
+//		'bPaginate': true,
+//		"bDestory": true,
+//		"bRetrieve": true,
+//		"bFilter": false,
+		"bLengthChange":false,
+        "aaSorting": [[4, 'desc']],
+        "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
+            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+            {"bSortable": false, "aTargets": [0,1,2,3]}
+        ],
+//		"bSort": true,
+//		"aaSorting": [[ 9, "desc" ]],
+//		"bProcessing": true,
+		"aoColumns": columnsBl,
+//		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+//		"sPaginationType": "bootstrap",
+		"oLanguage": {
+//			"sUrl": "js/zh-CN.txt"
+//			"sSearch": "快速过滤："
+			"sProcessing": "正在加载数据，请稍后...",
+			"sLengthMenu": "每页显示 _MENU_ 条记录",
+			"sZeroRecords": get_lan('nodata'),
+			"sEmptyTable": "表中无数据存在！",
+			"sInfo": get_lan('page'),
+			"sInfoEmpty": "显示0到0条记录",
+			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+			//"sInfoPostFix": "",
+			"sSearch": get_lan('search'),
+			//"sUrl": "",
+			//"sLoadingRecords": "载入中...",
+			//"sInfoThousands": ",",
+			"oPaginate": {
+				"sFirst": get_lan('first'),
+				"sPrevious": get_lan('previous'),
+				"sNext": get_lan('next'),
+				"sLast": get_lan('last'),
+			}
+			//"oAria": {
+			//    "sSortAscending": ": 以升序排列此列",
+			//    "sSortDescending": ": 以降序排列此列"
+			//}
+		}
+	});
+	return tableBl;
+}
+
 //获取订单的数量，暂时还获取不了。 by daniel 20191028
 function getOrderSum(){
 	common.ajax_req('GET', true, dataUrl, 'booking.ashx?action=read', {'companyId':companyID,'crmId':userCompanyId}, function(data) {
@@ -1116,3 +1197,4 @@ function getOrderSum(){
 		console.log(parm)
 	}, 1000)
 }
+
