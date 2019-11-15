@@ -17,6 +17,12 @@ $(function () {
         $('#title1').text(get_lan('con_top_2'))
         $('.navli4').addClass("active open")
         $('.rate3').addClass("active")
+    } else if (action = 'localcharge') {
+        this.title = get_lan('con_top_2')
+        $('#title0').text(get_lan('nav_4'))
+        $('#title1').text(get_lan('con_top_2'))
+        $('.navli4').addClass("active open")
+        $('.rate2').addClass("active")
     }
 
 	InitExcelFile()
@@ -24,7 +30,7 @@ $(function () {
     //初始化Excel导入的文件
 	function InitExcelFile() {
 	    $("#excelFile").fileinput({
-	        uploadUrl: dataUrl + 'ajax/truckingcharge.ashx?action=upload&companyId=' + companyID + '&userId=' + userID, //上传的地址
+	        uploadUrl: dataUrl + 'ajax/localcharge.ashx?action=upload&companyId=' + companyID + '&userId=' + userID, //上传的地址
 	        uploadAsync: true,              //异步上传
 	        language: "zh",                 //设置语言
 	        showCaption: false,              //是否显示标题
@@ -58,7 +64,9 @@ $(function () {
            if (res.State == 1) {
                comModel("上传成功！")
                if (res.Fail != 0) {
-                   $("#info").text('成功导入' + res.Data + '条数据，失败' + res.Fail + '条，失败的是公司编码是：' + res.FailMes)
+                   var errortext = res.FailMes
+                   errortext = errortext.substring(0, errortext.lastIndexOf(','));
+                   $("#info").text('成功导入' + res.Data + '条数据，失败' + res.Fail + '条，失败的是第 ' + errortext + " 行数据")
                } else {
                    $("#info").text('成功导入' + res.Data + '条数据')
                }
