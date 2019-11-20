@@ -27,7 +27,7 @@ $(document).ready(function() {
 		location.href = 'truckingchargeadd.html?action=add';
 	});
 	$('#uploadTruckchargeButton').on('click', function () {
-	    location.href = 'fileinput.html?action=truckcharge';
+	    location.href = 'fileinput.html?action=truckingcharge';
 	});
 	// $('#editFun').on('click', function() {
 	// 	location.href = 'truckingchargeadd.html?action=add';

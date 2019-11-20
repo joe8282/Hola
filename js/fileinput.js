@@ -11,18 +11,30 @@ var en2 = {
 
 $(function () {
     var action = GetQueryString('action');
-    if (action = 'truckcharge') {
+    if (action == 'truckcharge') {
         this.title = get_lan('con_top_2')
         $('#title0').text(get_lan('nav_4'))
         $('#title1').text(get_lan('con_top_2'))
         $('.navli4').addClass("active open")
         $('.rate3').addClass("active")
-    } else if (action = 'localcharge') {
+    } else if (action == 'localcharge') {
         this.title = get_lan('con_top_2')
         $('#title0').text(get_lan('nav_4'))
         $('#title1').text(get_lan('con_top_2'))
         $('.navli4').addClass("active open")
         $('.rate2').addClass("active")
+    } else if (action == 'mail') {
+        this.title = get_lan('nav_6_1')
+        $('#title0').text(get_lan('nav_6_1'))
+        $('#title1').text(get_lan('con_top_2'))
+        $('.navli6').addClass("active open")
+        $('.emailprompt1').addClass("active")
+    } else if (action == 'rate') {
+        this.title = get_lan('con_top_2')
+        $('#title0').text(get_lan('nav_4'))
+        $('#title1').text(get_lan('con_top_2'))
+        $('.navli4').addClass("active open")
+        $('.rate1').addClass("active")
     }
 
 	InitExcelFile()
@@ -30,7 +42,7 @@ $(function () {
     //初始化Excel导入的文件
 	function InitExcelFile() {
 	    $("#excelFile").fileinput({
-	        uploadUrl: dataUrl + 'ajax/localcharge.ashx?action=upload&companyId=' + companyID + '&userId=' + userID, //上传的地址
+	        uploadUrl: dataUrl + 'ajax/' + action + '.ashx?action=upload&companyId=' + companyID + '&userId=' + userID, //上传的地址
 	        uploadAsync: true,              //异步上传
 	        language: "zh",                 //设置语言
 	        showCaption: false,              //是否显示标题

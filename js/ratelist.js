@@ -30,6 +30,9 @@ $(document).ready(function() {
 	$('#newRateButton').on('click', function() {
 		location.href = 'rateadd.html';
 	})
+	$('#uploadRateButton').on('click', function () {
+	    location.href = 'fileinput.html?action=rate';
+	});
 	
 	// $('input.column_filter').on( 'keyup click', function () {
 	// 	//alert($(this).attr('data-column'));

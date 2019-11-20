@@ -19,9 +19,9 @@ $(document).ready(function() {
 	$('#title1').text(get_lan('nav_6_1'))
 	$('#title2').text(get_lan('nav_6_1'))
 
-	//$('.btn-blue').on('click', function() {
-	//	location.href = 'emailpp_listadd.html?action=add';
-	//})
+	$('#uploadExcel').on('click', function () {
+	    location.href = 'fileinput.html?action=mail';
+	})
 
 	$("#addFun").click(_init);
 	$("#btnSave").click(_addFun);
