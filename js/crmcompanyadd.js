@@ -203,8 +203,8 @@ $(function(){
 							comModel("继续新增联系人")
 							//location.href = 'crmcompanycontactadd.html?action=add&companyId='+data.Data;
 						}
-
-
+					} else if (data.State == 0) {
+					    comModel(data.Data)
 					} else {
 						comModel("新增客户失败")
 					}
@@ -248,6 +248,8 @@ $(function(){
 					if(data.State == 1) {
 						comModel("修改成功")
 						//location.href = 'crmcompany.html';
+					} else if (data.State == 0) {
+					    comModel(data.Data)
 					} else {
 						comModel("修改失败")
 					}
