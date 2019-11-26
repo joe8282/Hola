@@ -288,12 +288,14 @@ function initTable(fromId) {
  function _sureFun(id,crmId,pol,pod) {
  	$("#myModal2").modal("show");
  	$('#bookId').val(id)
+ 	$('#orderHblLi').empty();
  
  	//获取委托人列表
  	common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
  		"companyId": companyID
  	}, function(data) {
  		//console.log(data)
+ 		$('#orderHblLi').empty();
  		var _data = data.data;
  		$('#crmuser').empty();
  		if(_data != null) {
@@ -316,6 +318,7 @@ function initTable(fromId) {
  	}, function(data) {
  		//console.log(data)
  		$('#orderLi').empty();
+ 		$('#orderHblLi').empty();
  		var _data = data.data;
  		if(_data != null) {
 			var _html2 = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
@@ -339,6 +342,7 @@ function initTable(fromId) {
  	
  	$("#crmuser").change(function() {
  		$('#orderLi').empty();
+ 		$('#orderHblLi').empty();
  		//获取委托人订单
  		common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
  			"companyId": companyID,
@@ -362,6 +366,30 @@ function initTable(fromId) {
  			}else{	 				
 				var _html = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
 				$('#orderLi').append(_html)
+ 			}
+ 		}, function(err) {
+ 			console.log(err)
+ 		}, 2000)
+	})
+ 	$("#orderLi").change(function() {
+		var orderLiId=$("#orderLi").val();
+ 		common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbill", {
+    			"bookingId": orderLiId
+ 		}, function(data) {
+ 			$('#orderHblLi').empty();
+ 			var _data = data.Data;
+ 			console.log(_data);
+ 			if(data.State == 1) {
+				var _html3 = '<option value="0">New HBL</option>';
+				$('#orderHblLi').append(_html3)
+ 				for(var i = 0; i < _data.length; i++) {
+ 					var _html = '<option value="' + _data[i].bobi_id + '">' + _data[i].bobi_billCode + '</option>';
+ 					$('#orderHblLi').append(_html);
+	 				$("#orderHblLi").find("option[value='0']").attr("selected",true);
+ 				}
+ 				console.log("ddd")
+ 			}else{
+				$('#orderHblLi').append('<option value="0">New HBL</option>')
  			}
  		}, function(err) {
  			console.log(err)
