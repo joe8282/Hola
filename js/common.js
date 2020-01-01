@@ -99,7 +99,7 @@ function getCompanyID() {
 }
 var companyID = getCompanyID();
 
-var userName='',userPosition='',userCode=''
+var userName = '', userPosition = '', userCode = '', userRole = ''
 //加载左边导航
 getNav()
 
@@ -266,10 +266,11 @@ function getNav(){
                     '</li>' +
 					'<li class="navli0"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_0"> SYSTEM MANAGEMENT </span><i class="menu-expand"></i></a>'+
                         '<ul class="submenu">'+
-                            '<li class="sys1"><a href="usercompanyadd.html?action=edit&Id='+companyID+'"><span class="menu-text" set-lan="html:nav_0_1">Company Info</span></a></li>'+  
+                            '<li class="sys1"><a href="usercompanyadd.html?action=edit&Id='+companyID+'&permission=1001"><span class="menu-text" set-lan="html:nav_0_1">Company Info</span></a></li>'+  
                             '<li class="sys2"><a href="usercompanydepartment.html"><span class="menu-text" set-lan="html:nav_0_2">Department Management</span></a></li>'+ 
                             '<li class="sys3"><a href="userinfo.html"><span class="menu-text" set-lan="html:nav_0_3">Worker Management</span></a></li>'+ 
-                            '<li class="sys4"><a href="systerm.html"><span class="menu-text" set-lan="html:nav_0_4">Parameter Settings</span></a></li>'+ 
+                            '<li class="sys4"><a href="systerm.html"><span class="menu-text" set-lan="html:nav_0_4">Parameter Settings</span></a></li>' +
+                            '<li class="sys5"><a href="role.html"><span class="menu-text" set-lan="html:nav_0_5">Role Management</span></a></li>' +
                         '</ul>'+
                     '</li>' +
 					'<li class="navli00"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_00"> USER MANAGEMENT </span><i class="menu-expand"></i></a>'+
@@ -346,8 +347,17 @@ function getUserInfo() {
 		userName=data.Data.usin_name
 		userPosition=data.Data.usin_position
 		userCode=data.Data.usin_code
-		companyId=data.Data.usin_companyId
+		companyId = data.Data.usin_companyId
+		userPermission = data.Data.usin_permission
 		
+		var userPermissionArr = userPermission.split(',')
+		if (GetQueryString('permission')!=null) {
+		    if ($.inArray(GetQueryString('permission'), userPermissionArr) == -1) {
+		        alert("没有权限，请联系管理员！")
+		        history.go(-1)
+		    }
+		}
+
 		getHead()
 		
 		//退出
@@ -357,7 +367,7 @@ function getUserInfo() {
 			location.replace('login.html')
 		})
 		
-		//权限控制
+		//菜单控制
 		if(leixing==1) {
 			$('.navli0,.navli2,.navli3,.navli33,.navli4,.navli44').hide()
 		}else if(leixing==2) {
@@ -371,10 +381,32 @@ function getUserInfo() {
 	function getPerr(err) {
 		console.log(err)
 	}
-	common.ajax_req('GET', true, dataUrl, 'user.ashx?action=readbyid', {
-		userid: userID
+	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=readbyid', {
+		Id: userID
 	}, getPsuc, getPerr, 5000)
 }	
+
+//获取权限
+//function hasPermission(userRole) {
+//    function getPsuc(data) {
+//        console.log(data)
+//        if (data.State == 1) {
+//            if (data.Data == 0) {
+//                alert("没有权限，请联系管理员！")
+//                history.go(-1)
+//            }
+//        }
+
+//    }
+
+//    function getPerr(err) {
+//        console.log(err)
+//    }
+//    common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=haspermission', {
+//        'permission': GetQueryString('permission'),
+//        'userRole': userRole
+//    }, getPsuc, getPerr, 5000)
+//}
 
 
 //没有数据时

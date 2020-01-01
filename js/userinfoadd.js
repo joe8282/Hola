@@ -35,14 +35,14 @@ $(function(){
 	}, 2000)
 	
 	//获取权限列表
-	common.ajax_req("get", true, dataUrl, "state.ashx?action=readbytypeid", {
-		"typeId": 3
+	common.ajax_req("get", true, dataUrl, "userinfo.ashx?action=readrole", {
+	    "companyId": companyID
 	}, function(data) {
 		console.log(data)
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-				var crmlist = '<div class="col-sm-1 control-label  no-padding-left"><input type="checkbox" name="crmli" value="' + _data[i].state_id + '"> ' + _data[i].state_name_cn + '</div>'
+			    var crmlist = '<div class="col-sm-1 control-label  no-padding-left"><input type="checkbox" name="crmli" value="' + _data[i].role_id + '"> ' + _data[i].role_name + '</div>'
 				$(".role").append(crmlist)
 			}
 		}
@@ -53,7 +53,9 @@ $(function(){
 
 	if(action == 'modify') {
 		$('#conactModify1').hide()
-		$('#conactModify2').hide()	
+		$('#conactModify2').hide()
+		$('#permissionModify1').hide()
+		$('#permissionModify2').hide()
 		setTimeout(function() {
 			common.ajax_req("get", true, dataUrl, "userinfo.ashx?action=readbyid", {
 				"Id": Id
@@ -95,7 +97,9 @@ $(function(){
 	
 	if(action == 'pw') {
 		$('#companyModify1').hide()
-		$('#companyModify2').hide()	
+		$('#companyModify2').hide()
+		$('#permissionModify1').hide()
+		$('#permissionModify2').hide()
 		$('#Account').show()
 		$('#inputAccountName').attr("disabled","disabled");
 		setTimeout(function() {
@@ -112,7 +116,46 @@ $(function(){
 			}, 5000)
 		}, 100)
 	
-	} 
+	}
+
+	if (action == 'permission') {
+	    $('#companyModify1').hide()
+	    $('#companyModify2').hide()
+	    $('#conactModify1').hide()
+	    $('#conactModify2').hide()
+	    //加载权限数据
+	    for (i = 0; i < permissionData.length; i++) {
+	        var _html1 = '', _html2 = ''
+	        var Data2 = permissionData[i].children
+	        for (j = 0; j < Data2.length; j++) {
+	            _html2 = _html2 + '<div class="col-sm-2"><input type="checkbox" class="permission" name="' + permissionData[i].value + '" value="' + Data2[j].value + '">' + Data2[j].text + '</div>'
+	        }
+	        _html1 = '<div class="form-group"><label class="col-sm-12">' + permissionData[i].text + '&nbsp;&nbsp;<input type="checkbox" data="' + permissionData[i].value + '" class="permissionType"></label>' + _html2 + '</div>'
+	        $('#permission').append(_html1)
+	    }
+	    $(".permissionType").on("click", function () {
+	        var xz = $(this).prop("checked");//判断全选按钮的选中状态 
+	        var data = $(this).attr('data');
+	        var ck = $("input[name=" + data + "]").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	    });
+
+	    setTimeout(function () {
+	        common.ajax_req("get", true, dataUrl, "user.ashx?action=readbyid", {
+	            "userId": Id
+	        }, function (data) {
+	            //console.log(data.Data)
+	            //初始化信息
+	            var _data = data.Data
+	            var permission = _data.usin_permission.split(',')
+	            for (var i = 0; i < permission.length - 1; i++) {
+	                $("#permission").find("input:checkbox[value='" + permission[i] + "']").prop('checked', true);
+	            }
+	        }, function (err) {
+	            console.log(err)
+	        }, 5000)
+	    }, 100)
+
+	}
 	
 	/*下一步*/
 	$('#send1').on('click', function() {
@@ -231,11 +274,11 @@ $(function(){
 				comModel("请输入登录密码")				
 			} else {
 				var parm = {
-					'userId': Id,
+					'Id': Id,
 					'pw': AccountPw
 				}
 				
-				common.ajax_req('POST', true, dataUrl, 'user.ashx?action=modify', parm, function(data) {
+				common.ajax_req('POST', true, dataUrl, 'userinfo.ashx?action=modify', parm, function (data) {
 					if(data.State == 1) {
 						comModel("修改成功")
 						location.href = 'userinfo.html';
@@ -247,6 +290,34 @@ $(function(){
 				}, 10000)				
 				
 			}
+		}
+
+		if (action == 'permission') {
+		    var str = '';
+		    $(".permission:checked").each(function (i, o) {
+		        str += $(this).val();
+		        str += ",";
+		    });
+		    if (str == '') {
+		        comModel("请设置权限")
+		    } else {
+		        var parm = {
+		            'Id': Id,
+		            'permission': str
+		        }
+
+		        common.ajax_req('POST', true, dataUrl, 'userinfo.ashx?action=modify', parm, function (data) {
+		            if (data.State == 1) {
+		                comModel("设置成功")
+		                location.href = 'userinfo.html';
+		            } else {
+		                comModel("设置失败")
+		            }
+		        }, function (error) {
+		            console.log(parm)
+		        }, 10000)
+
+		    }
 		}
 
 	});

@@ -2,13 +2,15 @@
 var cn2 = {
             "con_top_1" : "首页",
             "con_top_2" : "系统设置管理",   
-            "admin" : "密码"
+            "admin": "密码",
+            "permission": "权限"
         };
 
 var en2 = {
             "con_top_1" : "Home",
             "con_top_2" : "System Management",
-            "admin" : "Password"     
+            "admin": "Password",
+            "permission": "Permission"
         };
 
 var oTable;
@@ -94,7 +96,8 @@ function initTable() {
                         +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                         +"<ul class='dropdown-menu dropdown-azure'>"
                         +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
-                        +"<li><a href='userinfoadd.html?action=pw&Id="+cellData +"'>" + get_lan('admin') + "</a></li>"
+                        + "<li><a href='userinfoadd.html?action=pw&Id=" + cellData + "'>" + get_lan('admin') + "</a></li>"
+                        + "<li><a href='userinfoadd.html?action=permission&Id=" + cellData + "'>" + get_lan('permission') + "</a></li>"
                         +"</ul></div>"                        
                         return (_thisHtml);
 					})
