@@ -324,8 +324,21 @@ Purchase: http://wrapbootstrap.com
         						<input id="bookId" type="hidden" />
                                 <select id="orderHblLi"></select>
                             </p>
-                            <p>选择人员：</p>
-                            <p>是否发邮件给以下供应商：</p>
+                            <p>选择人员：                   
+                                <select id="sellId" style="height: 30px;">
+                                    <option value="0">销售</option>
+                                </select>
+                                <select id="luruId" style="height: 30px;">
+                                    <option value="0">录单</option>
+                                </select>
+                                <select id="kefuId" style="height: 30px;">
+                                    <option value="0">客服</option>
+                                </select>
+                                <select id="caozuoId" style="height: 30px;">
+                                    <option value="0">操作</option>
+                                </select>        
+                            </p>
+                            <p>是否发邮件给以下订舱方：</p>
                             <div class="col-lg-12 col-sm-12 col-xs-12">
                                 <div class="well bordered-left bordered-themeprimary">
                                     <p>BeyondAdmin's Databoxes are meant to provide you a completely flexible  and very easy to customize tool to visualize data. You can create databoxes in multiple sizes and different styles. </p>
@@ -353,6 +366,7 @@ Purchase: http://wrapbootstrap.com
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.min.js"></script> 
     
+    <script src="assets/js/colresizable/colResizable-1.6.min.js"></script> 
     <!--Page Related Scripts-->
     <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
     <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>    
