@@ -170,7 +170,7 @@ function initTable(fromId) {
 					var pod=rowData.book_port2;
 					if(rowData.book_state == 1) {
 						$(td).parent().find("td").css("background-color","#fdfdbf");
-						$(td).html("<div class='btn-group' style='z-index:auto;position:absolute;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + ","+rowData.book_userId+",\""+pol+"\",\""+pod+"\")'>" + get_lan('con_top_5') + "</a>"
+						$(td).html("<div class='btn-group' style='z-index:auto;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + ","+rowData.book_userId+",\""+pol+"\",\""+pod+"\")'>" + get_lan('con_top_5') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a></li>"
@@ -183,7 +183,7 @@ function initTable(fromId) {
 						// 	.append("<a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
 					} else if(rowData.book_state == 2) {
-						$(td).html("<div class='btn-group' style='z-index:auto;position:absolute;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a>"
+						$(td).html("<div class='btn-group' style='z-index:auto;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li></li>"
@@ -276,7 +276,7 @@ function initTable(fromId) {
 			{
 				"mDataProp": "book_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html("<div class='btn-group' style='z-index:auto;position:absolute;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
+					$(td).html("<div class='btn-group' style='z-index:auto;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
 	    			+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                     +"<ul class='dropdown-menu dropdown-azure'>"
                     +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
@@ -311,7 +311,7 @@ function initTable(fromId) {
 //		"aaSorting": [[ 9, "desc" ]],
 //		"bProcessing": true,
 		initComplete: function(settings) {
-        	$('#example').colResizable({headerOnly:true,liveDrag:true, fixed:true, postbackSafe:true});
+        	$('#example').colResizable({headerOnly:true,liveDrag:true, fixed:true, postbackSafe:true, resizeMode:flex});
     	},
 		"aoColumns": columns,
 		// createdRow: function ( row, data, index ) { //针对修改行的一些样式。
