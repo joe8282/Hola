@@ -71,7 +71,15 @@ Purchase: http://wrapbootstrap.com
             background: #EDEDED;
         }
         .select2-container{ margin-right: 10px; }
-        .select2-container--default .select2-selection--single{border-radius: 0px; height: 34px;border: 1px solid #ccc;}
+        .select2-container--default .select2-selection--single{border-radius: 0px; height: 24px; line-height: 24px; border: 1px solid #ccc;}
+        #select2-crmuser-container{height: 24px; line-height: 24px;}
+        .form-control{border-radius: 0px; height: 24px;border: 1px solid #ccc;}
+        select{border-radius: 0px; height: 24px;border: 1px solid #ccc; padding: 0;}
+        .widget{margin-bottom: 10px;}
+        label{text-align: right;}
+        #carrier{float: right;}
+        .input-group-addon{height: 24px; padding: 0 10px;}
+        .form-group{margin-bottom: 5px;}
     </style>
 </head>
 <!-- /Head -->
@@ -177,15 +185,55 @@ Purchase: http://wrapbootstrap.com
                 </div>
                 <!-- /Page Breadcrumb -->    
                 <!-- Page Header -->
-                <div class="page-header position-relative">
-                    <div class="header-title">
+                <div class="page-header position-relative" style="height: auto;">
+                    <div class="header-title" style="width: 100%; height: auto;">
                         <h1>
-                            <span id="title2">新增订单</span>
-                            <small>
-                                <i class="fa fa-angle-right"></i>
-                                <span id="title3">订单号</span>
-                            </small>
+                            <span id="title3">订单号</span>
                         </h1>
+                        <div style="width: 300px; display: inline-block;margin-left:15px; padding:5px;">
+                            <span class="control-label">委托人</span>
+                            <select id="crmuser" style="width:230px; font-size: 14px;" >
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div style="width:220px; display: inline-block; padding:5px;">
+                            <span class="control-label">订舱单号</span>
+                            <input type="email" class="form-control" id="code" style="width: 150px; display: inline-block;">
+                        </div>
+                        <div style="width:220px; display: inline-block; padding:5px;">
+                            <span class="control-label">提单单号</span>
+                            <input type="email" class="form-control" id="billCode" style="width: 150px; display: inline-block;">
+                        </div>
+                        <div style="width:220px; display: inline-block; padding:5px;">
+                            <span class="control-label">参考号</span>
+                            <input type="email" class="form-control" id="outCode" style="width: 150px; display: inline-block;">
+                        </div>
+                        <div style="width:170px; display: inline-block; padding:5px;"> 
+                            <span class="control-label">贸易条款</span>
+                            <select id="incoterm" style="width: 100px; display: inline-block;">
+                                <!--<option value=""></option>-->
+                            </select>
+                        </div>
+                        <div style="width:170px; display: inline-block; padding:5px;"> 
+                            <span class="control-label">运输方式</span>
+                            <select id="movementType" style="width: 100px; display: inline-block;">
+                                <!--<option value=""></option>-->
+                            </select>
+                        </div>
+                        <div style="width:300px; display: inline-block; padding:5px;">                        
+                            <select id="sellId">
+                                <option value="0">销售</option>
+                            </select>
+                            <select id="luruId">
+                                <option value="0">录单</option>
+                            </select>
+                            <select id="kefuId">
+                                <option value="0">客服</option>
+                            </select>
+                            <select id="luruId">
+                                <option value="0">录单</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <!-- /Page Header -->
@@ -194,73 +242,6 @@ Purchase: http://wrapbootstrap.com
                     <div class="widget">
                         <div class="widget-header no-padding" id="STATELIST">
                             <!--<span class="col-sm-1 btn-blue widget-caption text-align-center bordered-1 bordered-gray">新订单</span>-->
-                        </div>
-                    </div>
-                    <div class="widget">
-                        <div class="widget-body">
-                            <div id="horizontal-form">
-                                <div class="form-horizontal" role="form">
-                                    <div class="form-group">
-                                        <div class="col-sm-3">
-                                            <span class="control-label" style="width:20%;float: left; ">委托人</span>
-                                            <select id="crmuser" style="width:80%;">
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <span class="control-label" style="width:30%;float: left; text-align: right;">提单单号</span>
-                                            <input type="email" class="form-control" id="billCode" style="width:70%;">
-                                        </div>
-                                        <div class="col-sm-2">
-                                            贸易条款
-                                            <select id="incoterm" style="width:56%;">
-                                                <!--<option value=""></option>-->
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            业务
-                                            <select id="sellId" style="width:70%;">
-                                                <option value="0">销售</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-sm-2">
-                                            录单
-                                            <select id="luruId" style="width:70%;">
-                                                <option value="0">录单</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-3">
-                                            <span class="control-label" style="width:20%;float: left; ">参考号</span>
-                                            <input type="email" class="form-control" id="outCode" style="width:80%;">
-                                        </div>
-                                        <div class="col-sm-3">
-                                            <span class="control-label" style="width:30%;float: left; text-align: right;">订舱单号</span>
-                                            <input type="email" class="form-control" id="code" style="width:70%;">
-                                        </div>
-                                        <div class="col-sm-2">
-                                            运输方式
-                                            <select id="movementType" style="width:56%;">
-                                                <!-- <option value=""></option>-->
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            客服
-                                            <select id="kefuId" style="width:70%;">
-                                                <option value="0">客服人员</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-sm-2">
-                                            操作
-                                            <select id="caozuoId" style="width:70%;">
-                                                <option value="0">操作人员</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div>
@@ -284,51 +265,197 @@ Purchase: http://wrapbootstrap.com
                                 <div id="MBL" class="tab-pane in active">
                                     <div class="form-horizontal" role="form">
                                         <div class="form-group">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3" style="width: 330px;">
                                                 SHIPPER
                                                 <select id="Shipper" style="width:81%;"></select>
-                                            </div>
-                                            <div class="col-sm-4">
+                                                <textarea class="form-control" style="width:100%; margin: 5px;" rows="2" id="inShipper"></textarea>
                                                 CONSIGNEE
                                                 <select id="Consignee" style="width:74%;"></select>
-                                            </div>
-                                            <div class="col-sm-4">
+                                                <textarea class="form-control" style="width:100%; margin: 5px;" rows="2" id="inConsignee"></textarea>
                                                 NOTIFYPARTY
                                                 <select id="NotifyParty" style="width:70%;"></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-4">
-                                                <textarea class="form-control" style="width:100%;" rows="5" id="inShipper"></textarea>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <textarea class="form-control" style="width:100%;" rows="5" id="inConsignee"></textarea>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <textarea class="form-control" style="width:100%;" rows="5" id="inNotifyParty"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-4">
+                                                <textarea class="form-control" style="width:100%; margin: 5px;" rows="2" id="inNotifyParty"></textarea>
                                                 ALSO NOTIFY
                                                 <select id="AlsoNotify" style="width:72%;"></select>
-                                            </div>
-                                            <div class="col-sm-4">
+                                                <textarea class="form-control" style="width:100%; margin: 5px; margin-bottom: 12px;" rows="2" id="inAlsoNotify"></textarea>
                                                 提单备注（需要显示在提单上）
+                                                <textarea class="form-control" style="width:100%; margin: 5px;" rows="2" id="inBillBeizhu"></textarea>
+                                                外包装唛头
+                                                <textarea class="form-control" style="width:100%; margin: 5px;" rows="3" id="packageMarks" placeholder="N/M"></textarea>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3" style="width: 330px;">
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">承运人</label>
+                                                    <div style="float: right; width:240px;"><select id="carrier" style="width: 100%;">
+                                                        <option value=""></option>
+                                                    </select></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">订舱同行</label>
+                                                    <select id="forwarder" style="float: right; width:240px;">
+                                                        <option value="0">请选择自定货</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">起运港</label>
+                                                    <div style="float: right; width:240px;"><select id="port1" style="width: 100%;">
+                                                        <option value=""></option>
+                                                    </select></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">卸货港</label>
+                                                    <div style="float: right; width:240px;"><select id="port3" style="width: 100%;">
+                                                        <option value=""></option>
+                                                    </select></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">目的港</label>
+                                                    <div style="float: right; width:240px;"><select id="port2" style="width: 100%;">
+                                                        <option value=""></option>
+                                                    </select></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">目的地</label>
+                                                    <div style="float: right; width:240px;"><select id="port4" style="width: 100%;">
+                                                        <option value=""></option>
+                                                    </select></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">中转港</label>
+                                                    <div style="float: right; width:240px;"><select id="port5" style="width: 100%;">
+                                                        <option value=""></option>
+                                                    </select></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">截关日期</label>
+                                                    <div class="input-group" style="width:240px;;float: right;">
+                                                        <input class="form-control date-picker no-padding-right" id="okTrailerTime" type="text" data-date-format="yyyy-mm-dd">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">预离港日</label>
+                                                    <div class="input-group" style="width:240px;;float: right;">
+                                                        <input class="form-control date-picker no-padding-right" id="okPortTime" type="text" data-date-format="yyyy-mm-dd">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">预到港日</label>
+                                                    <div class="input-group" style="width:240px;;float: right;">
+                                                        <input class="form-control date-picker no-padding-right" id="okPortTime2" type="text" data-date-format="yyyy-mm-dd">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">实离港日</label>
+                                                    <div class="input-group" style="width:240px;;float: right;">
+                                                        <input class="form-control date-picker no-padding-right" id="truePortTime" type="text" data-date-format="yyyy-mm-dd">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">实到港日</label>
+                                                    <div class="input-group" style="width:240px;;float: right;">
+                                                        <input class="form-control date-picker no-padding-right" id="truePortTime2" type="text" data-date-format="yyyy-mm-dd">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
                                                 对单备注（不需要显示在提单上）
+                                                <textarea class="form-control" style="width:100%; margin: 5px;" rows="2" id="inBill2Beizhu"></textarea>
                                             </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-4">
-                                                <textarea class="form-control" style="width:100%;" rows="5" id="inAlsoNotify"></textarea>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <textarea class="form-control" style="width:100%;" rows="5" id="inBillBeizhu"></textarea>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <textarea class="form-control" style="width:100%;" rows="5" id="inBill2Beizhu"></textarea>
+                                            <div class="col-sm-3" style="width: 330px;">
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">航线编码</label>
+                                                    <input type="email" id="route" placeholder="航线编码" style="float: right; width: 240px;">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">船名/航次</label>
+                                                    <input type="email" class="form-control" id="voyage" placeholder="航次" style="float: right; width: 80px; margin-left: 10px;">
+                                                    <input type="email" class="form-control" id="vessel" placeholder="船名"  style="float: right; width: 150px;">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">提单类型</label>
+                                                    <div class="input-group" style="width:240px;; float: right;">
+                                                        <select id="billType" class="no-padding-left no-padding-right" style="width: 100%;"></select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">运输条款</label>
+                                                    <div class="input-group" style="width:240px;; float: right;">
+                                                    <select id="shippingTerm" style="width:100%;">
+                                                        <option value="CY-CY">CY-CY</option>
+                                                        <option value="DOOR-DOOR">DOOR-DOOR</option>
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">运费条款</label>
+                                                    <div class="input-group" style="width:240px;; float: right;">
+                                                    <select id="shippingFeeTerm" style="width:100%;">
+                                                        <option value="FREIGHT PREPAID">FREIGHT PREPAID</option>
+                                                        <option value="FREIGHT COLLECT">FREIGHT COLLECT</option>
+                                                    </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">付款地点</label>
+                                                    <input type="email" class="form-control" id="payAddress" placeholder="付款地点" style="width:240px;; float: right;">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">签单地点</label>
+                                                    <input type="email" class="form-control" id="signAddress" placeholder="签单地点" style="width:240px;; float: right;">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">包装</label>
+                                                    <div class="input-group" style="width:240px;; float: right;">
+                                                        <input type="email" class="form-control" id="packageNum" placeholder="0" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="package" style="width:55%;">
+                                                            <!--<option value=""></option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">重量</label>
+                                                    <div class="input-group" style="width:240px;; float: right;">
+                                                        <input type="email" class="form-control" id="weightNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="weight" style="width:55%;">
+                                                            <!--<option value=""></option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">体积</label>
+                                                    <div class="input-group" style="width:240px;; float: right;">
+                                                        <input type="email" class="form-control" id="volumeNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="volume" style="width:55%;">
+                                                            <!--<option value=""></option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">VGM</label>
+                                                    <div class="input-group" style="width:240px;; float: right;">
+                                                        <input type="email" class="form-control" id="vgmNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="vgm" style="width:55%;">
+                                                            <!--<option value=""></option>-->
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                </div>
+                                                <div class="form-group">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -340,146 +467,6 @@ Purchase: http://wrapbootstrap.com
                                             </div>
                                         </div>-->
                                         <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <div class="col-sm-3">
-                                                    <span class="control-label">承运人</span>
-                                                    <select id="carrier" style="width:80%;">
-                                                        <option value=""></option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-sm-9">
-                                                    <span class="control-label" style="width:8%;float: left; ">订货代理</span>
-                                                    <select id="forwarder" style="width:17%;float: left;">
-                                                        <option value="0">请选择自定货</option>
-                                                    </select>
-                                                    <span class="control-label" style="width:12%;float: left; text-align: right;">航线编码</span>
-                                                    <input type="email" class="form-control" id="route" placeholder="航线编码" style="width:15%;float: left;">
-                                                    <span class="control-label" style="width:10%;float: left; text-align: right;">船名</span>
-                                                    <input type="email" class="form-control" id="vessel" placeholder="船名" style="width:15%;float: left;">
-                                                    <span class="control-label" style="width:8%;float: left; text-align: right;">航次</span>
-                                                    <input type="email" class="form-control" id="voyage" placeholder="航次" style="width:15%;">
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <span class="control-label">起运港</span>
-                                                <select id="port1" style="width:15%;">
-                                                    <option value=""></option>
-                                                </select>
-                                                &nbsp;
-                                                <span class="control-label">卸货港</span>
-                                                <select id="port3" style="width:15%;">
-                                                    <option value=""></option>
-                                                </select>
-                                                &nbsp;
-                                                <span class="control-label">目的港</span>
-                                                <select id="port2" style="width:15%;">
-                                                    <option value=""></option>
-                                                </select>
-                                                &nbsp;
-                                                <span class="control-label">目的地</span>
-                                                <select id="port4" style="width:15%;">
-                                                    <option value=""></option>
-                                                </select>
-                                                &nbsp;
-                                                <span class="control-label">中转港</span>
-                                                <select id="port5" style="width:15%;">
-                                                    <option value=""></option>
-                                                </select>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <span class="control-label" style="width:7%;float: left; ">截关日期</span>
-                                                <div class="input-group" style="width:13%;float: left;">
-                                                    <input class="form-control date-picker no-padding-right" id="okTrailerTime" type="text" data-date-format="yyyy-mm-dd">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <span class="control-label" style="width:7%;float: left; ">预离港日</span>
-                                                <div class="input-group" style="width:13%;float: left;">
-                                                    <input class="form-control date-picker no-padding-right" id="okPortTime" type="text" data-date-format="yyyy-mm-dd">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <span class="control-label" style="width:7%;float: left; ">预到港日</span>
-                                                <div class="input-group" style="width:13%;float: left;">
-                                                    <input class="form-control date-picker no-padding-right" id="okPortTime2" type="text" data-date-format="yyyy-mm-dd">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <span class="control-label" style="width:7%;float: left; ">实离港日</span>
-                                                <div class="input-group" style="width:13%;float: left;">
-                                                    <input class="form-control date-picker no-padding-right" id="truePortTime" type="text" data-date-format="yyyy-mm-dd">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <span class="control-label" style="width:7%;float: left; ">实到港日</span>
-                                                <div class="input-group" style="width:13%;float: left;">
-                                                    <input class="form-control date-picker no-padding-right" id="truePortTime2" type="text" data-date-format="yyyy-mm-dd">
-                                                    <span class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="col-sm-12">
-                                                <span class="control-label" style="width:7%;float: left; ">提单类型</span>
-                                                <select id="billType" class="no-padding-left no-padding-right" style="width:13%;float: left;"></select>
-                                                <span class="control-label" style="width:7%;float: left; ">运输条款</span>
-                                                <select id="shippingTerm" style="width:13%;float: left;">
-                                                    <option value="CY-CY">CY-CY</option>
-                                                    <option value="DOOR-DOOR">DOOR-DOOR</option>
-                                                </select>
-                                                <span class="control-label" style="width:7%;float: left; ">运费条款</span>
-                                                <select id="shippingFeeTerm" style="width:13%;float: left;">
-                                                    <option value="FREIGHT PREPAID">FREIGHT PREPAID</option>
-                                                    <option value="FREIGHT COLLECT">FREIGHT COLLECT</option>
-                                                </select>
-                                                <span class="control-label" style="width:7%;float: left; ">付款地点</span>
-                                                <input type="email" class="form-control" id="payAddress" placeholder="付款地点" style="width:13%;float: left;">
-                                                <span class="control-label" style="width:7%;float: left; ">签单地点</span>
-                                                <input type="email" class="form-control" id="signAddress" placeholder="签单地点" style="width:13%;float: left;">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">包装  <sup>*</sup></label>
-                                            <div class="col-sm-2">
-                                                <input type="email" class="form-control" id="packageNum" placeholder="0" style="width:40%;float: left;margin-right: 5%;">
-                                                <select id="package" style="width:55%;">
-                                                    <!--<option value=""></option>-->
-                                                </select>
-                                            </div>
-                                            <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">重量</label>
-                                            <div class="col-sm-2">
-                                                <input type="email" class="form-control" id="weightNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                                                <select id="weight" style="width:55%;">
-                                                    <!--<option value=""></option>-->
-                                                </select>
-                                            </div>
-                                            <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">体积</label>
-                                            <div class="col-sm-2">
-                                                <input type="email" class="form-control" id="volumeNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                                                <select id="volume" style="width:55%;">
-                                                    <!--<option value=""></option>-->
-                                                </select>
-                                            </div>
-                                            <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">VGM</label>
-                                            <div class="col-sm-2">
-                                                <input type="email" class="form-control" id="vgmNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                                                <select id="vgm" style="width:55%;">
-                                                    <!--<option value=""></option>-->
-                                                </select>
-                                            </div>
                                         </div>
                                         <!--<div class="form-group" id="Movement">
                                             <label for="inputEmail3" class="col-sm-1 control-label no-padding-right">货柜信息  <sup>*</sup></label>
@@ -505,12 +492,6 @@ Purchase: http://wrapbootstrap.com
                                                 </select>
                                             </div>
                                         </div>-->
-                                        <div class="form-group">
-                                            <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">外包装唛头</label>
-                                            <div class="col-sm-10">
-                                                <textarea class="form-control" rows="3" id="packageMarks" placeholder="N/M"></textarea>
-                                            </div>
-                                        </div>
                                         <div class="form-group">
                                             <label for="inputPassword3" class="col-sm-2 control-label no-padding-right">货物描述</label>
                                             <div class="col-sm-10">
@@ -1022,24 +1003,24 @@ Purchase: http://wrapbootstrap.com
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <span class="control-label" style="width:7%;float: left; ">提单类型</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">提单类型</span>
                                                 <select id="billType2" class="no-padding-left no-padding-right" style="width:13%;float: left;">
                                                     <!--<option value="FREIGHT PREPAID">FREIGHT PREPAID</option>
                                                     <option value="FREIGHT COLLECT">FREIGHT COLLECT</option>-->
                                                 </select>
-                                                <span class="control-label" style="width:7%;float: left; ">运输条款</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">运输条款</span>
                                                 <select id="shippingTerm2" style="width:13%;float: left;">
                                                     <option value="CY-CY">CY-CY</option>
                                                     <option value="DOOR-DOOR">DOOR-DOOR</option>
                                                 </select>
-                                                <span class="control-label" style="width:7%;float: left; ">运费条款</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">运费条款</span>
                                                 <select id="shippingFeeTerm2" style="width:13%;float: left;">
                                                     <option value="FREIGHT PREPAID">FREIGHT PREPAID</option>
                                                     <option value="FREIGHT COLLECT">FREIGHT COLLECT</option>
                                                 </select>
-                                                <span class="control-label" style="width:7%;float: left; ">付款地点</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">付款地点</span>
                                                 <input type="email" class="form-control" id="payAddress2" placeholder="付款地点" style="width:13%;float: left;">
-                                                <span class="control-label" style="width:7%;float: left; ">签单地点</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">签单地点</span>
                                                 <input type="email" class="form-control" id="signAddress2" placeholder="签单地点" style="width:13%;float: left;">
                                             </div>
                                         </div>
@@ -1168,24 +1149,24 @@ Purchase: http://wrapbootstrap.com
                                         </div>
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <span class="control-label" style="width:7%;float: left; ">提单类型</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">提单类型</span>
                                                 <select id="billType3" class="no-padding-left no-padding-right" style="width:13%;float: left;">
                                                     <!--<option value="FREIGHT PREPAID">FREIGHT PREPAID</option>
                                                     <option value="FREIGHT COLLECT">FREIGHT COLLECT</option>-->
                                                 </select>
-                                                <span class="control-label" style="width:7%;float: left; ">运输条款</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">运输条款</span>
                                                 <select id="shippingTerm3" style="width:13%;float: left;">
                                                     <option value="CY-CY">CY-CY</option>
                                                     <option value="DOOR-DOOR">DOOR-DOOR</option>
                                                 </select>
-                                                <span class="control-label" style="width:7%;float: left; ">运费条款</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">运费条款</span>
                                                 <select id="shippingFeeTerm3" style="width:13%;float: left;">
                                                     <option value="FREIGHT PREPAID">FREIGHT PREPAID</option>
                                                     <option value="FREIGHT COLLECT">FREIGHT COLLECT</option>
                                                 </select>
-                                                <span class="control-label" style="width:7%;float: left; ">付款地点</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">付款地点</span>
                                                 <input type="email" class="form-control" id="payAddress3" placeholder="付款地点" style="width:13%;float: left;">
-                                                <span class="control-label" style="width:7%;float: left; ">签单地点</span>
+                                                <label style="width:80px; height: 24px; line-height: 24px;">签单地点</span>
                                                 <input type="email" class="form-control" id="signAddress3" placeholder="签单地点" style="width:13%;float: left;">
                                             </div>
                                         </div>

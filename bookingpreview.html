@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>BILL OF LADING</title>
+
+    <meta name="description" content="data tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+    <!-- <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css"> -->
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+    <!--<link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
+
+    <!--Page Related styles-->
+    <link href="css/common.css" rel="stylesheet" />
+    <link href="assets/css/select2.min.css" rel="stylesheet" />
+
+<style>
+	.detail td{padding: 10px;}
+	.detail span{line-height: 160%; display: block;}
+	.detail .biaozhi{color:#2dc3e8;font-weight: bold;}
+	.detail a{line-height: 150%; color: #333;}
+	.detail a:hover{text-decoration: none;}
+    .allPkgsCbmKgs input{width: 100px; float: left;}
+    .allPkgsCbmKgs select{width: 100px;}
+    .select2-container{float: left; margin-right: 10px; }
+    .select2-container--default .select2-selection--single select{border-radius: 1px; height: 24px;border: 1px solid #ccc;}
+    label{text-align: right;}
+</style>
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>  
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <!--div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div-->
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <!--div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container"-->
+                <!-- Navbar Barnd -->
+                <!--div class="navbar-header pull-left">
+                    <div class="navbar-brand">
+                        <small>
+                            <img src="assets/img/logo.png" alt="" />
+                        </small>
+                    </a>
+                </div-->
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+                <!--div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div-->
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <!--div class="navbar-header pull-right">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="right: 10px;" >                       
+                        </ul>
+                    </div>
+                </div-->
+                <!-- /Account Area and Settings -->
+            <!--/div>
+        </div>
+    </div-->
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Content -->       
+                <!-- Page Body -->
+                <div class="page-body">
+                	<div class="widget">
+                        <div id="simplewizard" class="wizard" data-target="#simplewizard-steps">
+                            <ul class="steps" id="shipmentMilestone">
+                            </ul>
+                        </div>
+                        <table class="table table-striped table-hover table-bordered crmlist" cellspacing="0" width="100%" id="example"></table>
+                		<!--h5 class="row-title before-blue"><i class="fa fa-camera blue"></i>BILL OF LADING</h5-->                        
+                		<div class="widget-body">
+                			<table border="1px" bordercolor="#ccc" width="100%" class="detail">
+                				<tr>
+                					<td width="50%" colspan="2">
+                						<span class="biaozhi">Shipper (Liable for load & count and goods compliance)</span>
+                						<a href="javascript:void(0);" id="Shipper" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="50%" colspan="2">
+                                        <img src="assets/img/logo.png" style="float: right; width: 200px;"><!--这里应该放公司的logo 20190906 by daniel-->
+                                        <span class="biaozhi" style="float: left;">Bill of Lading No.: </span><span class="#OrderCode" id="orderCode"></span>                                        
+                                        <span class="biaozhi" style="float: left;">INCOTERMS: </span>
+                                        <span id="incoterm">&nbsp;</span>
+                                        <span class="biaozhi" style="float: left;">B/L Release Way: </span>
+                                        <div>
+                                            <label>
+                                                <input name="blReleaseType" type="radio" checked="checked">
+                                                <span class="text">Original</span>
+                                            </label>
+                                            <label>
+                                                <input name="blReleaseType" type="radio">
+                                                <span class="text">Surrander</span>
+                                            </label>
+                                            <label>
+                                                <input name="blReleaseType" type="radio">
+                                                <span class="text">Seaway</span>
+                                            </label>
+                                        </div>
+                                    </td>
+                				</tr>  
+                				<tr>
+                					<td width="50%" colspan="2">
+                						<span class="biaozhi">Consignee (Liable for payment /dispute to the shipper)</span>
+                						<div id="Consignee" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="50%" colspan="2">
+                                        <span class="biaozhi">Second Notify Party (No claim shall attach for failure to second notify)</span>
+                                        <div id="alsoNotifyParty" class="tooltip-info" data-toggle="tooltip"></div>
+                                    </td>
+                				</tr> 
+                				<tr>
+                					<td width="50%" colspan="2">
+                						<span class="biaozhi">Notify Party (No claim shall attach for failure to notify)</span>
+                						<div id="NotifyParty" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="50%" colspan="2">
+                                        <span class="biaozhi">Remark: (will not show in B/L)</span>
+                                        <div id="remark" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                				</tr>   
+                				<tr>
+                					<td width="25%">
+                                        <span class="biaozhi">Vessel/Voy No.</span>
+                                        <span id="Vessel"></span>
+                					</td>
+                					<td width="25%">
+                                        <span class="biaozhi">Port of Loading</span>
+                                        <div id="b_port1" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="25%">
+                                        <span class="biaozhi">Port of Discharge</span>
+                                        <div id="b_port2" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="25%">
+                                        <span class="biaozhi">Final Place of Delivery</span>
+                                        <div id="b_port4" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>               					
+                				</tr> 
+                				<tr class="allPkgsCbmKgs">
+                					<td width="25%">
+                                        <span class="biaozhi">SAY TOTAL</span><span class="#OrderCode" id="saidAllContainers">&nbsp;</span>
+                					</td>
+                					<td width="25%">
+                                        <span class="biaozhi">No. of Pkgs. or Shipping Units</span>
+                                        <div id="Package" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="25%">
+                                        <span class="biaozhi">Measurement</span>
+                                        <div id="Measurement" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="25%">
+                                        <span class="biaozhi">Gross Weight</span>
+                                        <div id="Weight" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                				</tr> 
+                				<tr>
+                					<td width="50%" colspan="2">
+                                        <span class="biaozhi">Marks & Numbers</span>
+                                        <div id="Marks" class="tooltip-info" data-toggle="tooltip"></div>
+                					</td>
+                					<td width="50%" colspan="2">
+                                        <span class="biaozhi">Description of Goods & Pkgs.(shipper’s load and count)</span>
+                                        <div id="Description" class="tooltip-info" data-toggle="tooltip"></div>
+                                    </td>
+                				</tr>
+                				<!--tr>
+                					<td width="50%" colspan="2">
+                						<span class="biaozhi">Delivery Agent:</span>
+                						<span class="#OrderCode">&nbsp;</span>
+                					</td>
+                					<td width="50%" colspan="2"><span class="biaozhi"> Freights and Charges:</span><span class="#OrderCode">&nbsp;</span></td>
+                				</tr-->         				
+                			</table>
+                		</div> 
+					</div>
+                </div>
+                <!-- /Page Body -->
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+
+    </div>
+
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script> 
+    
+    <!--Bootstrap Date Picker-->
+    <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
+    <script src="assets/js/select2/select2.min.js"></script>
+    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/select2/zh-CN.js"></script>
+    <script>
+       
+        //--Bootstrap Date Picker--
+        $('.date-picker').datepicker();
+
+    </script>
+    
+    <script src="js/common.js"></script>
+    <script src="js/bookingpreview.js"></script> 
+    <script src="js/lan.js"></script> 
+    
+    <!--Google Analytics::Demo Only-->
+    <!--<script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-52103994-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>-->  
+    
+</body>
+<!--  /Body -->
+</html>
