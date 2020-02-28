@@ -381,7 +381,7 @@ $(function(){
 
 	//销售人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 6,
+		//'role': 6,
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
@@ -396,7 +396,7 @@ $(function(){
 	}, 1000)
 	//录入人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 11,
+		//'role': 11,
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
@@ -411,7 +411,7 @@ $(function(){
 	}, 1000)	
 	//客服人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 7,
+		//'role': 7,
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
@@ -426,7 +426,7 @@ $(function(){
 	}, 1000)
 	//操作人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 8,
+		//'role': 8,
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
