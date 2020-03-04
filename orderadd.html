@@ -698,15 +698,23 @@ Purchase: http://wrapbootstrap.com
                                 </div>
                                 <div id="CONTAINER" class="tab-pane">
                                     <div class="form-horizontal" role="form">
-                                        <div class="form-group">
+                                        <div class="form-group" id="container_head">
+                                            <label style="float: right; margin-right: 10px;" id="selectSamevalueTooltip" class="tooltip-info" data-toggle="tooltip" data-original-title="Turn on/off for change the unit when select.">
+                                                <input class="checkbox-slider none" type="checkbox" checked="checked" id="selectSamevalue">
+                                                <span class="text"></span>
+                                            </label>   
+                                            <label style="float: right;" class="tooltip-info" data-toggle="tooltip" data-original-title="Turn on/off for counting function.">
+                                                <input class="checkbox-slider none" type="checkbox"  id="countSumswitch">
+                                                <span class="text"></span>
+                                            </label>   
                                             <div class="col-sm-12" style="text-align: left;">
-                                                <label class="margin-right-5" style="width:5%; float: left;">柜型</label>
+                                                <label class="margin-right-5" style="width:6%; float: left;">柜型</label>
                                                 <label class="margin-right-5" style="width:8%; float: left;">柜号</label>
                                                 <label class="margin-right-5" style="width:6%; float: left;">封条号</label>
-                                                <label class="margin-right-10" style="width:10%; float: left;">包装</label>
-                                                <label class="margin-right-10" style="width:9%; float: left;">重量</label>
-                                                <label class="margin-right-10" style="width:9%; float: left;">体积</label>
-                                                <label class="margin-right-10" style="width:9%; float: left;">VGM</label>
+                                                <label class="margin-right-10" style="width:12%; float: left;">包装</label>
+                                                <label class="margin-right-10" style="width:11%; float: left;">重量</label>
+                                                <label class="margin-right-10" style="width:11%; float: left;">体积</label>
+                                                <label class="margin-right-10" style="width:11%; float: left;">VGM</label>
                                                 <label class="margin-right-5" style="width:9%; float: left;">海关编码</label>
                                                 <label class="margin-right-5" style="width:9%; float: left;">货物名称</label>
                                             </div>

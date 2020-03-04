@@ -166,6 +166,11 @@ $(function(){
 		$('#sendbt2').addClass('none')
 		$('#send1').addClass('none')
 		$('#sendcontainer').removeClass('none')
+
+		// $('#selectSamevalueTooltip').tooltip('toggle')
+		// setTimeout(function(){
+		// 	$('#selectSamevalueTooltip').tooltip('hide');
+		// }, 5000);
 		//var _containerTabStatusVal=$('#containerTabStatus').val();
 		// if(action=='modify' && _containerTabStatusVal==0){
 		// }
@@ -2561,7 +2566,72 @@ $(function(){
 
 	});
 
+	///当其中一个SELECT改变的时候，询问其他的是否也需要改变, by daniel 20190730
+	$('.containerAll').delegate('select','change', function() {
+		if($('#selectSamevalue').is(':checked')==true && $(this).attr("id")!="containerType"){				
+    		$('.containerAll').find("select[id='"+($(this).attr("id"))+"']").val($(this).val())
+    		GetContainerSum();
+		}
+	}); 
+
+	//////计算件数，重量以及体积的总和，在countSumswitch的开关打开的时候算一次, by daniel 20190731		for(var i = 0; i < $('.containerList').length; i++) {
+	$('#container_head').delegate('#countSumswitch','change', function() {
+		alert("dd")
+		GetContainerSum();
+	}); 
+	//////计算件数，重量以及体积的总和，每次在输入新的数据的时候计算一次, by daniel 20190731
+	$('.containerAll').delegate('input[id="packageNum0"],input[id="weightNum0"],input[id="volumeNum0"]','change', function() {
+		GetContainerSum();
+		$('#Containers').attr("data-update-status","1")
+	}); 
+function GetContainerSum(){	
+	var package0_sum=0
+	var weightNum0_sum=0
+	var volumeNum0_sum=0
+	var package0_sel=''
+	var weightNum0_sel=''
+	var volumeNum0_sel=''
+	var _containerListLength=$('.containerList').length;
+	if($('#countSumswitch').is(':checked')==true){
+		
+		$('.containerAll').find("input[id='packageNum0']").each(function(){
+			package0_sum+=Number($(this).val())
+		});
+		$('.containerAll').find("input[id='weightNum0']").each(function(){
+			weightNum0_sum+=Number($(this).val())
+		});
+		$('.containerAll').find("input[id='volumeNum0']").each(function(){
+			volumeNum0_sum+=Number($(this).val())
+		});
+		// if(_containerListLength>1){
+		// 	// for(i=0;i<_containerListLength;i++){
+
+		// 	// }
+		// 	package0_sel=$('.containerAll').find("select[id='package0']").val()
+		// 	weightNum0_sel=$('.containerAll').find("select[id='weight0']").val()
+		// 	volumeNum0_sel=$('.containerAll').find("select[id='volume0']").val()
+		// }else{
+			package0_sel=$('.containerAll').find("select[id='package0']").val();
+			weightNum0_sel=$('.containerAll').find("select[id='weight0']").val();
+			volumeNum0_sel=$('.containerAll').find("select[id='volume0']").val();
+			// $('#volumeNum').val(volumeNum0_sum);
+			// $('#packageNum').val(package0_sum);
+			// $('#weightNum').val(weightNum0_sum);
+			// $("#package option[value='"+package0_sel+"']").prop("selected", true);
+			// $("#volume option[value='"+volumeNum0_sel+"']").prop("selected", true);
+			// $("#weight option[value='"+weightNum0_sel+"']").prop("selected", true);
+		// }
+		//上面是正则来替换件数，毛重，体积的数量，仅仅是数量而已 by daniel 20190731
+		(volumeNum0_sum>0?($('#volumeNum').val(volumeNum0_sum) & $("#volume option[value='"+volumeNum0_sel+"']").prop("selected", true)):"");
+		(package0_sum>0?($('#packageNum').val(package0_sum) & $("#package option[value='"+package0_sel+"']").prop("selected", true)):"");
+		(weightNum0_sum>0?($('#weightNum').val(weightNum0_sum) & $("#weight option[value='"+weightNum0_sel+"']").prop("selected", true)):"");
+	}
+}
+
 })
+
+
+
 
 /**
  * 确定
