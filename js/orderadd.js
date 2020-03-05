@@ -123,90 +123,57 @@ $(function(){
 			}, 2000)
 		}
 	})	
+
+	function GetContainerSum(){	
+		var package0_sum=0
+		var weightNum0_sum=0
+		var volumeNum0_sum=0
+		var package0_sel=''
+		var weightNum0_sel=''
+		var volumeNum0_sel=''
+		var _containerListLength=$('.containerList').length;
+		if($('#countSumswitch').is(':checked')==true){
+			$('.containerAll').find("input[id='packageNum0']").each(function(){
+				package0_sum+=Number($(this).val())
+			});
+			$('.containerAll').find("input[id='weightNum0']").each(function(){
+				weightNum0_sum+=Number($(this).val())
+			});
+			$('.containerAll').find("input[id='volumeNum0']").each(function(){
+				volumeNum0_sum+=Number($(this).val())
+			});
+			if(_containerListLength>1){
+				// for(i=0;i<_containerListLength;i++){
+
+				// }
+				package0_sel=$('.containerAll').find("select[id='package0']").val()
+				weightNum0_sel=$('.containerAll').find("select[id='weight0']").val()
+				volumeNum0_sel=$('.containerAll').find("select[id='volume0']").val()
+			}else{
+				package0_sel=$('.containerAll').find("select[id='package0']").val()
+				weightNum0_sel=$('.containerAll').find("select[id='weight0']").val()
+				volumeNum0_sel=$('.containerAll').find("select[id='volume0']").val()
+			}
+			//下面是正则来替换件数，毛重，体积的数量，仅仅是数量而已 by daniel 20190731
+			(volumeNum0_sum>0 && volumeNum0_sum!=$('#volumeNum').val()?($('#volumeNum').val(volumeNum0_sum)):"");
+			(package0_sum>0 && package0_sum!=$('#packageNum').val()?($('#packageNum').val(package0_sum)):"");
+			(weightNum0_sum>0 && weightNum0_sum!=$('#weightNum').val()?($('#weightNum').val(weightNum0_sum)):"");
+		}
+	}
+
 	$('.containertab').on('click', function() {
 		$('#sendbt1').addClass('none')
 		$('#sendbt2').addClass('none')
 		$('#send1').addClass('none')
 		$('#sendcontainer').removeClass('none')
-		
-		if(action=='modify'){
-			common.ajax_req("get", false, dataUrl, "booking.ashx?action=readcontainer", {
-				"whichId": 1,
-				"bookingId": Id
-			}, function(data) {
-				console.log(data)
-				if(data.State == 1) {
-					$(".containerList").remove()
-					var _data = data.Data;
-					for(var i = 0; i < _data.length; i++) {
-						var package0 = _data[i].boco_package.split(' ')
-						var weight0 = _data[i].boco_weight.split(' ')
-						var volume0 = _data[i].boco_volume.split(' ')
-						var vgm0 = _data[i].boco_vgm.split(' ')
-						var crmlist = '<div class="col-sm-12 containerList">' +
-							'<select id="containerType" class="no-padding-left no-padding-right margin-right-5" style="width:6%; float: left;">' +
-							'</select>' +
-							'<input type="email" class="form-control margin-right-5" id="number" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
-							'<input type="email" class="form-control margin-right-5" id="sealNumber" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
-							'<input type="email" class="form-control margin-right-5" id="packageNum0" value="' + package0[0] + '" style="width:4%;float: left;">' +
-							'<select id="package0" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
-							'</select>' +
-							'<input type="email" class="form-control margin-right-5" id="weightNum0"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
-							'<select id="weight0" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
-							'</select>' +
-							'<input type="email" class="form-control margin-right-5" id="volumeNum0"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
-							'<select id="volume0" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
-							'</select>' +
-							'<input type="email" class="form-control margin-right-5" id="vgmNum0"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
-							'<select id="vgm0" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
-							'</select>' +
-							'<input type="email" class="form-control margin-right-5" id="customsCode" value="' + _data[i].boco_customsCode + '" style="width:9%;float: left;">' +
-							'<input type="email" class="form-control margin-right-10" id="goodsName" value="' + _data[i].boco_goodsName + '" style="width:9%;float: left;">' +
-							'<button type="submit" class="newContainer btn btn-blue margin-right-5" style="width:3%;float: left;">+</button>'+
-							'<button type="submit" class="removeContainer btn btn-blue" style="width:3%;float: left;">-</button>' +
-							'</div>'
-						$(".containerAll").prepend(crmlist)
-						$('#containerType').html($('#trailerNumUnit').html())
-						$('#containerType').val(_data[i].boco_typeName).trigger("change")
-						$('#package0').html($('#package').html())
-						$('#package0').val(package0[1]).trigger("change")
-						$('#volume0').html($('#volume').html())
-						$('#volume0').val(volume0[1]).trigger("change")
-						$('#weight0').html($('#weight').html())
-						$('#weight0').val(weight0[1]).trigger("change")
-						$('#vgm0').html($('#weight').html())
-						$('#vgm0').val(vgm0[1]).trigger("change")
-					}
-				}
-			
-			}, function(err) {
-				console.log(err)
-			}, 2000)
-			
-			common.ajax_req('GET', false, dataUrl, 'booking.ashx?action=readvgmbyid', {
-				'bookingId': Id
-			}, function(data) {
-				if(data.State==1){
-					$("#isvgminfo").attr("checked", true)
-					$("#vgminfolist").removeClass('none')
-					var _data = data.Data;
-					$('#vgminfoNum').val(_data.vgm_num)
-					$('#vgminfoUnit').val(_data.vgm_unit).trigger("change")
-					$('#vgminfoWay').val(_data.vgm_way)
-					$('#inputResponsibility').val(_data.vgm_responsibility)
-					$('#inputAuthorize').val(_data.vgm_authorize)
-					$('#inputWeighing').val(_data.vgm_weighing)
-					$('#weighingDate').val(_data.vgm_weighingDate.substring(0, 10))
-					$('#inputVmgBeizhu').val(_data.vgm_beizhu)
-				}
-				else{
-					
-				}
 
-			}, function(error) {
-				console.log(parm)
-			}, 1000)
-		}
+		// $('#selectSamevalueTooltip').tooltip('toggle')
+		// setTimeout(function(){
+		// 	$('#selectSamevalueTooltip').tooltip('hide');
+		// }, 5000);
+		//var _containerTabStatusVal=$('#containerTabStatus').val();
+		// if(action=='modify' && _containerTabStatusVal==0){
+		// }
 		
 	})	
 
@@ -243,22 +210,22 @@ $(function(){
 					'<label for="inputPassword3" class="margin-right-5 margin-top-5" style="width:2%; float: left;"><input type="checkbox" name="containerli" value="' + _data[i].boco_id + '"></label>' + 
 					'<select id="containerType00" class="no-padding-left no-padding-right margin-right-5" style="width:7%; float: left;">' +
 					'</select>' +
-					'<input type="email" class="form-control margin-right-5" id="number00" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
-						'<input type="email" class="form-control margin-right-5" id="sealNumber00" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
-						'<input type="email" class="form-control margin-right-5" id="packageNum00" value="' + package0[0] + '" style="width:4%;float: left;">' +
+					'<input type="text" class="form-control margin-right-5" id="number00" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="sealNumber00" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="packageNum00" value="' + package0[0] + '" style="width:4%;float: left;">' +
 						'<select id="package00" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="weightNum00"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="weightNum00"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
 						'<select id="weight00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="volumeNum00"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="volumeNum00"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
 						'<select id="volume00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="vgmNum00"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="vgmNum00"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
 						'<select id="vgm00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="customsCode00" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
-						'<input type="email" class="form-control margin-right-10" id="goodsName00" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
+						'<input type="text" class="form-control margin-right-5" id="customsCode00" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
+						'<input type="text" class="form-control margin-right-10" id="goodsName00" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
 
 						$(".containerlist00").prepend(crmlist)
 						$('#containerType00').html($('#trailerNumUnit').html())
@@ -298,22 +265,22 @@ $(function(){
 					'<label for="inputPassword3" class="margin-right-5 margin-top-5" style="width:2%; float: left;"><input type="checkbox" name="containerli" checked="checked" value="' + _data[i].boco_id + '"></label>' + 
 					'<select id="containerType30" class="no-padding-left no-padding-right margin-right-5" style="width:7%; float: left;">' +
 					'</select>' +
-					'<input type="email" class="form-control margin-right-5" id="number30" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
-						'<input type="email" class="form-control margin-right-5" id="sealNumber30" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
-						'<input type="email" class="form-control margin-right-5" id="packageNum30" value="' + package0[0] + '" style="width:4%;float: left;">' +
+					'<input type="text" class="form-control margin-right-5" id="number30" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="sealNumber30" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="packageNum30" value="' + package0[0] + '" style="width:4%;float: left;">' +
 						'<select id="package30" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="weightNum30"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="weightNum30"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
 						'<select id="weight30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="volumeNum30"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="volumeNum30"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
 						'<select id="volume30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="vgmNum30"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="vgmNum30"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
 						'<select id="vgm30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
 						'</select>' +
-						'<input type="email" class="form-control margin-right-5" id="customsCode30" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
-						'<input type="email" class="form-control margin-right-10" id="goodsName30" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
+						'<input type="text" class="form-control margin-right-5" id="customsCode30" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
+						'<input type="text" class="form-control margin-right-10" id="goodsName30" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
 
 						$(".containerlist3").prepend(crmlist)
 						$('#containerType30').html($('#trailerNumUnit').html())
@@ -344,8 +311,8 @@ $(function(){
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-				var crmlist = '<span class="col-sm-1 widget-caption text-align-center bordered-1 bordered-gray" stateId='+_data[i].state_id+'>' + _data[i].state_name_cn + '</span>'
-				$("#STATELIST").append(crmlist)
+				var statelist = '<span class="col-sm-1 widget-caption text-align-center bordered-1 bordered-gray" stateId='+_data[i].state_id+'>' + _data[i].state_name_cn + '</span>'
+				$("#STATELIST").append(statelist)
 			}
 		}
 		
@@ -471,7 +438,8 @@ $(function(){
 			var _data = data.data;
 			if(_data != null) {
 				for(var i = 0; i < _data.length; i++) {
-					var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"> ' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].comp_contactName + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：' + _data[i].comp_contactPhone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：' + _data[i].comp_contactEmail + '</div>'
+					//var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"> ' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].comp_contactName + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：' + _data[i].comp_contactPhone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：' + _data[i].comp_contactEmail + '</div>'
+					var crmlist = '<tr class="margin-left-40"><td><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"></td><td> ' + _data[i].comp_name + '</td><td>联系人：' + _data[i].comp_contactName + '</td><td>联系电话：' + _data[i].comp_contactPhone + '</td><td>邮箱：' + _data[i].comp_contactEmail + '</td></tr>'
 					$(".crmlist").append(crmlist)
 				}
 			}
@@ -1273,16 +1241,69 @@ $(function(){
     })
     
     //集装箱处理
-    var boxRow = $('.containerList').clone()
-    $('.containerAll').delegate('.newContainer','click', function() {
-    	//$(this).addClass('none')
-    	//$(this).siblings('.removeContainer').removeClass('none')
-    	$('.containerAll').append(boxRow)
-    	boxRow = boxRow.clone()
+    // var boxRow = $('.containerList').clone()
+    // $('.containerAll').delegate('.newContainer','click', function() {
+    // 	//$(this).addClass('none')
+    // 	//$(this).siblings('.removeContainer').removeClass('none')
+    // 	$('.containerAll').append(boxRow)
+    // 	boxRow = boxRow.clone()
+    // })
+    // $('.containerAll').delegate('.removeContainer','click', function() {
+    // 	$(this).parents('.containerList').remove()
+    // })
+
+
+	$('.containerAll').delegate('.newContainer', 'click', function() {
+		var containerboxRow = '<div class="col-sm-12 containerList" style="margin-bottom: 5px;">'+ $(this).parents('.containerList').html()+'</div>';
+		$('.containerAll').append(containerboxRow)
+
+		$(this).parents('.containerList').find("input").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的input, by daniel 20190730
+			$('.containerList:last').find("input[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
+		$(this).parents('.containerList').find("select").each(function() { ///当克隆到新的费用的时候，复制现在的数据过去的select, by daniel 20190730
+			$('.containerList:last').find("select[id='"+($(this).attr("id"))+"']").val($(this).val())
+		})
+		$('#Containers').attr("data-update-status","1")
+		GetContainerSum();
+	})
+
+	$('.containerAll').delegate('.removeContainer', 'click', function() {
+	    //$("#delContainer").modal("show");
+		//if($('.removeContainer').length>1 && $(this).parents('.containerList').index()!=0 && $(this).parents('.containerList').find("#number").val()==""){
+		if($('.removeContainer').length>1){
+			$(this).parents('.containerList').remove();		
+			$('#Containers').attr("data-update-status","1")
+			GetContainerSum();
+		}
+	})
+
+/*JQuery 限制文本框只能输入数字和小数点*/  
+    $("#volumeNum,#weightNum,#packageNum,#packageNum0,#weightNum0,#volumeNum0,#vgmNum0,#vgminfoNum").keyup(function(){    
+            $(this).val($(this).val().replace(/[^0-9.]/g,''));    
+        }).bind("paste",function(){  //CTR+V事件处理    
+            $(this).val($(this).val().replace(/[^0-9.]/g,''));     
+        }).css("ime-mode", "disabled"); //CSS设置输入法不可用   
+/*JQuery 限制文本框只能输入数字和小数点*/  
+    $("#packageNum0").keyup(function(){    
+            $(this).val($(this).val().replace(/[^0-9]/g,''));    
+        }).bind("paste",function(){  //CTR+V事件处理    
+            $(this).val($(this).val().replace(/[^0-9]/g,''));     
+        }).css("ime-mode", "disabled"); //CSS设置输入法不可用   
+	
+    $("#weightNum0").change(function() {  
+    	//alert($(this).parents('.containerList').find('#vgmNum0').val());
+        if($(this).parents('.containerList').find('#vgmNum0').val()==''){
+        	//alert($(this).parents('.containerList').find('#vgmNum0').val())
+        	$(this).parents('.containerList').find('#vgmNum0').val($(this).val());
+        }   
     })
-    $('.containerAll').delegate('.removeContainer','click', function() {
-    	$(this).parents('.containerList').remove()
+
+    //VGM责任人 by daniel 20190919
+    $("#inputResponsibility").change(function() {  
+    	$('#inputAuthorize').val($(this).val());
+    	$('#inputWeighing').val($(this).val());
     })
+
     $('#sendcontainer').click(function() {
     	if(!bookingId && action == 'add') {
     		comModel("请先保存MBL订单信息")
@@ -1381,7 +1402,91 @@ $(function(){
     			$("#myModal").modal("show");
     		}
     	}, 2000);
-    	
+    	//加载集装箱数据，从上面移动到这里 by daniel 20200228
+		common.ajax_req("get", false, dataUrl, "booking.ashx?action=readcontainer", {  
+			"whichId": 1,
+			"bookingId": Id
+		}, function(data) {
+			//console.log(data)
+			if(data.State == 1) {
+				$(".containerList").remove()
+				var _data = data.Data;
+				//$('#containerTabStatus').val('1');
+				for(var i = 0; i < _data.length; i++) {
+					var package0 = _data[i].boco_package.split(' ')
+					var weight0 = _data[i].boco_weight.split(' ')
+					var volume0 = _data[i].boco_volume.split(' ')
+					var vgm0 = _data[i].boco_vgm.split(' ')
+					var crmlist = '<div class="col-sm-12 containerList" style="margin:5px 0;">' +
+						'<select id="containerType" class="no-padding-left no-padding-right margin-right-5" style="width:6%; float: left;">' +
+						'</select>' +
+						'<input type="text" class="form-control margin-right-5" id="number" value="' + _data[i].boco_number + '" style="width:8%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="sealNumber" value="' + _data[i].boco_sealNumber + '" style="width:6%;float: left;">' +
+						'<input type="text" class="form-control margin-right-5" id="packageNum0" value="' + package0[0] + '" style="width:4%;float: left;">' +
+						'<select id="package0" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
+						'</select>' +
+						'<input type="text" class="form-control margin-right-5" id="weightNum0"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
+						'<select id="weight0" class="no-padding-left no-padding-right margin-right-5" style="width:6%;float: left;">' +
+						'</select>' +
+						'<input type="text" class="form-control margin-right-5" id="volumeNum0"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
+						'<select id="volume0" class="no-padding-left no-padding-right margin-right-5" style="width:6%;float: left;">' +
+						'</select>' +
+						'<input type="text" class="form-control margin-right-5" id="vgmNum0"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
+						'<select id="vgm0" class="no-padding-left no-padding-right margin-right-5" style="width:6%;float: left;">' +
+						'</select>' +
+						'<input type="text" class="form-control margin-right-5" id="customsCode" value="' + _data[i].boco_customsCode + '" style="width:9%;float: left;">' +
+						'<input type="text" class="form-control margin-right-10" id="goodsName" value="' + _data[i].boco_goodsName + '" style="width:9%;float: left;">' +
+						//'<button type="submit" class="newContainer btn btn-blue margin-right-5" style="width:3%;float: left;">+</button>'+
+						//'<button type="submit" class="removeContainer btn btn-blue" style="width:3%;float: left;">-</button>' +
+						'<a class="newContainer btn btn-info input-xs"><i class="fa fa-plus-circle"></i></a> '+
+						'<a class="removeContainer btn btn-danger input-xs"><i class="fa fa-times-circle"></i></a>' +
+						'</div>'
+					$(".containerAll").prepend(crmlist)
+					$('#containerType').html($('#trailerNumUnit').html())
+					$('#containerType').val(_data[i].boco_typeName).trigger("change")
+					$('#package0').html($('#package').html())
+					package0[1]?$('#package0').val(package0[1]).trigger("change"):$("#package0 option:first").prop("selected", 'selected');
+					
+					$('#volume0').html($('#volume').html())
+					volume0[1]?$('#volume0').val(volume0[1]).trigger("change"):$("#volume0 option:first").prop("selected", 'selected');
+
+					$('#weight0').html($('#weight').html())
+					weight0[1]?$('#weight0').val(weight0[1]).trigger("change"):$("#weight0 option:first").prop("selected", 'selected');
+
+					$('#vgm0').html($('#weight').html())
+					vgm0[1]?$('#vgm0').val(vgm0[1]).trigger("change"):$("#vgm0 option:first").prop("selected", 'selected');
+					
+				}
+			}
+		
+		}, function(err) {
+			console.log(err)
+		}, 2000)
+		//加载集装箱VGM数据，从上面移动到这里 by daniel 20200228
+		common.ajax_req('GET', false, dataUrl, 'booking.ashx?action=readvgmbyid', {
+			'bookingId': Id
+		}, function(data) {
+			if(data.State==1){
+				$("#isvgminfo").attr("checked", true)
+				$("#vgminfolist").removeClass('none')
+				var _data = data.Data;
+				$('#vgminfoNum').val(_data.vgm_num)
+				$('#vgminfoUnit').val(_data.vgm_unit).trigger("change")
+				$('#vgminfoWay').val(_data.vgm_way)
+				$('#inputResponsibility').val(_data.vgm_responsibility)
+				$('#inputAuthorize').val(_data.vgm_authorize)
+				$('#inputWeighing').val(_data.vgm_weighing)
+				$('#weighingDate').val(_data.vgm_weighingDate.substring(0, 10))
+				$('#inputVmgBeizhu').val(_data.vgm_beizhu)
+			}
+			else{
+				
+			}
+
+		}, function(error) {
+			console.log(parm)
+		}, 1000)
+
     	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
     		"Id": Id
     	}, function(data) {
@@ -1658,10 +1763,10 @@ $(function(){
 //  				'<select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:15%;float: left;"></select>'+
 //  				'<select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"></select>'+
 //  				'<select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"></select>'+
-//  				'<input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" value="' + _data[i].bofe_fee + '" style="width:10%;float: left;">'+
-//  				'<input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" value="' + _data[i].bofe_num + '" style="width:5%;float: left;">'+
+//  				'<input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" value="' + _data[i].bofe_fee + '" style="width:10%;float: left;">'+
+//  				'<input type="text" class="form-control margin-right-5" id="feeNum" placeholder="" value="' + _data[i].bofe_num + '" style="width:5%;float: left;">'+
 //  				'<select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"></select>'+
-//  				'<input type="email" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" style="width:10%;float: left;">'+
+//  				'<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" style="width:10%;float: left;">'+
 //  				'<button type="submit" class="removeFee btn btn-blue" style="width:3%;float: left;">-</button>'
 //  				
 //  				$(".feeAll").append(feilist)
@@ -1916,7 +2021,7 @@ $(function(){
 
 //	//添加应收应付
 //	$('#addFee1').on('click', function() {
-//		var feeboxRow = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-blue" style="width:30px;float: left;">-</button><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="应收">应收</option></select><select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:200px; float: left;"><option value="请选择">请选择</option></select><select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">总额</label><input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'		
+//		var feeboxRow = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-blue" style="width:30px;float: left;">-</button><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="应收">应收</option></select><select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:200px; float: left;"><option value="请选择">请选择</option></select><select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">总额</label><input type="text" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'		
 //		$('.feeAll').append(feeboxRow)
 //		//feeboxRow = feeboxRow.clone()
 //		//货代公司
@@ -1931,7 +2036,7 @@ $(function(){
 //		
 //	})
 //	$('#addFee2').on('click', function() {
-//		var feeboxRow = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-blue" style="width:30px;float: left;">-</button><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="应付">应付</option></select><select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:200px; float: left;"><option value="请选择">请选择</option></select><select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">总额</label><input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'		
+//		var feeboxRow = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-blue" style="width:30px;float: left;">-</button><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="应付">应付</option></select><select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:200px; float: left;"><option value="请选择">请选择</option></select><select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">总额</label><input type="text" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"><option value="请选择">请选择</option></select><input type="text" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:100px; float: left;"><input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'		
 //		$('.feeAll').append(feeboxRow)
 //		//feeboxRow = feeboxRow.clone()
 //		//货代公司
@@ -2461,7 +2566,72 @@ $(function(){
 
 	});
 
+	///当其中一个SELECT改变的时候，询问其他的是否也需要改变, by daniel 20190730
+	$('.containerAll').delegate('select','change', function() {
+		if($('#selectSamevalue').is(':checked')==true && $(this).attr("id")!="containerType"){				
+    		$('.containerAll').find("select[id='"+($(this).attr("id"))+"']").val($(this).val())
+    		GetContainerSum();
+		}
+	}); 
+
+	//////计算件数，重量以及体积的总和，在countSumswitch的开关打开的时候算一次, by daniel 20190731		for(var i = 0; i < $('.containerList').length; i++) {
+	$('#container_head').delegate('#countSumswitch','change', function() {
+		alert("dd")
+		GetContainerSum();
+	}); 
+	//////计算件数，重量以及体积的总和，每次在输入新的数据的时候计算一次, by daniel 20190731
+	$('.containerAll').delegate('input[id="packageNum0"],input[id="weightNum0"],input[id="volumeNum0"]','change', function() {
+		GetContainerSum();
+		$('#Containers').attr("data-update-status","1")
+	}); 
+function GetContainerSum(){	
+	var package0_sum=0
+	var weightNum0_sum=0
+	var volumeNum0_sum=0
+	var package0_sel=''
+	var weightNum0_sel=''
+	var volumeNum0_sel=''
+	var _containerListLength=$('.containerList').length;
+	if($('#countSumswitch').is(':checked')==true){
+		
+		$('.containerAll').find("input[id='packageNum0']").each(function(){
+			package0_sum+=Number($(this).val())
+		});
+		$('.containerAll').find("input[id='weightNum0']").each(function(){
+			weightNum0_sum+=Number($(this).val())
+		});
+		$('.containerAll').find("input[id='volumeNum0']").each(function(){
+			volumeNum0_sum+=Number($(this).val())
+		});
+		// if(_containerListLength>1){
+		// 	// for(i=0;i<_containerListLength;i++){
+
+		// 	// }
+		// 	package0_sel=$('.containerAll').find("select[id='package0']").val()
+		// 	weightNum0_sel=$('.containerAll').find("select[id='weight0']").val()
+		// 	volumeNum0_sel=$('.containerAll').find("select[id='volume0']").val()
+		// }else{
+			package0_sel=$('.containerAll').find("select[id='package0']").val();
+			weightNum0_sel=$('.containerAll').find("select[id='weight0']").val();
+			volumeNum0_sel=$('.containerAll').find("select[id='volume0']").val();
+			// $('#volumeNum').val(volumeNum0_sum);
+			// $('#packageNum').val(package0_sum);
+			// $('#weightNum').val(weightNum0_sum);
+			// $("#package option[value='"+package0_sel+"']").prop("selected", true);
+			// $("#volume option[value='"+volumeNum0_sel+"']").prop("selected", true);
+			// $("#weight option[value='"+weightNum0_sel+"']").prop("selected", true);
+		// }
+		//上面是正则来替换件数，毛重，体积的数量，仅仅是数量而已 by daniel 20190731
+		(volumeNum0_sum>0?($('#volumeNum').val(volumeNum0_sum) & $("#volume option[value='"+volumeNum0_sel+"']").prop("selected", true)):"");
+		(package0_sum>0?($('#packageNum').val(package0_sum) & $("#package option[value='"+package0_sel+"']").prop("selected", true)):"");
+		(weightNum0_sum>0?($('#weightNum').val(weightNum0_sum) & $("#weight option[value='"+weightNum0_sel+"']").prop("selected", true)):"");
+	}
+}
+
 })
+
+
+
 
 /**
  * 确定
