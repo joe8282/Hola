@@ -1,6 +1,6 @@
 
-var dataUrl = 'http://localhost:48349/'
-//var dataUrl = 'http://47.97.188.85:8088/'
+//var dataUrl = 'http://localhost:48349/'
+var dataUrl = 'http://47.97.188.85:8088/'
 var imgUrl = 'http://192.168.1.211:8082/'
 
 var common = {
@@ -271,6 +271,7 @@ function getNav(){
                             '<li class="sys3"><a href="userinfo.html"><span class="menu-text" set-lan="html:nav_0_3">Worker Management</span></a></li>'+ 
                             '<li class="sys4"><a href="systerm.html"><span class="menu-text" set-lan="html:nav_0_4">Parameter Settings</span></a></li>' +
                             '<li class="sys5"><a href="role.html"><span class="menu-text" set-lan="html:nav_0_5">Role Management</span></a></li>' +
+                            '<li class="sys5"><a href="remark.html"><span class="menu-text" set-lan="html:nav_0_6">Remark Management</span></a></li>' +
                         '</ul>'+
                     '</li>' +
 					'<li class="navli00"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_00"> USER MANAGEMENT </span><i class="menu-expand"></i></a>'+

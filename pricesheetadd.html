@@ -33,6 +33,7 @@ Purchase: http://wrapbootstrap.com
     <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
 
     <!--Page Related styles-->  
+    <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet" />   
     <link href="css/common.css" rel="stylesheet" />
     <link href="assets/css/select2.min.css" rel="stylesheet" />
     
@@ -265,10 +266,10 @@ Purchase: http://wrapbootstrap.com
                                             <textarea class="form-control" style="width:100%;" rows="4" id="remark"></textarea> 
                                         </div>
                                         <div class="btn-group open">
-                                            <a class="dropdown-toggle" data-toggle="dropdown">
+                                            <a href="#myRemarkList" data-toggle="modal">
                                                 <i class="glyphicon glyphicon-th-list"></i>
                                             </a>
-                                            <ul class="dropdown-menu">
+                                            <!--<ul class="dropdown-menu">
                                                 <li>
                                                     <a href="javascript:void(0);" style=""><i class="fa fa-times"></i> Action <i class="fa fa-edit" style="float: right;"></i></a>
                                                 </li>
@@ -281,7 +282,7 @@ Purchase: http://wrapbootstrap.com
                                                 <li>
                                                     <a href="javascript:void(0);">Separated link</a>
                                                 </li>
-                                            </ul>
+                                            </ul>-->
                                         </div>
                                     </div> 
                                     <div class="widget-header bordered-left bordered-darkorange">
@@ -521,6 +522,40 @@ Purchase: http://wrapbootstrap.com
     </div>
 
     <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-lg" id="myRemarkList" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg" style=" width: 60%;">
+            <div class="modal-content" style=" width: 100%;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">备注管理</h4>
+                </div>
+                <div class="modal-body" style=" width: 100%;">
+                    <table class="table table-hover table-striped table-bordered dataTable" id="pricesheet_tabel_remark" width="100%">
+                        <thead class="bordered-blueberry">
+                            <tr>
+                                <th></th>
+                                <th>类别</th>
+                                <th>备注内容</th>
+                                <th>新增时间</th>
+                            </tr>
+                        </thead>
+                        <tbody class="remarkItem">
+                            <tr></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnSave0" set-lan="html:submit">确定</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">
+                        取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+
+    <!--LArge Modal Templates-->
     <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg" style=" width: 60%;">
             <div class="modal-content" style=" width: 100%;">
@@ -679,12 +714,13 @@ Purchase: http://wrapbootstrap.com
     <!--Bootstrap Date Picker-->
     <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
     <script src="assets/js/select2/select2.min.js"></script>
-    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
-    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>
-    <script src="assets/js/bootbox/bootbox.js"></script>
     <script src="assets/js/select2/zh-CN.js"></script>
     
     <!--Page Related Scripts-->
+    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/bootbox/bootbox.js"></script>
+
     <script src="js/common.js"></script>
     <script src="js/pricesheetadd.js"></script> 
     <script src="js/lan.js"></script> 

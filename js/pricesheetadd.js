@@ -7,8 +7,9 @@ var cn2 = {
 var en2 = {
             "con_top_1" : "Home",
             "con_top_2" : "Financial MANAGEMENT",        
-        };
+};
 
+var oTable;
 $(function(){
 	this.title = get_lan('nav_5_3') 	
 	$('.navli5').addClass("active open")
@@ -1084,6 +1085,11 @@ $(function(){
 		}
 	});
 
+	$('#btnSave0').on('click', function () {
+	    $("#remark").val($("input[name='radioList']:checked").val());
+	    $("#myRemarkList").modal("hide");
+	})
+
     /*下一步*/
 	$('#btnSave').on('click', function () {
 	    var feeData = '';
@@ -1220,8 +1226,95 @@ $(function(){
 	        alert("请选择要导入的费用!");
 	    }
 	})
+
+	oTable = initTable();
 	
 })
+
+
+/**
+ * 备注表格初始化
+ * @returns {*|jQuery}
+ */
+function initTable() {
+
+    var table = $("#pricesheet_tabel_remark").dataTable({
+        "sAjaxSource": dataUrl + 'ajax/remark.ashx?action=read&companyId=' + companyID,
+        //"bLengthChange": false,
+        //'bPaginate': false,
+        //"iDisplayLength": 10,
+        //"aLengthMenu": [[100, 500], ["100", "500"]],//二组数组，第一组数量，第二组说明文字;
+        //"aaSorting": [[7, 'desc']],
+        "aoColumnDefs": [//设置列的属性，此处设置第一列不排序
+            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+            { "bSortable": false, "aTargets": [0] }
+        ],
+        "ordering": false,
+        //		"bDestory": true,
+        //		"bRetrieve": true,
+        //		"bFilter": false,
+        //"bSort": false,
+        //"aaSorting": [[ 0, "desc" ]],
+        //"stateSave": false,  //保存表格动态
+        //"columnDefs":[{
+        //    "targets": [ 0 ], //隐藏第0列，从第0列开始   
+        //    "visible": false
+        //}],
+        "aoColumns": [
+            				{
+            				    "mDataProp": "rema_id",
+            				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+            				        $(nTd).html("<input type='radio' name='radioList' value='" + oData.rema_content + "'>");
+            				    }
+            				},
+           { "mDataProp": "rema_type" },
+           { "mDataProp": "rema_content" },
+            {
+                "mDataProp": "rema_time",
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    if (rowData.rema_time != null) {
+                        $(td).html(rowData.rema_time.substring(0, 10));
+                    } else {
+                        $(td).html("NULL");
+                    }
+                }
+            },
+
+        ],
+        //		"bProcessing": true,
+        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+        //		"sPaginationType": "bootstrap",
+
+        "oLanguage": {
+            //			"sUrl": "js/zh-CN.txt"
+            //			"sSearch": "快速过滤："
+            "sProcessing": "正在加载数据，请稍后...",
+            "sLengthMenu": "每页显示 _MENU_ 条记录",
+            "sZeroRecords": get_lan('nodata'),
+            "sEmptyTable": "表中无数据存在！",
+            "sInfo": get_lan('page'),
+            "sInfoEmpty": "显示0到0条记录",
+            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+            //"sInfoPostFix": "",
+            "sSearch": get_lan('search'),
+            //"sUrl": "",
+            //"sLoadingRecords": "载入中...",
+            //"sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": get_lan('first'),
+                "sPrevious": get_lan('previous'),
+                "sNext": get_lan('next'),
+                "sLast": get_lan('last'),
+            }
+            //"oAria": {
+            //    "sSortAscending": ": 以升序排列此列",
+            //    "sSortDescending": ": 以降序排列此列"
+            //}
+        }
+    });
+
+    return table;
+}
 
 	var _dataArrs=[];
     //本地费用
