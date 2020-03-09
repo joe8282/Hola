@@ -130,7 +130,7 @@ $(function(){
 
 	$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
 	$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
-	$("#movementType").change(function() {
+	$("#movementType").change(function () {
 		var opt = $("#movementType").val();
 		if(opt=="FCL"){
 			$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
@@ -1106,6 +1106,7 @@ $(function(){
 	        var feeoneData = _feeType + ';' + _feeUnit + ';' + _feePrice + ';' + _fee20GP + ';' + _fee40GP + ';' + _fee40HQ + ';' + _feeUseTime1 + ';' + _feeUseTime2 + ';' + _feeRemark + '||'
 	        feeData = feeData + feeoneData
 	    });
+        console.log(feeData.length)
 	    if (feeData.length > 0) {
 	    	//$('.feeList').find("#fee20GP")==
 	    	////////////////////检测复制这条数据得时候，是否有原来未修改的数据，如果有的话，那么就删除，如果已经修改，那么就保留。by daniel 20191015////////////////////////////////////////////////
@@ -1228,6 +1229,241 @@ $(function(){
 	})
 
 	oTable = initTable();
+
+	rateTable1('', '', '');
+	rateTable2('', '', '');
+	rateTable3('', '', '');
+	$('#load_oceanfreight').on('click', function () {
+	    var opt = $("#movementType").val();
+	    if (opt == "FCL") {
+	        $("#pricesheet_tabel_rate1_wrapper").show();
+	        $("#pricesheet_tabel_rate2_wrapper").hide();
+	        $("#pricesheet_tabel_rate3_wrapper").hide();
+	        $("#pricesheet_tabel_rate1").show();
+	        $("#pricesheet_tabel_rate2").hide();
+	        $("#pricesheet_tabel_rate3").hide();
+	    } else if (opt == "LCL") {
+	        $("#pricesheet_tabel_rate1_wrapper").hide();
+	        $("#pricesheet_tabel_rate2_wrapper").show();
+	        $("#pricesheet_tabel_rate3_wrapper").hide();
+	        $("#pricesheet_tabel_rate1").hide();
+	        $("#pricesheet_tabel_rate2").show();
+	        $("#pricesheet_tabel_rate3").hide();
+	    } else if (opt == "AIR") {
+	        $("#pricesheet_tabel_rate1_wrapper").hide();
+	        $("#pricesheet_tabel_rate2_wrapper").hide();
+	        $("#pricesheet_tabel_rate3_wrapper").show();
+	        $("#pricesheet_tabel_rate1").hide();
+	        $("#pricesheet_tabel_rate2").hide();
+	        $("#pricesheet_tabel_rate3").show();
+	    }
+	    
+	})
+
+    /*下一步*/
+	$('#btnSaveRate').on('click', function () {
+	    var opt = $("#movementType").val();
+	    var feeData = '';
+	    $("input[name='checkListRate']:checked").each(function (i, o) {
+	        feeData = feeData + $(this).val() + '||'
+	    });
+	    console.log(feeData)
+	    if (feeData.length > 0) {
+	        var feeItemAll0 = feeData.split('||')
+	        for (var i = 0; i < feeItemAll0.length - 1; i++) {
+	            var feeItem0 = feeItemAll0[i].split(';')
+	            var newid = parseInt(Math.random() * 1000)
+	            var _html = ''
+	            if (opt == "FCL") {
+	                 _html = '<div class="col-sm-12 feeList0">' +
+                            '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
+                            '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>' +
+                            //'<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
+                            //'<input type="text" class="form-control margin-right-5" id="feebyRT" value="' + feeItem0[2] + '" placeholder="0" style="width:80px; float: left;">' +
+                            '<input type="text" class="form-control margin-right-5" id="fee20GP" placeholder="0" value="' + feeItem0[1] + '" style="width:80px; float: left;">' +
+                            '<input type="text" class="form-control margin-right-5" id="fee40GP" placeholder="0" value="' + feeItem0[2] + '" style="width:80px; float: left;">' +
+                            '<input type="text" class="form-control margin-right-5" id="fee40HQ" placeholder="0" value="' + feeItem0[3] + '" style="width:80px; float: left;">' +
+                            '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+                            //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
+                            '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="' + feeItem0[5] + '">' +
+                                '<option value="Mon">Mon</option>' +
+                                '<option value="Tur">Tue</option>' +
+                                '<option value="Wed">Wed</option>' +
+                                '<option value="Thu">Thu</option>' +
+                                '<option value="Fri">Fri</option>' +
+                                '<option value="Sat">Sat</option>' +
+                                '<option value="Sun">Sun</option>' +
+                            '</select>' +
+                            //'<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="" value="' + feeItem0[5] + '" style="width:100px; float: left;">' +
+                            '<div class="input-group margin-right-5" style="width:80px; float: left;">' +
+                                '<input type="text" class="form-control margin-right-5" id="hangcheng" value="' + feeItem0[6] + '" placeholder="0" value="">' +
+                                '<span class="input-group-addon">Days</span>' +
+                            '</div>' +
+                            '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="Ports" value="' + feeItem0[7] + '" style="width:100px; float: left;">' +
+                            '<div class="input-group margin-right-5" style="width:220px; float: left;">' +
+                                '<div class="input-group">' +
+                                    '<input class="form-control date-picker date_select" id="id-date-picker-1" value="' + feeItem0[8] + '" type="text" data-date-format="yyyy-mm-dd">' +
+                                     '<span class="input-group-addon">to</span>' +
+                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem0[9] + '" type="text" data-date-format="yyyy-mm-dd">' +
+                                '</div>' +
+                            '</div>' +
+                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem0[10] + '" style="width:150px; float: left;">' +
+                            '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">' +
+                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> ' +
+                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>' +
+                            '</label>' +
+                        '</div>'
+	            }
+	            if (opt == "LCL") {
+	                _html = '<div class="col-sm-12 feeList0">' +
+                           '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
+                           '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>' +
+                           //'<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
+                           '<input type="text" class="form-control margin-right-5" id="feebyRT" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
+                           '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+                           //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
+                           '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="' + feeItem0[3] + '">' +
+                               '<option value="Mon">Mon</option>' +
+                               '<option value="Tur">Tue</option>' +
+                               '<option value="Wed">Wed</option>' +
+                               '<option value="Thu">Thu</option>' +
+                               '<option value="Fri">Fri</option>' +
+                               '<option value="Sat">Sat</option>' +
+                               '<option value="Sun">Sun</option>' +
+                           '</select>' +
+                           //'<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="" value="' + feeItem0[5] + '" style="width:100px; float: left;">' +
+                           '<div class="input-group margin-right-5" style="width:80px; float: left;">' +
+                               '<input type="text" class="form-control margin-right-5" id="hangcheng" value="' + feeItem0[4] + '" placeholder="0" value="">' +
+                               '<span class="input-group-addon">Days</span>' +
+                           '</div>' +
+                           '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="Ports" value="' + feeItem0[5] + '" style="width:100px; float: left;">' +
+                           '<div class="input-group margin-right-5" style="width:220px; float: left;">' +
+                               '<div class="input-group">' +
+                                   '<input class="form-control date-picker date_select" id="id-date-picker-1" value="' + feeItem0[6] + '" type="text" data-date-format="yyyy-mm-dd">' +
+                                    '<span class="input-group-addon">to</span>' +
+                                   '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem0[7] + '" type="text" data-date-format="yyyy-mm-dd">' +
+                               '</div>' +
+                           '</div>' +
+                           '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem0[8] + '" style="width:150px; float: left;">' +
+                           '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">' +
+                               '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> ' +
+                               '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>' +
+                           '</label>' +
+                       '</div>'
+	            }
+	            if (opt == "AIR") {
+	                _html = '<div class="col-sm-12 feeList0">' +
+                           '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
+                           '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>' +
+                           //'<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
+                           '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+                           //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
+                           '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="' + feeItem0[6] + '">' +
+                               '<option value="Mon">Mon</option>' +
+                               '<option value="Tur">Tue</option>' +
+                               '<option value="Wed">Wed</option>' +
+                               '<option value="Thu">Thu</option>' +
+                               '<option value="Fri">Fri</option>' +
+                               '<option value="Sat">Sat</option>' +
+                               '<option value="Sun">Sun</option>' +
+                           '</select>' +
+                           //'<input type="text" class="form-control margin-right-5" id="hangcheng" placeholder="" value="' + feeItem0[5] + '" style="width:100px; float: left;">' +
+                           '<div class="input-group margin-right-5" style="width:80px; float: left;">' +
+                               '<input type="text" class="form-control margin-right-5" id="hangcheng" value="' + feeItem0[7] + '" placeholder="0" value="">' +
+                               '<span class="input-group-addon">Days</span>' +
+                           '</div>' +
+                           '<input type="text" class="form-control margin-right-5" id="zhongzhuang" placeholder="Ports" value="' + feeItem0[8] + '" style="width:100px; float: left;">' +
+                           '<div class="input-group margin-right-5" style="width:220px; float: left;">' +
+                               '<div class="input-group">' +
+                                   '<input class="form-control date-picker date_select" id="id-date-picker-1" value="' + feeItem0[9] + '" type="text" data-date-format="yyyy-mm-dd">' +
+                                    '<span class="input-group-addon">to</span>' +
+                                   '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem0[10] + '" type="text" data-date-format="yyyy-mm-dd">' +
+                               '</div>' +
+                           '</div>' +
+                           '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="45+(kgs):' + feeItem0[1] + ';100+(kgs):' + feeItem0[2] + ';500+(kgs):' + feeItem0[3] + ';1000+(kgs):' + feeItem0[4] + '" style="width:150px; float: left;">' +
+                           '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">' +
+                               '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> ' +
+                               '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>' +
+                           '</label>' +
+                       '</div>'
+	            }
+
+	            $('.feeAll0').prepend(_html)
+
+	            //承运人
+	            $("#" + newid).select2({
+	                ajax: {
+	                    url: dataUrl + "ajax/publicdata.ashx?action=readcarrier&companyId=" + companyID,
+	                    dataType: 'json',
+	                    delay: 250,
+	                    data: function (params) {
+	                        params.offset = 10; //显示十条 
+	                        params.page = params.page || 1; //页码 
+	                        return {
+	                            q: params.term,
+	                            page: params.page,
+	                            offset: params.offset
+	                        };
+	                    },
+	                    cache: true,
+	                    /* *@params res 返回值 *@params params 参数 */
+	                    processResults: function (res, params) {
+	                        var users = res.data;
+	                        var options = [];
+	                        for (var i = 0, len = users.length; i < len; i++) {
+	                            var option = {
+	                                "id": users[i]["puda_name_en"],
+	                                "text": users[i]["puda_name_en"]
+	                            };
+	                            options.push(option);
+	                        }
+	                        return {
+	                            results: options,
+	                            pagination: {
+	                                more: (params.page * params.offset) < res.total
+	                            }
+	                        };
+	                    }
+	                },
+	                placeholder: '请选择', //默认文字提示
+	                language: "zh-CN",
+	                tags: true, //允许手动添加
+	                allowClear: true, //允许清空
+	                escapeMarkup: function (markup) {
+	                    return markup;
+	                }, // 自定义格式化防止xss注入
+	                minimumInputLength: 3,
+	                formatResult: function formatRepo(repo) {
+	                    return repo.text;
+	                }, // 函数用来渲染结果
+	                formatSelection: function formatRepoSelection(repo) {
+	                    return repo.text;
+	                } // 函数用于呈现当前的选择
+	            });
+	            $('.date-picker').datepicker();
+	            $('.feeList0:first').find('#feeCurrency').html(_feeUnit);
+	            $('.feeList0:first').find('#feeCurrency').val(feeItem0[0]).trigger("change"); 
+	            if (opt == "FCL") {
+	                $('.feeList0:first').find('#hangqi').val(feeItem0[5]).trigger("change");
+	                $('.feeList0:first').find('#' + newid).html('<option value="' + feeItem0[4] + '">' + feeItem0[4] + '</option>').trigger("change");
+	            }
+	            if (opt == "LCL") {
+	                $('.feeList0:first').find('#hangqi').val(feeItem0[3]).trigger("change");
+	                $('.feeList0:first').find('#' + newid).html('<option value="' + feeItem0[2] + '">' + feeItem0[2] + '</option>').trigger("change");
+	            }
+	            if (opt == "AIR") {
+	                $('.feeList0:first').find('#hangqi').val(feeItem0[6]).trigger("change");
+	                $('.feeList0:first').find('#' + newid).html('<option value="' + feeItem0[5] + '">' + feeItem0[5] + '</option>').trigger("change");
+	            }
+
+	        }
+	        $("input[name='checkListRate']").attr("checked", false)
+	        $("#myModal3").modal("hide");
+	        $("#movementType").attr("disabled", "disabled");
+	    } else {
+	        alert("请选择要导入的费用!");
+	    }
+	})
 	
 })
 
@@ -1521,3 +1757,350 @@ function initTable() {
 			}
 		]
 	});
+
+
+	function rateTable1(port1, port2, usetime) {
+	    var ajaxUrl, tableTitle, columns
+	    ajaxUrl = dataUrl + 'ajax/rate.ashx?action=read&companyId=' + companyID + '&port1=' + port1 + '&port2=' + port2 + '&movementType=FCL'
+	    console.log(ajaxUrl)
+	    tableTitle = '<th></th><th>企业</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>20\'GP</th><th>40\'GP</th><th>40\'HQ</th><th>承运人</th><th>航期</th><th>航程</th><th>中转</th><th>有效期</th>'
+	    $('.tableTitle1').html(tableTitle)
+	    columns = [
+                        				{
+                        				    "mDataProp": "rate_id",
+                        				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        				        $(nTd).html("<input type='checkbox' name='checkListRate' value='" + oData.rate_numUnit + ';' + oData.rate_20GP + ';' + oData.rate_40GP + ';' + oData.rate_40HQ + ';' + oData.rate_carrier + ';' + oData.rate_schedule + ';' + oData.rate_voyage + ';' + oData.rate_transit + ';' + oData.rate_time1.substring(0, 10) + ';' + oData.rate_time2.substring(0, 10) + ';' + oData.rate_beizhu + "'>");
+                        				    }
+                        				},
+                                                    {
+                                                        "mDataProp": "comp_code",
+                                                        "createdCell": function (td, cellData, rowData, row, col) {
+                                                            if (cellData) {
+                                                                $(td).html('<a href="javascript:void(0);" data-placement="top" data-toggle="popover" data-content="' + rowData.comp_name + '">' + cellData + '</a>');
+                                                            }
+                                                        }
+                                                    },
+            {
+                "mDataProp": "rate_port1",
+                "mRender": function (data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
+                    return (full.rate_port1 + " <i class='fa fa-long-arrow-right'></i></br> " + full.rate_port2)
+                }
+            },
+            //{ "mDataProp": "rate_port2"},
+            {
+                "mDataProp": "rate_20GP",
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    $(td).html(rowData.rate_numUnit + rowData.rate_20GP);
+                }
+            },
+            {
+                "mDataProp": "rate_40GP",
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    $(td).html(rowData.rate_numUnit + rowData.rate_40GP);
+                }
+            },
+            {
+                "mDataProp": "rate_40HQ",
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    $(td).html(rowData.rate_numUnit + rowData.rate_40HQ);
+                }
+            },
+            { "mDataProp": "rate_carrier" },
+            { "mDataProp": "rate_schedule" },
+            { "mDataProp": "rate_voyage" },
+            { "mDataProp": "rate_transit" },
+            {
+                "mDataProp": "rate_time2",
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    if (rowData.rate_time1 != null) {
+                        $(td).html(rowData.rate_time1.substring(0, 10) + '<br/>' + rowData.rate_time2.substring(0, 10));
+                    } else {
+                        $(td).html("NULL");
+                    }
+                }
+            },
+	    ]
+        , aoColumnDefs = [//设置列的属性，此处设置第一列不排序
+            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+            { "bSortable": false, "aTargets": [0, 8, 5, 6, 7] }
+        ]
+        , _aaSorting = [[9, 'desc']]
+
+	    var table = $("#pricesheet_tabel_rate1").dataTable({
+	        //"iDisplayLength":10,
+	        //"searching": false, //去掉搜索框 
+	        "sAjaxSource": ajaxUrl,
+	        //		'bPaginate': true,
+	        //		"bDestory": true,
+	        //		"bRetrieve": true,
+	        //		"bFilter": false,
+	        "bLengthChange": false,
+	        //		"bSort": true,
+	        //		"aaSorting": [[ 9, "desc" ]],
+	        //		"bProcessing": true,
+	        "aoColumns": columns,
+	        "aoColumnDefs": aoColumnDefs,
+	        "aaSorting": _aaSorting,
+	        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+	        //		"sPaginationType": "bootstrap",
+	        "oLanguage": {
+	            //			"sUrl": "js/zh-CN.txt"
+	            //			"sSearch": "快速过滤："
+	            "sProcessing": "正在加载数据，请稍后...",
+	            "sLengthMenu": "每页显示 _MENU_ 条记录",
+	            "sZeroRecords": get_lan('nodata'),
+	            "sEmptyTable": "表中无数据存在！",
+	            "sInfo": get_lan('page'),
+	            "sInfoEmpty": "显示0到0条记录",
+	            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+	            //"sInfoPostFix": "",
+	            "sSearch": get_lan('search'),
+	            //"sUrl": "",
+	            //"sLoadingRecords": "载入中...",
+	            //"sInfoThousands": ",",
+	            "oPaginate": {
+	                "sFirst": get_lan('first'),
+	                "sPrevious": get_lan('previous'),
+	                "sNext": get_lan('next'),
+	                "sLast": get_lan('last'),
+	            }
+	            //"oAria": {
+	            //    "sSortAscending": ": 以升序排列此列",
+	            //    "sSortDescending": ": 以降序排列此列"
+	            //}
+	        },
+	        "drawCallback": function () {
+	            $('[data-toggle="popover"]').popover();
+	        }
+	    });
+
+	    return table;
+	}
+
+	function rateTable2(port1, port2, usetime) {
+	    var ajaxUrl, tableTitle, columns
+	    ajaxUrl = dataUrl + 'ajax/rate.ashx?action=read&companyId=' + companyID + '&movementType=LCL'
+	    tableTitle = '<th></th><th>企业</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>价格(USD/RT)</th><th>承运人</th><th>航期</th><th>航程</th><th>中转</th><th>有效期</th>'
+	    $('.tableTitle2').html(tableTitle)
+	    columns = [
+                        				{
+                        				    "mDataProp": "rate_id",
+                        				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        				        $(nTd).html("<input type='checkbox' name='checkListRate' value='" + oData.rate_numUnit + ';' + oData.rate_20GP + ';' + oData.rate_carrier + ';' + oData.rate_schedule + ';' + oData.rate_voyage + ';' + oData.rate_transit + ';' + oData.rate_time1.substring(0, 10) + ';' + oData.rate_time2.substring(0, 10) + ';' + oData.rate_beizhu + "'>");
+                        				    }
+                        				},
+                                         {
+                                             "mDataProp": "comp_code",
+                                             "createdCell": function (td, cellData, rowData, row, col) {
+                                                 if (cellData) {
+                                                     $(td).html('<a href="javascript:void(0);" data-placement="top" data-toggle="popover" data-content="' + rowData.comp_name + '">' + cellData + '</a>');
+                                                 }
+                                             }
+                                         },
+             {
+                 "mDataProp": "rate_port1",
+                 "mRender": function (data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
+                     return (full.rate_port1 + " <i class='fa fa-long-arrow-right'></i></br> " + full.rate_port2)
+                 }
+             },
+             //{ "mDataProp": "rate_port2"},
+             {
+                 "mDataProp": "rate_20GP",
+                 "createdCell": function (td, cellData, rowData, row, col) {
+                     $(td).html(rowData.rate_numUnit + rowData.rate_20GP);
+                 }
+             },
+             { "mDataProp": "rate_carrier" },
+             { "mDataProp": "rate_schedule" },
+             { "mDataProp": "rate_voyage" },
+             { "mDataProp": "rate_transit" },
+             {
+                 "mDataProp": "rate_time2",
+                 "createdCell": function (td, cellData, rowData, row, col) {
+                     if (rowData.rate_time1 != null) {
+                         $(td).html(rowData.rate_time1.substring(0, 10) + '<br/>' + rowData.rate_time2.substring(0, 10));
+                     } else {
+                         $(td).html("NULL");
+                     }
+                 }
+             },
+	    ]
+         , aoColumnDefs = [//设置列的属性，此处设置第一列不排序
+             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+             { "bSortable": false, "aTargets": [0, 1, 3, 4, 5, 6] }
+         ]
+         , _aaSorting = [[7, 'desc']]
+
+	    var table = $("#pricesheet_tabel_rate2").dataTable({
+	        //"iDisplayLength":10,
+	        //"searching": false, //去掉搜索框 
+	        "sAjaxSource": ajaxUrl,
+	        //		'bPaginate': true,
+	        //		"bDestory": true,
+	        //		"bRetrieve": true,
+	        //		"bFilter": false,
+	        "bLengthChange": false,
+	        //		"bSort": true,
+	        //		"aaSorting": [[ 9, "desc" ]],
+	        //		"bProcessing": true,
+	        "aoColumns": columns,
+	        "aoColumnDefs": aoColumnDefs,
+	        "aaSorting": _aaSorting,
+	        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+	        //		"sPaginationType": "bootstrap",
+	        "oLanguage": {
+	            //			"sUrl": "js/zh-CN.txt"
+	            //			"sSearch": "快速过滤："
+	            "sProcessing": "正在加载数据，请稍后...",
+	            "sLengthMenu": "每页显示 _MENU_ 条记录",
+	            "sZeroRecords": get_lan('nodata'),
+	            "sEmptyTable": "表中无数据存在！",
+	            "sInfo": get_lan('page'),
+	            "sInfoEmpty": "显示0到0条记录",
+	            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+	            //"sInfoPostFix": "",
+	            "sSearch": get_lan('search'),
+	            //"sUrl": "",
+	            //"sLoadingRecords": "载入中...",
+	            //"sInfoThousands": ",",
+	            "oPaginate": {
+	                "sFirst": get_lan('first'),
+	                "sPrevious": get_lan('previous'),
+	                "sNext": get_lan('next'),
+	                "sLast": get_lan('last'),
+	            }
+	            //"oAria": {
+	            //    "sSortAscending": ": 以升序排列此列",
+	            //    "sSortDescending": ": 以降序排列此列"
+	            //}
+	        },
+	        "drawCallback": function () {
+	            $('[data-toggle="popover"]').popover();
+	        }
+	    });
+
+	    return table;
+	}
+
+	function rateTable3(port1, port2, usetime) {
+	    var ajaxUrl, tableTitle, columns
+	    ajaxUrl = dataUrl + 'ajax/rate.ashx?action=read&companyId=' + companyID + '&movementType=AIR'
+	    tableTitle = '<th></th><th>企业</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>45+(kgs)</th><th>100+(kgs)</th><th>500+(kgs)</th><th>1000+(kgs)</th><th>承运人</th><th>航期</th><th>航程</th><th>中转</th><th>有效期</th>'
+	    $('.tableTitle3').html(tableTitle)
+	    columns = [
+                        				{
+                        				    "mDataProp": "rate_id",
+                        				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        				        $(nTd).html("<input type='checkbox' name='checkListRate' value='" + oData.rate_numUnit + ';' + oData.rate_20GP + ';' + oData.rate_40GP + ';' + oData.rate_40HQ + ';' + oData.rate_1000kgs + ';' + oData.rate_carrier + ';' + oData.rate_schedule + ';' + oData.rate_voyage + ';' + oData.rate_transit + ';' + oData.rate_time1.substring(0, 10) + ';' + oData.rate_time2.substring(0, 10) + ';' + oData.rate_beizhu + "'>");
+                        				    }
+                        				},
+                                                 {
+                                                     "mDataProp": "comp_code",
+                                                     "createdCell": function (td, cellData, rowData, row, col) {
+                                                         if (cellData) {
+                                                             $(td).html('<a href="javascript:void(0);" data-placement="top" data-toggle="popover" data-content="' + rowData.comp_name + '">' + cellData + '</a>');
+                                                         }
+                                                     }
+                                                 },
+             {
+                 "mDataProp": "rate_port1",
+                 "mRender": function (data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
+                     return (full.rate_port1 + " <i class='fa fa-long-arrow-right'></i></br> " + full.rate_port2)
+                 }
+             },
+             //{ "mDataProp": "rate_port2"},
+             {
+                 "mDataProp": "rate_20GP",
+                 "createdCell": function (td, cellData, rowData, row, col) {
+                     $(td).html(rowData.rate_numUnit + rowData.rate_20GP);
+                 }
+             },
+             {
+                 "mDataProp": "rate_40GP",
+                 "createdCell": function (td, cellData, rowData, row, col) {
+                     $(td).html(rowData.rate_numUnit + rowData.rate_40GP);
+                 }
+             },
+             {
+                 "mDataProp": "rate_40HQ",
+                 "createdCell": function (td, cellData, rowData, row, col) {
+                     $(td).html(rowData.rate_numUnit + rowData.rate_40HQ);
+                 }
+             },
+             {
+                 "mDataProp": "rate_1000kgs",
+                 "createdCell": function (td, cellData, rowData, row, col) {
+                     $(td).html(rowData.rate_numUnit + rowData.rate_1000kgs);
+                 }
+             },
+             { "mDataProp": "rate_carrier" },
+             { "mDataProp": "rate_schedule" },
+             { "mDataProp": "rate_voyage" },
+             { "mDataProp": "rate_transit" },
+             {
+                 "mDataProp": "rate_time2",
+                 "createdCell": function (td, cellData, rowData, row, col) {
+                     if (rowData.rate_time1 != null) {
+                         $(td).html(rowData.rate_time1.substring(0, 10) + '<br/>' + rowData.rate_time2.substring(0, 10));
+                     } else {
+                         $(td).html("NULL");
+                     }
+                 }
+             },
+	    ]
+         , aoColumnDefs = [//设置列的属性，此处设置第一列不排序
+             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+             { "bSortable": false, "aTargets": [0, 1, 6, 7, 8, 9] }
+         ]
+         , _aaSorting = [[10, 'desc']]
+
+	    var table = $("#pricesheet_tabel_rate3").dataTable({
+	        //"iDisplayLength":10,
+	        //"searching": false, //去掉搜索框 
+	        "sAjaxSource": ajaxUrl,
+	        //		'bPaginate': true,
+	        //		"bDestory": true,
+	        //		"bRetrieve": true,
+	        //		"bFilter": false,
+	        "bLengthChange": false,
+	        //		"bSort": true,
+	        //		"aaSorting": [[ 9, "desc" ]],
+	        //		"bProcessing": true,
+	        "aoColumns": columns,
+	        "aoColumnDefs": aoColumnDefs,
+	        "aaSorting": _aaSorting,
+	        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+	        //		"sPaginationType": "bootstrap",
+	        "oLanguage": {
+	            //			"sUrl": "js/zh-CN.txt"
+	            //			"sSearch": "快速过滤："
+	            "sProcessing": "正在加载数据，请稍后...",
+	            "sLengthMenu": "每页显示 _MENU_ 条记录",
+	            "sZeroRecords": get_lan('nodata'),
+	            "sEmptyTable": "表中无数据存在！",
+	            "sInfo": get_lan('page'),
+	            "sInfoEmpty": "显示0到0条记录",
+	            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+	            //"sInfoPostFix": "",
+	            "sSearch": get_lan('search'),
+	            //"sUrl": "",
+	            //"sLoadingRecords": "载入中...",
+	            //"sInfoThousands": ",",
+	            "oPaginate": {
+	                "sFirst": get_lan('first'),
+	                "sPrevious": get_lan('previous'),
+	                "sNext": get_lan('next'),
+	                "sLast": get_lan('last'),
+	            }
+	            //"oAria": {
+	            //    "sSortAscending": ": 以升序排列此列",
+	            //    "sSortDescending": ": 以降序排列此列"
+	            //}
+	        },
+	        "drawCallback": function () {
+	            $('[data-toggle="popover"]').popover();
+	        }
+	    });
+
+	    return table;
+	}

@@ -298,7 +298,7 @@ Purchase: http://wrapbootstrap.com
                                         <div class="col-sm-12 margin-top-20">
                                             <label class="margin-right-5" style="width:20px; float: left;"></label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">币种</label>
-                                            <label id="labelKgs" class="margin-right-5" style="width:80px; float: left;">KGS</label>
+                                            <!--<label id="labelKgs" class="margin-right-5" style="width:80px; float: left;">KGS</label>-->
                                             <label id="labelRt" class="margin-right-5" style="width:80px; float: left;">CBM/TON</label>
                                             <label id="label20gp" class="margin-right-5" cont-type-id="contTypeOne" style="width:80px; float: left;">20GP</label>
                                             <label id="label40gp" class="margin-right-5" cont-type-id="contTypeTwo" style="width:80px; float: left;">40GP</label>
@@ -316,7 +316,7 @@ Purchase: http://wrapbootstrap.com
                                         <div class="col-sm-12 feeList0">
                                             <label for="" class="margin-right-5" style="width:20px; float: left;"></label>
                                             <select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>
-                                            <input type="text" class="form-control margin-right-5" id="feebyKgs" value="" placeholder="0" style="width:80px; float: left;">
+                                            <!--<input type="text" class="form-control margin-right-5" id="feebyKgs" value="" placeholder="0" style="width:80px; float: left;">-->
                                             <input type="text" class="form-control margin-right-5" id="feebyRT" value="" placeholder="0" style="width:80px; float: left;">
                                             <input type="text" class="form-control margin-right-5" id="fee20GP" value="" placeholder="0" style="width:80px; float: left;">
                                             <input type="text" class="form-control margin-right-5" id="fee40GP" value="" placeholder="0" style="width:80px; float: left;">
@@ -659,43 +659,29 @@ Purchase: http://wrapbootstrap.com
     <div class="modal fade bs-example-modal-lg" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-lg" style=" width: 60%;">
             <div class="modal-content">
-
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title" id="mySmallModalLabel">请选择运费</h4>
                 </div>
                 <div class="modal-body">
-                    This function under construction, it is coming soon !!!
-                    <!--table class="table table-hover table-striped table-bordered dataTable" id="pricesheet_tabel_truckcharge" width="100%">
+                    <table class="table table-hover table-striped table-bordered dataTable" id="pricesheet_tabel_rate1" width="100%">
                         <thead class="bordered-blueberry">
-                            <tr>
-                                <th></th>
-                                <th>Delivery/Pick Up</th>
-                                <th>港口</th>
-                                <th>币种</th>
-                                <th>20GP</th>
-                                <th>40GP</th>
-                                <th>40'HQ</th>
-                                <th>Validity</th>
-                                <th>备注</th>
-                            </tr>
+                            <tr class="tableTitle1"></tr>
                         </thead>
-                        <tbody class="truckingChargeItem">
-                            <tr>
-                                <td>费用名称</td>
-                                <td>费用名称</td>
-                                <td>套/票</td>
-                                <td>20GP</td>
-                                <td>40GP</td>
-                                <td>40'HQ</td>
-                                <td>适用期</td>
-                                <td>备注</td>
-                            </tr>
-                        </tbody>
-                    </table-->
+                    </table>
+                    <table class="table table-hover table-striped table-bordered dataTable" id="pricesheet_tabel_rate2" width="100%">
+                        <thead class="bordered-blueberry">
+                            <tr class="tableTitle2"></tr>
+                        </thead>
+                    </table>
+                    <table class="table table-hover table-striped table-bordered dataTable" id="pricesheet_tabel_rate3" width="100%">
+                        <thead class="bordered-blueberry">
+                            <tr class="tableTitle3"></tr>
+                        </thead>
+                    </table>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="btnSave2" set-lan="html:submit">确定</button>
+                    <button class="btn btn-primary" id="btnSaveRate" set-lan="html:submit">确定</button>
                     <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">
                         取消
                     </button>
