@@ -128,18 +128,18 @@ $(function(){
 	 //    }
 	});
 
-	$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+	$('#fee45kgs,#fee100kgs,#fee500kgs,#fee1000kgs,#feebyRT,#label45kgs,#label100kgs,#label500kgs,#labe11000kgs,#labelRt').css({ "display": "none" });
 	$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
 	$("#movementType").change(function () {
 		var opt = $("#movementType").val();
 		if(opt=="FCL"){
-			$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+		    $('#fee45kgs,#fee100kgs,#fee500kgs,#fee1000kgs,#feebyRT,#label45kgs,#label100kgs,#label500kgs,#labe11000kgs,#labelRt').css({ "display": "none" });
 			$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
 		}else if(opt=="AIR"){			
 			$('#fee20GP,#fee40GP,#fee40HQ,#feebyRT,#label20gp,#label40gp,#label40hq,#labelRt').css({"display":"none"});
-			$('#feebyKgs,#labelKgs').css({"display":""});
+			$('#fee45kgs,#fee100kgs,#fee500kgs,#fee1000kgs,#label45kgs,#label100kgs,#label500kgs,#labe11000kgs').css({ "display": "" });
 		}else{
-			$('#fee20GP,#fee40GP,#fee40HQ,#feebyKgs,#label20gp,#label40gp,#label40hq,#labelKgs').css({"display":"none"});
+		    $('#fee20GP,#fee40GP,#fee40HQ,#fee45kgs,#fee100kgs,#fee500kgs,#fee1000kgs,#label20gp,#label40gp,#label40hq,#label45kgs,#label100kgs,#label500kgs,#labe11000kgs').css({ "display": "none" });
 			$('#feebyRT,#labelRt').css({"display":""});
 		}
 	})
@@ -407,15 +407,15 @@ $(function(){
 
 		if($("#movementType").val()=="FCL"){         //by daniel 20191015
 			console.log("test")
-			$('#feebyKgs,#feebyRT,#labelKgs,#labelRt').css({"display":"none"});
+			$('#fee45kgs,#fee100kgs,#fee500kgs,#fee1000kgs,#feebyRT,#labelRt,#label45kgs,#label100kgs,#label500kgs,#labe11000kgs').css({ "display": "none" });
 			$('#fee20GP,#fee40GP,#fee40HQ,#label20gp,#label40gp,#label40hq').css({"display":""});
 		}else if($("#movementType").val()=="AIR"){			
 			console.log("test2")
 			$('#fee20GP,#fee40GP,#fee40HQ,#feebyRT,#label20gp,#label40gp,#label40hq,#labelRt').css({"display":"none"});
-			$('#feebyKgs,#labelKgs').css({"display":""});
+			$('#fee45kgs,#fee100kgs,#fee500kgs,#fee1000kgs,#label45kgs,#label100kgs,#label500kgs,#labe11000kgs').css({ "display": "" });
 		}else{
 			console.log("test3")
-			$('#fee20GP,#fee40GP,#fee40HQ,#feebyKgs,#label20gp,#label40gp,#label40hq,#labelKgs').css({"display":"none"});
+			$('#fee20GP,#fee40GP,#fee40HQ,#fee45kgs,#fee100kgs,#fee500kgs,#fee1000kgs,#label20gp,#label40gp,#label40hq,#label45kgs,#label100kgs,#label500kgs,#labe11000kgs').css({ "display": "none" });
 			$('#feebyRT,#labelRt').css({"display":""});
 		}
 	})
@@ -1277,13 +1277,13 @@ $(function(){
 	            if (opt == "FCL") {
 	                 _html = '<div class="col-sm-12 feeList0">' +
                             '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
-                            '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>' +
+                            '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:80px; float: left;"></select>' +
                             //'<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
                             //'<input type="text" class="form-control margin-right-5" id="feebyRT" value="' + feeItem0[2] + '" placeholder="0" style="width:80px; float: left;">' +
                             '<input type="text" class="form-control margin-right-5" id="fee20GP" placeholder="0" value="' + feeItem0[1] + '" style="width:80px; float: left;">' +
                             '<input type="text" class="form-control margin-right-5" id="fee40GP" placeholder="0" value="' + feeItem0[2] + '" style="width:80px; float: left;">' +
                             '<input type="text" class="form-control margin-right-5" id="fee40HQ" placeholder="0" value="' + feeItem0[3] + '" style="width:80px; float: left;">' +
-                            '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+                            '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:150px; float: left;"></select>' +
                             //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
                             '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="' + feeItem0[5] + '">' +
                                 '<option value="Mon">Mon</option>' +
@@ -1317,10 +1317,10 @@ $(function(){
 	            if (opt == "LCL") {
 	                _html = '<div class="col-sm-12 feeList0">' +
                            '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
-                           '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>' +
+                           '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:80px; float: left;"></select>' +
                            //'<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
                            '<input type="text" class="form-control margin-right-5" id="feebyRT" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
-                           '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+                           '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:150px; float: left;"></select>' +
                            //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
                            '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="' + feeItem0[3] + '">' +
                                '<option value="Mon">Mon</option>' +
@@ -1354,9 +1354,13 @@ $(function(){
 	            if (opt == "AIR") {
 	                _html = '<div class="col-sm-12 feeList0">' +
                            '<label for="inputPassword3" class="margin-right-5" style="width:20px; float: left;"></label>' +
-                           '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:100px; float: left;"></select>' +
+                           '<select class="no-padding-left no-padding-right margin-right-5" id="feeCurrency" style="width:80px; float: left;"></select>' +
                            //'<input type="text" class="form-control margin-right-5" id="feebyKgs" value="' + feeItem0[1] + '" placeholder="0" style="width:80px; float: left;">' +
-                           '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:180px; float: left;"></select>' +
+                            '<input type="text" class="form-control margin-right-5" id="fee45kgs" placeholder="0" value="' + feeItem0[1] + '" style="width:70px; float: left;">' +
+                            '<input type="text" class="form-control margin-right-5" id="fee100kgs" placeholder="0" value="' + feeItem0[2] + '" style="width:70px; float: left;">' +
+                            '<input type="text" class="form-control margin-right-5" id="fee500kgs" placeholder="0" value="' + feeItem0[3] + '" style="width:70px; float: left;">' +
+                            '<input type="text" class="form-control margin-right-5" id="fee1000kgs" placeholder="0" value="' + feeItem0[4] + '" style="width:70px; float: left;">' +
+                           '<select id=' + newid + '  class="carrier no-padding-left no-padding-right" style="width:150px; float: left;"></select>' +
                            //'<input type="text" class="form-control margin-right-5" id="hangqi" placeholder="" value="' + feeItem0[4] + '" style="width:100px; float: left;">' +
                            '<select id="hangqi" class="margin-right-5" style="width:80px; float: left;" value="' + feeItem0[6] + '">' +
                                '<option value="Mon">Mon</option>' +
@@ -1380,7 +1384,7 @@ $(function(){
                                    '<input class="form-control date-picker date_select" id="id-date-picker-2" value="' + feeItem0[10] + '" type="text" data-date-format="yyyy-mm-dd">' +
                                '</div>' +
                            '</div>' +
-                           '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="45+(kgs):' + feeItem0[1] + ';100+(kgs):' + feeItem0[2] + ';500+(kgs):' + feeItem0[3] + ';1000+(kgs):' + feeItem0[4] + '" style="width:150px; float: left;">' +
+                           '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" value="' + feeItem0[11] + '" style="width:150px; float: left;">' +
                            '<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">' +
                                '<a class="addFee btn btn-info"><i class="fa fa-plus-circle"></i></a> ' +
                                '<a class="removeFee btn btn-danger"><i class="fa fa-times-circle"></i></a>' +
