@@ -58,7 +58,7 @@ $(function(){
 		var opt = $("#toId").val();
 		//销售人员
 		common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-			//'role': 6,
+		    'rolename': '销售',
 			'companyId': opt
 		}, function(data) {
 			var _data = data.data;
