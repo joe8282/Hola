@@ -34,6 +34,12 @@ $(function(){
 	var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
 	var orderCode;
 	var crmId;
+
+    //转回到订单详情
+    $('#orderDetail').on('click', function() {
+        location.href = 'orderadd.html?action=modify&Id='+Id;
+    })
+
 	//加载订单信息
 	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
 		"Id": Id
@@ -161,7 +167,205 @@ $(function(){
     	console.log(err)
     }, 4000)
 
+    //订单状态
+    common.ajax_req("get", false, dataUrl, "state.ashx?action=readbytypeid", {
+        "typeId": 4
+    }, function(data) {
+        console.log(data)
+        var _data = data.data;
+        if(_data != null) {
+            for(var i = 0; i < _data.length; i++) {
+                //var statelist = '<span class="col-sm-1 widget-caption text-align-center bordered-1 bordered-gray" stateId='+_data[i].state_id+'>' + _data[i].state_name_cn + '</span>'
+                var statelist = '<li data-target="#simplewizardstep'+_data[i].state_id+'>">' + _data[i].state_name_cn + '<span class="chevron"></span></li>'
+                $("#STATELIST").append(statelist)
+            }
+        }
+        
+        $('#STATELIST li').on('click', function() {
+            var which=$(this)
+            if((which.attr('stateId')-stateId)==1){             
+                common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfollow', {
+                    'bookingId': Id,
+                    'userId': userID,
+                    'userName': userName,
+                    'stateId': which.attr('stateId'),
+                    'state': which.text()
+                }, function(data) {
+                    if(data.State == 1) {
+                        //console.log(which.text())
+                        which.addClass('btn-blue')
+                        comModel("操作成功")
+                    } else {
+                        comModel("操作失败")
+                    }
+                }, function(error) {
+                    console.log(parm)
+                }, 1000)
+            }else {
+                comModel("不可操作")
+            }
 
+        })
+    
+    }, function(err) {
+        console.log(err)
+    }, 2000)
+
+
+    //获取委托人列表
+    common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+        "companyId": companyID
+    }, function(data) {
+        //console.log(data)
+        var _data = data.data;
+        if(_data != null) {
+            for(var i = 0; i < _data.length; i++) {
+                var _html = '<option value="' + _data[i].comp_customerId + '">' + _data[i].comp_name + '</option>';
+                $('#crmuser').append(_html)
+            }
+        }   
+    }, function(err) {
+        console.log(err)
+    }, 2000)    
+    $("#crmuser").change(function() {
+        crmCompanyId = $("#crmuser").val();
+        _selectSupplier(crmCompanyId)
+        _selectBill(crmCompanyId)
+    })
+
+    //贸易条款
+    common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+        'typeId': 3,
+        'companyId': companyID
+    }, function(data) {
+        var _data = data.data;
+        for(var i = 0; i < _data.length; i++) {
+            var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+            $('#incoterm').append(_html)
+        }
+    }, function(error) {
+        console.log(parm)
+    }, 1000)
+    
+    //运输方式
+    common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+        'typeId': 7,
+        'companyId': companyID
+    }, function(data) {
+        var _data = data.data;
+        for(var i = 0; i < _data.length; i++) {
+            var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+            $('#movementType').append(_html)
+        }
+    }, function(error) {
+        console.log(parm)
+    }, 1000)
+    $("#movementType").change(function() {
+        var opt = $("#movementType").val();
+        if(opt!='FCL'){
+            $("#Movement").addClass('none')
+        }
+        else{
+            $("#Movement").removeClass('none')
+        }
+    })
+
+    //销售人员
+    common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+        //'role': 6,
+        'companyId': companyID
+    }, function(data) {
+        var _data = data.data;
+        if(_data!=null){
+            for(var i = 0; i < _data.length; i++) {
+                var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+                $('#sellId').append(_html)
+            }
+        }
+    }, function(error) {
+        console.log(parm)
+    }, 1000)
+    //录入人员
+    common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+        //'role': 11,
+        'companyId': companyID
+    }, function(data) {
+        var _data = data.data;
+        if(_data!=null){
+            for(var i = 0; i < _data.length; i++) {
+                var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+                $('#luruId').append(_html)
+            }
+        }
+    }, function(error) {
+        console.log(parm)
+    }, 1000)    
+    //客服人员
+    common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+        //'role': 7,
+        'companyId': companyID
+    }, function(data) {
+        var _data = data.data;
+        if(_data!=null){
+            for(var i = 0; i < _data.length; i++) {
+                var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+                $('#kefuId').append(_html)
+            }
+        }
+    }, function(error) {
+        console.log(parm)
+    }, 1000)
+    //操作人员
+    common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+        //'role': 8,
+        'companyId': companyID
+    }, function(data) {
+        var _data = data.data;
+        if(_data!=null){
+            for(var i = 0; i < _data.length; i++) {
+                var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+                $('#caozuoId').append(_html)
+            }
+        }
+    }, function(error) {
+        console.log(parm)
+    }, 1000)    
+
+    var baseinfo_id = GetQueryString('Id');
+    if(baseinfo_id){        
+        //加载基本信息
+        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+            "Id": Id
+        }, function(data) {
+            console.log(data.Data)
+            //初始化信息
+            var _data = data.Data
+            stateId = _data.book_orderState
+            var stateList=$('#STATELIST li')
+            $.each(stateList,function(i,item){
+                if((i+12)<=stateId){
+                    //item.addClass('btn-blue')
+                    //$('#STATELIST span').eq(i).addClass('btn-blue')
+                    $('#STATELIST li').eq(i).addClass('active')
+                }
+            })
+            orderCode = _data.book_orderCode
+            $('#title3').html('订单号：' + _data.book_orderCode)/////有用
+            $('#outCode').val(_data.book_outCode)/////有用
+            $('#billCode').val(_data.book_billCode)/////有用
+            $('#code').val(_data.book_code)/////有用
+            $("#crmuser").val(_data.book_crmCompanyId).trigger("change") /////有用
+            //$("#crmcontact").val(_data.book_crmContactId).trigger("change")
+            $("#sellId").val(_data.book_sellId).trigger("change")/////有用
+            $("#luruId").val(_data.book_luruId).trigger("change")/////有用
+            $("#kefuId").val(_data.book_kefuId).trigger("change")/////有用
+            $("#caozuoId").val(_data.book_caozuoId).trigger("change")/////有用
+            $("#movementType").val(_data.book_movementType).trigger("change")/////有用
+            $("#incoterm").val(_data.book_incoterm).trigger("change")/////有用
+        }, function(err) {
+            console.log(err)
+        }, 1000)
+    }
     //账单列表
     function GetBill() {
         var table = $("#example").dataTable({

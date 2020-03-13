@@ -70,6 +70,16 @@ Purchase: http://wrapbootstrap.com
             border-radius: 10px;
             background: #EDEDED;
         }
+        .select2-container{ margin-right: 10px; }
+        .select2-container--default .select2-selection--single{border-radius: 0px; height: 24px; line-height: 24px; border: 1px solid #ccc;}
+        #select2-crmuser-container{height: 24px; line-height: 24px;}
+        .form-control{border-radius: 0px; height: 24px;border: 1px solid #ccc;}
+        select{border-radius: 0px; height: 24px;border: 1px solid #ccc; padding: 0;}
+        .widget{margin-bottom: 10px;}
+        label{text-align: right;}
+        #carrier{float: right;}
+        .input-group-addon{height: 24px; padding: 0 10px;}
+        .form-group{margin-bottom: 5px;}
     </style>
 </head>
 <!-- /Head -->
@@ -159,6 +169,7 @@ Purchase: http://wrapbootstrap.com
                                 <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
                             </li>
                             <li id="title1" class="active">Booking Add</li>
+                            <li id="title3" class="active">Booking Add</li>
                         </ul>
                     </div>
                     <div class="header-buttons">
@@ -175,8 +186,8 @@ Purchase: http://wrapbootstrap.com
                 </div>
                 <!-- /Page Breadcrumb -->    
                 <!-- Page Header -->
-                <div class="page-header position-relative">
-                    <div class="header-title">
+                <div class="page-header position-relative" style="height: auto;">
+                    <!--div class="header-title">
                         <h1>
                             <span id="title2">订单费用管理</span>
                             <small>
@@ -184,14 +195,76 @@ Purchase: http://wrapbootstrap.com
                                 <span id="title3">订单号</span>
                             </small>
                         </h1>
+                    </div-->
+                    <div class="header-title" style="width: 100%; height: auto;">
+                        <div class="form-horizontal" role="form" style="padding-right: 12px;">
+                            <div style="width: 300px; display: inline-block;margin-left:15px; padding:5px 0;">
+                                <span class="control-label">委托人</span>
+                                <select id="crmuser" style="width:230px; font-size: 14px;" disabled="disabled">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div style="width:190px; display: inline-block; padding:5px 0;"> 
+                                <span class="control-label">贸易条款</span>
+                                <select id="incoterm" style="width: 120px; display: inline-block;" disabled="disabled">
+                                    <!--<option value=""></option>-->
+                                </select>
+                            </div>
+                            <div style="width:170px; display: inline-block; padding:5px;"> 
+                                <span class="control-label">运输方式</span>
+                                <select id="movementType" style="width: 100px; display: inline-block;" disabled="disabled">
+                                    <!--<option value=""></option>-->
+                                </select>
+                            </div>
+                            <div style="width:300px; display: inline-block; padding:5px; float: right; text-align: right;">                        
+                                <select id="sellId" disabled="disabled">
+                                    <option value="0">销售</option>
+                                </select>
+                                <select id="luruId" disabled="disabled">
+                                    <option value="0">录单</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-horizontal" role="form" style="padding-right: 12px;">
+                            <div style="width:318px; display: inline-block; padding:5px 0;">
+                                <span class="control-label">订舱单号</span>
+                                <input type="text" class="form-control" id="code" style="width: 232px; display: inline-block;" disabled="disabled">
+                            </div>
+                            <div style="width:190px; display: inline-block; padding:5px 0;">
+                                <span class="control-label">承运人单号</span>
+                                <input type="text" class="form-control" id="billCode" style="width: 120px; display: inline-block;" disabled="disabled">
+                            </div>
+                            <div style="width:170px; display: inline-block; padding:5px 0;">
+                                <span class="control-label">参考号码</span>
+                                <input type="text" class="form-control" id="outCode" style="width: 100px; display: inline-block;" disabled="disabled">
+                            </div>
+                            <div style="width:300px; display: inline-block; padding:5px; float: right; text-align: right;">
+                                <select id="kefuId" disabled="disabled">
+                                    <option value="0">客服</option>
+                                </select>
+                                <select id="caozuoId" disabled="disabled">
+                                    <option value="0">操作</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /Page Header -->
                 <!-- Page Body -->
                 <div class="page-body">
+                    <div class="widget">
+                        <!--div class="widget-header no-padding" id="STATELIST"-->
+                            <!--<span class="col-sm-1 btn-blue widget-caption text-align-center bordered-1 bordered-gray">新订单</span>-->
+                        <!--/div-->
+                        <div id="simplewizard" class="wizard" data-target="#simplewizard-steps">
+                            <ul class="steps" id="STATELIST">
+                            </ul>
+                        </div>
+                    </div>
                     <div>
                         <div class="tabbable">
                             <ul class="nav nav-tabs" id="myTab">
+                                <li class="tab-red"><a class="ordertab" href="#MBL" id="orderDetail">MBL订单信息</a></li>
                                 <li class="active"><a class="shoufutab" data-toggle="tab" href="#SHOUFU">应收应付</a></li>
                                 <li class="tab-red"><a class="billtab" data-toggle="tab" href="#ZHANGDAN">账单制作</a></li>
                                 <li class="tab-red"><a class="invoicetab" data-toggle="tab" href="#FAPIAO">开具发票</a></li>
@@ -204,7 +277,9 @@ Purchase: http://wrapbootstrap.com
                             <div class="tab-content">
                                 <div id="SHOUFU" class="tab-pane in active">
                                     <div class="scrollbar">
-                                        <div style="line-height: 80px;"><button type="submit" id="addFee1" class="btn">添加应收</button>&nbsp;&nbsp;<button type="submit" id="addFee2" class="btn">添加应付</button></div>
+                                        <div style="line-height: 80px;">
+                                            <button type="submit" id="addFee1" class="btn">添加应收</button>&nbsp;&nbsp;<button type="submit" id="addFee2" class="btn">添加应付</button>
+                                        </div>
                                         <div class="col-sm-12">
                                             <label for="inputPassword3" class="margin-right-5" style="width:30px; float: left;"></label>
                                             <label for="inputPassword3" class="margin-right-5 margin-left-5" style="width:100px; float: left;">类别</label>

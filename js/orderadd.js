@@ -95,6 +95,10 @@ $(function(){
 //		coding += Math.floor(Math.random() * 10);
 //	}	
 
+	$('#orderFee').on('click', function() {
+		location.href = 'orderfee.html?Id='+Id;
+	})
+
 	/*Tab切换*/
 	$('.ordertab').on('click', function() {
 		$('#sendbt1').addClass('none')
@@ -311,12 +315,13 @@ $(function(){
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-				var statelist = '<span class="col-sm-1 widget-caption text-align-center bordered-1 bordered-gray" stateId='+_data[i].state_id+'>' + _data[i].state_name_cn + '</span>'
+				//var statelist = '<span class="col-sm-1 widget-caption text-align-center bordered-1 bordered-gray" stateId='+_data[i].state_id+'>' + _data[i].state_name_cn + '</span>'
+				var statelist = '<li data-target="#simplewizardstep'+_data[i].state_id+'>">' + _data[i].state_name_cn + '<span class="chevron"></span></li>'
 				$("#STATELIST").append(statelist)
 			}
 		}
 		
-		$('#STATELIST span').on('click', function() {
+		$('#STATELIST li').on('click', function() {
 			var which=$(this)
 			if((which.attr('stateId')-stateId)==1){				
 				common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfollow', {
@@ -1380,7 +1385,8 @@ $(function(){
     		}
     		$('#title3').html('订单号：' + orderCode)
     	}) 	
-    	$('#STATELIST span').eq(0).addClass('btn-blue')
+    	//$('#STATELIST span').eq(0).addClass('btn-blue')
+    	$('#STATELIST li').eq(0).addClass('active')
     	
     }
     	
@@ -1494,11 +1500,12 @@ $(function(){
     		//初始化信息
     		var _data = data.Data
     		stateId = _data.book_orderState
-    		var stateList=$('#STATELIST span')
+    		var stateList=$('#STATELIST li')
     		$.each(stateList,function(i,item){
     			if((i+12)<=stateId){
     				//item.addClass('btn-blue')
-    				$('#STATELIST span').eq(i).addClass('btn-blue')
+    				//$('#STATELIST span').eq(i).addClass('btn-blue')
+    				$('#STATELIST li').eq(i).addClass('active')
     			}
     		})
     		orderCode = _data.book_orderCode
