@@ -351,9 +351,9 @@ $(function(){
 		console.log(err)
 	}, 2000)
 
-	//销售人员
+	//销售人员userinfo.ashx?action=read
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '销售',
+	    'role': '6',
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
@@ -368,7 +368,7 @@ $(function(){
 	}, 1000)
     //录单人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '录单',
+	    'role': '11',
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
@@ -383,7 +383,7 @@ $(function(){
 	}, 1000)	
 	//客服人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '客服',
+	    'role': '7',
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
@@ -398,7 +398,7 @@ $(function(){
 	}, 1000)
 	//操作人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '操作',
+	    'role': '8',
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;

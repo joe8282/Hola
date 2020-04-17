@@ -34,9 +34,125 @@ $(document).ready(function() {
 	$('#title2').text(get_lan('con_top_4')) 
 
 	oTable = initTable(fromId);
+	$('#summernote').summernote({ 
+	toolbar: [
+	    // [groupName, [list of button]]
+	    ['style', ['bold', 'italic', 'underline']],
+	    ['fontsize', ['fontsize']],
+	    ['color', ['color']],
+	    ['para', ['ul', 'ol', 'paragraph']],
+	    ['height', ['height']]
+  	]
+	});
 	//$('#example').colResizable();
+	$("#ishbl").attr("checked", false);
+ 	$('#ishbl').on('click', function() {
+ 		if($(this).prop('checked')){
+ 			$('#orderHblLi').attr("disabled",false);
+ 		}else{
+ 			$('#orderHblLi').attr("disabled",true);
+ 		}
+ 	})
+
+ 	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
+ 		"companyId": companyID,
+ 		"comp_isSupplier": 1
+ 	}, function(data) {
+ 		var _data = data.data;
+ 		$('#crmCarrierSupplier').empty();
+ 				$('#crmCarrierSupplier').append('<option value="0">Select Company</option>')
+ 		if(_data != null) {
+ 			for(var i = 0; i < _data.length; i++) {
+ 				var _html = '<option value="' + _data[i].comp_id + '" data-crmcompId="'+_data[i].comp_id+'">' + _data[i].comp_name + '</option>';
+ 				$('#crmCarrierSupplier').append(_html)
+ 			}
+ 		}
+ 	}, function(err) {
+ 		console.log(err)
+ 	}, 2000)
+
+	//承运人
+	$("#crmCarrier").select2({
+		ajax: {
+			url: dataUrl + "ajax/publicdata.ashx?action=readcarrier&companyId=" + companyID,
+			dataType: 'json',
+			delay: 250,
+			data: function(params) {
+				params.offset = 10; //显示十条 
+				params.page = params.page || 1; //页码 
+				return {
+					q: params.term,
+					page: params.page,
+					offset: params.offset
+				};
+			},
+			cache: true,
+			/* *@params res 返回值 *@params params 参数 */
+			processResults: function(res, params) {
+				var users = res.data;
+				var options = [];
+				for(var i = 0, len = users.length; i < len; i++) {
+					var option = {
+						"id": users[i]["puda_name_en"],
+						"text": users[i]["puda_name_en"]
+					};
+					options.push(option);
+				}
+				return {
+					results: options,
+					pagination: {
+						more: (params.page * params.offset) < res.total
+					}
+				};
+			}
+		},
+		placeholder: '请选择', //默认文字提示
+		language: "zh-CN",
+		tags: true, //允许手动添加
+		allowClear: true, //允许清空
+		escapeMarkup: function(markup) {
+			return markup;
+		}, // 自定义格式化防止xss注入
+		minimumInputLength: 3,
+		formatResult: function formatRepo(repo) {
+			return repo.text;
+		}, // 函数用来渲染结果
+		formatSelection: function formatRepoSelection(repo) {
+			return repo.text;
+		} // 函数用于呈现当前的选择
+	});
 
 });
+
+ 	$("#crmCarrierSupplier").change(function() {
+ 		var companyId_Contact=$("#crmCarrierSupplier").find("option:selected").attr("data-crmcompId");
+		common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+ 			"companyId": companyId_Contact
+	 	}, function(data) {
+	 		var _data = data.data;
+	 		$('#crmCarrierSupplierName').empty();
+	 		$('#crmCarrierSupplierName').append('<option value="0">Select Company</option>')
+	 		if(_data != null) {
+	 			for(var i = 0; i < _data.length; i++) {
+	 				var _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="'+_data[i].coco_name+'" data-carrierContactEmail="'+_data[i].coco_email+'">' + _data[i].coco_name + '</option>';
+	 				$('#crmCarrierSupplierName').append(_html)
+	 			}
+	 		}
+	 	}, function(err) {
+	 		console.log(err)
+	 	}, 2000)
+ 	})
+
+ 	$("#crmCarrierSupplierName").change(function() {
+ 		$("#crmCarrierSupplierEmail").val($("#crmCarrierSupplierName").find("option:selected").attr("data-carrierContactEmail")+",");
+ 	})
+
+    $('#bookRightNowCkb').on('click', function() {
+    	if($("#bookRightNowCkb").is(":checked")) {
+    		$("#bookRightNow").removeClass('none')
+    	}
+    	else{ $("#bookRightNow").addClass('none') }
+    })
 
 	//销售人员
 	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
@@ -371,7 +487,7 @@ function initTable(fromId) {
  		$('#crmuser').empty();
  		if(_data != null) {
  			for(var i = 0; i < _data.length; i++) {
- 				var _html = '<option value="' + _data[i].comp_id + '" data-crmId="'+_data[i].comp_customerId+'">' + _data[i].comp_name + '</option>';
+ 				var _html = '<option value="' + _data[i].comp_id + '" data-crmId="'+_data[i].comp_customerId+'" data-crmName="'+_data[i].comp_contactName+'" data-crmEmail="'+_data[i].comp_contactEmail+'">' + _data[i].comp_name + '</option>';
  				$('#crmuser').append(_html)
  			}
  		}
@@ -380,7 +496,9 @@ function initTable(fromId) {
  	}, 2000)
 
 
- 	$("#crmuser").val(crmId).trigger("change")
+ 	$("#crmuser").val(crmId).trigger("change");
+ 	$("#emailToBookingParty").val($("#crmuser").find("option:selected").attr("data-crmEmail")+",");
+ 	$('#summernote').summernote('code', "Dear "+$("#crmuser").find("option:selected").attr("data-crmName")+", </br></br>BeyondAdmin's Databoxes are meant to provide you a completely flexible  and very easy to customize tool to visualize data. You can create databoxes in multiple sizes and different styles.");
  	//获取委托人订单
  	common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
  		"companyId": companyID,
@@ -441,6 +559,8 @@ function initTable(fromId) {
  		}, function(err) {
  			console.log(err)
  		}, 2000)
+ 		$("#emailToBookingParty").val($("#crmuser").find("option:selected").attr("data-crmEmail")+",");
+ 		$('#summernote').summernote('code', "Dear "+$("#crmuser").find("option:selected").attr("data-crmName")+", </br></br>BeyondAdmin's Databoxes are meant to provide you a completely flexible  and very easy to customize tool to visualize data. You can create databoxes in multiple sizes and different styles.");
 	})
  	$("#orderLi").change(function() {
 		var orderLiId=$("#orderLi").val();
