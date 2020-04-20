@@ -44,6 +44,9 @@ Purchase: http://wrapbootstrap.com
      	}
         .select2-container--default .select2-selection--single{border-radius: 0px; height: 27px; line-height: 27px; border: 1px solid #ccc; margin-bottom: 4px;}
         #select2-crmuser-container{height: 27px; line-height: 27px;}
+        .input-group input{height: 27px; line-height: 27px;}
+        #myModal2{z-index:9990;}
+        .datepicker{z-index:9991;}
     </style>
     
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
@@ -126,73 +129,7 @@ Purchase: http://wrapbootstrap.com
                 </div>
                 <!-- /Page Sidebar Header -->
                 <!-- Sidebar Menu -->
-                <ul class="nav sidebar-menu">                	
-                    <!--<li>
-                        <a href="index.html">
-                            <i class="menu-icon glyphicon glyphicon-home"></i>
-                            <span class="menu-text" set-lan="html:navHome"> Home </span>
-                        </a>
-                    </li>
-                    <li class="active open">
-                        <a href="#" class="menu-dropdown">
-                            <i class="menu-icon fa fa-desktop"></i>
-                            <span class="menu-text" set-lan="html:nav_1"> Warehouse Home </span>
-                            <i class="menu-expand"></i>
-                        </a>
-
-                        <ul class="submenu">
-                            <li class="typeId1">
-                                <a href="publicdata.html?typeid=1">
-                                    <span class="menu-text" set-lan="html:nav_1_1">Carriers</span>
-                                </a>
-                            </li>
-                            <li class="typeId2">
-                                <a href="publicdata.html?typeid=2">
-                                    <span class="menu-text" set-lan="html:nav_1_2">Sea Ports</span>
-                                </a>
-                            </li>
-                            <li class="typeId3">
-                                <a href="publicdata.html?typeid=3">
-                                    <span class="menu-text" set-lan="html:nav_1_3">Incoterms</span>
-                                </a>
-                            </li>
-                            <li class="typeId4">
-                                <a href="publicdata.html?typeid=4">
-                                    <span class="menu-text" set-lan="html:nav_1_4">Container Type</span>
-                                </a>
-                            </li>
-                            <li class="typeId5">
-                                <a href="publicdata.html?typeid=5">
-                                    <span class="menu-text" set-lan="html:nav_1_5">Air Ports</span>
-                                </a>
-                            </li>
-                            <li class="typeId6">
-                                <a href="publicdata.html?typeid=6">
-                                    <span class="menu-text" set-lan="html:nav_1_6">Charge Item</span>
-                                </a>
-                            </li>
-                            <li class="typeId7">
-                                <a href="publicdata.html?typeid=7">
-                                    <span class="menu-text" set-lan="html:nav_1_7">Movement Type</span>
-                                </a>
-                            </li>
-                            <li class="typeId8">
-                                <a href="publicdata.html?typeid=8">
-                                    <span class="menu-text" set-lan="html:nav_1_8">Weight Unit</span>
-                                </a>
-                            </li>
-                            <li class="typeId9">
-                                <a href="publicdata.html?typeid=9">
-                                    <span class="menu-text" set-lan="html:nav_1_9">Volume Unit</span>
-                                </a>
-                            </li>
-                            <li class="typeId10">
-                                <a href="publicdata.html?typeid=10">
-                                    <span class="menu-text" set-lan="html:nav_1_10">Package Unit</span>
-                                </a>
-                            </li>                            
-                        </ul>
-                    </li>-->
+                <ul class="nav sidebar-menu">
                 </ul>               
                 <!-- /Sidebar Menu -->
             </div>
@@ -248,18 +185,6 @@ Purchase: http://wrapbootstrap.com
                 						<th>操作</th>                						-->
                 					</tr>
                 				</thead>                	
-                				<!--<tbody>
-                					<tr>
-                						<td>alex</td>
-                						<td>Alex Nilson</td>
-                						<td>1234</td>
-                						<td class="center ">power user</td>
-                						<td>
-                							<a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
-                							<a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
-                						</td>
-                					</tr>
-                				</tbody>-->
                 			</table>
                 		</div>
                 	</div>
@@ -352,6 +277,26 @@ Purchase: http://wrapbootstrap.com
                             <div class="form-horizontal none" role="form" id="bookRightNow" style="margin-top:10px;">
                                 <p>承运人：<select id="crmCarrier" style="width: 39%;"></select><select id="crmCarrierSupplier" style="width: 39%; padding: 3px; margin-top:2px;"></select></p>
                                 <p>联系人：<select id="crmCarrierSupplierName" style="width: 39%; padding: 3px;"></select><input type="text" id="crmCarrierSupplierEmail" style="width: 39%;"> <input type="checkbox" class="inverted" id="BookSendEmail"></p>
+                                <p>
+                                    <div class="form-horizontal" style="">
+                                        <label style="width:70px; float: left; height: 27px; line-height: 27px;">截关日期：</label>
+                                        <div class="input-group" style="width:180px; float: left;margin-right: 20px;">
+                                            <input class="form-control date-picker no-padding-right" id="okTrailerTime" type="text" data-date-format="yyyy-mm-dd">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <label style="width:70px; float: left; height: 27px; line-height: 27px;">预离港日：</label>
+                                        <div class="input-group" style="width:180px; float: left;">
+                                            <input class="form-control date-picker no-padding-right" id="okPortTime" type="text" data-date-format="yyyy-mm-dd">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </p>
                             </div>
     					</div>
     
@@ -381,8 +326,44 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>    
     <script src="assets/js/bootbox/bootbox.js"></script>
     <script src="assets/js/editors/summernote/summernote.min.js"></script>
+    <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
     <script src="assets/js/select2/select2.min.js"></script>
     <script src="assets/js/select2/zh-CN.js"></script>
+    <script>
+        //--Bootstrap Date Picker--
+        $('.date-picker').datepicker({
+            container:'#myModal2'
+        });
+
+        $('#okTrailerTime').datepicker(
+            { onSelect: gotoDate }
+        ).on('changeDate', gotoDate);
+        function gotoDate(ev) {
+            //console.log(ev.date)
+            $("#okPortTime").val(getNewDay(formatTime(ev.date), 2))
+        }
+        //时间格式化
+        function formatTime(date) {
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1, month = month < 10 ? '0' + month : month;
+            var day = date.getDate(), day = day < 10 ? '0' + day : day;
+            return year + '-' + month + '-' + day;
+        }
+        //日期加上天数得到新的日期
+        //dateTemp 需要参加计算的日期，days要添加的天数，返回新的日期，日期格式：YYYY-MM-DD
+        function getNewDay(dateTemp, days) {
+            var dateTemp = dateTemp.split("-");
+            var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]); //转换为MM-DD-YYYY格式
+            var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);
+            var rDate = new Date(millSeconds);
+            var year = rDate.getFullYear();
+            var month = rDate.getMonth() + 1;
+            if (month < 10) month = "0" + month;
+            var date = rDate.getDate();
+            if (date < 10) date = "0" + date;
+            return (year + "-" + month + "-" + date);
+        }
+    </script>
     
     <script src="js/common.js"></script>
     <script src="js/booking.js?v=1.0"></script> 
