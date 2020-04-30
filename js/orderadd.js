@@ -457,7 +457,7 @@ $(function(){
 	//自定货
 	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
 		"companyId": companyID,
-		'type': 'LOCAL FORWARDER'
+		'isSupplier': '1'
 	}, function(data) {
 		//console.log(data)
 		var _data = data.data;
@@ -1328,7 +1328,7 @@ $(function(){
     			containerData = containerData + oneData
     		}
     		console.log(containerData)
-    		boxRow = boxRow.clone()
+    		//boxRow = boxRow.clone()
     		
     		var vgminfoNum = $('#vgminfoNum').val(),
     			vgminfoUnit = $('#vgminfoUnit').val(),
@@ -1577,9 +1577,9 @@ $(function(){
     		$('#warehouseContact').val(_data.book_warehouseContact)
     		$('#warehouseContactWay').val(_data.book_warehouseContactWay)
     		$('#warehouseInCode').val(_data.book_warehouseInCode)
-    		$('#warehouseInTime').val(_data.book_warehouseInTime.substring(0, 10))
+    		$('#warehouseInTime').val(_data.book_warehouseInTime?_data.book_warehouseInTime.substring(0, 10):"")
     		$('#warehouseOutCode').val(_data.book_warehouseOutCode)
-    		$('#warehouseOutTime').val(_data.book_warehouseOutTime.substring(0, 10))
+    		$('#warehouseOutTime').val(_data.book_warehouseOutTime?_data.book_warehouseOutTime.substring(0, 10):"")
     		$('#warehouseBeizhu').val(_data.book_warehouseBeizhu)
     		$("input[name='bill1Type'][value='" + _data.book_bill1Type + "']").attr("checked", true)
     		$('#inShipper').val(HtmlDecode(_data.book_bill1Shipper))
@@ -2501,7 +2501,7 @@ $(function(){
 					'toAddress': toAddress,
 					'okTime': okTime,
 					'okTrailerTime': okTrailerTime,
-					'okBillTime': okBillTime,
+					// 'okBillTime': okBillTime,
 					'okPortTime': okPortTime,
 					'package': package,
 					'weight': weight,
@@ -2522,9 +2522,9 @@ $(function(){
 					'warehouseContact': warehouseContact,
 					'warehouseContactWay': warehouseContactWay,
 					'warehouseInCode': warehouseInCode,
-					'warehouseInTime': warehouseInTime,
+					// 'warehouseInTime': warehouseInTime,
 					'warehouseOutCode': warehouseOutCode,
-					'warehouseOutTime': warehouseOutTime,
+					// 'warehouseOutTime': warehouseOutTime,
 					'warehouseBeizhu': warehouseBeizhu,
 					'bill1Type': bill1Type,
 					'bill1Shipper': bill1Shipper,
@@ -2550,11 +2550,11 @@ $(function(){
 					'truePortTime': truePortTime,
 					'truePortTime2': truePortTime2,
 					'vgm': vgm,
-					//'allContainer': allContainer,
 					'carrier': carrier,
-					//'consignee': consignee,
 					'contractNo': contractNo,
-					'supplierData': supplierData
+					'supplierData': supplierData,
+					//'allContainer': allContainer,
+					//'consignee': consignee
 				}
 		
 				common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=modify', parm, function(data) {

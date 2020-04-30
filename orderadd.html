@@ -1438,9 +1438,10 @@ Purchase: http://wrapbootstrap.com
         $('#okTrailerTime').datepicker(
         	{ onSelect: gotoDate }
         ).on('changeDate', gotoDate);
+        
         function gotoDate(ev) {
             //console.log(ev.date)
-            $("#okBillTime").val(getNewDay(formatTime(ev.date), 2))
+            //$("#okBillTime").val(getNewDay(formatTime(ev.date), 2))
             $("#okPortTime").val($("#okBillTime").val())
         }
         //时间格式化

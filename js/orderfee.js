@@ -34,6 +34,7 @@ $(function(){
 	var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
 	var orderCode;
 	var crmId;
+    var forwarder_id;
 
     //转回到订单详情
     $('#orderDetail').on('click', function() {
@@ -64,7 +65,7 @@ $(function(){
 		var _data = data.data;
 		console.log(_data)
 		for(var i = 0; i < _data.length; i++) {
-			var _html = '<option value="' + _data[i].puda_name_cn + '">' + _data[i].puda_name_cn + '</option>';
+			var _html = '<option value="' + _data[i].puda_id + '">' + _data[i].puda_name_cn + ' - '+_data[i].puda_name_en+'</option>';
 			//$('#feeItem').append(_html)
 			_feeItem=_feeItem+_html
 		}
@@ -119,7 +120,49 @@ $(function(){
 		console.log(err)
 	}, 2000)
 
-    	
+
+
+    //获取委托人列表
+    common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+        "companyId": companyID
+    }, function(data) {
+        //console.log(data)
+        var _data = data.data;
+        if(_data != null) {
+            for(var i = 0; i < _data.length; i++) {
+                var _html = '<option value="' + _data[i].comp_customerId + '" name="'+_data[i].comp_id+'">' + _data[i].comp_name + '</option>';
+                $('#crmuser').append(_html)
+            }
+        }   
+    }, function(err) {
+        console.log(err)
+    }, 2000)
+    // $("#crmuser").change(function() {
+    //     crmCompanyId = $("#crmuser").val();
+    //     _selectSupplier(crmCompanyId)
+    //     //_selectBill(crmCompanyId)
+    // })
+
+    // function _selectSupplier(crmId){
+    //     //获取供应商列表
+    //     common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
+    //         "upId": crmId
+    //     }, function(data) {
+    //         //console.log(data)
+    //         var _data = data.data;
+    //         if(_data != null) {
+    //             for(var i = 0; i < _data.length; i++) {
+    //                 //var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"> ' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].comp_contactName + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：' + _data[i].comp_contactPhone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：' + _data[i].comp_contactEmail + '</div>'
+    //                 var crmlist = '<tr class="margin-left-40"><td><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"></td><td> ' + _data[i].comp_name + '</td><td>联系人：' + _data[i].comp_contactName + '</td><td>联系电话：' + _data[i].comp_contactPhone + '</td><td>邮箱：' + _data[i].comp_contactEmail + '</td></tr>'
+    //                 $(".crmlist").append(crmlist)
+    //             }
+    //         }
+        
+    //     }, function(err) {
+    //         console.log(err)
+    //     }, 2000)
+    // }
+    
     //加载费用
     common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
     	"bookingId": Id
@@ -130,42 +173,82 @@ $(function(){
     		var _data = data.Data;
     		for(var i = 0; i < _data.length; i++) {
     			//var feilist = '<div style="margin: 5px 0px;">' + _data[i].bofe_feeType + ' ：' + _data[i].bofe_fee + ' * ' + _data[i].bofe_num + '(' + _data[i].bofe_numUnit + ') = ' + _data[i].bofe_feeUnit + _data[i].bofe_allFee + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteFee" artiid="' + _data[i].bofe_id + '">删除</a></div>'
-    			var feilist = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-blue" style="width:30px;float: left;">-</button>' +
-    				'<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="' + _data[i].bofe_feeType + '">' + _data[i].bofe_feeType + '</option></select>' +
-    				'<select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:200px; float: left;"></select>' +
-    				'<select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>' +
-    				'<select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>' +
-    				'<input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" value="' + _data[i].bofe_fee + '" style="width:100px; float: left;">' +
-    				'<input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" value="' + _data[i].bofe_num + '" style="width:100px; float: left;">' +
-    				'<select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>' +
-    				'<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_allFee + '</label>' + 
-    				'<input type="email" class="form-control margin-right-5" id="receiptRate" placeholder="" value="' + _data[i].bofe_receiptRate+ '" style="width:100px; float: left;">' +
-    				'<label for="inputPassword3" id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_settlementRate + '</label>' + 
-    				'<select id="receiptFeeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select>' +
-    				'<input type="email" class="form-control margin-right-5" id="receiptFee" placeholder="" value="' + _data[i].bofe_receiptFee+ '" style="width:100px; float: left;">' +
-    				'<input type="email" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" style="width:100px; float: left;">'+
+    			var feilist = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>' +
+                    //'<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="' + _data[i].bofe_feeType + '">' + _data[i].bofe_feeType + '</option></select>' +
+                    '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>' +
+    				'<select id="toCompany'+i+'" class="no-padding-left no-padding-right margin-right-5 toCompany" name="toCompany" style="width:200px; float: left;"></select>' +
+    				'<select id="feeItem'+i+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>' +
+    				'<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit" style="height:20px;"></select></span>' +
+    				'<input type="text" class="form-control" id="feePrice" placeholder="" value="' + _data[i].bofe_fee + '"></div>' +
+    				'<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" placeholder="" value="' + _data[i].bofe_num + '">' +
+    				'<span class="input-group-addon" style="padding:0;"><select id="numUnit" style="height:20px;"></select></span></div>' +
+    				'<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_feeUnit+ ' ' + _data[i].bofe_allFee + '</label>' + 
+    				'<input type="text" class="form-control margin-right-5" id="receiptRate" placeholder="" value="' + _data[i].bofe_receiptRate+ '" style="width:60px; float: left;">' +
+    				'<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" style="height:20px;"></select></span>' +
+    				'<input type="text" class="form-control" id="receiptFee" placeholder="" value="' + _data[i].bofe_receiptFee+ '"></div>' +
+    				'<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" style="width:100px; float: left;">'+
+                    '<label for="inputPassword3" id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_settlementRate + '</label>' + 
     				'<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelMoney + '</label>' + 
     				'<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_receiptNumber + '</label>' + 
     				'<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_invoiceNumber + '</label>' + 
     				'<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelTime + '</label>'
     
     			$(".feeAll").append(feilist)
-    			$('.feeList').eq(i).find('#toCompany').html(_toCompany)
-    			$('.feeList').eq(i).find('#toCompany').val(_data[i].bofe_toCompany).trigger("change")
-    			$('.feeList').eq(i).find('#feeItem').html(_feeItem)
-    			$('.feeList').eq(i).find('#feeItem').val(_data[i].bofe_feeItem).trigger("change")
+    			$('.feeList').eq(i).find('#toCompany'+i).html(_toCompany)
+    			$('.feeList').eq(i).find('#toCompany'+i).val(_data[i].bofe_toCompany).trigger("change")
+                $("#toCompany"+i).select2({
+                    language: "zh-CN",
+                    minimumInputLength: 2
+                });
+                //alert($("[name='toCompany"+i+"']").val())
+    			$('.feeList').eq(i).find('#feeItem'+i).html(_feeItem)
+    			$('.feeList').eq(i).find('#feeItem'+i).val(_data[i].bofe_feeItem).trigger("change")
+                $("#feeItem"+i).select2({
+                    language: "zh-CN",
+                    minimumInputLength: 2
+                });
+                if(_data[i].bofe_feeType=="应收" || _data[i].bofe_feeType=="debit"){
+                    $('.feeList').eq(i).find('#feeType').val("debit").trigger("change")
+                }else{
+                    $('.feeList').eq(i).find('#feeType').val("credit").trigger("change")
+                }
     			$('.feeList').eq(i).find('#feeUnit').html(_feeUnit)
     			$('.feeList').eq(i).find('#feeUnit').val(_data[i].bofe_feeUnit).trigger("change")
     			$('.feeList').eq(i).find('#receiptFeeUnit').html(_feeUnit)
     			$('.feeList').eq(i).find('#receiptFeeUnit').val(_data[i].bofe_receiptFeeUnit).trigger("change")
     			$('.feeList').eq(i).find('#numUnit').html(_numUnit)
     			$('.feeList').eq(i).find('#numUnit').val(_data[i].bofe_numUnit).trigger("change")
-    		}
+                if($('.feeList').eq(i).find('#feeType').val()=='debit'){
+                    $('.feeList').eq(i).css("background-color","#b0e0e6")
+                    $('.feeList').eq(i).attr("orderName","0")
+                }else{
+                    $('.feeList').eq(i).css("background-color","pink")
+                    $('.feeList').eq(i).attr("orderName","1")
+                }
+    		}        
+            feeNewOrder();
     	}
     
     }, function(err) {
     	console.log(err)
     }, 4000)
+
+    //让费用列表按照应收在上面，应付在下面这样来重新排序
+    function feeNewOrder(){
+        var newOrder = $('.feeList').toArray()
+        newOrder=newOrder.sort(function (a, b) {
+            return $(a).attr("orderName") - $(b).attr("orderName")
+        });
+        $(".feeAll").append(newOrder)
+    }
+
+    $('.feeAll').delegate('#feeType', 'change', function() {
+        if($(this).val()=='debit'){
+            $(this).parent('.feeList').css("background-color","#b0e0e6")
+        }else{
+            $(this).parent('.feeList').css("background-color","pink")
+        }
+    })
 
     //订单状态
     common.ajax_req("get", false, dataUrl, "state.ashx?action=readbytypeid", {
@@ -210,28 +293,6 @@ $(function(){
     }, function(err) {
         console.log(err)
     }, 2000)
-
-
-    //获取委托人列表
-    common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
-        "companyId": companyID
-    }, function(data) {
-        //console.log(data)
-        var _data = data.data;
-        if(_data != null) {
-            for(var i = 0; i < _data.length; i++) {
-                var _html = '<option value="' + _data[i].comp_customerId + '">' + _data[i].comp_name + '</option>';
-                $('#crmuser').append(_html)
-            }
-        }   
-    }, function(err) {
-        console.log(err)
-    }, 2000)    
-    $("#crmuser").change(function() {
-        crmCompanyId = $("#crmuser").val();
-        _selectSupplier(crmCompanyId)
-        _selectBill(crmCompanyId)
-    })
 
     //贸易条款
     common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
@@ -362,6 +423,7 @@ $(function(){
             $("#caozuoId").val(_data.book_caozuoId).trigger("change")/////有用
             $("#movementType").val(_data.book_movementType).trigger("change")/////有用
             $("#incoterm").val(_data.book_incoterm).trigger("change")/////有用
+            forwarder_id=_data.book_forwarder;
         }, function(err) {
             console.log(err)
         }, 1000)
@@ -643,7 +705,7 @@ $(function(){
                 $(".fee00").empty()
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
-                    var feelist = '<div class="margin-left-40 margin-top-10">' +
+                    var feelist = '<p><div class="margin-left-40 margin-top-10">' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" /></label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_feeItem + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
@@ -655,7 +717,7 @@ $(function(){
                                         '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
-                                    '</div>'
+                                    '</div></p>'
                     $(".fee00").prepend(feelist)
                 }
             }
@@ -864,37 +926,97 @@ $(function(){
 
 	//添加应收应付
 	$('#addFee1').on('click', function() {
-		var feeboxRow = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-blue" style="width:30px;float: left;">-</button><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="应收">应收</option></select><select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:200px; float: left;"></select><select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" value="0" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeNum" value="0" placeholder="" style="width:100px; float: left;"><select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><input type="email" class="form-control margin-right-5" id="receiptRate" value="0" placeholder="" style="width:100px; float: left;"><label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><select id="receiptFeeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><input type="email" class="form-control margin-right-5" id="receiptFee" value="0" placeholder="" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'		
+        feeboxAll_len=$('.feeList').length+1;
+		var feeboxRow = '<div class="col-sm-12 feeList">'+
+            '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
+            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>'+
+            '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
+            '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+
+            '<input type="text" class="form-control" id="feePrice" placeholder="" value="0" ></div>'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="0" placeholder="">'+
+            '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>'+
+            '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="0" placeholder="" style="width:60px; float: left;">'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit"></select></span>'+
+            '<input type="text" class="form-control" id="receiptFee" value="0" placeholder=""></div>'+
+            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
+            '<label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'		
 		$('.feeAll').append(feeboxRow)
 		//feeboxRow = feeboxRow.clone()
 		//货代公司
 		//console.log($('.feeList:last').find('#toCompany0').append(_toCompany))
-		$('.feeList:last').find('#toCompany').append(_toCompany)	
+		$('.feeList:last').find('.toCompany').append(_toCompany)
+        $("#toCompany"+feeboxAll_len).select2({
+            language: "zh-CN",
+            minimumInputLength: 2
+        });
+        $('.feeList:last').find('.toCompany').val($('#crmuser option:selected').attr("name")).trigger("change")
 //		//费用类型
-		$('.feeList:last').find('#feeItem').append(_feeItem)
+		$('.feeList:last').find('.feeItem').append(_feeItem)
+        $("#feeItem"+feeboxAll_len).select2({
+            language: "zh-CN",
+            minimumInputLength: 2
+        });
 //		//币种
 		$('.feeList:last').find('#feeUnit').append(_feeUnit)
 //      币种
 		$('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
 //		//单位
 		$('.feeList:last').find('#numUnit').append(_numUnit)
+        $('.feeList:last').find('#feeType').val('debit').trigger("change")
+        $('.feeList:last').css("background-color","#b0e0e6")
 		
 	})
 	$('#addFee2').on('click', function() {	
-		var feeboxRow = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-blue" style="width:30px;float: left;">-</button><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="应付">应付</option></select><select id="toCompany" class="no-padding-left no-padding-right margin-right-5" style="width:200px; float: left;"></select><select id="feeItem" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><select id="feeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" value="0" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeNum" value="0" placeholder="" style="width:100px; float: left;"><select id="numUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><input type="email" class="form-control margin-right-5" id="receiptRate" value="0" placeholder="" style="width:100px; float: left;"><label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><select id="receiptFeeUnit" class="no-padding-left no-padding-right margin-right-5" style="width:100px; float: left;"></select><input type="email" class="form-control margin-right-5" id="receiptFee" value="0" placeholder="" style="width:100px; float: left;"><input type="email" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"><label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label><label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'	
-		$('.feeAll').append(feeboxRow)
-		//feeboxRow = feeboxRow.clone()
-		//货代公司
-		//console.log($('.feeList:last').find('#toCompany0').append(_toCompany))
-		$('.feeList:last').find('#toCompany').append(_toCompany)	
-//		//费用类型
-		$('.feeList:last').find('#feeItem').append(_feeItem)
-//		//币种
-		$('.feeList:last').find('#feeUnit').append(_feeUnit)
+        feeboxAll_len=$('.feeList').length+1;
+        var feeboxRow = '<div class="col-sm-12 feeList">'+
+            '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
+            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>'+
+            '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
+            '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+
+            '<input type="text" class="form-control" id="feePrice" placeholder="" value="0" ></div>'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="0" placeholder="">'+
+            '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>'+
+            '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="0" placeholder="" style="width:60px; float: left;">'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit"></select></span>'+
+            '<input type="text" class="form-control" id="receiptFee" value="0" placeholder=""></div>'+
+            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
+            '<label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'     
+        $('.feeAll').append(feeboxRow)
+        //feeboxRow = feeboxRow.clone()
+        //货代公司
+        //console.log($('.feeList:last').find('#toCompany0').append(_toCompany))
+        $('.feeList:last').find('.toCompany').append(_toCompany)
+        $("#toCompany"+feeboxAll_len).select2({
+            language: "zh-CN",
+            minimumInputLength: 2
+        });
+//      //费用类型
+        $('.feeList:last').find('.feeItem').append(_feeItem)
+        $("#feeItem"+feeboxAll_len).select2({
+            language: "zh-CN",
+            minimumInputLength: 2
+        });
+        $('.feeList:last').find('.toCompany').val(forwarder_id).trigger("change")
+//      //币种
+        $('.feeList:last').find('#feeUnit').append(_feeUnit)
 //      币种
-		$('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)		
-//		//单位
-		$('.feeList:last').find('#numUnit').append(_numUnit)
+        $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
+//      //单位
+        $('.feeList:last').find('#numUnit').append(_numUnit)
+        $('.feeList:last').find('#feeType').val('credit').trigger("change")
+        $('.feeList:last').css("background-color","pink")
 		
 	})	
 	$('.feeAll').delegate('.removeFee', 'click', function() {
@@ -906,8 +1028,8 @@ $(function(){
 	$('#send_shoufu').on('click', function () {
 		var feeData=''
 		for(var i = 0; i < $('.feeList').length; i++) {
-			var toCompany = $('.feeList').eq(i).find('#toCompany').val()
-			var feeItem = $('.feeList').eq(i).find('#feeItem').val()
+			var toCompany = $('.feeList').eq(i).find('.toCompany').val()
+			var feeItem = $('.feeList').eq(i).find('.feeItem').val()
 			var feeUnit = $('.feeList').eq(i).find('#feeUnit').val()
 			var numUnit = $('.feeList').eq(i).find('#numUnit').val()
 			var feeType = $('.feeList').eq(i).find('#feeType').val()
@@ -938,7 +1060,7 @@ $(function(){
 		}, function(error) {
 			console.log(parm)
 		}, 2000)
-	
+	    feeNewOrder()
 	});
 
     /*新增账单*/

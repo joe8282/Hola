@@ -70,9 +70,10 @@ Purchase: http://wrapbootstrap.com
             border-radius: 10px;
             background: #EDEDED;
         }
-        .select2-container{ margin-right: 10px; }
-        .select2-container--default .select2-selection--single{border-radius: 0px; height: 24px; line-height: 24px; border: 1px solid #ccc;}
-        #select2-crmuser-container{height: 24px; line-height: 24px;}
+        .select2-container{ margin-right: 10px; float: left;  width: auto;}
+        .select2-container--default .select2-selection--single{border-radius: 0px; height: 24px; line-height: 24px; border: 1px solid #ccc; width: auto;}
+        #select2-crmuser-container{height: 24px; line-height: 24px; width: auto;}
+        .select2-dropdown{width: 300px!important;;}
         .form-control{border-radius: 0px; height: 24px;border: 1px solid #ccc;}
         select{border-radius: 0px; height: 24px;border: 1px solid #ccc; padding: 0;}
         .widget{margin-bottom: 10px;}
@@ -80,6 +81,7 @@ Purchase: http://wrapbootstrap.com
         #carrier{float: right;}
         .input-group-addon{height: 24px; padding: 0 10px;}
         .form-group{margin-bottom: 5px;}
+        .feeList{height: 35px; line-height: 35px; padding-top: 5px; border-bottom: 1px solid #ccc;}
     </style>
 </head>
 <!-- /Head -->
@@ -277,32 +279,35 @@ Purchase: http://wrapbootstrap.com
                             <div class="tab-content">
                                 <div id="SHOUFU" class="tab-pane in active">
                                     <div class="scrollbar">
-                                        <div style="line-height: 80px;">
+                                        <div style="margin-bottom: 10px;">
                                             <button type="submit" id="addFee1" class="btn">添加应收</button>&nbsp;&nbsp;<button type="submit" id="addFee2" class="btn">添加应付</button>
+                                        </div>
+                                        <div style="margin: 10px 0 10px 0; margin-bottom: 1px solid #ccc; font-size: 16px;">
+                                            <strong>利润：<span id="profit" style="margin-right: 20px;"></span></strong> | 应收：<span id="debitTotal" style="margin-right: 20px;"></span> | 应付：<span id="creditTotal" style="margin-right: 20px;"></span> 
                                         </div>
                                         <div class="col-sm-12">
                                             <label for="inputPassword3" class="margin-right-5" style="width:30px; float: left;"></label>
                                             <label for="inputPassword3" class="margin-right-5 margin-left-5" style="width:100px; float: left;">类别</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:200px; float: left;">结算公司</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">费用项目</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">币种</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">金额</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">数量</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">单位</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:65px; float: left;">币种</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:85px; float: left;">金额</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:60px; float: left;">数量</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:85px; float: left;">单位</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">总额</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">收据汇率</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">结算汇率</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">收据币种</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">收据金额</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:60px; float: left;">收据汇率</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:65px; float: left;">收据币种</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:85px; float: left;">收据金额</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">备注</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">核销汇率</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">核销金额</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">收据号码</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">发票号码</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">核销日期</label>
-                                            <!--<label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">录入人</label>
+                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">录入人</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">录入时间</label>
                                             <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">修改人</label>
-                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">修改时间</label>-->
+                                            <label for="inputPassword3" class="margin-right-5" style="width:100px; float: left;">修改时间</label>
                                         </div>
                                         <div class="form-group feeAll">
                                             <!--<div class="col-sm-12 feeList">
@@ -938,58 +943,7 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/select2/select2.min.js"></script>
     <script src="assets/js/select2/zh-CN.js"></script>
     <script>
-        //--Jquery Select2--
-        //      $("#port1").select2({
-        //          minimumInputLength: 3
-        //      });
-        //      $("#port2").select2({
-        //          minimumInputLength: 3
-        //      });
-        //      $("#port3").select2({
-        //          minimumInputLength: 3
-        //      });
-        //      $("#port4").select2({
-        //          minimumInputLength: 3
-        //      });
-        //      $("#port5").select2({
-        //          minimumInputLength: 3
-        //      });
-        //      $("#carrier").select2({
-        //          minimumInputLength: 3
-        //      });
-
-        //--Bootstrap Date Picker--
         $('.date-picker').datepicker();
-
-        //$('#okTrailerTime').datepicker(
-        //	{ onSelect: gotoDate }
-        //).on('changeDate', gotoDate);
-        //function gotoDate(ev) {
-        //    //console.log(ev.date)
-        //    $("#okBillTime").val(getNewDay(formatTime(ev.date), 2))
-        //    $("#okPortTime").val($("#okBillTime").val())
-        //}
-        ////时间格式化
-        //function formatTime(date) {
-        //    var year = date.getFullYear();
-        //    var month = date.getMonth() + 1, month = month < 10 ? '0' + month : month;
-        //    var day = date.getDate(), day = day < 10 ? '0' + day : day;
-        //    return year + '-' + month + '-' + day;
-        //}
-        ////日期加上天数得到新的日期
-        ////dateTemp 需要参加计算的日期，days要添加的天数，返回新的日期，日期格式：YYYY-MM-DD
-        //function getNewDay(dateTemp, days) {
-        //    var dateTemp = dateTemp.split("-");
-        //    var nDate = new Date(dateTemp[1] + '-' + dateTemp[2] + '-' + dateTemp[0]); //转换为MM-DD-YYYY格式
-        //    var millSeconds = Math.abs(nDate) + (days * 24 * 60 * 60 * 1000);
-        //    var rDate = new Date(millSeconds);
-        //    var year = rDate.getFullYear();
-        //    var month = rDate.getMonth() + 1;
-        //    if (month < 10) month = "0" + month;
-        //    var date = rDate.getDate();
-        //    if (date < 10) date = "0" + date;
-        //    return (year + "-" + month + "-" + date);
-        //}
     </script>
     <!--Page Related Scripts-->
     <script src="js/common.js"></script>
