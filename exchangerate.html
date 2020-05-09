@@ -33,8 +33,13 @@ Purchase: http://wrapbootstrap.com
     <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
 
     <!--Page Related styles-->  
+    <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet" />  
     <link href="css/common.css" rel="stylesheet" />
     
+    <style>
+        #myModal2{z-index:9990;}
+        .datepicker{z-index:9991;}
+    </style>
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="assets/js/skins.min.js"></script>
 </head>
@@ -116,17 +121,31 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Content -->
             <div class="page-content">
                 <!-- Page Breadcrumb -->
-                <div class="page-breadcrumbs">
-                    <ul class="breadcrumb">
-                        <li>
-                            <i class="fa fa-home"></i>
-                            <a href="index.html" set-lan="html:con_top_1">Home</a>
-                        </li>
-                        <li>
-                            <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">系统管理</a>
-                        </li>
-                        <li id="title1" class="active">参数设置</li>
-                    </ul>
+                <div class="page-breadcrumbs page-header position-relative">
+                    <div class="header-title">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="index.html" set-lan="html:con_top_1">Home</a>
+                            </li>
+                            <li>
+                                <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">系统管理</a>
+                            </li>
+                            <li id="title1" class="active">参数设置</li>
+                        </ul>
+                    </div>
+                    <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                        <a href="#myModal" id="addFun" class="label label-primary tooltip-darkorange" data-toggle="modal"><i class="fa fa-plus-circle"></i></a>
+                    </div>
                 </div>
                 <!-- /Page Breadcrumb -->
                 <!-- Page Body -->
@@ -135,54 +154,38 @@ Purchase: http://wrapbootstrap.com
                 		<div class="widget-header bordered-left bordered-darkorange">
                 			<span class="widget-caption">参数设置</span>
                 		</div>
-                		<div class="widget-body">
-                			<div id="horizontal-form">
-                				<form class="form-horizontal" role="form">
-                					<div class="form-group">
-                						<label for="inputEmail3" class="col-sm-2 control-label no-padding-right">工作单号规则 <sup>*</sup> </label>
-                						<div class="col-sm-2">
-                							<input type="email" class="form-control col-sm-2" id="inputPreNum" placeholder="前缀">
-                						</div>
-                						<div class="col-sm-1 text-align-center no-margin no-padding">
-                							<label class="control-label">+</label>
-                						</div>                						
-                						<div class="col-sm-3">
-                							<input type="email" class="form-control col-sm-3" placeholder="yyyyMMddHHmmss" disabled="disabled">
-                						</div>                						
-                					</div>  
-                					<div class="form-group">
-                						<label for="inputEmail3" class="col-sm-2 control-label no-padding-right">付款地点 <sup></sup> </label>
-                						<div class="col-sm-2">
-                							<input type="email" class="form-control col-sm-2" id="inputAddress1" placeholder="付款地点">
-                						</div>
-                						<div class="col-sm-1 control-label no-padding-right">签单地点</div>
-                						<div class="col-sm-2">
-                							<input type="email" class="form-control col-sm-2" id="inputAddress2" placeholder="签单地点">
-                						</div>
-                					</div>
-                                    <div class="form-group">
-                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">本地币种 <sup></sup> </label>
-                                        <div class="col-sm-2">
-                                            <select id="localCurrency"></select>
-                                        </div>
-                                    </div>
-                				</form>
-                			</div>
-                		</div>             		
-                		<div class="widget-body">
-                			<div id="horizontal-form">
-                				<div class="form-horizontal" role="form">
-                					<div class="form-group"></div>
-                					<div class="form-group"></div>
-                					<div class="form-group">
-                						<div class="col-sm-offset-2 col-sm-10">
-                							<button type="submit" id="send1"  class="btn btn-darkorange">确认提交</button>
-                						</div>
-                					</div>
-                					<div class="form-group"></div>                					
-                				</div>
-                			</div>
-                		</div>                					
+                		<div class="widget-body">                            
+                            <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%" id="example">
+                                <thead>
+                                    <tr class="tableTitle">
+                                        <th>期间起</th>
+                                        <th>期间止</th>
+                                        <th>源币种</th>
+                                        <th>折合币种</th>
+                                        <th>折算符</th>
+                                        <th>兑换率</th>
+                                        <th>录入日期</th>
+                                        <th>录入人</th>
+                                        <th>修改日期</th>
+                                        <th>修改人</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                    
+                                <!--<tbody>
+                                    <tr>
+                                        <td>alex</td>
+                                        <td>Alex Nilson</td>
+                                        <td>1234</td>
+                                        <td class="center ">power user</td>
+                                        <td>
+                                            <a href="#" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                            <a href="#" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                        </td>
+                                    </tr>
+                                </tbody>-->
+                            </table>
+                		</div>              					
                 	</div>
 				</div>
                 <!-- /Page Body -->
@@ -194,18 +197,86 @@ Purchase: http://wrapbootstrap.com
 
     </div>
     
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">船公司</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal" id="resForm">
+                        <input type="hidden" id="objectId"/>
+                        
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control date-picker" placeholder="期间起" id="timeFrom" type="text" data-date-format="yyyy-mm-dd" style="width: 100%;">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input class="form-control date-picker" placeholder="期间止" id="timeEnd" type="text" data-date-format="yyyy-mm-dd">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group">                      
+                            <select id="oldCurrency" style="width: 100%;">
+                                <option value="请选择">请选择</option>
+                            </select>
+                        </div>
+                        <div class="form-group">                        
+                            <select id="newCurrency" style="width: 100%;">
+                                <option value="请选择">请选择</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select id="symbol" style="width: 100%;">
+                                <option value="multiply">乘</option>
+                                <option value="devided">除</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="countryCn">
+                            <input type="text" class="form-control" placeholder="兑换率" id="exchangeRate" name="exchangeRate"/>
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnSave" set-lan="html:submit">确定</button>
+                    <button class="btn btn-primary" id="btnEdit" set-lan="html:save">保存</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
     <!--Basic Scripts-->
     <script src="assets/js/jquery-2.0.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
 
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.min.js"></script>
-
+    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/bootbox/bootbox.js"></script>
+    <!--Bootstrap Date Picker-->
     <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
     <script>
         //--Bootstrap Date Picker--
-        $('.date-picker').datepicker();
-
+        // $('.date-picker').datepicker({
+        //     format: "yyyy-mm-dd",
+        //     todayBtn: "linked",
+        //     autoclose:true,//加上这个参数
+        //     language: "zh-CN"
+        // });    
     </script>
     
     <!--Page Related Scripts-->

@@ -35,11 +35,24 @@ $(function(){
 	var orderCode;
 	var crmId;
     var forwarder_id;
+    var localCurrency;
 
     //转回到订单详情
     $('#orderDetail').on('click', function() {
         location.href = 'orderadd.html?action=modify&Id='+Id;
     })
+
+
+    common.ajax_req("get", true, dataUrl, "weiinfo.ashx?action=read", {
+        "companyId": companyID
+    }, function(data) {
+        //console.log(data.Data)
+        //初始化信息
+        var _data = data.Data
+        localCurrency=_data.wein_currency;
+    }, function(err) {
+        console.log(err)
+    }, 2000)
 
 	//加载订单信息
 	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
@@ -137,6 +150,8 @@ $(function(){
     }, function(err) {
         console.log(err)
     }, 2000)
+
+
     // $("#crmuser").change(function() {
     //     crmCompanyId = $("#crmuser").val();
     //     _selectSupplier(crmCompanyId)
@@ -183,9 +198,9 @@ $(function(){
     				'<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" placeholder="" value="' + _data[i].bofe_num + '">' +
     				'<span class="input-group-addon" style="padding:0;"><select id="numUnit" style="height:20px;"></select></span></div>' +
     				'<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_feeUnit+ ' ' + _data[i].bofe_allFee + '</label>' + 
-    				'<input type="text" class="form-control margin-right-5" id="receiptRate" placeholder="" value="' + _data[i].bofe_receiptRate+ '" style="width:60px; float: left;">' +
-    				'<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" style="height:20px;"></select></span>' +
-    				'<input type="text" class="form-control" id="receiptFee" placeholder="" value="' + _data[i].bofe_receiptFee+ '"></div>' +
+    				'<input type="text" class="form-control margin-right-5" id="receiptRate" placeholder="" value="' + _data[i].bofe_receiptRate+ '" style="width:60px; float: left;"  disabled="disabled">' +
+    				'<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" style="height:20px;" disabled="disabled"></select></span>' +
+    				'<input type="text" class="form-control" id="receiptFee" placeholder="" value="' + _data[i].bofe_receiptFee+ '" disabled="disabled"></div>' +
     				'<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" style="width:100px; float: left;">'+
                     '<label for="inputPassword3" id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_settlementRate + '</label>' + 
     				'<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelMoney + '</label>' + 
@@ -227,12 +242,131 @@ $(function(){
                 }
     		}        
             feeNewOrder();
+            gatherDebitCredit();
     	}
     
     }, function(err) {
     	console.log(err)
     }, 4000)
 
+
+
+    //统计总利润，总应收，总应付
+    function gatherDebitCredit(){
+        var _arrDebit = new Array();
+        var _arrDebitAmount = new Array();
+        var _arrCredit = new Array();
+        var _arrCreditAmount = new Array();
+        var _debitCurrency=""
+        var _creditCurrency=""
+        var z="0";
+        var _arrDebitGather= new Array();        
+        var y="0";
+        var _arrCreditGather= new Array();
+
+        $(".feeList").each(function(){
+            if($(this).find("#feeType").val()=="debit"){
+                //alert("1111")
+                if($.inArray($(this).find("#feeUnit").val(), _arrDebit)==-1){
+                    _arrDebit.push($(this).find("#feeUnit").val());
+                }
+            }else if($(this).find("#feeType").val()=="credit"){
+                //alert("2222")
+                if($.inArray($(this).find("#feeUnit").val(), _arrCredit)==-1){
+                    _arrCredit.push($(this).find("#feeUnit").val());
+                }
+            }
+        })
+        //算出应收的各币种总和
+        if(_arrDebit.length>1){
+            for(var i = 0; i < _arrDebit.length; i++) {
+
+                $(".feeList").each(function(){
+                    if($(this).find("#feeType").val()=="debit" && $(this).find("#feeUnit").val()==_arrDebit[i]){
+                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                            z=+z + (+$(this).find("#feePrice").val() * +$(this).find("#feeNum").val());
+                    }
+                })
+                _arrDebitAmount.push(z.toFixed(2));
+                _debitCurrency=_debitCurrency+_arrDebit[i]+" "+(i>0?parseFloat(+_arrDebitAmount[i] - +_arrDebitAmount[i-1]).toFixed(2):parseFloat(_arrDebitAmount[i]).toFixed(2))+", ";
+                _arrDebitGather.push(_arrDebit[i]+" "+(i>0?parseFloat(+_arrDebitAmount[i] - +_arrDebitAmount[i-1]).toFixed(2):parseFloat(_arrDebitAmount[i]).toFixed()));
+            }
+            
+            $("#debitTotal").text(_debitCurrency)
+
+        }else if(_arrDebit.length==0){
+            $("#debitTotal").text(localCurrency+" "+parseFloat(z).toFixed(2));
+            _arrDebitGather.push(localCurrency+" "+parseFloat(z).toFixed(2));
+        }else{
+            $(".feeList").each(function(){
+                if($(this).find("#feeType").val()=="debit"){
+                    //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                    z=+z + (+$(this).find("#feePrice").val() * +$(this).find("#feeNum").val());
+                }
+            })
+            $("#debitTotal").text(_arrDebit[0]+" "+parseFloat(z).toFixed(2))
+            _arrDebitGather.push(_arrDebit[0]+" "+parseFloat(z).toFixed(2));
+        }
+
+        //算出应付的各币种总和
+        if(_arrCredit.length>1){
+            for(var i = 0; i < _arrCredit.length; i++) {
+
+                $(".feeList").each(function(){
+                    if($(this).find("#feeType").val()=="credit" && $(this).find("#feeUnit").val()==_arrCredit[i]){
+                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                            y=+y + (+$(this).find("#feePrice").val() * +$(this).find("#feeNum").val());
+                    }
+                })
+                _arrCreditAmount.push(y);
+                _creditCurrency=_creditCurrency+_arrCredit[i]+" "+(i>0?parseFloat(+_arrCreditAmount[i] - +_arrCreditAmount[i-1]).toFixed(2):parseFloat(_arrCreditAmount[i]).toFixed(2))+", ";
+                _arrCreditGather.push(_arrCredit[i]+" "+(i>0?parseFloat(+_arrCreditAmount[i] - +_arrCreditAmount[i-1]).toFixed(2):parseFloat(_arrCreditAmount[i]).toFixed(2)));
+            }
+            
+            $("#creditTotal").text(_creditCurrency)
+
+        }else if(_arrCredit.length==0){
+            $("#creditTotal").text(localCurrency+" "+parseFloat(y).toFixed(2));
+            _arrCreditGather.push(localCurrency+" "+parseFloat(y).toFixed(2));
+        }else{
+
+            $(".feeList").each(function(){
+                if($(this).find("#feeType").val()=="credit"){
+                    //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                    y=+y + (+$(this).find("#feePrice").val() * +$(this).find("#feeNum").val());
+                }
+            })
+            $("#creditTotal").text(_arrCredit[0]+" "+y.toFixed(2));
+            _arrCreditGather.push(_arrCredit[0]+" "+y.toFixed(2));
+        }
+        getProfit(_arrDebitGather,_arrCreditGather);
+    }
+
+    //计算当票利润，根据DEBIT/CREDIT来计算的。
+    function getProfit(debit,credit){
+        var _debitCurInProfit;
+        var _debitRateInProfit;
+        var _creditCurInProfit;
+        var _creditRateInProfit;
+
+        common.ajax_req("get", true, dataUrl, "ajax/exchangerate.ashx?action=read", {
+            "companyId": companyID
+        }, function(data) {
+            //console.log(data.Data)
+            //初始化信息
+            var _data = data.Data
+            localCurrency=_data.wein_currency;
+        }, function(err) {
+            console.log(err)
+        }, 2000)
+
+        $("#profit").text(localCurrency)
+        console.log(debit)
+        console.log(credit)
+    }
+
+
+//feePrice, feeNum
     //让费用列表按照应收在上面，应付在下面这样来重新排序
     function feeNewOrder(){
         var newOrder = $('.feeList').toArray()
@@ -924,6 +1058,38 @@ $(function(){
         $('#send_bill_gys').addClass('none')
     })
 
+    //修改应收应付后更改收据金额，汇率以及币种
+
+    //*JQuery 限制文本框只能输入数字和小数点*/  
+    //$(this).val($(this).val().replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3').replace(/^\./g, ''));
+    $(".feeList #feePrice,.feeList #feeNum").keyup(function(){
+        $(this).val($(this).val().replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3').replace(/^\./g, ''));
+        //parseFloat($(this).val()).toFixed(2);
+    }).bind("paste",".feeList #feePrice,.feeList #feeNum",function(){  //CTR+V事件处理    
+        $(this).val(parseFloat($(this).val().replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3').replace(/^\./g, '')).toFixed(2));
+        //parseFloat($(this).val()).toFixed(2);
+    }).css("ime-mode", "disabled"); //CSS设置输入法不可用   
+
+    //*JQuery 文本框失去焦点时显示只能输入数字和小数点*/  
+    $("body").on('blur',".feeList #feePrice,.feeList #feeNum", function() {
+        $(this).val(parseFloat($(this).val().replace(/[^\d.]/g, '').replace(/\.{2,}/g, '.').replace('.', '$#$').replace(/\./g, '').replace('$#$', '.').replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3').replace(/^\./g, '')).toFixed(2));
+    }) 
+
+    //输入的费用自动转发到收据费用那边去。
+    $("body").on('change',".feeList #feeUnit,.feeList #feePrice,.feeList #feeNum", function() {
+        //alert($(this).parents('.feeList').find("#receiptFeeUnit").val())
+        if($(this).attr("id")!="feeUnit"){
+            parseFloat($(this).val()).toFixed(2);
+        }
+        var _newfeeUnit=$(this).parents('.feeList').find("#feeUnit").val();
+        var _newfeePrice=$(this).parents('.feeList').find("#feePrice").val();
+        var _newfeeNum=$(this).parents('.feeList').find("#feeNum").val();
+        $(this).parents('.feeList').find("#allFee").text(_newfeeUnit+" "+(parseFloat(_newfeePrice).toFixed(2)*parseFloat(_newfeeNum).toFixed(2)));
+        $(this).parents('.feeList').find("#receiptRate").val("1");
+        $(this).parents('.feeList').find("#receiptFeeUnit").val(_newfeeUnit);
+        $(this).parents('.feeList').find("#receiptFee").val(parseFloat(_newfeePrice).toFixed(2)*parseFloat(_newfeeNum).toFixed(2));
+    })
+
 	//添加应收应付
 	$('#addFee1').on('click', function() {
         feeboxAll_len=$('.feeList').length+1;
@@ -934,12 +1100,12 @@ $(function(){
             '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+
             '<input type="text" class="form-control" id="feePrice" placeholder="" value="0" ></div>'+
-            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="0" placeholder="">'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="1" placeholder="">'+
             '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>'+
             '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="0" placeholder="" style="width:60px; float: left;">'+
-            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit"></select></span>'+
-            '<input type="text" class="form-control" id="receiptFee" value="0" placeholder=""></div>'+
+            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="1" placeholder="" style="width:60px; float: left;" disabled="disabled">'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" disabled="disabled"></select></span>'+
+            '<input type="text" class="form-control" id="receiptFee" value="0" placeholder="" disabled="disabled"></div>'+
             '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
             '<label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
             '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
@@ -981,10 +1147,10 @@ $(function(){
             '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+
             '<input type="text" class="form-control" id="feePrice" placeholder="" value="0" ></div>'+
-            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="0" placeholder="">'+
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="1" placeholder="">'+
             '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>'+
             '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="0" placeholder="" style="width:60px; float: left;">'+
+            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="1" placeholder="" style="width:60px; float: left;">'+
             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit"></select></span>'+
             '<input type="text" class="form-control" id="receiptFee" value="0" placeholder=""></div>'+
             '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
