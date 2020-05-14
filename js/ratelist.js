@@ -161,14 +161,14 @@ function initTable(fromId,port1,port2,usetime) {
     	tableTitle = '<th>企业</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>20\'GP</th><th>40\'GP</th><th>40\'HQ</th><th>承运人</th><th>航期</th><th>航程</th><th>中转</th><th>有效期</th><th>备注</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
         columns = [
-                                        			{
-                                        			    "mDataProp": "comp_code",
-                                        			    "createdCell": function (td, cellData, rowData, row, col) {
-                                        			        if (cellData) {
-                                        			            $(td).html('<a href="javascript:void(0);" data-placement="top" data-toggle="popover" data-content="' + rowData.comp_name + '">' + cellData + '</a>');
-                                        			        }
-                                        			    }
-                                        			},
+			{
+			    "mDataProp": "comp_code",
+			    "createdCell": function (td, cellData, rowData, row, col) {
+			        if (cellData) {
+			            $(td).html('<a href="javascript:void(0);" data-placement="top" data-toggle="popover" data-content="' + rowData.comp_name + '">' + cellData + '</a>');
+			        }
+			    }
+			},
 			{ "mDataProp": "rate_port1",
 				"mRender" : function(data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
                    return (full.rate_port1 +" <i class='fa fa-long-arrow-right'></i></br> "+ full.rate_port2)

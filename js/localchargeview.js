@@ -29,22 +29,24 @@ $(function(){
 	
 
     //结算公司
-	common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
-	    "companyId": companyID
-	}, function (data) {
-	    var _data = data.data;
-	    console.log(_data)
-	    if (_data != null) {
-	        for (var i = 0; i < _data.length; i++) {
-	            var _html = _data[i].comp_name;
-	            $('#toCompany').html(_html)
-	        }
-	    }
-	}, function (err) {
-	    console.log(err)
-	}, 2000)
+  //   function getCrmCompany(o){
+		// common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+		//     "companyId": o
+		// }, function (data) {
+		//     var _data = data.data;
+		//     console.log(_data)
+		//     if (_data != null) {
+		//         for (var i = 0; i < _data.length; i++) {
+		//             var _html = _data[i].comp_name;
+		//             $('#toCompany').html(_html)
+		//         }
+		//     }
+		// }, function (err) {
+		//     console.log(err)
+		// }, 2000)		
+  //   }
 	
-	common.ajax_req("get", false, dataUrl, "localcharge.ashx?action=readbyid", {
+	common.ajax_req("get", true, dataUrl, "localcharge.ashx?action=readbyid", {
 		"Id": Id
 	}, function(data) {
 		console.log(data.Data)
@@ -57,6 +59,7 @@ $(function(){
 		$('#id-date-picker-1').html(_data.loch_useTime1.substring(0, 10))
 		$('#id-date-picker-2').html(_data.loch_useTime2.substring(0, 10))
 		$('#inputtype').html(_data.loch_type)
+		$('#toCompany').html(_data.comp_name)
 
 		$('.feeAll').empty()
 		var feeItemAll = _data.loch_feeItem.split(';')

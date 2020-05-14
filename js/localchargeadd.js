@@ -135,7 +135,7 @@ $(function(){
 	    console.log(_data)
 	    if (_data != null) {
 	        for (var i = 0; i < _data.length; i++) {
-	            var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
+	            var _html = '<option value="' + _data[i].comp_id + '" comCode="'+ _data[i].comp_code +'">' + _data[i].comp_name + '</option>';
 	            $('#toCompany').append(_html)
 	        }
 	    }
@@ -262,6 +262,8 @@ $(function(){
 		_from = $('#from').val(),
 		_remark = $('#remark').val(),
 		_toCompany = $('#toCompany').val(),
+		_comCode=$('#toCompany').find("option:selected").attr("comCode"),
+		_toCompanyName=$('#toCompany').find("option:selected").text(),
 		_useTime1 = $('#id-date-picker-1').val(),
         _useTime2 = $('#id-date-picker-2').val(),
 		_type= $('#inputtype').val();
@@ -289,6 +291,8 @@ $(function(){
 					'companyId': companyID,
 					'userId': userID,
 					'toCompany': _toCompany,
+					'comp_name':_toCompanyName,
+					'comp_code':_comCode,
 					'carrier': _carrier,
 					'port1': _port1,
 					'routes': _routes,					
@@ -322,6 +326,8 @@ $(function(){
 				var parm = {
 					'Id': Id,
 					'toCompany': _toCompany,
+					'comp_name':_toCompanyName,
+					'comp_code':_comCode,
 					'carrier': _carrier,
 					'port1': _port1,
 					'routes': _routes,
@@ -336,7 +342,7 @@ $(function(){
 				common.ajax_req('POST', false, dataUrl, 'localcharge.ashx?action=modify', parm, function(data) {
 					if(data.State == 1) {
 						comModel("修改成功")
-						location.href = 'localchargelist.html';
+						//location.href = 'localchargelist.html';
 					} else {
 						comModel("修改失败")
 					}

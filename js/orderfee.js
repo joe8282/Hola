@@ -36,7 +36,8 @@ $(function(){
 	var crmId;
     var forwarder_id;
     var localCurrency;
-
+    var containerType;
+    initLocalchargeListTable();
     //转回到订单详情
     $('#orderDetail').on('click', function() {
         location.href = 'orderadd.html?action=modify&Id='+Id;
@@ -64,7 +65,8 @@ $(function(){
 		orderCode = _data.book_orderCode
 		$('#title3').html('订单号：' + _data.book_orderCode)
 		$('#ordercode').val(orderCode)
-		crmId = _data.book_crmCompanyId
+		crmId = _data.book_crmCompanyId;
+        containerType=_data.book_allContainer;
 	}, function(err) {
 		console.log(err)
 	}, 1000)
@@ -128,12 +130,18 @@ $(function(){
 				var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
 				_toCompany = _toCompany + _html
 			}
+            $('#toCompanyLocal').append(_toCompany)
 		}
 	}, function(err) {
 		console.log(err)
 	}, 2000)
 
 
+    //添加本地 费用列表的结算公司
+    $("#toCompanyLocal").select2({
+        language: "zh-CN",
+        minimumInputLength: 2
+    });
 
     //获取委托人列表
     common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
@@ -1045,6 +1053,7 @@ $(function(){
             $("#toCompany6").change(function () {
                 _getFee6($('#toCompany6').val())
             })
+
         }, function (err) {
             console.log(err)
         }, 2000)
@@ -1496,29 +1505,261 @@ $(function(){
 	    } // reader onload end  
 	})
 
+
+    /**
+     * 表格初始化
+     * @returns {*|jQuery}
+     */
+    function initLocalchargeListTable() {
+        
+        var table = $("#dataTableLocalCharge").dataTable({
+            //"iDisplayLength":10,
+            "sAjaxSource": dataUrl+'ajax/localcharge.ashx?action=read&companyId='+companyID,
+            'bPaginate': false,
+            //"searching": false, //去掉搜索框 
+    //      "bDestory": true,
+    //      "bRetrieve": true,
+    //      "bFilter": false,
+            "bSort": false,
+            // "aaSorting": [[ 7, "desc" ]],
+            // "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
+            //     {"bSortable": false, "aTargets": [0,6,8]}
+            // ],
+    //      "bProcessing": true,
+            "aoColumns": [
+                {
+                    "mDataProp": "comp_code",
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        if (cellData) {
+                            $(td).html('<a href="javascript:void(0);" data-placement="top" data-toggle="popover" data-content="' + rowData.comp_name + '">' + cellData + '</a>');
+                        }
+                    }
+                },
+                { "mDataProp": "loch_type",
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        // $(td).html("<a href='localchargeadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                        //  .append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
+                        $(td).html("<a target='_blank' href='localchargeview.html?action=view&Id="+ rowData.loch_id +"'> " + cellData + "</a>")
+                    }
+                },
+                { "mDataProp": "loch_from" },
+                { "mDataProp": "loch_carrier" },
+                { "mDataProp": "loch_port1" },
+                // {
+                //     "mDataProp": "loch_id",
+                //     "createdCell": function (td, cellData, rowData, row, col) {
+                //         $(td).html(rowData.loch_useTime1.substring(0, 10) + ' <i class="fa fa-long-arrow-right"></i> ' + rowData.loch_useTime2.substring(0, 10));
+                //     }           
+                // },          
+                {
+                    "mDataProp": "loch_id",
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        // $(td).html("<a href='localchargeadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                        //  .append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
+                        $(td).html("<a class='btn btn-blue btn-sm' id='_chooseLocalcharge' href='javascript:void(0);' name='"+rowData.loch_id+"'>" + get_lan('pickup') + "</a>")
+                    }
+                },
+            ],
+    //      "sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+    //      "sPaginationType": "bootstrap",
+            "oLanguage": {
+    //          "sUrl": "js/zh-CN.txt"
+    //          "sSearch": "快速过滤："
+                "sProcessing": "正在加载数据，请稍后...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": get_lan('nodata'),
+                "sEmptyTable": "表中无数据存在！",
+                "sInfo": get_lan('page'),
+                "sInfoEmpty": "显示0到0条记录",
+                "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+                //"sInfoPostFix": "",
+                "sSearch": get_lan('search'),
+                //"sUrl": "",
+                //"sLoadingRecords": "载入中...",
+                //"sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": get_lan('first'),
+                    "sPrevious": get_lan('previous'),
+                    "sNext": get_lan('next'),
+                    "sLast": get_lan('last'),
+                }
+                //"oAria": {
+                //    "sSortAscending": ": 以升序排列此列",
+                //    "sSortDescending": ": 以降序排列此列"
+                //}
+            },
+            "drawCallback": function(){
+                $('[data-toggle="popover"]').popover();
+            }
+        });
+
+        
+        return table;
+    }
+
+
+    /*
+    	add this plug in
+    	// you can call the below function to reload the table with current state
+    	Datatables刷新方法
+    	oTable.fnReloadAjax(oTable.fnSettings());
+    	*/
+    $.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings) {
+    	//oSettings.sAjaxSource = sNewSource;
+    	this.fnClearTable(this);
+    	this.oApi._fnProcessingDisplay(oSettings, true);
+    	var that = this;
+
+    	$.getJSON(oSettings.sAjaxSource, null, function(json) {
+    		/* Got the data - add it to the table */
+    		for(var i = 0; i < json.data.length; i++) {
+    			that.oApi._fnAddData(oSettings, json.data[i]);
+    		}
+    		oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
+    		that.fnDraw(that);
+    		that.oApi._fnProcessingDisplay(oSettings, false);
+    	});
+    }
+
+    $("#addFeeDebitLocal_btn").on("click",function(){
+        $("#debitOrCredit").val("debit");
+        $("#myModal").modal("show");
+        $('#toCompanyLocal').val($('#crmuser option:selected').attr("name")).trigger("change")
+    });
+
+    $("#addFeeCreditLocal_btn").on("click",function(){
+        $("#debitOrCredit").val("credit");
+        $("#myModal").modal("show");
+        $('#toCompanyLocal').val(forwarder_id).trigger("change")
+        //alert(containerType);
+    });
+
+    $.fn.modal.Constructor.prototype.enforceFocus = function(){};
+
+   // function _chooseLocalcharge(o){
+    $("#_chooseLocalcharge").on("click",function(){
+        var o=$(this).attr('name');
+        alert(o);
+        var feeboxAll_len="";
+            common.ajax_req("get", true, dataUrl, "localcharge.ashx?action=readbyid", {
+                "Id": o
+            }, function(data) {
+                console.log(data.Data)
+                var _data = data.Data
+
+                var feeItemAll = _data.loch_feeItem.split(';')
+                var containerTypeAll=containerType.split(';')
+
+                for (var i = 0; i < feeItemAll.length-1; i++) {
+                    var feeItem0 = feeItemAll[i].split(',')
+                    var _html ='<tr><td>'+feeItem0[0]+'</td><td>'+(feeItem0[2]!=0?(feeItem0[1]+feeItem0[2]):"")+'</td><td>'+(feeItem0[3]!=0?(feeItem0[1]+feeItem0[3]):"")+'</td><td>'+(feeItem0[4]!=0?(feeItem0[1]+feeItem0[4]):"")+'</td><td>'+(feeItem0[5]!=0?(feeItem0[1]+feeItem0[5]):"")+'</td><td>'+feeItem0[6]+'</td></tr>'
+                    var _feeUnitLocal="";
+                    var _feePriceLocal="";
+
+                    if(feeItem0[2]!=0){
+
+                        _feeUnitLocal="Bill of Loading";
+                        _feePriceLocal=feeItem0[2];
+                        var feeboxRow = '<div class="col-sm-12 feeList">'+
+                            '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
+                            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>'+
+                            '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
+                            '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
+                            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+
+                            '<input type="text" class="form-control" id="feePrice" placeholder="" value="'+_feePriceLocal+'" ></div>'+
+                            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="1" placeholder="">'+
+                            '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>'+
+                            '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="1" placeholder="" style="width:60px; float: left;" disabled="disabled">'+
+                            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" disabled="disabled"></select></span>'+
+                            '<input type="text" class="form-control" id="receiptFee" value="'+_feePriceLocal+'" placeholder="" disabled="disabled"></div>'+
+                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"></div>'  
+                            feeboxAll_len=$('.feeList').length+1;   
+                            $('.feeAll').append(feeboxRow)   
+                            $('.feeList:last').find('#numUnit').append(_numUnit)
+                            $('.feeList:last').find('#numUnit').val(_feeUnitLocal).trigger("change")
+
+                    }else{
+                        for(var j=0; j<containerTypeAll.length-1; j++){
+                            var containerTypeAllNumType=containerTypeAll[j].split('x');
+                            _feeUnitLocal=containerTypeAllNumType[1];
+                            _feeNumLocal=containerTypeAllNumType[0];
+                            if(_feeUnitLocal=="20'GP"){
+                                alert("20'gp")
+                            }else if(_feeUnitLocal=="40'GP"){
+                                alert("40'gp")
+                            }else if(_feeUnitLocal=="40'HQ"){
+                                alert("40'hq")
+                            }else{
+                                alert("else")
+                            }
+                            //_feePriceLocal=feeItem0[2];
+                        }
+                    }
+
+                    $('.feeList:last').find('.toCompany').append(_toCompany)
+                    $("#toCompany"+feeboxAll_len).select2({
+                        language: "zh-CN",
+                        minimumInputLength: 2
+                    });
+                    $('.feeList:last').find('.toCompany').val($('#crmuser option:selected').attr("name")).trigger("change")
+            //      //费用类型
+                    $('.feeList:last').find('.feeItem').append(_feeItem)
+                    $("#feeItem"+feeboxAll_len).select2({
+                        language: "zh-CN",
+                        minimumInputLength: 2
+                    });
+            //      //币种
+                    $('.feeList:last').find('#feeUnit').append(_feeUnit)
+                    $('.feeList:last').find('#feeUnit').val(feeItem0[1]).trigger("change")
+            //      币种
+                    $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
+                    $('.feeList:last').find('#receiptFeeUnit').val(feeItem0[1]).trigger("change")
+            //      //单位
+
+                    $('.feeList:last').find('#feeType').val('debit').trigger("change")
+                    $('.feeList:last').css("background-color","#b0e0e6")
+
+                }
+
+            }, function(err) {
+                console.log(err)
+            }, 5000)
+        if($("#debitOrCredit").val()=="debit"){
+            console.log("cc")  
+        }else if($("#debitOrCredit").val()=="credit"){   
+            console.log("dd")  
+        }
+    })
+
+    function OpenLocalChargeModal() {
+        $("#myModal").modal("show");
+    //$('#bookId').val(id)
+    }
+
+    /**
+     * 初始化弹出层
+     */
+    function initModal() {
+        $('#myModal').on('show', function() {
+            $(".page-body").addClass('modal-open');
+            $('<div class="modal-backdrop fade in"></div>').appendTo($(".page-body"));
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 })
-
-/*
-	add this plug in
-	// you can call the below function to reload the table with current state
-	Datatables刷新方法
-	oTable.fnReloadAjax(oTable.fnSettings());
-	*/
-$.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings) {
-	//oSettings.sAjaxSource = sNewSource;
-	this.fnClearTable(this);
-	this.oApi._fnProcessingDisplay(oSettings, true);
-	var that = this;
-
-	$.getJSON(oSettings.sAjaxSource, null, function(json) {
-		/* Got the data - add it to the table */
-		for(var i = 0; i < json.data.length; i++) {
-			that.oApi._fnAddData(oSettings, json.data[i]);
-		}
-		oSettings.aiDisplay = oSettings.aiDisplayMaster.slice();
-		that.fnDraw(that);
-		that.oApi._fnProcessingDisplay(oSettings, false);
-	});
-}
-
-
