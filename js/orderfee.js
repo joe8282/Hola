@@ -36,7 +36,8 @@ $(function(){
 	var crmId;
     var forwarder_id;
     var localCurrency;
-    var containerType;
+    var containerType;    
+    var _arrExchangeRate= new Array();
     initLocalchargeListTable();
     //转回到订单详情
     $('#orderDetail').on('click', function() {
@@ -356,24 +357,40 @@ $(function(){
         var _debitRateInProfit;
         var _creditCurInProfit;
         var _creditRateInProfit;
+        var _debits=new Array();
+        var _credits=new Array();
 
-        common.ajax_req("get", true, dataUrl, "ajax/exchangerate.ashx?action=read", {
-            "companyId": companyID
+        //将汇率装进数组中，便于使用
+        common.ajax_req('GET', false, dataUrl, 'exchangerate.ashx?action=read', {
+            'companyId': companyID
         }, function(data) {
-            //console.log(data.Data)
-            //初始化信息
-            var _data = data.Data
-            localCurrency=_data.wein_currency;
+            var _data = data.data;            
+            for(var i = 0; i < _data.length; i++) {
+                _arrExchangeRate.push(_data[i]);
+            }
         }, function(err) {
             console.log(err)
-        }, 2000)
+        }, 1000)
+
+        for(var j=0;j<debit.length;j++){
+            console.log(debit[j])
+            _debits=debit[j].split(" ");
+            if(_debits[0]==localCurrency){
+                alert('right')
+                _debitCurInProfit=+_debits[1];
+            }else{
+                _debitCurInProfit=+(_debits[1]*10);
+            }
+        }
 
         $("#profit").text(localCurrency)
+        console.log(_debitCurInProfit)
         console.log(debit)
         console.log(credit)
     }
 
 
+        console.log(_arrExchangeRate[1])
 //feePrice, feeNum
     //让费用列表按照应收在上面，应付在下面这样来重新排序
     function feeNewOrder(){
