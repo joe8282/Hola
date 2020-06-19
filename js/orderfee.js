@@ -359,9 +359,11 @@ $(function(){
         var _debitCurInProfit;
         var _debitRateInProfit=0;
         var _creditCurInProfit;
-        var _creditRateInProfit;
+        var _creditRateInProfit=0;
         var _debits=new Array();
         var _credits=new Array();
+        var _debitJudge=0;
+        var _creditJudge=0;
 
         //将汇率装进数组中，便于使用
         common.ajax_req('GET', false, dataUrl, 'exchangerate.ashx?action=read', {
@@ -382,15 +384,70 @@ $(function(){
             if(_debits[0]==localCurrency){
                 _debitAmount=_debits[1];
             }else{
-                _debitAmount=_debits[1]*10;
+                for(var z=0;z<_arrExchangeRate.length;z++){
+                    var _timeFrom=new Date((_arrExchangeRate[z].rate_timeFrom).split('T')[0]);
+                    var _timeFromFormat=_timeFrom.getTime();
+                    var _timeEnd=new Date((_arrExchangeRate[z].rate_timeEnd).split('T')[0]);
+                    var _timeEndFormat=_timeEnd.getTime();
+                    var _nowTime=new Date();
+                    var _nowTimeFormat=_nowTime.getTime();
+                    if(_debits[0]==_arrExchangeRate[z].rate_oldCurrency && _arrExchangeRate[z].rate_newCurrency==localCurrency && _timeFromFormat<_nowTimeFormat<_timeEndFormat){
+                        if(_arrExchangeRate[z].rate_symbol=="multiply"){
+                            _debitAmount=(_debits[1]*_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
+                        }else{
+                            _debitAmount=(_debits[1]/_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
+                        }
+                        _debitJudge=1;
+                    }
+                }
+                if(_debitJudge==0){
+                    alert("No Exchange Rate for "+_debits[0]);
+                }
             }
-            alert(_debits[1])
+
             //下面有个*1是为了转换类型
             _debitRateInProfit=_debitRateInProfit*1+_debitAmount*1;
         }
 
-        $("#profit").text(localCurrency+_debitRateInProfit)
-        console.log(_debitRateInProfit)
+        for(var j=0;j<credit.length;j++){
+            console.log(credit[j])
+            _credits=credit[j].split(" ");
+            var _creditAmount=0;
+            if(_credits[0]==localCurrency){
+                _creditAmount=_credits[1];
+            }else{
+                for(var z=0;z<_arrExchangeRate.length;z++){
+                    console.log(_arrExchangeRate[z]);
+                    var _timeFrom=new Date((_arrExchangeRate[z].rate_timeFrom).split('T')[0]);
+                    var _timeFromFormat=_timeFrom.getTime();
+                    var _timeEnd=new Date((_arrExchangeRate[z].rate_timeEnd).split('T')[0]);
+                    var _timeEndFormat=_timeEnd.getTime();
+                    var _nowTime=new Date();
+                    var _nowTimeFormat=_nowTime.getTime();
+                    if(_debits[0]==_arrExchangeRate[z].rate_oldCurrency && _arrExchangeRate[z].rate_newCurrency==localCurrency && _timeFromFormat<_nowTimeFormat<_timeEndFormat){
+                        if(_arrExchangeRate[z].rate_symbol=="multiply"){
+                            _creditAmount=(_debits[1]*_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
+                        }else{
+                            _creditAmount=(_debits[1]/_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
+                        }
+                        _creditJudge=1;
+                    }
+                }
+                if(_creditJudge==0){
+                    alert("No Exchange Rate for "+_credits[0]);
+                }
+            }
+            //下面有个*1是为了转换类型
+            _creditRateInProfit=_creditRateInProfit*1+_creditAmount*1;
+        }
+
+
+
+        //$("#profit").text(localCurrency+(_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2)+" "+()+" "+())
+        $("#profit").text(localCurrency+(_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2))
+        var nowD = new Date('2020-05-07')
+        
+        console.log(nowD.getTime())
     }
 
 
