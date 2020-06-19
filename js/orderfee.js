@@ -286,6 +286,7 @@ $(function(){
                 }
             }
         })
+        console.log(_arrDebit)
         //算出应收的各币种总和
         if(_arrDebit.length>1){
             for(var i = 0; i < _arrDebit.length; i++) {
@@ -293,12 +294,12 @@ $(function(){
                 $(".feeList").each(function(){
                     if($(this).find("#feeType").val()=="debit" && $(this).find("#feeUnit").val()==_arrDebit[i]){
                             //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
-                            z=+z + (+$(this).find("#feePrice").val() * +$(this).find("#feeNum").val());
+                            z=+z*1+(+$(this).find("#feePrice").val()*$(this).find("#feeNum").val())*1;
                     }
                 })
                 _arrDebitAmount.push(z.toFixed(2));
                 _debitCurrency=_debitCurrency+_arrDebit[i]+" "+(i>0?parseFloat(+_arrDebitAmount[i] - +_arrDebitAmount[i-1]).toFixed(2):parseFloat(_arrDebitAmount[i]).toFixed(2))+", ";
-                _arrDebitGather.push(_arrDebit[i]+" "+(i>0?parseFloat(+_arrDebitAmount[i] - +_arrDebitAmount[i-1]).toFixed(2):parseFloat(_arrDebitAmount[i]).toFixed()));
+                _arrDebitGather.push(_arrDebit[i]+" "+(i>0?parseFloat(+_arrDebitAmount[i] - +_arrDebitAmount[i-1]).toFixed(2):parseFloat(_arrDebitAmount[i]).toFixed(2)));
             }
             
             $("#debitTotal").text(_debitCurrency)
@@ -315,8 +316,8 @@ $(function(){
             })
             $("#debitTotal").text(_arrDebit[0]+" "+parseFloat(z).toFixed(2))
             _arrDebitGather.push(_arrDebit[0]+" "+parseFloat(z).toFixed(2));
+        console.log(_arrDebitGather)
         }
-
         //算出应付的各币种总和
         if(_arrCredit.length>1){
             for(var i = 0; i < _arrCredit.length; i++) {
@@ -353,8 +354,10 @@ $(function(){
 
     //计算当票利润，根据DEBIT/CREDIT来计算的。
     function getProfit(debit,credit){
+        console.log(debit)
+        console.log(credit)
         var _debitCurInProfit;
-        var _debitRateInProfit;
+        var _debitRateInProfit=0;
         var _creditCurInProfit;
         var _creditRateInProfit;
         var _debits=new Array();
@@ -375,18 +378,19 @@ $(function(){
         for(var j=0;j<debit.length;j++){
             console.log(debit[j])
             _debits=debit[j].split(" ");
+            var _debitAmount=0;
             if(_debits[0]==localCurrency){
-                alert('right')
-                _debitCurInProfit=+_debits[1];
+                _debitAmount=_debits[1];
             }else{
-                _debitCurInProfit=+(_debits[1]*10);
+                _debitAmount=_debits[1]*10;
             }
+            alert(_debits[1])
+            //下面有个*1是为了转换类型
+            _debitRateInProfit=_debitRateInProfit*1+_debitAmount*1;
         }
 
-        $("#profit").text(localCurrency)
-        console.log(_debitCurInProfit)
-        console.log(debit)
-        console.log(credit)
+        $("#profit").text(localCurrency+_debitRateInProfit)
+        console.log(_debitRateInProfit)
     }
 
 
