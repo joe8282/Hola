@@ -30,7 +30,11 @@ $(function(){
 //	}
 
 	var Id = GetQueryString('Id');
-	var _toCompany='',_feeItem='',_feeUnit='',_numUnit='';
+    var _toCompany='',_feeItem='',_feeUnit='',_numUnit='';
+    var _feeItemArr=new Array();
+    var _toCompanySettleArr=new Array();
+    var _htmlCompanySettle='';
+    var _CompanySettle='';
 	var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
 	var orderCode;
 	var crmId;
@@ -84,9 +88,23 @@ $(function(){
 			var _html = '<option value="' + _data[i].puda_id + '">' + _data[i].puda_name_cn + ' - '+_data[i].puda_name_en+'</option>';
 			//$('#feeItem').append(_html)
 			_feeItem=_feeItem+_html
+            _feeItemArr.push(_data[i].puda_id+';'+_data[i].puda_name_cn+' / '+_data[i].puda_name_en)
 		}
 	}, function(error) {
 	}, 1000)
+
+    function _getFeeItemFun(o){
+        console.log("111111111111111111111111111111111111")
+        var z=new Array();
+        var x;
+        for(var i=0;i<_feeItemArr.length;i++){
+            if(_feeItemArr[i].indexOf(o)>= 0){
+                z=_feeItemArr[i].split(";");
+                x=z[1];
+            }
+        }
+        return x;
+    }
 		
 	//币种
 	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
@@ -102,7 +120,7 @@ $(function(){
 		}
 	}, function(error) {
 		console.log(parm)
-	}, 1000)		
+	}, 1000)
 	
 	//单位
 	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readunit', {
@@ -132,10 +150,16 @@ $(function(){
 				_toCompany = _toCompany + _html
 			}
             $('#toCompanyLocal').append(_toCompany)
+            $('#toCompany_6').append(_toCompany)
+            $("#toCompany_6").select2({
+                language: "zh-CN",
+                minimumInputLength: 2
+            });
 		}
 	}, function(err) {
 		console.log(err)
 	}, 2000)
+
 
 
     //添加本地 费用列表的结算公司
@@ -224,6 +248,16 @@ $(function(){
                     language: "zh-CN",
                     minimumInputLength: 2
                 });
+                if($.inArray((_data[i].bofe_toCompany+';'+$('#toCompany'+i).find("option:selected").text()),_toCompanySettleArr)<0){
+                    _toCompanySettleArr.push(_data[i].bofe_toCompany+';'+$('#toCompany'+i).find("option:selected").text());
+                    _htmlCompanySettle = '<option value="' + _data[i].bofe_toCompany + '">' + $('#toCompany'+i).find("option:selected").text() + '</option>';
+                    _CompanySettle = _CompanySettle + _htmlCompanySettle
+                }
+
+                console.log(_toCompanySettleArr)
+                console.log("slk;ajkljsal;dfkjas;ldkfja;lsdkj;lkjk")
+
+
                 //alert($("[name='toCompany"+i+"']").val())
     			$('.feeList').eq(i).find('#feeItem'+i).html(_feeItem)
     			$('.feeList').eq(i).find('#feeItem'+i).val(_data[i].bofe_feeItem).trigger("change")
@@ -249,7 +283,12 @@ $(function(){
                     $('.feeList').eq(i).css("background-color","pink")
                     $('.feeList').eq(i).attr("orderName","1")
                 }
-    		}        
+    		}
+            $('#toCompany_2').append(_CompanySettle);
+            $('#toCompany_3').append(_CompanySettle);
+            $('#toCompany_4').append(_CompanySettle);
+            $('#toCompany_5').append(_CompanySettle);
+            //$('#toCompany_6').append(_CompanySettle);
             feeNewOrder();
             gatherDebitCredit();
     	}
@@ -364,6 +403,7 @@ $(function(){
         var _credits=new Array();
         var _debitJudge=0;
         var _creditJudge=0;
+        var _currencyJudge=0;
 
         //将汇率装进数组中，便于使用
         common.ajax_req('GET', false, dataUrl, 'exchangerate.ashx?action=read', {
@@ -400,9 +440,12 @@ $(function(){
                         _debitJudge=1;
                     }
                 }
+                //一种折中的办法来测试该币种是否有汇率存在，如果没有的话目前只能是通知，不能动态显示在利润上。
                 if(_debitJudge==0){
-                    alert("No Exchange Rate for "+_debits[0]);
+                        _currencyJudge=1;
+                    alert("No Exchange Rate for "+_debits[0]+", Please ask your Manager to add it.");
                 }
+                _debitJudge=0;
             }
 
             //下面有个*1是为了转换类型
@@ -424,18 +467,20 @@ $(function(){
                     var _timeEndFormat=_timeEnd.getTime();
                     var _nowTime=new Date();
                     var _nowTimeFormat=_nowTime.getTime();
-                    if(_debits[0]==_arrExchangeRate[z].rate_oldCurrency && _arrExchangeRate[z].rate_newCurrency==localCurrency && _timeFromFormat<_nowTimeFormat<_timeEndFormat){
+                    if(_credits[0]==_arrExchangeRate[z].rate_oldCurrency && _arrExchangeRate[z].rate_newCurrency==localCurrency && _timeFromFormat<_nowTimeFormat<_timeEndFormat){
                         if(_arrExchangeRate[z].rate_symbol=="multiply"){
-                            _creditAmount=(_debits[1]*_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
+                            _creditAmount=(_credits[1]*_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
                         }else{
-                            _creditAmount=(_debits[1]/_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
+                            _creditAmount=(_credits[1]/_arrExchangeRate[z].rate_exchangeRate).toFixed(2);
                         }
                         _creditJudge=1;
                     }
                 }
                 if(_creditJudge==0){
-                    alert("No Exchange Rate for "+_credits[0]);
+                        _currencyJudge=1;
+                    alert("No Exchange Rate for "+_credits[0]+", Please ask your Manager to add it.");
                 }
+                _creditJudge=0;
             }
             //下面有个*1是为了转换类型
             _creditRateInProfit=_creditRateInProfit*1+_creditAmount*1;
@@ -444,10 +489,8 @@ $(function(){
 
 
         //$("#profit").text(localCurrency+(_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2)+" "+()+" "+())
-        $("#profit").text(localCurrency+(_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2))
-        var nowD = new Date('2020-05-07')
-        
-        console.log(nowD.getTime())
+        $("#profit").html(localCurrency+(_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2)+(_currencyJudge==1?" <i class='fa fa-question-circle tooltip-info blue' data-toggle='tooltip' data-placement='top' data-original-title='The profit should not right because there is no right exchange rate for some currency.'></i>":""))
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
 
@@ -632,6 +675,13 @@ $(function(){
             })
             orderCode = _data.book_orderCode
             $('#title3').html('订单号：' + _data.book_orderCode)/////有用
+
+            $('#payNumber').val('INV-'+_data.book_orderCode)
+            $('#payNumber4').val('AD-'+_data.book_orderCode)
+            $('#vesselName').val(_data.book_vessel)
+            $('#voyage').val(_data.book_voyage)
+            $('#port1').val(_data.book_port1)
+            $('#port2').val(_data.book_port2)
             $('#outCode').val(_data.book_outCode)/////有用
             $('#billCode').val(_data.book_billCode)/////有用
             $('#code').val(_data.book_code)/////有用
@@ -918,6 +968,7 @@ $(function(){
     //费用明细
     function _getFee(toCompany) {
         common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+            "bookingId": Id,
             "toCompany": toCompany
         }, function (data) {
             console.log(data)
@@ -925,18 +976,18 @@ $(function(){
                 $(".fee00").empty()
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
-                    var feelist = '<p><div class="margin-left-40 margin-top-10">' +
+                    var feelist = '<p style="clear:both;"><div class="margin-left-40 margin-top-10">' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" /></label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_feeItem + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_fee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_num + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
                                     '</div></p>'
                     $(".fee00").prepend(feelist)
                 }
@@ -956,19 +1007,19 @@ $(function(){
                 $(".fee33").empty()
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
-                    var feelist = '<div class="margin-left-40 margin-top-10">' +
+                    var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bill_payNumber + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_feeItem + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_fee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_num + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bill_payNumber + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
                                     '</div>'
                     $(".fee33").prepend(feelist)
                 }
@@ -978,7 +1029,7 @@ $(function(){
             console.log(err)
         }, 2000)
     }
-    //账单费用明细
+    //付款申请
     function _getFee4(toCompany) {
         common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbillfee", {
             "toCompany": toCompany
@@ -988,18 +1039,47 @@ $(function(){
                 $(".fee44").empty()
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
-                    var feelist = '<div class="margin-left-40 margin-top-10">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
+                    var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bill_payNumber + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:12%; float: left;">' + _data[i].bofe_feeItem + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_fee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_num + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:12%; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
                                     '</div>'
                     $(".fee44").prepend(feelist)
+                }
+            }
+
+        }, function (err) {
+            console.log(err)
+        }, 2000)
+    }
+    //收款销账
+    function _getFee5(toCompany) {
+        common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbillfee", {
+            "toCompany": toCompany
+        }, function (data) {
+            console.log(data)
+            if (data.State == 1) {
+                $(".fee55").empty()
+                var _data = data.Data;
+                for (var i = 0; i < _data.length; i++) {
+                    var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bill_payNumber + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
+                                    '</div>'
+                    $(".fee55").prepend(feelist)
                 }
             }
 
@@ -1017,17 +1097,17 @@ $(function(){
                 $(".fee66").empty()
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
-                    var feelist = '<div class="margin-left-40 margin-top-10">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
+                    var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_outCode + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_feeItem + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_fee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data[i].bofe_num + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">&nbsp;</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">&nbsp;</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">&nbsp;</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">&nbsp;</label>' +
                                     '</div>'
                     $(".fee66").prepend(feelist)
                 }
@@ -1046,6 +1126,7 @@ $(function(){
     gysBillTable = GetGYSBill()
     filesTable = GetFiles()
 
+
     $('.shoufutab').on('click', function () {
         $('#send_shoufu').removeClass('none')
         $('#send_bill').addClass('none')
@@ -1061,11 +1142,6 @@ $(function(){
         $('#send_bill_get').addClass('none')
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
-
-        $('#toCompany2').append(_toCompany)
-        $("#toCompany2").change(function () {
-            _getFee($('#toCompany2').val())
-        })
     })
     $('.invoicetab').on('click', function () {
         $('#send_invoice').removeClass('none')
@@ -1077,10 +1153,10 @@ $(function(){
         $('#send_file').addClass('none')
 
         $('#unit3').append(_feeUnit)
-        $('#toCompany3').append(_toCompany)
-        $("#toCompany3").change(function () {
-            _getFee3($('#toCompany3').val())
-        })
+        // $('#toCompany_3').append(_toCompany)
+        // $("#toCompany_3").change(function () {
+        //     _getFee3($('#toCompany_3').val())
+        // })
     })
     $('.billpaytab').on('click', function () {
         $('#send_bill_pay').removeClass('none')
@@ -1090,10 +1166,10 @@ $(function(){
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
 
-        $('#toCompany4').append(_toCompany)
-        $("#toCompany4").change(function () {
-            _getFee4($('#toCompany4').val())
-        })
+        // $('#toCompany_4').append(_toCompany)
+        // $("#toCompany_4").change(function () {
+        //     _getFee4($('#toCompany_4').val())
+        // })
     })
     $('.billgettab').on('click', function () {
         $('#send_bill_get').removeClass('none')
@@ -1103,10 +1179,10 @@ $(function(){
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
 
-        $('#toCompany5').append(_toCompany)
-        $("#toCompany5").change(function () {
-            _getFee4($('#toCompany5').val())
-        })
+        // $('#toCompany_5').append(_toCompany)
+        // $("#toCompany_5").change(function () {
+        //     _getFee4($('#toCompany_5').val())
+        // })
     })
     $('.gysbilltab').on('click', function () {
         $('#send_bill_gys').removeClass('none')
@@ -1125,11 +1201,11 @@ $(function(){
             if (_data != null) {
                 for (var i = 0; i < _data.length; i++) {
                     var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
-                    $('#toCompany6').append(_html)
+                    $('#toCompany_6').append(_html)
                 }
             }
-            $("#toCompany6").change(function () {
-                _getFee6($('#toCompany6').val())
+            $("#toCompany_6").change(function () {
+                _getFee6($('#toCompany_6').val())
             })
 
         }, function (err) {
@@ -1143,6 +1219,22 @@ $(function(){
         $('#send_bill_pay').addClass('none')
         $('#send_bill_get').addClass('none')
         $('#send_bill_gys').addClass('none')
+    })
+
+    $("#toCompany_2").change(function () {
+        _getFee($('#toCompany_2').val())
+    })
+    $("#toCompany_3").change(function () {
+        _getFee3($('#toCompany_3').val())
+    })
+    $("#toCompany_4").change(function () {
+        _getFee4($('#toCompany_4').val())
+    })
+    $("#toCompany_5").change(function () {
+        _getFee5($('#toCompany_5').val())
+    })
+    $("#toCompany_6").change(function () {
+        _getFee6($('#toCompany_6').val())
     })
 
     //修改应收应付后更改收据金额，汇率以及币种
@@ -1335,7 +1427,7 @@ $(function(){
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
-	            'toCompany': $('#toCompany2').val(),
+	            'toCompany': $('#toCompany_2').val(),
 	            'payNumber': $('#payNumber').val(),
 	            'typeId': $("input[name='radio1']:checked").val(),
 	            'bank': $('#bank').val(),
@@ -1373,7 +1465,7 @@ $(function(){
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
-	            'toCompany': $('#toCompany3').val(),
+	            'toCompany': $('#toCompany_3').val(),
 	            'number': $('#number').val(),
 	            'feeUnit': $('#unit3').val(),
 	            'format': $('#iformat').val(),
@@ -1424,7 +1516,7 @@ $(function(){
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
-	            'toCompany': $('#toCompany4').val(),
+	            'toCompany': $('#toCompany_4').val(),
 	            'payNumber': $('#payNumber4').val(),
 	            'typeId': 3,
 	            'invoiceNumber': $('#invoiceNumber4').val(),
@@ -1465,7 +1557,7 @@ $(function(){
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
-	            'toCompany': $('#toCompany5').val(),
+	            'toCompany': $('#toCompany_5').val(),
 	            'payNumber': $('#payNumber5').val(),
 	            'typeId': 4,
 	            'bank': $('#bank5').val(),
@@ -1505,7 +1597,7 @@ $(function(){
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
-	            'toCompany': $('#toCompany6').val(),
+	            'toCompany': $('#toCompany_6').val(),
 	            'payNumber': $('#payNumber6').val(),
 	            'addtime': $('#id-date-picker-6').val(),
 	            'feeItem': feeItem

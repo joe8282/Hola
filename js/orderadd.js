@@ -427,7 +427,8 @@ $(function(){
 		}	
 	}, function(err) {
 		console.log(err)
-	}, 2000)	
+	}, 2000)
+	
 	$("#crmuser").change(function() {
 		crmCompanyId = $("#crmuser").val();
 		_selectSupplier(crmCompanyId)

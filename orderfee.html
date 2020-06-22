@@ -77,7 +77,7 @@ Purchase: http://wrapbootstrap.com
         .form-control{border-radius: 0px; height: 24px;border: 1px solid #ccc;}
         select{border-radius: 0px; height: 24px;border: 1px solid #ccc; padding: 0;}
         .widget{margin-bottom: 10px;}
-        label{text-align: right;}
+        /*label{text-align: right;}*/
         #carrier{float: right;}
         .input-group-addon{height: 24px; padding: 0 10px;}
         .form-group{margin-bottom: 5px;}
@@ -428,7 +428,7 @@ Purchase: http://wrapbootstrap.com
                                             <form class="form-horizontal" role="form">
                                                 <div class="form-group no-margin-bottom">
                                                     <label for="inputPassword3" class="col-sm-2">选择结算对象 </label>
-                                                    <label class="col-sm-3">
+                                                    <label class="col-sm-2">
                                                         <label>
                                                             <input name="radio1" type="radio" checked="checked" value="1">
                                                             <span>DEBIT </span>
@@ -439,25 +439,20 @@ Purchase: http://wrapbootstrap.com
                                                             <span>CREDIT </span>
                                                         </label>
                                                     </label>
-                                                    <label for="inputPassword3" class="col-sm-3">银行账号 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-4">银行账号 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-2">签发日期 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-2">账单号码 <sup></sup></label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-sm-5">
-                                                        <select id="toCompany2" style="width: 100%;">
+                                                    <div class="col-sm-4">
+                                                        <select id="toCompany_2" style="width: 100%;">
                                                             <option value="">请选择</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-4">
                                                         <input type="email" class="form-control" id="bank" placeholder="">
                                                     </div>
-                                                </div>
-                                                <div class="form-group no-margin-bottom">
-                                                    <label for="inputPassword3" class="col-sm-3">签发日期 <sup></sup></label>
-                                                    <label for="inputPassword3" class="col-sm-2">账单号码 <sup></sup></label>
-                                                    <label for="inputPassword3" class="col-sm-3">备注 <sup></sup></label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-2">
                                                         <div class="input-group">
                                                             <input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd">
                                                             <span class="input-group-addon">
@@ -468,7 +463,12 @@ Purchase: http://wrapbootstrap.com
                                                     <div class="col-sm-2">
                                                         <input type="email" class="form-control" id="payNumber" placeholder="">
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                </div>
+                                                <div class="form-group no-margin-bottom">
+                                                    <label for="inputPassword3" class="col-sm-10">备注 <sup></sup></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-10">
                                                         <textarea class="form-control" rows="1" id="beizhu" placeholder="备注"></textarea>
                                                     </div>
                                                 </div>
@@ -477,16 +477,16 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group bordered-top-1 bordered-gray">
                                                     <div class="margin-left-40 margin-top-20">
                                                         <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"></label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">费用项目</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">币种</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">金额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">数量</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">单位</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">总额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">收据汇率</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">结算汇率</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">收据币种</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">收据金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">费用项目</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据汇率</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">结算汇率</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据币种</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据金额</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group fee00">
@@ -524,7 +524,7 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-5">
-                                                        <select id="toCompany3" style="width: 100%;">
+                                                        <select id="toCompany_3" style="width: 100%;">
                                                             <option value="">请选择</option>
                                                         </select>
                                                     </div>
@@ -599,17 +599,17 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group bordered-top-1 bordered-gray">
                                                     <div class="margin-left-40 margin-top-20">
                                                         <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"></label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">账单号码</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">费用项目</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 8%; float: left;">币种</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 8%; float: left;">金额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 8%; float: left;">数量</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 8%; float: left;">单位</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">总额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">收据汇率</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">结算汇率</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">收据币种</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 8%; float: left;">收据金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">账单号码</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">费用项目</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据汇率</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">结算汇率</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据币种</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据金额</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group fee33">
@@ -637,21 +637,18 @@ Purchase: http://wrapbootstrap.com
                                                     </thead>
                                                 </table>
                                             </div>
-                                            <div id="horizontal-form">
+                                            <div>
                                                 <form class="form-horizontal" role="form">
                                                     <div class="form-group no-margin-bottom">
-                                                        <label for="inputPassword3" class="col-sm-5">选择结算对象 <sup></sup></label>
-                                                        <label for="inputPassword3" class="col-sm-3">发票号码 <sup></sup></label>
+                                                        <label for="inputPassword3" class="col-sm-4">选择结算对象 <sup></sup></label>
                                                         <label for="inputPassword3" class="col-sm-3">付款类型 <sup></sup></label>
+                                                        <label for="inputPassword3" class="col-sm-3">发票号码 <sup></sup></label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="col-sm-5">
-                                                            <select id="toCompany4" style="width: 100%;">
+                                                        <div class="col-sm-4">
+                                                            <select id="toCompany_4" style="width: 100%;">
                                                                 <option value="">请选择</option>
                                                             </select>
-                                                        </div>
-                                                        <div class="col-sm-3">
-                                                            <input type="email" class="form-control" id="invoiceNumber4" placeholder="">
                                                         </div>
                                                         <div class="col-sm-3">
                                                             <select id="payType" style="width: 100%;">
@@ -659,52 +656,48 @@ Purchase: http://wrapbootstrap.com
                                                                 <option value="无发票付款">无发票付款</option>
                                                             </select>
                                                         </div>
+                                                        <div class="col-sm-3">
+                                                            <input type="email" class="form-control" id="invoiceNumber4" placeholder="">
+                                                        </div>
                                                     </div>
                                                     <div class="form-group no-margin-bottom">
+                                                        <label for="inputPassword3" class="col-sm-4">付款金额 <sup></sup></label>
                                                         <label for="inputPassword3" class="col-sm-3">提交日期 <sup></sup></label>
-                                                        <label for="inputPassword3" class="col-sm-2">付款号码 <sup></sup></label>
-                                                        <label for="inputPassword3" class="col-sm-6">付款金额 <sup></sup></label>
+                                                        <label for="inputPassword3" class="col-sm-3">付款单号 <sup></sup></label>
                                                     </div>
                                                     <div class="form-group">
+                                                        <div class="col-sm-4">
+                                                            <input type="email" class="form-control" id="payPrice" placeholder="">
+                                                        </div>
                                                         <div class="col-sm-3">
                                                             <div class="input-group">
                                                                 <input class="form-control date-picker" id="id-date-picker-2" type="text" data-date-format="yyyy-mm-dd">
-                                                                <span class="input-group-addon">
-                                                                                                                                                                                <i class="fa fa-calendar"></i>
-                                                                                                                                                                            </span>
+                                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                             </div>
                                                         </div>
-                                                        <div class="col-sm-2">
+                                                        <div class="col-sm-3">
                                                             <input type="email" class="form-control" id="payNumber4" placeholder="">
-                                                        </div>
-                                                        <!--<div class="col-sm-2">
-                                                            <select id="unit1" style="width: 100%;">
-                                                                <option value="币种">币种</option>
-                                                            </select>
-                                                        </div>-->
-                                                        <div class="col-sm-2">
-                                                            <input type="email" class="form-control" id="payPrice" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="form-group no-margin-bottom">
-                                                        <label for="inputPassword3" class="col-sm-11">付款账号及备注 <sup></sup></label>
+                                                        <label for="inputPassword3" class="col-sm-10">付款账号及备注 <sup></sup></label>
                                                     </div>
                                                     <div class="form-group">
-                                                        <div class="col-sm-11"><textarea class="form-control" rows="3" id="beizhu4" placeholder="付款账号及备注"></textarea></div>
+                                                        <div class="col-sm-10"><textarea class="form-control" rows="3" id="beizhu4" placeholder="付款账号及备注"></textarea></div>
                                                     </div>
                                                     <div class="form-group">
                                                     </div>
                                                     <div class="form-group bordered-top-1 bordered-gray">
                                                         <div class="margin-left-40 margin-top-20">
-                                                            <label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"></label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"></label>
                                                             <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">账单号码</label>
-                                                            <label for="inputPassword3" class="margin-right-10" style="width:12%; float: left;">费用项目</label>
-                                                            <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">币种</label>
-                                                            <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">金额</label>
-                                                            <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">数量</label>
-                                                            <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">单位</label>
-                                                            <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">总额</label>
-                                                            <label for="inputPassword3" class="margin-right-10" style="width:12%; float: left;">销账金额</label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">费用项目</label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                                            <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">销账金额</label>
                                                         </div>
                                                     </div>
                                                     <div class="form-group fee44">
@@ -742,7 +735,7 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-5">
-                                                        <select id="toCompany5" style="width: 100%;">
+                                                        <select id="toCompany_5" style="width: 100%;">
                                                             <option value="">请选择</option>
                                                         </select>
                                                     </div>
@@ -789,18 +782,18 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group bordered-top-1 bordered-gray">
                                                     <div class="margin-left-40 margin-top-20">
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"></label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"></label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">账单号码</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:12%; float: left;">费用项目</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">币种</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">金额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">数量</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">单位</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">总额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:12%; float: left;">销账金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">费用项目</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">销账金额</label>
                                                     </div>
                                                 </div>
-                                                <div class="form-group fee44">
+                                                <div class="form-group fee55">
 
                                                 </div>
                                             </form>
@@ -832,7 +825,7 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-5">
-                                                        <select id="toCompany6" style="width: 100%;">
+                                                        <select id="toCompany_6" style="width: 100%;">
                                                             <option value="">请选择</option>
                                                         </select>
                                                     </div>
@@ -852,16 +845,16 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group bordered-top-1 bordered-gray">
                                                     <div class="margin-left-40 margin-top-20">
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"></label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"></label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">参考号码</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">费用项目</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 8%; float: left;">币种</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">金额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 8%; float: left;">数量</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width: 10%; float: left;">单位</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">总额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">状态</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">柜号</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">费用项目</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">状态</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">柜号</label>
                                                     </div>
                                                 </div>
                                                 <div class="form-group fee66">
@@ -1012,7 +1005,8 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/select2/select2.min.js"></script>
     <script src="assets/js/select2/zh-CN.js"></script>
     <script>
-        $('.date-picker').datepicker();
+        $('.date-picker').datepicker("setDate", new Date());
+        
     </script>
     <!--Page Related Scripts-->
     <script src="js/common.js"></script>
