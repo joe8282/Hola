@@ -42,6 +42,7 @@ $(function(){
     var localCurrency;
     var containerType;    
     var _arrExchangeRate= new Array();
+    var _arrfee00dataGather_toString;
     initLocalchargeListTable();
     //转回到订单详情
     $('#orderDetail').on('click', function() {
@@ -160,6 +161,138 @@ $(function(){
 		console.log(err)
 	}, 2000)
 
+    /////计算付款申请里面的付款金额的总额。
+    $('.fee44').delegate("input[name='feeli']", 'click', function () {
+        var fee44data = [];
+        var fee44dataTostring = [];
+        var _arrFee44Unit = [];
+        var z="0";
+        var fee44dataCurrency;
+        var _arrFee44dataAmount=[];
+        var _arrFee44dataGather=[];
+        $(".fee44 input[name='feeli']:checked").each(function (index, item) {
+            fee44data.push($(this).attr("getUnit")+" "+$(this).attr("getAllfee"));
+            if($.inArray($(this).attr("getUnit"), _arrFee44Unit)==-1){
+                _arrFee44Unit.push($(this).attr("getUnit"));
+            }
+        });
+
+        if(_arrFee44Unit.length>1){
+            _arrFee44dataGather=[];
+            for(var i = 0; i < _arrFee44Unit.length; i++) {
+
+                $(".fee44 input[name='feeli']:checked").each(function(){
+                    if($(this).attr("getUnit")==_arrFee44Unit[i]){
+                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                            z=+z*1+(+$(this).attr("getAllfee"))*1;
+                    }
+                })
+                _arrFee44dataAmount.push(z.toFixed(2));
+                fee44dataCurrency=fee44dataCurrency+_arrFee44Unit[i]+" "+(i>0?parseFloat(+_arrFee44dataAmount[i] - +_arrFee44dataAmount[i-1]).toFixed(2):parseFloat(_arrFee44dataAmount[i]).toFixed(2))+", ";
+                _arrFee44dataGather.push(_arrFee44Unit[i]+" "+(i>0?parseFloat(+_arrFee44dataAmount[i] - +_arrFee44dataAmount[i-1]).toFixed(2):parseFloat(_arrFee44dataAmount[i]).toFixed(2)));
+            }
+            $("#payPrice").val(_arrFee44dataGather.toString())
+        }else if(_arrFee44Unit.length==0){
+            $("#payPrice").val("")
+        }else{
+            _arrFee44dataGather=[];
+            $(".fee44 input[name='feeli']:checked").each(function(){
+                        //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                z=+z*1+(+$(this).attr("getAllfee"))*1;
+            })
+            _arrFee44dataGather.push(_arrFee44Unit[0]+" "+z);
+            $("#payPrice").val(_arrFee44dataGather.toString())
+        }
+    })
+
+        /////计算账单制作里面的付款金额的总额。
+    $('.fee00').delegate("input[name='feeli']", 'click', function () {
+        var fee00data = [];
+        var fee00dataTostring = [];
+        var _arrfee00Unit = [];
+        var z="0";
+        var fee00dataCurrency;
+        var _arrfee00dataAmount=[];
+        var _arrfee00dataGather=[];
+        $(".fee00 input[name='feeli']:checked").each(function (index, item) {
+            fee00data.push($(this).attr("getUnit")+" "+$(this).attr("getAllfee"));
+            if($.inArray($(this).attr("getUnit"), _arrfee00Unit)==-1){
+                _arrfee00Unit.push($(this).attr("getUnit"));
+            }
+        });
+
+        if(_arrfee00Unit.length>1){
+            _arrfee00dataGather=[];
+            for(var i = 0; i < _arrfee00Unit.length; i++) {
+
+                $(".fee00 input[name='feeli']:checked").each(function(){
+                    if($(this).attr("getUnit")==_arrfee00Unit[i]){
+                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                            z=+z*1+(+$(this).attr("getAllfee"))*1;
+                    }
+                })
+                _arrfee00dataAmount.push(z.toFixed(2));
+                fee00dataCurrency=fee00dataCurrency+_arrfee00Unit[i]+" "+(i>0?parseFloat(+_arrfee00dataAmount[i] - +_arrfee00dataAmount[i-1]).toFixed(2):parseFloat(_arrfee00dataAmount[i]).toFixed(2))+", ";
+                _arrfee00dataGather.push(_arrfee00Unit[i]+" "+(i>0?parseFloat(+_arrfee00dataAmount[i] - +_arrfee00dataAmount[i-1]).toFixed(2):parseFloat(_arrfee00dataAmount[i]).toFixed(2)));
+            }
+            _arrfee00dataGather_toString=_arrfee00dataGather.toString();
+        }else if(_arrfee00Unit.length==0){
+            _arrfee00dataGather_toString="";
+        }else{
+            _arrfee00dataGather=[];
+            $(".fee00 input[name='feeli']:checked").each(function(){
+                        //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                z=+z*1+(+$(this).attr("getAllfee"))*1;
+            })
+            _arrfee00dataGather.push(_arrfee00Unit[0]+" "+z);
+            _arrfee00dataGather_toString=_arrfee00dataGather.toString();
+        }
+    })
+
+
+        /////计算收款销账里面的付款金额的总额。
+    $('.fee55').delegate("input[name='feeli']", 'click', function () {
+        var fee55data = [];
+        var fee55dataTostring = [];
+        var _arrfee55Unit = [];
+        var z="0";
+        var fee55dataCurrency;
+        var _arrfee55dataAmount=[];
+        var _arrfee55dataGather=[];
+        $(".fee55 input[name='feeli']:checked").each(function (index, item) {
+            fee55data.push($(this).attr("getUnit")+" "+$(this).attr("getAllfee"));
+            if($.inArray($(this).attr("getUnit"), _arrfee55Unit)==-1){
+                _arrfee55Unit.push($(this).attr("getUnit"));
+            }
+        });
+
+        if(_arrfee55Unit.length>1){
+            _arrfee55dataGather=[];
+            for(var i = 0; i < _arrfee55Unit.length; i++) {
+
+                $(".fee55 input[name='feeli']:checked").each(function(){
+                    if($(this).attr("getUnit")==_arrfee55Unit[i]){
+                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                            z=+z*1+(+$(this).attr("getAllfee"))*1;
+                    }
+                })
+                _arrfee55dataAmount.push(z.toFixed(2));
+                fee55dataCurrency=fee55dataCurrency+_arrfee55Unit[i]+" "+(i>0?parseFloat(+_arrfee55dataAmount[i] - +_arrfee55dataAmount[i-1]).toFixed(2):parseFloat(_arrfee55dataAmount[i]).toFixed(2))+", ";
+                _arrfee55dataGather.push(_arrfee55Unit[i]+" "+(i>0?parseFloat(+_arrfee55dataAmount[i] - +_arrfee55dataAmount[i-1]).toFixed(2):parseFloat(_arrfee55dataAmount[i]).toFixed(2)));
+            }
+            $("#payPrice5").val(_arrfee55dataGather.toString())
+        }else if(_arrfee55Unit.length==0){
+            $("#payPrice5").val("");
+        }else{
+            _arrfee55dataGather=[];
+            $(".fee55 input[name='feeli']:checked").each(function(){
+                        //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                z=+z*1+(+$(this).attr("getAllfee"))*1;
+            })
+            _arrfee55dataGather.push(_arrfee55Unit[0]+" "+z);
+            $("#payPrice5").val(_arrfee55dataGather.toString())
+        }
+    })
 
 
     //添加本地 费用列表的结算公司
@@ -721,8 +854,19 @@ $(function(){
 			        }
 			    },
                 { "mDataProp": "bill_payPrice" },
-                { "mDataProp": "bill_payPrice" },
-                { "mDataProp": "bill_state" },
+                { "mDataProp": "bill_formatId" },
+                { "mDataProp": "bill_state",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        if (oData.bill_state == 1) {
+                            $(nTd).html("新增账单")
+                        } else {
+                            //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
+                            //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
+                        }
+
+                    }
+                },
                 {
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -965,11 +1109,17 @@ $(function(){
         return table;
     }
 
+    $("input:radio[name='invDebOrCrd']").on('change',function() {
+        if($('#toCompany_2').val()!=""){
+            _getFee($('#toCompany_2').val());
+        }
+    })
     //费用明细
     function _getFee(toCompany) {
         common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
             "bookingId": Id,
-            "toCompany": toCompany
+            "toCompany": toCompany,
+            "feeType": $("input[name='invDebOrCrd']:checked").val()
         }, function (data) {
             console.log(data)
             if (data.State == 1) {
@@ -977,7 +1127,8 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<p style="clear:both;"><div class="margin-left-40 margin-top-10">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data[i].bofe_feeType + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
@@ -991,16 +1142,28 @@ $(function(){
                                     '</div></p>'
                     $(".fee00").prepend(feelist)
                 }
+            }else{
+                $(".fee00").empty()
             }
 
         }, function (err) {
             console.log(err)
         }, 2000)
     }
+    $("#_invThisBkgId").on('change',function() {
+        if($('#toCompany_3').val()!=""){
+            _getFee3($('#toCompany_3').val());
+        }
+    })
     //账单费用明细
     function _getFee3(toCompany) {
-        common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbillfee", {
-            "toCompany": toCompany
+        var _thisBkgId;
+        $('#_invThisBkgId').is(':checked')?_thisBkgId=Id:_thisBkgId=0;
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+            "bookingId": _thisBkgId,
+            "toCompany": toCompany,
+            "companyId": companyId,
+            "feeType": "debit" //0是debit & credit，1是debit，2是credit
         }, function (data) {
             console.log(data)
             if (data.State == 1) {
@@ -1008,8 +1171,8 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bill_payNumber + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
@@ -1023,16 +1186,27 @@ $(function(){
                                     '</div>'
                     $(".fee33").prepend(feelist)
                 }
+            }else{
+                $(".fee33").empty()
             }
 
         }, function (err) {
             console.log(err)
         }, 2000)
     }
+    $("#_billpayThisBkgId").on('change',function() {
+        if($('#toCompany_4').val()!=""){
+            _getFee4($('#toCompany_4').val());
+        }
+    })
     //付款申请
     function _getFee4(toCompany) {
-        common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbillfee", {
-            "toCompany": toCompany
+        var _thisBkgId;
+        $('#_billpayThisBkgId').is(':checked')?_thisBkgId=Id:_thisBkgId=0;
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+            "bookingId": _thisBkgId,
+            "toCompany": toCompany,
+            "feeType": "credit" //0是debit & credit，1是debit，2是credit
         }, function (data) {
             console.log(data)
             if (data.State == 1) {
@@ -1040,8 +1214,8 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bill_payNumber + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
@@ -1052,16 +1226,29 @@ $(function(){
                                     '</div>'
                     $(".fee44").prepend(feelist)
                 }
+            }else{
+                $(".fee44").empty()
             }
 
         }, function (err) {
             console.log(err)
         }, 2000)
     }
+
+
+    $("#_billgetThisBkgId").on('change',function() {
+        if($('#toCompany_5').val()!=""){
+            _getFee5($('#toCompany_5').val());
+        }
+    })
     //收款销账
     function _getFee5(toCompany) {
-        common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbillfee", {
-            "toCompany": toCompany
+        var _thisBkgId;
+        $('#_billgetThisBkgId').is(':checked')?_thisBkgId=Id:_thisBkgId=0;
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+            "bookingId": _thisBkgId,
+            "toCompany": toCompany,
+            "feeType": "debit" //0是debit & credit，1是debit，2是credit
         }, function (data) {
             console.log(data)
             if (data.State == 1) {
@@ -1069,8 +1256,8 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].bill_payNumber + '</label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
@@ -1081,6 +1268,8 @@ $(function(){
                                     '</div>'
                     $(".fee55").prepend(feelist)
                 }
+            }else{
+                $(".fee55").empty()
             }
 
         }, function (err) {
@@ -1089,8 +1278,12 @@ $(function(){
     }
     //账单费用明细
     function _getFee6(toCompany) {
-        common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbillfee", {
-            "toCompany": toCompany
+        var _thisBkgId;
+        $('#checkbox-id').is(':checked')?_thisBkgId=Id:_thisBkgId=0;
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+            "bookingId": _thisBkgId,
+            "toCompany": toCompany,
+            "feeType": "credit" //0是debit & credit，1是debit，2是credit
         }, function (data) {
             console.log(data)
             if (data.State == 1) {
@@ -1134,6 +1327,7 @@ $(function(){
         $('#send_bill_get').addClass('none')
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
+        $('#send_invoice').addClass('none')
     })
     $('.billtab').on('click', function () {
         $('#send_bill').removeClass('none')
@@ -1142,6 +1336,7 @@ $(function(){
         $('#send_bill_get').addClass('none')
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
+        $('#send_invoice').addClass('none')
     })
     $('.invoicetab').on('click', function () {
         $('#send_invoice').removeClass('none')
@@ -1165,6 +1360,7 @@ $(function(){
         $('#send_bill_get').addClass('none')
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
+        $('#send_invoice').addClass('none')
 
         // $('#toCompany_4').append(_toCompany)
         // $("#toCompany_4").change(function () {
@@ -1429,10 +1625,12 @@ $(function(){
 	            'userId': userID,
 	            'toCompany': $('#toCompany_2').val(),
 	            'payNumber': $('#payNumber').val(),
-	            'typeId': $("input[name='radio1']:checked").val(),
+                'typeId': 1,
+                //'typeId': $("input[name='invDebOrCrd']:checked").val(),
 	            'bank': $('#bank').val(),
 	            'beizhu': $('#beizhu').val(),
 	            'addtime': $('#id-date-picker-1').val(),
+                'payPrice': _arrfee00dataGather_toString,
 	            'feeItem': feeItem
 	        }
 	        console.log(parm)
@@ -1477,7 +1675,7 @@ $(function(){
 	            'invoiceTaxNumber': $('#invoiceTaxNumber').val(),
 	            'invoiceAddressTel': $('#invoiceAddressTel').val(),
 	            'invoiceBrank': $('#invoiceBrank').val(),
-	            'invoiceNumber': $('#invoiceNumber').val(),
+	            'invoiceNumber': $('#cninvoiceNumber').val(),
 	            'logistics': $('#logistics').val(),
 	            'logisticsAddress': $('#logisticsAddress').val(),
 	            'logisticsContact': $('#logisticsContact').val(),
@@ -1519,7 +1717,7 @@ $(function(){
 	            'toCompany': $('#toCompany_4').val(),
 	            'payNumber': $('#payNumber4').val(),
 	            'typeId': 3,
-	            'invoiceNumber': $('#invoiceNumber4').val(),
+	            'invoiceNumber': $('#cninvoiceNumber4').val(),
 	            'payType': $('#payType').val(),
 	            'payPrice': $('#payPrice').val(),
 	            'beizhu': $('#beizhu4').val(),

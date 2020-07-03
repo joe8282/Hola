@@ -430,12 +430,16 @@ Purchase: http://wrapbootstrap.com
                                                     <label for="inputPassword3" class="col-sm-2">选择结算对象 </label>
                                                     <label class="col-sm-2">
                                                         <label>
-                                                            <input name="radio1" type="radio" checked="checked" value="1">
+                                                            <input type="radio" name="invDebOrCrd" id="invAll_1" value="">
+                                                            <span>ALL </span>
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="invDebOrCrd" id="invDeb_1" checked="checked" value="debit">
                                                             <span>DEBIT </span>
                                                         </label>
                                                         &nbsp;&nbsp;&nbsp;&nbsp;
                                                         <label>
-                                                            <input name="radio1" type="radio" value="2">
+                                                            <input type="radio" name="invDebOrCrd" id="invCrd_1" value="credit">
                                                             <span>CREDIT </span>
                                                         </label>
                                                     </label>
@@ -477,6 +481,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group bordered-top-1 bordered-gray">
                                                     <div class="margin-left-40 margin-top-20">
                                                         <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"></label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">费用类型</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">费用项目</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
@@ -517,7 +522,7 @@ Purchase: http://wrapbootstrap.com
                                         <div id="horizontal-form">
                                             <form class="form-horizontal" role="form">
                                                 <div class="form-group no-margin-bottom">
-                                                    <label for="inputPassword3" class="col-sm-5">选择结算对象 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-5">选择结算对象 <sup></sup><span style="float: right;"><input type="checkbox" id="_invThisBkgId"> 仅此票</span></label>
                                                     <label for="inputPassword3" class="col-sm-2">折合币种 <sup></sup></label>
                                                     <label for="inputPassword3" class="col-sm-2">船名 <sup></sup></label>
                                                     <label for="inputPassword3" class="col-sm-2">航次 <sup></sup></label>
@@ -560,7 +565,7 @@ Purchase: http://wrapbootstrap.com
                                                         <input type="email" class="form-control" id="number" placeholder="">
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <select id="format" style="width: 100%;">
+                                                        <select id="iformat" style="width: 100%;">
                                                             <option value="新税务格式">新税务格式</option>
                                                             <option value="新格式">新格式</option>
                                                         </select>
@@ -588,7 +593,7 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">银行信息 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="invoiceBrank" placeholder=""></div>
-                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">发票号码 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="invoiceNumber" placeholder=""></div>
+                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">发票号码 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="cninvoiceNumber" placeholder=""></div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">快递公司 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logistics" placeholder=""></div>
@@ -640,7 +645,7 @@ Purchase: http://wrapbootstrap.com
                                             <div>
                                                 <form class="form-horizontal" role="form">
                                                     <div class="form-group no-margin-bottom">
-                                                        <label for="inputPassword3" class="col-sm-4">选择结算对象 <sup></sup></label>
+                                                        <label for="inputPassword3" class="col-sm-4">选择结算对象 <sup></sup><span style="float: right;"><input type="checkbox" id="_billpayThisBkgId"> 仅此票</span></label>
                                                         <label for="inputPassword3" class="col-sm-3">付款类型 <sup></sup></label>
                                                         <label for="inputPassword3" class="col-sm-3">发票号码 <sup></sup></label>
                                                     </div>
@@ -657,7 +662,7 @@ Purchase: http://wrapbootstrap.com
                                                             </select>
                                                         </div>
                                                         <div class="col-sm-3">
-                                                            <input type="email" class="form-control" id="invoiceNumber4" placeholder="">
+                                                            <input type="email" class="form-control" id="cninvoiceNumber4" placeholder="">
                                                         </div>
                                                     </div>
                                                     <div class="form-group no-margin-bottom">
@@ -729,7 +734,7 @@ Purchase: http://wrapbootstrap.com
                                         <div id="horizontal-form">
                                             <form class="form-horizontal" role="form">
                                                 <div class="form-group no-margin-bottom">
-                                                    <label for="inputPassword3" class="col-sm-5">选择结算对象 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-5">选择结算对象 <sup></sup><span style="float: right;"><input type="checkbox" id="_billgetThisBkgId"> 仅此票</span></label>
                                                     <label for="inputPassword3" class="col-sm-3">银行 <sup></sup></label>
                                                     <label for="inputPassword3" class="col-sm-3"> <sup></sup></label>
                                                 </div>
