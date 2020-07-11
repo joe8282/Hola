@@ -12,7 +12,8 @@ var en2 = {
             "con_top_3" : "Order Fee Manage", 
             "con_top_4" : "Order Detail", 
         };
-        
+
+var _feeItemArr = new Array();
 
 $(function(){
 	$('.navli3').addClass("active open")
@@ -31,7 +32,7 @@ $(function(){
 
 	var Id = GetQueryString('Id');
     var _toCompany='',_feeItem='',_feeUnit='',_numUnit='';
-    var _feeItemArr=new Array();
+    
     var _toCompanySettleArr=new Array();
     var _htmlCompanySettle='';
     var _CompanySettle='';
@@ -48,7 +49,6 @@ $(function(){
     $('#orderDetail').on('click', function() {
         location.href = 'orderadd.html?action=modify&Id='+Id;
     })
-
 
     common.ajax_req("get", true, dataUrl, "weiinfo.ashx?action=read", {
         "companyId": companyID
@@ -94,18 +94,7 @@ $(function(){
 	}, function(error) {
 	}, 1000)
 
-    function _getFeeItemFun(o){
-        console.log("111111111111111111111111111111111111")
-        var z=new Array();
-        var x;
-        for(var i=0;i<_feeItemArr.length;i++){
-            if(_feeItemArr[i].indexOf(o)>= 0){
-                z=_feeItemArr[i].split(";");
-                x=z[1];
-            }
-        }
-        return x;
-    }
+
 		
 	//币种
 	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
@@ -871,7 +860,8 @@ $(function(){
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
-                            $(nTd).html("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -917,16 +907,16 @@ $(function(){
                 {
                     "mDataProp": "invo_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        if (oData.bill_state == 1) {
-                            $(nTd).html("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                        if (oData.invo_state == 1) {
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailInvoiceFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteInvoiceFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
-                            //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                            //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
-                            //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailInvoiceFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteInvoiceFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         }
 
                     }
@@ -965,13 +955,15 @@ $(function(){
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
-                            $(nTd).html("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillPayFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteBillPayFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
-                            //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillPayFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteBillPayFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
                             //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
                         }
@@ -1012,13 +1004,15 @@ $(function(){
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
-                            $(nTd).html("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
-                            //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
                             //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
                         }
@@ -1171,7 +1165,7 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" /></label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
@@ -1214,7 +1208,7 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" /></label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
@@ -1256,7 +1250,7 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" /></label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
@@ -1291,7 +1285,7 @@ $(function(){
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
                     var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bife_id + '" /></label>' +
+                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" /></label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_outCode + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
@@ -2115,19 +2109,248 @@ $(function(){
         });
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
+
+function _getFeeItemFun(o) {
+    console.log("111111111111111111111111111111111111")
+    var z = new Array();
+    var x;
+    for (var i = 0; i < _feeItemArr.length; i++) {
+        if (_feeItemArr[i].indexOf(o) >= 0) {
+            z = _feeItemArr[i].split(";");
+            x = z[1];
+        }
+    }
+    return x;
+}
+
+/*账单对账详情*/
+function _detailBillFun(Id) {
+    $("#myModal1").modal("show");
+    $(".fee_11").empty()
+    common.ajax_req("get", true, dataUrl, "bill.ashx?action=readbyid", {
+        "Id": Id
+    }, function (data) {
+        console.log(data.Data)
+        //初始化信息
+        var _data = data.Data
+        $(".bill_toCompany").text(_data.comp_name)
+        $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
+        $(".bill_bank").text(_data.bill_bank)
+        $(".bill_payNumber").text(_data.bill_payNumber)
+        $(".bill_beizhu").text(_data.bill_beizhu)
+
+        var arrItem = _data.bill_feeItem.split(',')
+        var xuhao = 0;
+        for (var i = 0; i < arrItem.length; i++) {
+            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {
+                "Id": arrItem[i]
+            }, function (data) {
+                console.log(data.Data)
+                if (data.State == 1) {
+                    //初始化信息
+                    var _data = data.Data
+                    xuhao = xuhao + 1;
+                    var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_feeType + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_numUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_allFee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_receiptRate + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_settlementRate + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_receiptFeeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_receiptFee + '</label>' +
+                    '</div></p>'
+                    $(".fee_11").append(feelist)
+                }
+
+
+            }, function (err) {
+                console.log(err)
+            }, 1000)
+        }
+
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+}
+
+/*发票详情*/
+function _detailInvoiceFun(Id) {
+    $("#myModal2").modal("show");
+    $(".fee_22").empty()
+    common.ajax_req("get", true, dataUrl, "invoice.ashx?action=readbyid", {
+        "Id": Id
+    }, function (data) {
+        console.log(data.Data)
+        //初始化信息
+        var _data = data.Data
+        $(".invo_toCompany").text(_data.comp_name)
+        $(".invo_addTime").text(_data.invo_addTime.substring(0, 10))
+        $(".invo_number").text(_data.invo_number)
+        $(".invo_feeUnit").text(_data.invo_feeUnit)
+        $(".invo_vesselName").text(_data.invo_vesselName)
+        $(".invo_voyage").text(_data.invo_voyage)
+        $(".invo_format").text(_data.invo_format)
+        $(".invo_port1").text(_data.invo_port1)
+        $(".invo_port2").text(_data.invo_port2)
+        $(".invo_invoiceTitle").text(_data.invo_invoiceTitle)
+        $(".invo_invoiceTaxNumber").text(_data.invo_invoiceTaxNumber)
+        $(".invo_logisticsAddress").text(_data.invo_logisticsAddress)
+        $(".invo_logisticsContact").text(_data.invo_logisticsContact)
+        $(".invo_invoiceAddressTel").text(_data.invo_invoiceAddressTel)
+        $(".invo_logisticsTel").text(_data.invo_logisticsTel)
+        $(".invo_invoiceBrank").text(_data.invo_invoiceBrank)
+        $(".invo_invoiceNumber").text(_data.invo_invoiceNumber)
+        $(".invo_logistics").text(_data.invo_logistics)
+        $(".invo_logisticsNumber").text(_data.invo_logisticsNumber)
+
+        var arrItem = _data.invo_feeItem.split(',')
+        var xuhao = 0;
+        for (var i = 0; i < arrItem.length; i++) {
+            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {
+                "Id": arrItem[i]
+            }, function (data) {
+                console.log(data.Data)
+                if (data.State == 1) {
+                    //初始化信息
+                    var _data = data.Data
+                    xuhao = xuhao + 1;
+                    var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_feeType + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_numUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_allFee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_receiptRate + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_settlementRate + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_receiptFeeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_receiptFee + '</label>' +
+                    '</div></p>'
+                    $(".fee_22").append(feelist)
+                }
+
+            }, function (err) {
+                console.log(err)
+            }, 1000)
+        }
+
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+}
+
+/*付款申请详情*/
+function _detailBillPayFun(Id) {
+    $("#myModal3").modal("show"); 
+    $(".fee_33").empty()
+    common.ajax_req("get", true, dataUrl, "bill.ashx?action=readbyid", {
+        "Id": Id
+    }, function (data) {
+        console.log(data.Data)
+        //初始化信息
+        var _data = data.Data
+        $(".bill_toCompany").text(_data.comp_name)
+        $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
+        $(".bill_payType").text(_data.bill_payType)
+        $(".bill_payNumber").text(_data.bill_payNumber)
+        $(".bill_invoiceNumber").text(_data.bill_invoiceNumber)
+        $(".bill_payPrice").text(_data.bill_payPrice)
+        $(".bill_beizhu").text(_data.bill_beizhu)
+
+        var arrItem = _data.bill_feeItem.split(',')
+        var xuhao = 0;
+        for (var i = 0; i < arrItem.length; i++) {
+            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {
+                "Id": arrItem[i]
+            }, function (data) {
+                console.log(data.Data)
+                if (data.State == 1) {
+                    //初始化信息
+                    var _data = data.Data
+                    xuhao = xuhao + 1;
+                    var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_feeType + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_numUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_allFee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_cancelMoney + '</label>' +
+                    '</div></p>'
+                    $(".fee_33").append(feelist)
+                }
+
+            }, function (err) {
+                console.log(err)
+            }, 1000)
+        }
+
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+}
+
+
+/*收款销账详情*/
+function _detailBillGetFun(Id) {
+    $("#myModal4").modal("show");
+    $(".fee_44").empty()
+    common.ajax_req("get", true, dataUrl, "bill.ashx?action=readbyid", {
+        "Id": Id
+    }, function (data) {
+        console.log(data.Data)
+        //初始化信息
+        var _data = data.Data
+        $(".bill_toCompany").text(_data.comp_name)
+        $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
+        $(".bill_bank").text(_data.bill_bank)
+        $(".bill_payNumber").text(_data.bill_payNumber)
+        $(".bill_payPrice").text(_data.bill_payPrice)
+        $(".bill_beizhu").text(_data.bill_beizhu)
+
+        var arrItem = _data.bill_feeItem.split(',')
+        var xuhao = 0;
+        for (var i = 0; i < arrItem.length; i++) {
+            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {
+                "Id": arrItem[i]
+            }, function (data) {
+                console.log(data.Data)
+                if (data.State == 1) {
+                    //初始化信息
+                    var _data = data.Data
+                    xuhao = xuhao + 1;
+                    var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_feeType + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_numUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_allFee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_cancelMoney + '</label>' +
+                    '</div></p>'
+                    $(".fee_44").append(feelist)
+                }
+
+            }, function (err) {
+                console.log(err)
+            }, 1000)
+        }
+
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+}
+
+

@@ -932,6 +932,7 @@ Purchase: http://wrapbootstrap.com
                             </div>
                         </div>
                     </div>
+                            
                 </div>
                 <!-- /Page Body -->
             </div>
@@ -993,6 +994,208 @@ Purchase: http://wrapbootstrap.com
     </div>
     <!--End Large Modal Templates-->
 
+        <!--账单制作详情 LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-lg" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">账单详情</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="form-group">
+                            <div class="col-sm-6">结算对象：<span class="bill_toCompany"></span></div>
+                            <div class="col-sm-6">签发日期：<span class="bill_addTime"></span></div>
+                            <div class="col-sm-6">银行账号：<span class="bill_bank"></span></div>
+                            <div class="col-sm-6">账单号码：<span class="bill_payNumber"></span></div>
+                            <div class="col-sm-12">备注：<span class="bill_beizhu"></span></div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group bordered-top-1 bordered-gray margin-top-20">
+                            <div class="margin-top-10">
+                                <label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">序号</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">费用类型</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">费用项目</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">收据汇率</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">结算汇率</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">收据币种</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">收据金额</label>
+                            </div>
+                        </div>
+                        <div class="form-group fee_11">
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates-->    
+
+        <!--发票详情 LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-lg" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">发票详情</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="form-group">
+                            <div class="col-sm-6">结算对象：<span class="invo_toCompany"></span></div>
+                            <div class="col-sm-6">提交日期：<span class="invo_addTime"></span></div>
+                            <div class="col-sm-6">发票随机号码：<span class="invo_number"></span></div>
+                            <div class="col-sm-6">折合币种：<span class="invo_feeUnit"></span></div>
+                            <div class="col-sm-6">船名：<span class="invo_vesselName"></span></div>
+                            <div class="col-sm-6">航次：<span class="invo_voyage"></span></div>
+                            <div class="col-sm-6">发票格式：<span class="invo_format"></span></div>
+                            <div class="col-sm-6">装港：<span class="invo_port1"></span></div>
+                            <div class="col-sm-6">卸港：<span class="invo_port2"></span></div>
+                            <div class="col-sm-6">发票抬头：<span class="invo_invoiceTitle"></span></div>
+                            <div class="col-sm-6">税务登记号：<span class="invo_invoiceTaxNumber"></span></div>
+                            <div class="col-sm-6">邮寄地址：<span class="invo_logisticsAddress"></span></div>
+                            <div class="col-sm-6">收件人：<span class="invo_logisticsContact"></span></div>
+                            <div class="col-sm-6">地址电话：<span class="invo_invoiceAddressTel"></span></div>
+                            <div class="col-sm-6">联系电话：<span class="invo_logisticsTel"></span></div>
+                            <div class="col-sm-6">银行信息：<span class="invo_invoiceBrank"></span></div>
+                            <div class="col-sm-6">发票号码：<span class="invo_invoiceNumber"></span></div>
+                            <div class="col-sm-6">快递公司：<span class="invo_logistics"></span></div>
+                            <div class="col-sm-6">寄送单号：<span class="invo_logisticsNumber"></span></div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group bordered-top-1 bordered-gray margin-top-20">
+                            <div class="margin-top-10">
+                                <label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">序号</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">费用类型</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">费用项目</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">收据汇率</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">结算汇率</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">收据币种</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">收据金额</label>
+                            </div>
+                        </div>
+                        <div class="form-group fee_22">
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates--> 
+
+        <!--付款申请详情 LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-lg" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">付款申请</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="form-group">
+                            <div class="col-sm-6">结算对象：<span class="bill_toCompany"></span></div>
+                            <div class="col-sm-6">提交日期：<span class="bill_addTime"></span></div>
+                            <div class="col-sm-6">付款类型：<span class="bill_payType"></span></div>
+                            <div class="col-sm-6">发票号码：<span class="bill_invoiceNumber"></span></div>
+                            <div class="col-sm-6">付款金额：<span class="bill_payPrice"></span></div>
+                            <div class="col-sm-6">付款单号：<span class="bill_payNumber"></span></div>
+                            <div class="col-sm-12">备注：<span class="bill_beizhu"></span></div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group bordered-top-1 bordered-gray margin-top-20">
+                            <div class="margin-top-10">
+                                <label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">序号</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">费用类型</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">费用项目</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">销账金额</label>
+                            </div>
+                        </div>
+                        <div class="form-group fee_33">
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates-->  
+
+        <!--收款销账详情 LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-lg" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">收款销账</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="form-group">
+                            <div class="col-sm-6">结算对象：<span class="bill_toCompany"></span></div>
+                            <div class="col-sm-6">提交日期：<span class="bill_addTime"></span></div>
+                            <div class="col-sm-6">银行：<span class="bill_bank"></span></div>
+                            <div class="col-sm-6">总金额：<span class="bill_payPrice"></span></div>
+                            <div class="col-sm-6">收款号码：<span class="bill_payNumber"></span></div>
+                            <div class="col-sm-12">备注：<span class="bill_beizhu"></span></div>
+                        </div>
+                        <div style="clear:both;"></div>
+                        <div class="form-group bordered-top-1 bordered-gray margin-top-20">
+                            <div class="margin-top-10">
+                                <label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">序号</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">费用类型</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:16%; float: left;">费用项目</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">金额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">销账金额</label>
+                            </div>
+                        </div>
+                        <div class="form-group fee_44">
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates-->  
     </div>
 
 

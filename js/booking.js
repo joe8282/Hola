@@ -588,22 +588,59 @@ function initTable(fromId) {
 	})
 	
  }
- $('#btnSave2').on('click', function() {
- 	var isNew=0;
- 	//if($("#ordermore").is(":checked")) {
+ $('#btnSave2').on('click', function () {
+    //是否更新MBL数据
+     var isMBL = 0;
  	if($("#ismbl").is(":checked")) {
- 		isNew=1
+ 	    isMBL = 1
  	} else {
- 		isNew=0
+ 	    isMBL = 0
+ 	}
+     //是否更新HBL数据
+ 	var isHBL = 0;
+ 	if ($("#ishbl").is(":checked")) {
+ 	    isHBL = 1
+ 	} else {
+ 	    isHBL = 0
+ 	}
+     //是否安排订舱
+ 	var isBookRightNowCkb = 0;
+ 	if ($("#bookRightNowCkb").is(":checked")) {
+ 	    isBookRightNowCkb = 1
+ 	} else {
+ 	    isBookRightNowCkb = 0
+ 	}
+     //是否发邮件
+ 	var isSendeMail = 0;
+ 	if ($("#BookSendEmail").is(":checked")) {
+ 	    isSendeMail = 1
+ 	} else {
+ 	    isSendeMail = 0
  	}
  	var parm = {
  		'bookingId': $('#bookId').val(),
- 		'isNew': isNew,
+ 		'isMBL': isMBL,
+ 		'isHBL': isHBL,
+ 		'orderHblLi': $('#orderHblLi').val(),
  		'companyId': companyID,
  		'userId': userID,
  		'userName': userName,
  		'crmCompanyId': $('#crmuser').val(),
- 		'orderId': $('#orderLi').val()
+ 		'orderId': $('#orderLi').val(),
+ 		'sellId': $('#sellId').val(),
+ 		'luruId': $('#luruId').val(),
+ 		'kefuId': $('#kefuId').val(),
+ 		'caozuoId': $('#caozuoId').val(),
+ 		'emailToBookingParty': $('#emailToBookingParty').val(),
+ 		'emailContent': $("#summernote").summernote("code"),
+ 		'isBookRightNowCkb':isBookRightNowCkb,
+ 		'crmCarrier': $("#crmCarrier").val(),
+ 		'crmCarrierSupplier': $("#crmCarrierSupplier").val(),
+ 		'crmCarrierSupplierName': $("#crmCarrierSupplierName").val(),
+ 		'crmCarrierSupplierEmail': $("#crmCarrierSupplierEmail").val(),
+ 		'isSendeMail': $("#isSendeMail").val(),
+ 		'okTrailerTime': $("#okTrailerTime").val(),
+ 		'okPortTime': $("#okPortTime").val()
  	}
  	console.log(parm)
  	common.ajax_req('POST', true, dataUrl, 'booking.ashx?action=changeorder', parm, function(data) {
