@@ -1,21 +1,21 @@
 //语言包
 var cn2 = {
             "con_top_1" : "首页",
-            "con_top_2" : "货物管理中心",   
+            "con_top_2" : "财务管理中心",   
             "con_top_3" : "费用管理", 
         };
 
 var en2 = {
             "con_top_1" : "Home",
-            "con_top_2" : "SHIPMENTS MANAGEMENTe",   
+            "con_top_2": "Financial MANAGEMENTe",
             "con_top_3" : "Fee Manage", 
         };
 
 var _feeItemArr = new Array();
 
 $(function(){
-	$('.navli3').addClass("active open")
-	$('.book3').addClass("active")
+	$('.navli5').addClass("active open")
+	$('.financial7').addClass("active")
 
 	this.title = get_lan('con_top_3')
 	$('#title1').text(get_lan('con_top_3'))
