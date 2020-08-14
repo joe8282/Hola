@@ -843,7 +843,18 @@ $(function(){
 			        }
 			    },
                 { "mDataProp": "bill_payPrice" },
-                { "mDataProp": "bill_formatId" },
+                { "mDataProp": "bill_formatId" ,
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        if (oData.bill_formatId == 0) {
+                            $(nTd).html('<a href="invoicedetail.html?billid='+oData.bill_id+'" target="_blank">Invoice</a>')
+                        } else {
+                            //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
+                            //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
+                        }
+
+                    }
+                },
                 { "mDataProp": "bill_state",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
