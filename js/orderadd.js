@@ -1542,7 +1542,7 @@ $(function(){
     		$('#fromAddress').val(_data.book_fromAddress)
     		$('#toAddress').val(_data.book_toAddress)
     		$('#okTime').val(_data.book_okTime.substring(0, 10))
-    		$('#okTrailerTime').val(_data.book_okTrailerTime.substring(0, 10))	  		  		
+    		$('#okTrailerTime').val(_data.book_okTrailerTime?_data.book_okTrailerTime.substring(0, 10):'')	  		  		
 	  		if(_data.book_okBillTime != null) {
 	  			$('#okBillTime').val(_data.book_okBillTime.substring(0, 10))
 	  		}

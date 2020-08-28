@@ -39,7 +39,7 @@ Purchase: http://wrapbootstrap.com
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="assets/js/skins.min.js"></script>
     <style>
-        .invoice-container li{height: 26px; line-height: 26px; font-size: 16px;}
+        .invoice-container li{height: 26px; line-height: 26px; font-size: 14px;}
     </style>
 </head>
 <!-- /Head -->
@@ -168,9 +168,10 @@ Purchase: http://wrapbootstrap.com
                                     Tel: <span class ="companyTel"></span>&nbsp;&nbsp;Fax: <span class="companyFax"></span>
                                     Email: <span class="companyEmail"></span>
                                 </div>
+                                <p class="companyAdd"></p>
                                 <hr class="wide">
                             </div>
-                            <h3 style="text-align: center;margin-bottom: 10px;"><strong>Quotation Sheet / 报价表</strong><br><div style="font-size: 14px;">Date: <span class="addTime"></span></div></h3>
+                            <h3 style="text-align: center;margin-bottom: 10px;"><strong><span class="debitOrCre">Invoice / 费用清单</span></strong><br><div style="font-size: 14px; padding: 5px;">Date: <span class="addTime"></span></div></h3>
                             <div class="row invoice-container">
                                 <div class="col-xs-6">
                                     <div class="panel panel-default">
@@ -178,6 +179,10 @@ Purchase: http://wrapbootstrap.com
                                             <ul>
                                                 <li><strong>TO/致：</strong><span class="toCompany"></span></li>
                                                 <li><strong>RIC/联系人：</strong><span class="toCompanyContact"></span></li>
+                                                <li><strong>POL/起运港：</strong><span class="port1"></span></li>
+                                                <li><strong>POD/目的港：</strong><span class="port2"></span></li>
+                                                <li><strong>Vessel/Voy / 航次：</strong><span class="vesselvoy"></span></li>
+                                                <li><strong>On Board Date/启航日：</strong><span class="onBoardDate"></span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -186,31 +191,28 @@ Purchase: http://wrapbootstrap.com
                                     <div class="panel panel-default">
                                         <div class="panel-body">
                                             <ul>
-                                                <li><strong>POL/起运港：</strong><span class="port1"></span></li>
-                                                <li><strong>POD/目的港：</strong><span class="port2"></span></li>
-                                                <li><strong>Shipments/货物信息: </strong> <span class="shipments_containers"></span></li>
-                                                <li><strong></strong> <span class="shipments_datas"></span></li>
+                                                <li><strong>Invoice No./账单号码: </strong> <span class="InvNo"></span></li>
+                                                <li><strong>REF NO./参考号码: </strong> <span class="RefNo"></span></li>
+                                                <li><strong>H/BL NO./货代单号: </strong> <span class="hblNo"></span></li>
+                                                <li><strong>M/BL NO./承运人单号: </strong> <span class="mblNo"></span></li>
+                                                <li><strong>QTY/货量: </strong> <span class="qty"></span></li>
+                                                <li><strong>CTNR NO./柜号: </strong> <span class="cntrNo"></span></li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div style="width: 100%;" id="freight_div">
-                                <h5 class="row-title before-darkorange"><i class="fa fa-list-alt darkorange"></i>运费：</h5>
+                                <h5 class="row-title before-darkorange"><i class="fa fa-list-alt darkorange"></i>Particulars / 费用列表：</h5>
                                 <table class="table table-hover table-striped table-bordered feeItem_table">
                                     <thead class="bordered-blueberry">
                                         <tr>
-                                            <th class="labelKgs">KGS</th>
-                                            <th class="labelRt">CBM/TON</th>
-                                            <th class="contTypeOne">20GP</th>
-                                            <th class="contTypeTwo">40GP</th>
-                                            <th class="contTypeThree">40'HQ</th>
-                                            <th>承运人</th>
-                                            <th>航期</th>
-                                            <th>航程</th>
-                                            <th>中转</th>
-                                            <th>有效期</th>
-                                            <th>备注</th>
+                                            <th>Fee Item/费用项目</th>
+                                            <th>Currency/币种</th>
+                                            <th>Unit Price/单价</th>
+                                            <th>Quantity/数量</th>
+                                            <th>Unit/单位</th>
+                                            <th>Total Amount/总额</th>
                                         </tr>
                                     </thead>
                                     <tbody class="feeItem">
@@ -226,70 +228,30 @@ Purchase: http://wrapbootstrap.com
                                             <td>备注</td>
                                         </tr>-->
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="4" style="font-weight: bolder;">SAY TOTAL ONLY</td>
+                                            <td style="text-align: right; padding-right: 10px;font-weight: bolder;">Total: </td>
+                                            <td class="totalFee" style="font-weight: bolder;"></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                                 <hr class="wide">
                             </div>
-                            <div style="width: 100%; margin-top: 30px;" id="localcharge_div">
-                                <h5 class="row-title before-darkorange"><i class="fa fa-list-alt darkorange"></i>本地费用：</h5>
-                                <table class="table table-hover table-striped table-bordered localChargeItem_table">
-                                    <thead class="bordered-blueberry">
-                                        <tr>
-                                            <th>费用名称</th>
-                                            <th>套/票</th>
-                                            <th class="labelKgs">KGS</th>
-                                            <th class="labelRt">CBM/TON</th>
-                                            <th class="contTypeOne">20GP</th>
-                                            <th class="contTypeTwo">40GP</th>
-                                            <th class="contTypeThree">40'HQ</th>
-                                            <th>适用期</th>
-                                            <th>备注</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="localChargeItem">
-                                        <!--<tr>
-                                            <td>费用名称</td>
-                                            <td>套/票</td>
-                                            <td>20GP</td>
-                                            <td>40GP</td>
-                                            <td>40'HQ</td>
-                                            <td>适用期</td>
-                                            <td>备注</td>
-                                        </tr>-->
-                                    </tbody>
-                                </table>
-                                <hr class="wide">
-                            </div>
-                            <div style="width: 100%; margin-top: 30px;" id="truckingcharge_div">
-                                <h5 class="row-title before-darkorange"><i class="fa fa-list-alt darkorange"></i>拖车费用：</h5>
-                                <table class="table table-hover table-striped table-bordered truckingChargeItem_table">
-                                    <thead class="bordered-blueberry">
-                                        <tr>
-                                            <th>Delivery</th>
-                                            <th class="labelKgs">KGS</th>
-                                            <th class="labelRt">CBM/TON</th>
-                                            <th class="contTypeOne">20GP</th>
-                                            <th class="contTypeTwo">40GP</th>
-                                            <th class="contTypeThree">40'HQ</th>
-                                            <th>Validity</th>
-                                            <th>备注</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="truckingChargeItem">
-                                        <!--<tr>
-            <td>Delivery</td>
-            <td>20GP</td>
-            <td>40GP</td>
-            <td>40'HQ</td>
-            <td>适用期</td>
-            <td>备注</td>
-        </tr>-->
-                                    </tbody>
-                                </table>
+                            <div class="invoice-bank">
+                                <h5>Bank Info:</h5>
+                                <div id="bankInfo"></div>
                                 <hr class="wide">
                             </div>
                             <div class="invoice-notes">
-                                <h5><strong>Remark:</strong></h5>
+                                <h5>Notes & Information:</h5>
                                 <div id="remark"></div>
+                                <hr class="wide">
+                            </div>
+                            <div class="invoice-signNature" style="text-align: right; padding-right: 100px;">
+                                <h5>For and on behalf of</h5>
+                                <div style="height: 30px; line-height: 30px; width: 300px; border-bottom: silver 1px solid; float: right; margin:10px 0;" id="signNature"></div>
+                                <h5 style="clear: both;">Authorised signature</h5>
                             </div>
                         </div>               					
                 	</div>
