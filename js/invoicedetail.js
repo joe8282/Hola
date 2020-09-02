@@ -15,11 +15,18 @@ $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
 
-	this.title = get_lan('con_top_3')
-	$('#title1').text(get_lan('con_top_3'))
-	$('#title2').text(get_lan('con_top_3')) 
+	this.title = get_lan('invoiceDetail')
+	$('#title1').text(get_lan('invoiceDetail'))
+	$('#title2').text(get_lan('invoiceDetail')) 
 	
 	
+	$('.glyphicon-print').on('click', function() {
+		printContent();
+	})
+
+	$('.glyphicon-save').on('click', function() {
+	  alert("Please print out the PDF file.")
+	})
 
 	var Id = GetQueryString('billId');
 
@@ -30,6 +37,7 @@ $(function(){
 	    console.log(data.Data)
 	    //初始化信息
 	    var _data = data.Data
+
 	    //var _data2 = data.Data2
 	    //alert(_data.bill_companyId)
 	    getUserCompany(_data.bill_companyId);
@@ -55,8 +63,7 @@ $(function(){
 
                     var feelist = '<tr>' +
                             '<td>'+_getFeeItemFun(_data2.bofe_feeItem)+'</td>'+
-                            '<td>'+ _data2.bofe_feeUnit +'</td>'+
-                            '<td>'+ _data2.bofe_fee +'</td>'+
+                            '<td>'+ _data2.bofe_feeUnit +_data2.bofe_fee+'</td>'+
                             '<td>' + _data2.bofe_num + '</td>'+
                             '<td>' + _data2.bofe_numUnit + '</td>'+
                             '<td>' + _data2.bofe_feeUnit+_data2.bofe_allFee + '</td>'+
@@ -153,6 +160,10 @@ function getShpmInfo(o){
         console.log(data.Data)
         //初始化信息
         var _data = data.Data
+		this.title = get_lan('invoiceDetail')+' '+_data.book_orderCode;
+		$('#title1').text(get_lan('invoiceDetail')+' '+_data.book_orderCode)
+		$('#title2').text(get_lan('invoiceDetail')+' '+_data.book_orderCode) 
+
         stateId = _data.book_orderState
         var stateList=$('#STATELIST li')
         $.each(stateList,function(i,item){
@@ -171,7 +182,7 @@ function getShpmInfo(o){
         $('.vesselvoy').text(_data.book_vessel+"/"+_data.book_voyage)
         $('.port1').text(_data.book_port1)
         $('.port2').text(_data.book_port2)
-        $('.onBoardDate').text(_data.book_truePortTime)
+        $('.onBoardDate').text(_data.book_truePortTime.substring(0, 10))
     }, function(err) {
         console.log(err)
     }, 1000)
@@ -196,3 +207,16 @@ function loadContainer(whichId,Id){
 		console.log(err)
 	}, 2000)
 }	
+
+function printContent(){
+	$("#printContent").print({
+	    globalStyles:true,//是否包含父文档的样式，默认为true
+	    mediaPrint:false,//是否包含media='print'的链接标签。会被globalStyles选项覆盖，默认为false
+	    stylesheet:null,//外部样式表的URL地址，默认为null
+	    noPrintSelector:".no-print",//不想打印的元素的jQuery选择器，默认为".no-print"
+	    iframe:false,//是否使用一个iframe来替代打印表单的弹出窗口，true为在本页面进行打印，false就是说新开一个页面打印，默认为true
+	    append:null,//将内容添加到打印内容的后面
+	    prepend:null,//将内容添加到打印内容的前面，可以用来作为要打印内容
+	    deferred: $.Deferred()//回调函数
+	});  
+}

@@ -75,7 +75,8 @@ var cn1 = {
             "previous" : "上一页",  
             "next" : "下一页",  
             "last" : "末页",   
-            "onemore_booking" : "再定一次",             
+            "onemore_booking" : "再定一次",   
+            "invoiceDetail" : "费用清单",             
         };
 
 var en1 = {
@@ -153,7 +154,7 @@ var en1 = {
             "previous" : "Previous",  
             "next" : "Next",  
             "last" : "Last", 
-            "onemore_booking" : "One More",              
+            "invoiceDetail" : "Invoice",                    
         };
         
 var cn = eval('('+(JSON.stringify(cn1)+JSON.stringify(cn2)).replace(/}{/,',')+')');
