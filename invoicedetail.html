@@ -149,22 +149,22 @@ Purchase: http://wrapbootstrap.com
                             <i class="glyphicon glyphicon-print"></i>
                         </a>
                         <a href="#" class="label label-primary tooltip-darkorange">
-                            <i class="glyphicon glyphicon-save"></i>
+                            <i class="glyphicon glyphicon-save" id="glyphicon-save"></i>
                         </a>
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->    
                 <!-- Page Body -->
-                <div class="page-body">
-                	<div class="widget">
-                		<div class="widget-body" id="printContent" style="padding-top: 0; margin-top: 0;">
+                <div class="page-body" id="page-body">
+                    <div class="widget">
+                        <div class="widget-body" id="printContent" style="padding-top: 0; margin-top: 0;">
                             <div class="row text-center">
                                 <h1 class="companyNameEn">
                                     HOLA INTERNATIONAL SOURCING LOGISTICS CO., LTD.
-                                </h1> 
+                                </h1>
                                 <h1 class="companyName">和乐国际采购物流有限公司 ｜</h1>
                                 <div style="margin-top: 5px; line-height: 18px; ">
-                                    Tel: <span class ="companyTel"></span>&nbsp;&nbsp;Fax: <span class="companyFax"></span>
+                                    Tel: <span class="companyTel"></span>&nbsp;&nbsp;Fax: <span class="companyFax"></span>
                                     Email: <span class="companyEmail"></span>
                                 </div>
                                 <p class="companyAdd"></p>
@@ -214,16 +214,16 @@ Purchase: http://wrapbootstrap.com
                                     </thead>
                                     <tbody class="feeItem">
                                         <!--<tr>
-                                            <td>20GP</td>
-                                            <td>40GP</td>
-                                            <td>40'HQ</td>
-                                            <td>承运人</td>
-                                            <td>航期</td>
-                                            <td>航程</td>
-                                            <td>中转</td>
-                                            <td>有效期</td>
-                                            <td>备注</td>
-                                        </tr>-->
+                                <td>20GP</td>
+                                <td>40GP</td>
+                                <td>40'HQ</td>
+                                <td>承运人</td>
+                                <td>航期</td>
+                                <td>航程</td>
+                                <td>中转</td>
+                                <td>有效期</td>
+                                <td>备注</td>
+                            </tr>-->
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -249,9 +249,9 @@ Purchase: http://wrapbootstrap.com
                                 <div style="height: 30px; line-height: 30px; width: 300px; border-bottom: silver 1px solid; float: right; margin:10px 0;" id="signNature"></div>
                                 <h5 style="clear: both;">Authorised signature</h5>
                             </div>
-                        </div>               					
-                	</div>
-				</div>
+                        </div>
+                    </div>
+                </div>
                 <!-- /Page Body -->
             </div>
             <!-- /Page Content -->
@@ -272,7 +272,9 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/select2/select2.min.js"></script>
     <script src="assets/js/select2/zh-CN.js"></script>
     <script src="assets/js/jQuery.print.min.js"></script>
-    
+    <script src="assets/js/html2canvas.js"></script>
+    <script src="assets/js/jsPdf.debug.js"></script>
+
     <!--Page Related Scripts-->
     <script src="js/common.js"></script>
     <script src="js/invoicedetail.js"></script> 
