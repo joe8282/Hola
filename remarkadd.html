@@ -150,11 +150,24 @@ Purchase: http://wrapbootstrap.com
                 		</div>
                 		<div class="widget-body">
                 			<div id="horizontal-form">
-                				<form class="form-horizontal" role="form">           					
+                				<form class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label no-padding-right">备注类型<sup>*</sup></label>
+                                        <div class="col-sm-10">
+                                            <select id="selectRemarkTypeCode" style="width:100%;">
+                                                <option value="bank">bank</option>
+                                                <option value="email">email</option>
+                                                <option value="rates">rates</option>
+                                                <option value="invoice">invoice</option>
+                                                <option value="others">others</option>
+                                            </select>
+                                            <!--<p class="help-block">Example block-level help text here.</p>-->
+                                        </div>
+                                    </div>           					
                 					<div class="form-group">
-                						<label for="inputEmail3" class="col-sm-2 control-label no-padding-right">备注类型<sup>*</sup></label>
+                						<label for="inputEmail3" class="col-sm-2 control-label no-padding-right">备注标题<sup>*</sup></label>
                 						<div class="col-sm-10">
-                                            <input type="email" class="form-control" id="inputRemarkType" placeholder="填写备注类型">
+                                            <input type="email" class="form-control" id="inputRemarkType" placeholder="填写备注标题">
                 							<!--<p class="help-block">Example block-level help text here.</p>-->
                 						</div>
                 					</div>

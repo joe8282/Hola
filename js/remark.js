@@ -40,7 +40,8 @@ function initTable() {
 		//"aaSorting": [[ 6, "desc" ]],
 //		"bProcessing": true,
 		"aoColumns": [
-			{ "mDataProp": "rema_type" },
+			{ "mDataProp": "rema_typeCode" },
+            { "mDataProp": "rema_type" },
             { "mDataProp": "rema_content" },
 			{
 			    "mDataProp": "rema_id",

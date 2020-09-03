@@ -26,6 +26,7 @@ $(function(){
 	        //console.log(data.Data)
 	        //初始化信息
 	        var _data = data.Data
+	        $('#selectRemarkTypeCode').val(_data.rema_typeCode)
 	        $('#inputRemarkType').val(_data.rema_type)
 	        $('#inputRemarkContent').val(_data.rema_content)
 	    }, function (err) {
@@ -38,13 +39,14 @@ $(function(){
 
 	
 	/*下一步*/
-	$('#send1').on('click', function() {
+	$('#send1').on('click', function () {
+	    var RemarkTypeCode = $('#selectRemarkTypeCode').val()
 	    var RemarkType = $('#inputRemarkType').val()
 	    var RemarkContent = $('#inputRemarkContent').val()
 	    //console.log(str)
 		if(action == 'add') {
 		    if (!RemarkType) {
-		        comModel("请输入备注类型")
+		        comModel("请输入备注标题")
 		    } else if (!RemarkContent) {
 		        comModel("请输入备注内容")
 			} else {
@@ -52,6 +54,7 @@ $(function(){
 					'userId': userID,
 					'companyId': companyID,
 					'type': RemarkType,
+					'typeCode': RemarkTypeCode,
 					'content': RemarkContent
 				}
 				
@@ -71,7 +74,7 @@ $(function(){
 		
 		if(action == 'modify') {
 		    if (!RemarkType) {
-		        comModel("请输入备注类型")
+		        comModel("请输入备注标题")
 		    } else if (!RemarkContent) {
 		        comModel("请输入备注内容")
 		    } else {
@@ -79,6 +82,7 @@ $(function(){
 					'Id': Id,
 					'userId': userID,
 					'companyId': companyID,
+					'typeCode': RemarkTypeCode,
 					'type': RemarkType,
 					'content': RemarkContent
 				}
