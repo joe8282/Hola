@@ -18,6 +18,7 @@ var en2 = {
 
 var fromId = '0';
 var sellId,luruId,kefuId,caozuoId;
+var _getSellNameArr = new Array();
 
 if(GetQueryString('fromId')!=null){
 	fromId=GetQueryString('fromId')
@@ -53,6 +54,23 @@ $(document).ready(function() {
  			$('#orderHblLi').attr("disabled",true);
  		}
  	})
+
+ 	//获取销售人员的名字
+	common.ajax_req("get", false, dataUrl, "userinfo.ashx?action=read", {
+		"companyId": companyID
+	}, function(data) {
+		//console.log(data.Data)
+		//初始化信息
+		var _data = data.data
+		for(var i = 0; i < _data.length; i++) {
+			//var _html = '<option value="' + _data[i].puda_id + '">' + _data[i].puda_name_cn + ' - '+_data[i].puda_name_en+'</option>';
+			//$('#feeItem').append(_html)
+			//_feeItem=_feeItem+_html
+            _getSellNameArr.push(_data[i].usin_id+';'+_data[i].usin_name)
+		}
+	}, function(error) {
+	}, 1000)
+
 
  	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
  		"companyId": companyID,
@@ -154,78 +172,85 @@ $(document).ready(function() {
     	else{ $("#bookRightNow").addClass('none') }
     })
 
-	//销售人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 6,
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#sellId').append(_html)
-				console.log(_data[i].usin_id+"+"+_data[i].usin_name)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
-	}, 1000)
-	//录入人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 11,
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#luruId').append(_html)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
-	}, 1000)	
-	//客服人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 7,
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#kefuId').append(_html)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
-	}, 1000)
-	//操作人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-		'role': 8,
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#caozuoId').append(_html)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
-	}, 1000)	
+	// //销售人员
+	// common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
+	// 	'role': 6,
+	// 	'companyId': companyID
+	// }, function(data) {
+	// 	var _data = data.data;
+	// 	if(_data!=null){
+	// 		for(var i = 0; i < _data.length; i++) {
+	// 			var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	// 			$('#sellId').append(_html)
+	// 			console.log(_data[i].usin_id+"+"+_data[i].usin_name)
+	// 		}
+	// 	}
+	// }, function(error) {
+	// 	console.log(parm)
+	// }, 1000)
+	// //录入人员
+	// common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
+	// 	'role': 11,
+	// 	'companyId': companyID
+	// }, function(data) {
+	// 	var _data = data.data;
+	// 	if(_data!=null){
+	// 		for(var i = 0; i < _data.length; i++) {
+	// 			var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	// 			$('#luruId').append(_html)
+	// 		}
+	// 	}
+	// }, function(error) {
+	// 	console.log(parm)
+	// }, 1000)	
+	// //客服人员
+	// common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
+	// 	'role': 7,
+	// 	'companyId': companyID
+	// }, function(data) {
+	// 	var _data = data.data;
+	// 	if(_data!=null){
+	// 		for(var i = 0; i < _data.length; i++) {
+	// 			var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	// 			$('#kefuId').append(_html)
+	// 		}
+	// 	}
+	// }, function(error) {
+	// 	console.log(parm)
+	// }, 1000)
+	// //操作人员
+	// common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
+	// 	'role': 8,
+	// 	'companyId': companyID
+	// }, function(data) {
+	// 	var _data = data.data;
+	// 	if(_data!=null){
+	// 		for(var i = 0; i < _data.length; i++) {
+	// 			var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	// 			$('#caozuoId').append(_html)
+	// 		}
+	// 	}
+	// }, function(error) {
+	// 	console.log(parm)
+	// }, 1000)	
 /**
  * 表格初始化
  * @returns {*|jQuery}
  */
+
 function initTable(fromId) {
     var ajaxUrl,tableTitle,columns    
     if(fromId=='1'){
     	ajaxUrl=dataUrl+'ajax/booking.ashx?action=read&crmId='+companyID+'&fromId='+fromId
-    	tableTitle='<th>订舱委托号</th><th>客户名称</th><th>运输方式</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>货量</th><th>货好时间</th><th>订舱时间</th><th>状态</th><th>操作</th>'
+    	tableTitle='<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>订舱时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
     	columns = [
+    		{
+    			"mDataProp": "book_sellId",
+				"createdCell": function (td, cellData, rowData, row, col) {
+					$(td).html(getSellId(rowData.book_sellId))
+				}	
+    		},
 			{ "mDataProp": "book_code",
 				"createdCell": function (td, cellData, rowData, row, col) {
 					$(td).html("<a href='bookingpreview.html?code=" + rowData.book_code + "' target='_blank'>" + rowData.book_code + "</a>")
@@ -233,30 +258,31 @@ function initTable(fromId) {
 			},
 //			{ "mDataProp": "type_name"},
 			{ "mDataProp": "comp_name1"},
-			{ "mDataProp": "book_movementType"},			
-			{ "mDataProp": "book_port1",
+//			{ "mDataProp": "book_movementType"},		
+    		{
+    			"mDataProp": "book_port1",
 	            "mRender" : function(data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
-	                      return (full.book_port1 +" <i class='fa fa-long-arrow-right'></i></br> "+ full.book_port2)
+	                      return (full.book_port1 +" <i class='fa fa-long-arrow-right'></i> "+ full.book_port2+"</br>"+full.book_movementType + " / " +full.book_allContainer)
 	                    }
-	        },
+    		},
 			//{ "mDataProp": "book_port2" },
-			{ 
-				"mDataProp": "book_allContainer"
-//				"mDataProp": "book_id",
-//				"createdCell": function (td, cellData, rowData, row, col) {
-//					var tohtml=''
-//					if(rowData.book_20GP.substr(0, 1)!=' '){
-//						tohtml=rowData.book_20GP;
-//					}
-//					if(rowData.book_40GP.substr(0, 1)!=' '){
-//						tohtml=tohtml+'<br/>'+rowData.book_40GP;
-//					}
-//					if(rowData.book_40HQ.substr(0, 1)!=' '){
-//						tohtml=tohtml+'<br/>'+rowData.book_40HQ;
-//					}
-//					$(td).html(tohtml);
-//				}			    
-			},
+// 			{ 
+// 				"mDataProp": "book_allContainer"
+// //				"mDataProp": "book_id",
+// //				"createdCell": function (td, cellData, rowData, row, col) {
+// //					var tohtml=''
+// //					if(rowData.book_20GP.substr(0, 1)!=' '){
+// //						tohtml=rowData.book_20GP;
+// //					}
+// //					if(rowData.book_40GP.substr(0, 1)!=' '){
+// //						tohtml=tohtml+'<br/>'+rowData.book_40GP;
+// //					}
+// //					if(rowData.book_40HQ.substr(0, 1)!=' '){
+// //						tohtml=tohtml+'<br/>'+rowData.book_40HQ;
+// //					}
+// //					$(td).html(tohtml);
+// //				}			    
+// 			},
 			{
 				"mDataProp": "book_okTime",
 				"createdCell": function (td, cellData, rowData, row, col) {
@@ -286,7 +312,7 @@ function initTable(fromId) {
 					var pod=rowData.book_port2;
 					if(rowData.book_state == 1) {
 						$(td).parent().find("td").css("background-color","#fdfdbf");
-						$(td).html("<div class='btn-group' style='z-index:auto;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + ","+rowData.book_userId+",\""+pol+"\",\""+pod+"\")'>" + get_lan('con_top_5') + "</a>"
+						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + ","+rowData.book_userId+",\""+pol+"\",\""+pod+"\")'>" + get_lan('con_top_5') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a></li>"
@@ -299,7 +325,7 @@ function initTable(fromId) {
 						// 	.append("<a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
 					} else if(rowData.book_state == 2) {
-						$(td).html("<div class='btn-group' style='z-index:auto;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a>"
+						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li></li>"
@@ -315,51 +341,57 @@ function initTable(fromId) {
 				}
 			},
 		],
-        aaaSorting=[[6, 'desc']],
+        aaaSorting=[[5, 'desc']],
         aaaColumDefs=[//设置列的属性，此处设置第一列不排序
             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
-            {"bSortable": false, "aTargets": [4,7,8]}
+            {"bSortable": false, "aTargets": [3,6,7]}
         ]
     }else{
     	ajaxUrl=dataUrl+'ajax/booking.ashx?action=read&companyId='+companyID
-    	tableTitle='<th>订单号</th><th>客户名称</th><th>运输方式</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>货量</th><th>订舱时间</th><th>离港时间</th><th>财务状况</th><th>状态</th><th>操作</th>'
+    	tableTitle='<th>销售</th><th>订单号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>订舱时间</th><th>离港时间</th><th>财务状况</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
     	columns = [
+    		{
+    			"mDataProp": "book_sellId",
+				"createdCell": function (td, cellData, rowData, row, col) {
+					$(td).html(getSellId(rowData.book_sellId))
+				}	
+    		},
     		{
     			"mDataProp": "book_orderCode"
     		},
     		{
     			"mDataProp": "comp_name2"
     		},
-    		{
-    			"mDataProp": "book_movementType"
-    		},
+    		// {
+    		// 	"mDataProp": "book_movementType"
+    		// },
     		{
     			"mDataProp": "book_port1",
 	            "mRender" : function(data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
-	                      return (full.book_port1 +" <i class='fa fa-long-arrow-right'></i></br> "+ full.book_port2)
+	                      return (full.book_port1 +" <i class='fa fa-long-arrow-right'></i> "+ full.book_port2+"</br>"+full.book_movementType + " / " +full.book_allContainer)
 	                    }
     		},
     		// {
     		// 	"mDataProp": "book_port2"
     		// },
-    		{
-    			"mDataProp": "book_allContainer"
-//  			"mDataProp": "book_id",
-//  			"createdCell": function(td, cellData, rowData, row, col) {
-//  				var tohtml = ''
-//  				if(rowData.book_20GP.substr(0, 1) != ' ') {
-//  					tohtml = rowData.book_20GP;
-//  				}
-//  				if(rowData.book_40GP.substr(0, 1) != ' ') {
-//  					tohtml = tohtml + '<br/>' + rowData.book_40GP;
-//  				}
-//  				if(rowData.book_40HQ.substr(0, 1) != ' ') {
-//  					tohtml = tohtml + '<br/>' + rowData.book_40HQ;
-//  				}
-//  				$(td).html(tohtml);
-//  			}
-    		},
+//     		{
+//     			"mDataProp": "book_allContainer"
+// //  			"mDataProp": "book_id",
+// //  			"createdCell": function(td, cellData, rowData, row, col) {
+// //  				var tohtml = ''
+// //  				if(rowData.book_20GP.substr(0, 1) != ' ') {
+// //  					tohtml = rowData.book_20GP;
+// //  				}
+// //  				if(rowData.book_40GP.substr(0, 1) != ' ') {
+// //  					tohtml = tohtml + '<br/>' + rowData.book_40GP;
+// //  				}
+// //  				if(rowData.book_40HQ.substr(0, 1) != ' ') {
+// //  					tohtml = tohtml + '<br/>' + rowData.book_40HQ;
+// //  				}
+// //  				$(td).html(tohtml);
+// //  			}
+//     		},
     		{
     			"mDataProp": "book_time",
     			"createdCell": function(td, cellData, rowData, row, col) {
@@ -392,7 +424,7 @@ function initTable(fromId) {
 			{
 				"mDataProp": "book_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html("<div class='btn-group' style='z-index:auto;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
+					$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
 	    			+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                     +"<ul class='dropdown-menu dropdown-azure'>"
                     +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
@@ -405,10 +437,10 @@ function initTable(fromId) {
 				}
 			},    		
     	],
-        aaaSorting=[[5, 'desc']],
+        aaaSorting=[[4, 'desc']],
         aaaColumDefs=[//设置列的属性，此处设置第一列不排序
             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
-            {"bSortable": false, "aTargets": [4,7,8,9]}
+            {"bSortable": false, "aTargets": [3,6,7,8]}
         ]
     }
     
@@ -755,3 +787,15 @@ function initModal() {
 		$('div.modal-backdrop').remove();
 	});
 }
+
+function getSellId(o){
+	for (var i = 0; i < _getSellNameArr.length; i++) {
+        if (_getSellNameArr[i].indexOf(o) >= 0) {
+            z = _getSellNameArr[i].split(";");
+            if(z[0]==o){
+            	return z[1];
+            }
+        }
+    }
+}
+

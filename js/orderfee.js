@@ -31,7 +31,7 @@ $(function(){
 //	}
 
 	var Id = GetQueryString('Id');
-    var _toCompany='',_feeItem='',_feeUnit='',_numUnit='';
+    var _toCompany='',_feeItem='',_feeUnit='',_numUnit='', _remaItem='';
     
     var _toCompanySettleArr=new Array();
     var _htmlCompanySettle='';
@@ -57,6 +57,23 @@ $(function(){
         //初始化信息
         var _data = data.Data
         localCurrency=_data.wein_currency;
+    }, function(err) {
+        console.log(err)
+    }, 2000)
+
+    common.ajax_req("get", true, dataUrl, "remark.ashx?action=read", {
+        "typeCode": "bank",
+        "companyId": companyID
+    }, function(data) {
+        //console.log(data.Data)
+        //初始化信息
+        var _data = data.data
+
+        for(var i = 0; i < _data.length; i++) {
+            var _html = '<option value="' + _data[i].rema_id + '">' + _data[i].rema_type +'</option>';
+            $('#bank').append(_html)
+            $('#bank5').append(_html)
+        }
     }, function(err) {
         console.log(err)
     }, 2000)
@@ -510,6 +527,7 @@ $(function(){
             $("#creditTotal").text(_arrCredit[0]+" "+y.toFixed(2));
             _arrCreditGather.push(_arrCredit[0]+" "+y.toFixed(2));
         }
+        
         getProfit(_arrDebitGather,_arrCreditGather);
     }
 

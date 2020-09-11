@@ -122,7 +122,7 @@ function GetContact() {
 				"mDataProp": "coco_id",
 				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
 					if(oData.coco_first==1){
-						$(nTd).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+						$(nTd).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a></li>"
 	                    +"<li><a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a></li>"
@@ -130,7 +130,7 @@ function GetContact() {
 					// $(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 					// 	.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")					
 					}else{
-						$(nTd).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+						$(nTd).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a></li>"
 	                    +"<li><a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a></li>"

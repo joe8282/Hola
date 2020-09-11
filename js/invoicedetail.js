@@ -30,10 +30,11 @@ $(function(){
     //转化保存为PDF
 	var downPdf = document.getElementById("glyphicon-save");
 	downPdf.onclick = function () {
+		$('#page-body').width("592.28pt");
 	    html2canvas(
-                document.getElementById("page-body"),
+                document.getElementById("printContent"),
                 {
-                    dpi: 172,//导出pdf清晰度
+                    dpi: 300,//导出pdf清晰度
                     onrendered: function (canvas) {
                         var contentWidth = canvas.width;
                         var contentHeight = canvas.height;
@@ -69,8 +70,9 @@ $(function(){
                         pdf.save('content.pdf');
                     },
                     //背景设为白色（默认为黑色）
-                    background: "#fff"
+                    background: "#FBFBFB"
                 })
+		$('#page-body').width("auto");
 	}
 
 	var Id = GetQueryString('billId');
