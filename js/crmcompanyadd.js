@@ -148,7 +148,8 @@ $(function(){
 //			AccountName = $('#inputAccountName').val(),
 //			AccountPw = $('#inputAccountPw').val();
 
-		if(action == 'add') {
+	    if (action == 'add') {
+	        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //邮箱正则表达式
 			if(!CompanyName) {
 				comModel("请输入公司名称")
 			} else if(!CompanyContent) {
@@ -160,7 +161,9 @@ $(function(){
 			} else if(!ContactName) {
 				comModel("请输入联系人名称")
 			} else if(!ContactEmail) {
-				comModel("请输入联系人邮箱")
+			    comModel("请输入联系人邮箱")
+			} else if (!reg.test(ContactEmail)) {
+			    comModel("联系人邮箱格式不正确")
 			} else if(!ContactPhone) {
 				comModel("请输入联系人手机")
 			} else {
@@ -204,7 +207,8 @@ $(function(){
 							//location.href = 'crmcompanycontactadd.html?action=add&companyId='+data.Data;
 						}
 					} else if (data.State == 0) {
-					    comModel(data.Data)
+					    //comModel(data.Data)
+					    bootbox.alert(data.Data);
 					} else {
 						comModel("新增客户失败")
 					}
