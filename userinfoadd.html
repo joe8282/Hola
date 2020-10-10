@@ -34,6 +34,7 @@ Purchase: http://wrapbootstrap.com
 
     <!--Page Related styles-->  
     <link href="css/common.css" rel="stylesheet" />
+    <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet" />
     
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="assets/js/skins.min.js"></script>
@@ -284,6 +285,9 @@ Purchase: http://wrapbootstrap.com
                             <div id="horizontal-form">
                                 <div class="form-horizontal" role="form">
                                     <div class="form-group" id="Account">
+                                        <div class="col-sm-12" style="padding: 20px;">
+                                            <a href='javascript:void(0);' class="btn" onclick='_setCrmRoleFun()'>客户管理权限设置</a>
+                                        </div>
                                         <div class="col-sm-12" id="permission">
 
                                         </div>
@@ -314,6 +318,43 @@ Purchase: http://wrapbootstrap.com
         <!-- /Page Container -->
         <!-- Main Container -->
 
+        <!--客户管理权限设置 LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-lg" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">客户管理权限设置</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 20px; height:400px; overflow:auto;">
+                        <div class="form-group">
+                            <div class="margin-top-10">
+                                <label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;"><input type="checkbox" id='checkAll'></label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">序号</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">负责人</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:27%; float: left;">客户名称</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">公司类型</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">电话</label>
+                                <!--<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">邮箱</label>-->
+                                <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">国家</label>
+                            </div>
+                        </div>
+                        <div class="form-group crmCompanyList">
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="btnAddSave" set-lan="html:submit">确定</button>
+                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates--> 
+
     </div>
     
     <!--Basic Scripts-->
@@ -322,6 +363,8 @@ Purchase: http://wrapbootstrap.com
 
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.min.js"></script>
+    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>
 
     <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
     <script src="assets/js/select2/select2.js"></script>
@@ -336,7 +379,7 @@ Purchase: http://wrapbootstrap.com
     <!--Page Related Scripts-->
     <script src="js/common.js"></script>
     <script src="js/permission.js" type="text/javascript" charset="utf-8"></script>
-    <script src="js/userinfoadd.js"></script> 
+    <script src="js/userinfoadd.js?v=1.1"></script> 
     <script src="js/lan.js"></script> 
    
 </body>

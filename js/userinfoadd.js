@@ -322,8 +322,102 @@ $(function(){
 
 	});
 
+
+
 	
 })
 
+/*客户管理权限设置*/
+function _setCrmRoleFun() {
+    $("#myModal1").modal("show");
+    $(".crmCompanyList").empty()
+    var roleId = [];
+    common.ajax_req("get", true, dataUrl, "crmcompanyrole.ashx?action=read", {
+        "companyId": companyID,
+        "userId": userID
+    }, function (data) {
+        console.log(data.data)
+        var _data = data.data
+        for (var i = 0; i < _data.length; i++) {
+            roleId.push(_data[i].crmro_crmId);
+        }
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+
+    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
+        "companyId": companyID
+    }, function (data) {
+        console.log(data.data)
+        var _data = data.data
+        for (var i = 0; i < _data.length; i++) {
+            var xuhao=i+1
+            var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
+            '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;"><input type="checkbox" name="checkList" value=' + _data[i].comp_id + '></label>' +
+            '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
+            '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].usin_name + '</label>' +
+            '<label for="inputPassword3" class="margin-right-10" style="width:27%; float: left;">' + _data[i].comp_name + '</label>' +
+            '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].comp_type + '</label>' +
+            '<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _data[i].comp_contactPhone + '</label>' +
+            //'<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _data[i].comp_contactEmail + '</label>' +
+            '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].comp_country + '</label>' +
+            '</div></p>'
+            $(".crmCompanyList").append(feelist)
+        }
+
+        setTimeout(function () {
+            for (var i = 0; i < roleId.length; i++) {
+                console.log(roleId[i])
+                $("input[name='checkList'][value='" + roleId[i] + "']").attr("checked", true)
+            }
+        }, 1000)
+
+
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+}
+
+
+$("#checkAll").on("click", function () {
+    var xz = $(this).prop("checked");//判断全选按钮的选中状态
+    var ck = $("input[name='checkList']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+});
+
+$("#btnAddSave").on("click", function () {
+    var str = '';
+    $("input[name='checkList']:checked").each(function (i, o) {
+        str += $(this).val();
+        str += ",";
+    });
+
+    if (str.length == 0) {
+        comModel("请选择要分配的客户公司！")
+    } else {
+        var jsonData = {
+            'companyId': companyID,
+            'userId': userID,
+            'crmIds': str
+        };
+        $.ajax({
+            url: dataUrl + 'ajax/crmcompanyrole.ashx?action=new',
+            data: jsonData,
+            dataType: "json",
+            type: "post",
+            success: function (backdata) {
+                if (backdata.State == 1) {
+                    comModel("设置成功！",true)
+                    //location.href = 'emailpp_group.html';
+                } else {
+                    comModel("设置失败！")
+                    //location.href = 'emailpp_group.html';
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    }
+});
 
 

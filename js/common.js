@@ -194,8 +194,9 @@ function getNav(){
 	var NavHtm =  	'<li class="navli100"><a href="index.html"><i class="menu-icon glyphicon glyphicon-home"></i><span class="menu-text" set-lan="html:navHome"> Home </span></a></li>'+
 					'<li class="navli2"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_2"> CRM Home </span><i class="menu-expand"></i></a>'+
                         '<ul class="submenu">'+
-                            '<li class="crm1"><a href="crmcompany.html"><span class="menu-text" set-lan="html:nav_2_1">Company List</span></a></li>'+  
-                            '<li class="crm2"><a href="crmcompanyadd.html?action=add"><span class="menu-text" set-lan="html:nav_2_2">Company Add</span></a></li>'+ 
+                            '<li class="crm1"><a href="crmcompanyadd.html?action=add"><span class="menu-text" set-lan="html:nav_2_1">Customer Add</span></a></li>' +
+                            '<li class="crm2"><a href="crmcompany.html"><span class="menu-text" set-lan="html:nav_2_2">My Customer</span></a></li>' +
+                            '<li class="crm3"><a href="crmcompanyrole.html"><span class="menu-text" set-lan="html:nav_2_3">Company Customer</span></a></li>' +
                         '</ul>'+
                     '</li>' +
 					'<li class="navli3"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_3"> SHIPMENT MANAGEMENT</span><i class="menu-expand"></i></a>'+

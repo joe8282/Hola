@@ -11,11 +11,11 @@ var en2 = {
 
 $(function(){
 
-	this.title = get_lan('nav_2_2') 	
+	this.title = get_lan('nav_2_1') 	
 	$('.navli2').addClass("active open")
-	$('.crm2').addClass("active")	
-	$('#title1').text(get_lan('nav_2_2'))
-	$('#title2').text(get_lan('nav_2_2')) 
+	$('.crm1').addClass("active")	
+	$('#title1').text(get_lan('nav_2_1'))
+	$('#title2').text(get_lan('nav_2_1')) 
 	$('#inputCompanyName').on('change',function(){ // 添加一个字段就是公司的CODE，这里自动获取CODE，也可以修改，20190815 by daniel
 		var com_name=$('#inputCompanyName').val().split(" ");
 		var _codes="";

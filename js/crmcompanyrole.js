@@ -20,12 +20,12 @@ var oTable;
 var typeId;
 $(document).ready(function() {
 //	initModal();
-	this.title = get_lan('nav_2_2')
+	this.title = get_lan('nav_2_3')
 	$('.navli2').addClass("active open")
-	$('.crm2').addClass("active")	
-	$('#title1').text(get_lan('nav_2_2'))
-	$('#title2').text(get_lan('nav_2_2'))
-	$('#mySmallModalLabel').text(get_lan('nav_2_2'))
+	$('.crm3').addClass("active")	
+	$('#title1').text(get_lan('nav_2_3'))
+	$('#title2').text(get_lan('nav_2_3'))
+	$('#mySmallModalLabel').text(get_lan('nav_2_3'))
 
 	$('#addFun').on('click', function() {
 		location.href = 'crmcompanyadd.html?action=add';
@@ -50,7 +50,7 @@ function initTable() {
     
 	var table = $("#example").dataTable({
 		//"iDisplayLength":10,
-	    "sAjaxSource": dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID,
+	    "sAjaxSource": dataUrl + 'ajax/crmcompanyrole.ashx?action=read&companyId=' + companyID + '&userId=' + userID,
 //		'bPaginate': true,
 //		"bDestory": true,
 //		"bRetrieve": true,
