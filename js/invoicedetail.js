@@ -264,6 +264,42 @@ function printContent(){
 	    iframe:false,//是否使用一个iframe来替代打印表单的弹出窗口，true为在本页面进行打印，false就是说新开一个页面打印，默认为true
 	    append:null,//将内容添加到打印内容的后面
 	    prepend:null,//将内容添加到打印内容的前面，可以用来作为要打印内容
-	    deferred: $.Deferred()//回调函数
+	    deferred: $.Deferred((function () { //回调函数
+	        console.log('Printing done');
+            //生成图片并保存文件记录，JOE新增
+	        html2canvas(document.getElementById("printContent"),{
+                    onrendered: function (canvas) {
+                        var url = canvas.toDataURL('image/jpeg', 1.0);
+                        //console.log(url)
+                        // ajax 上传图片  
+                        $.post(dataUrl + "ajax/uploadPic.ashx", { image: url, action: 'order' }, function (ret) {
+                            if (ret.State == '100') {
+                                $('#Pname').val(ret.Pname);
+                                var parm = {
+                                    'bookingId': 149, //按实际修改
+                                    'companyId': 4, //按实际修改
+                                    'userId': userID,
+                                    'typeId': 1,
+                                    'name': '打印保存图片', //按实际修改
+                                    "url": ret.Pname
+                                }
+                                console.log(parm)
+                                common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
+                                    if (data.State == 1) {
+                                        comModel("成功")
+                                    } else {
+                                        comModel("失败")
+                                    }
+                                }, function (error) {
+                                }, 2000)
+                            } else {
+                                alert('上传失败');
+                            }
+                        }, 'json');
+                    },
+                    //背景设为白色（默认为黑色）
+                    background: "#FBFBFB"
+            })
+	    }))
 	});  
 }

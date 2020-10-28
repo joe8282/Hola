@@ -37,67 +37,66 @@ $(function(){
 //		coding += Math.floor(Math.random() * 10);
 //	}	
 
-	//销售人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '销售',
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#sellId').append(_html)
-				console.log(_data[i].usin_id+"+"+_data[i].usin_name)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
+    //销售人员
+	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+	    'role': '6',
+	    'companyId': companyID
+	}, function (data) {
+	    var _data = data.data;
+	    if (_data != null) {
+	        for (var i = 0; i < _data.length; i++) {
+	            var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	            $('#sellId').append(_html)
+	        }
+	    }
+	}, function (error) {
+	    console.log(parm)
 	}, 1000)
     //录单人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '录单',
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#luruId').append(_html)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
-	}, 1000)	
-	//客服人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '客服',
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#kefuId').append(_html)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
+	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+	    'role': '11',
+	    'companyId': companyID
+	}, function (data) {
+	    var _data = data.data;
+	    if (_data != null) {
+	        for (var i = 0; i < _data.length; i++) {
+	            var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	            $('#luruId').append(_html)
+	        }
+	    }
+	}, function (error) {
+	    console.log(parm)
 	}, 1000)
-	//操作人员
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=read', {
-	    'rolename': '操作',
-		'companyId': companyID
-	}, function(data) {
-		var _data = data.data;
-		if(_data!=null){
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
-				$('#caozuoId').append(_html)
-			}
-		}
-	}, function(error) {
-		console.log(parm)
-	}, 1000)	
+    //客服人员
+	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+	    'role': '7',
+	    'companyId': companyID
+	}, function (data) {
+	    var _data = data.data;
+	    if (_data != null) {
+	        for (var i = 0; i < _data.length; i++) {
+	            var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	            $('#kefuId').append(_html)
+	        }
+	    }
+	}, function (error) {
+	    console.log(parm)
+	}, 1000)
+    //操作人员
+	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
+	    'role': '8',
+	    'companyId': companyID
+	}, function (data) {
+	    var _data = data.data;
+	    if (_data != null) {
+	        for (var i = 0; i < _data.length; i++) {
+	            var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
+	            $('#caozuoId').append(_html)
+	        }
+	    }
+	}, function (error) {
+	    console.log(parm)
+	}, 1000)
 	
 	//获取委托人列表
 	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {

@@ -41,8 +41,10 @@ $(function(){
 	var bill2Type,bill2Shipper,bill2Consignee,bill2NotifyParty,alsoNotify2,billBeizhu2,bill2Beizhu2,packageNum2=0, weightNum2=0, volumeNum2=0, package2, weight2, volume2,vgmNum2=0, vgm2,allContainer2='',shippingTerm2,shippingFeeTerm2,payAddress2,signAddress2;
 	var bill3Type,bill3Shipper,bill3Consignee,bill3NotifyParty,alsoNotify3,billBeizhu3,bill2Beizhu3,packageNum3=0, weightNum3=0, volumeNum3=0, package3, weight3, volume3,vgmNum3=0, vgm3,allContainer3='',shippingTerm3,shippingFeeTerm3,payAddress3,signAddress3;
 	var bookingId,billId;
-	var _toCompany='',_feeItem='',_feeUnit='',_numUnit='';
-	
+	var _toCompany = '', _feeItem = '', _feeUnit = '', _numUnit = '';
+
+	var filesTable = GetFiles()
+
 	$("#weighingDate").val(getDate());
 
 	/**
@@ -89,6 +91,110 @@ $(function(){
 		return table;
 	}
 	
+
+    //文件列表
+	function GetFiles() {
+	    var table = $("#filesList").dataTable({
+	        //"iDisplayLength":10,
+	        "sAjaxSource": dataUrl + 'ajax/files.ashx?action=read&bookingId=' + Id,
+	        'bPaginate': false,
+	        "bInfo": false,
+	        //		"bDestory": true,
+	        //		"bRetrieve": true,
+	        "bFilter": false,
+	        "bSort": false,
+	        "aaSorting": [[0, "desc"]],
+	        //		"bProcessing": true,
+	        "aoColumns": [
+                {
+                    "mDataProp": "file_bookingId",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html(orderCode);
+                    }
+                },
+                { "mDataProp": "file_name" },
+                {
+                    "mDataProp": "file_addTime",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html(oData.file_addTime.substring(0, 10));
+                    }
+                },
+                { "mDataProp": "usin_name" },
+                {
+                    "mDataProp": "file_id",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        $(nTd).html("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            .append("<a href='" + dataUrl + "uppic/orderPic/" + oData.file_url + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                        //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                        //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                        //    .append("<a href='#'>发票</a>")
+
+                    }
+                },
+	        ]
+	    });
+	    return table;
+	}
+
+    /*新增文件*/
+	$('#send_file').on('click', function () {
+	    if ($('#filename').val() == "") {
+	        comModel("请填写文件名称！")
+	    } else if ($("#Pname").val() == "") {
+	        comModel("请选择上传的文件！")
+	    } else {
+	        var parm = {
+	            'bookingId': Id,
+	            'companyId': companyID,
+	            'userId': userID,
+	            'typeId': 1,
+	            'name': $('#filename').val(),
+	            "url": $("#Pname").val()
+	        }
+	        console.log(parm)
+	        common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
+	            if (data.State == 1) {
+	                comModel("新增成功")
+	                filesTable.fnReloadAjax(filesTable.fnSettings());
+	            } else {
+	                comModel("新增失败")
+	            }
+	        }, function (error) {
+	        }, 2000)
+	    }
+	});
+
+    // 选择图片  
+	$("#img").on("change", function () {
+	    var img = event.target.files[0];
+	    // 判断是否图片  
+	    if (!img) {
+	        return;
+	    }
+
+	    // 判断图片格式  
+	    if (!(img.type.indexOf('image') == 0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name))) {
+	        alert('图片只能是jpg,gif,png');
+	        return;
+	    }
+
+	    var reader = new FileReader();
+	    reader.readAsDataURL(img);
+
+	    reader.onload = function (e) { // reader onload start  
+	        // ajax 上传图片  
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
+	            if (ret.State == '100') {
+	                //alert(ret.Picurl);
+	                $('#showimg').attr('src', ret.Picurl);
+	                $('#Pname').val(ret.Pname);
+	                //$('#showimg').html('<img src="' + ret.Data + '">');
+	            } else {
+	                alert('上传失败');
+	            }
+	        }, 'json');
+	    } // reader onload end  
+	})
 	
 //	var coding = "";
 //	for(var i = 0; i < 8; i++) {
@@ -104,7 +210,15 @@ $(function(){
 		$('#sendbt1').addClass('none')
 		$('#sendbt2').addClass('none')
 		$('#sendcontainer').addClass('none')
+		$('#send_file').addClass('none')
 		$('#send1').removeClass('none')
+	})
+	$('.filetab').on('click', function () {
+	    $('#sendbt1').addClass('none')
+	    $('#sendbt2').addClass('none')
+	    $('#sendcontainer').addClass('none')
+	    $('#send1').addClass('none')
+	    $('#send_file').removeClass('none')
 	})
 	$('.followtab').on('click', function() {
 		$("#FOLLOWLIST").empty()
@@ -169,6 +283,7 @@ $(function(){
 		$('#sendbt1').addClass('none')
 		$('#sendbt2').addClass('none')
 		$('#send1').addClass('none')
+		$('#send_file').addClass('none')
 		$('#sendcontainer').removeClass('none')
 
 		// $('#selectSamevalueTooltip').tooltip('toggle')
@@ -187,6 +302,7 @@ $(function(){
 		$('#sendbt2').addClass('none')
 		$('#send1').addClass('none')
 		$('#sendcontainer').addClass('none')
+		$('#send_file').addClass('none')
 		$('.HBLNav').text('新增HBL订单信息')
 		
 		$("#billcontainer").add('none')
@@ -512,7 +628,7 @@ $(function(){
 	    escapeMarkup: function (markup) {
 	        return markup;
 	    }, // 自定义格式化防止xss注入
-	    minimumInputLength: 3,
+	    minimumInputLength: 1,
 	    formatResult: function formatRepo(repo) {
 	        return repo.text;
 	    }, // 函数用来渲染结果
@@ -975,7 +1091,7 @@ $(function(){
 		escapeMarkup: function(markup) {
 			return markup;
 		}, // 自定义格式化防止xss注入
-		minimumInputLength: 3,
+		minimumInputLength: 1,
 		formatResult: function formatRepo(repo) {
 			return repo.text;
 		}, // 函数用来渲染结果
@@ -1053,7 +1169,7 @@ $(function(){
 		escapeMarkup: function(markup) {
 			return markup;
 		}, // 自定义格式化防止xss注入
-		minimumInputLength: 3,
+		minimumInputLength: 1,
 		formatResult: function formatRepo(repo) {
 			return repo.text;
 		}, // 函数用来渲染结果
@@ -1362,8 +1478,15 @@ $(function(){
     $('#sendcontainer').click(function() {
     	if(!bookingId && action == 'add') {
     		comModel("请先保存MBL订单信息")
-    	}else{
-    		for(var i = 0; i < $('.containerList').length; i++) {
+    	} else {
+    	    var allPackageNum = 0, allWeightNum = 0, allVolumeNum = 0, allPackage, allWeight, allVolume
+    	    for (var i = 0; i < $('.containerList').length; i++) {
+    	        allPackageNum = parseInt(allPackageNum) + parseInt($('.containerList').eq(i).find('#packageNum0').val())
+    	        allWeightNum = parseInt(allWeightNum) + parseInt($('.containerList').eq(i).find('#weightNum0').val())
+    	        allVolumeNum = parseInt(allVolumeNum) + parseInt($('.containerList').eq(i).find('#volumeNum0').val())
+    	        allPackage = $('.containerList').eq(i).find('#package0').val()
+    	        allWeight = $('.containerList').eq(i).find('#weight0').val()
+    	        allVolume = $('.containerList').eq(i).find('#volume0').val()
     			var containerType = $('.containerList').eq(i).find('#containerType').val()
     			var number = $('.containerList').eq(i).find('#number').val()
     			var sealNumber = $('.containerList').eq(i).find('#sealNumber').val()
@@ -1392,6 +1515,9 @@ $(function(){
     		common.ajax_req('get', false, dataUrl, 'booking.ashx?action=modifycontainer', {
     			'bookingId': Id,
     			'containerData': containerData,
+    			'allPackageNum': allPackageNum + ' ' + allPackage,
+    			'allWeightNum': allWeightNum + ' ' + allWeight,
+    			'allVolumeNum': allVolumeNum + ' ' + allVolume,
     			'num': vgminfoNum,
     			'unit': vgminfoUnit,
     			'way': vgminfoWay,
@@ -1404,6 +1530,9 @@ $(function(){
     			if(data.State == 1) {
     				containerData = ''
     				$('#allContainer').val(data.Data)
+    				$('#packageNum').val(allPackageNum)
+    				$('#weightNum').val(allWeightNum)
+    				$('#volumeNum').val(allVolumeNum)
     				comModel("保存成功")
     			} else {
     				containerData = ''
@@ -1546,9 +1675,27 @@ $(function(){
     	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
     		"Id": Id
     	}, function(data) {
-    		console.log(data.Data)
+    	    console.log(data.Data)
     		//初始化信息
-    		var _data = data.Data
+    	    var _data = data.Data
+
+    	    //获取自定货名称
+    	    var forwarderName = ''
+    	    common.ajax_req('GET', false, dataUrl, 'crmcompany.ashx?action=readbyid', {
+    	        'Id': _data.book_forwarder
+    	    }, function (data) {
+    	        if (data.State == 1) {
+    	            var _data = data.Data;
+    	            forwarderName = _data.comp_name
+    	        }
+    	        else {
+
+    	        }
+
+    	    }, function (error) {
+    	        console.log(parm)
+    	    }, 1000)
+
     		stateId = _data.book_orderState
     		var stateList=$('#STATELIST li')
     		$.each(stateList,function(i,item){
@@ -1585,7 +1732,8 @@ $(function(){
 //  		$("#port2").val(_data.book_port2).trigger("change")
 //  		$("#port3").val(_data.book_port3).trigger("change")
     		$('#route').val(_data.book_route)
-    		$("#forwarder").val(_data.book_forwarder).trigger("change")
+    	    //$("#forwarder").val(_data.book_forwarder).trigger("change")
+    		$('#forwarder').html('<option value="' + _data.book_forwarder + '">' + forwarderName + '</option>').trigger("change")
     		//$("#carrier").val(_data.book_carrier).trigger("change")
     		$('#carrier').html('<option value="' + _data.book_carrier + '">' + _data.book_carrier + '</option>').trigger("change")
     		$('#fromAddress').val(_data.book_fromAddress)
