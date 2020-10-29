@@ -39,7 +39,7 @@ $(function(){
 
     //销售人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'role': '6',
+	    'rolename': '销售',
 	    'companyId': companyID
 	}, function (data) {
 	    var _data = data.data;
@@ -54,7 +54,7 @@ $(function(){
 	}, 1000)
     //录单人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'role': '11',
+	    'rolename': '录单',
 	    'companyId': companyID
 	}, function (data) {
 	    var _data = data.data;
@@ -69,7 +69,7 @@ $(function(){
 	}, 1000)
     //客服人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'role': '7',
+	    'rolename': '客服',
 	    'companyId': companyID
 	}, function (data) {
 	    var _data = data.data;
@@ -84,7 +84,7 @@ $(function(){
 	}, 1000)
     //操作人员
 	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=read', {
-	    'role': '8',
+	    'rolename': '操作',
 	    'companyId': companyID
 	}, function (data) {
 	    var _data = data.data;
@@ -169,7 +169,7 @@ $(function(){
 	//自定货
 	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
 		"companyId": companyID,
-		'type': 'LOCAL FORWARDER'
+		'isSupplier': '1'
 	}, function(data) {
 		//console.log(data)
 		var _data = data.data;
@@ -656,13 +656,13 @@ $(function(){
 	
 	//费用类型
 	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
-		'typeId': 17,
+		'typeId': 6,
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
 		for(var i = 0; i < _data.length; i++) {
 			var _html = '<option value="' + _data[i].puda_name_cn + '">' + _data[i].puda_name_cn + '</option>';
-			$('#feeType').append(_html)
+			$('#feeItem').append(_html)
 		}
 	}, function(error) {
 		console.log(parm)
@@ -1166,6 +1166,40 @@ $(function(){
 
 	});
 	
+	$('.feeAll').delegate('.newFee', 'click', function () {
+	    //$(this).addClass('none')
+	    //$(this).siblings('.removeContainer').removeClass('none')
+	    //var feeboxRow = '<div class="col-sm-12 feeList" id="addfee"><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:6%; float: left;"><option value="应收">应收</option><option value="应付">应付</option></select><select id="toCompany0" class="no-padding-left no-padding-right margin-right-5" style="width:15%;float: left;"><option value="请选择">请选择</option></select><select id="feeItem0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><select id="feeUnit0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:10%;float: left;"><input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:5%;float: left;"><select id="numUnit0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:10%;float: left;"><button type="submit" class="newFee btn btn-blue margin-right-5" style="width:3%;float: left;">+</button><button type="submit" class="removeFee btn btn-blue" style="width:3%;float: left;">-</button></div>'
+	    var feeboxRow = $('#feeAll_add').html()
+	    $('.feeAll').append(feeboxRow)
+	    //feeboxRow = feeboxRow.clone()
+
+	    //货代公司
+	    //console.log($('.feeList:last').find('#toCompany0').append(_toCompany))
+	    //$('.feeList:last').find('#toCompany0').append(_toCompany)
+	    //		
+	    //		//费用类型
+	    //$('.feeList:last').find('#feeItem').append(_feeItem)
+	    //		
+	    //		//币种
+	    //$('.feeList:last').find('#feeUnit').append(_feeUnit)
+	    //		
+	    //		//单位
+	   // $('.feeList:last').find('#numUnit').append(_numUnit)
+
+	    $(this).parents('.feeList').find("input").each(function () { ///当克隆到新的费用的时候，复制现在的数据过去的input, by daniel 20190730
+	        $('.feeList:last').find("input[id='" + ($(this).attr("id")) + "']").val($(this).val())
+	    })
+	    $(this).parents('.feeList').find("select").each(function () { ///当克隆到新的费用的时候，复制现在的数据过去的select, by daniel 20190730
+	        $('.feeList:last').find("select[id='" + ($(this).attr("id")) + "']").val($(this).val())
+	    })
+
+	})
+	$('.feeAll').delegate('.removeFee', 'click', function () {
+	    if ($('.removeFee').length > 1 && $(this).parents('.feeList').index() != 0) {
+	        $(this).parents('.feeList').remove()
+	    }
+	})
 	
 	/*下一步*/
 	$('#send1,#send2,#send3').on('click', function() {   

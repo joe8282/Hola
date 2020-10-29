@@ -70,7 +70,7 @@ $(function(){
 				}
 			}
 		}, function(error) {
-			console.log(parm)
+			//console.log(parm)
 		}, 1000);
 		$('#toCompany').val($(this).val());   /////加了这个功能，当选择货代公司的时候，应付费用也变成这个名称的了。by daniel 20190731
 	})

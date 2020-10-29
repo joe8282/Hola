@@ -56,7 +56,8 @@ $(document).ready(function() {
 		var _data = data.data;
 		for(var i = 0; i < _data.length; i++) {
 			var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
-			$('select[name="containerType"]').append(_html)
+		    //$('select[name="containerType"]').append(_html)
+			$('#containerType').append(_html)
 			_containerType=_containerType+_html
 
 		}
