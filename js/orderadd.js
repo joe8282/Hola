@@ -1768,6 +1768,8 @@ $(function(){
     		var volume0 = _data.book_volume.split(' ')
     		$('#volumeNum').val(volume0[0])
     		$('#volume').val(volume0[1]).trigger("change")
+    		$('#weightShow').val(_data.book_weightShow)
+    		$('#volumeShow').val(_data.book_volumeShow)
     		//$('#inputConsignee').val(_data.book_consignee)
     		$('#inputContractNo').val(_data.book_contractNo)
     		$("#warehouse").val(_data.book_warehouse).trigger("change")

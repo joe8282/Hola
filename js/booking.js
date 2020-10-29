@@ -72,22 +72,74 @@ $(document).ready(function() {
 	}, 1000)
 
 
- 	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
- 		"companyId": companyID,
- 		"comp_isSupplier": 1
- 	}, function(data) {
- 		var _data = data.data;
- 		$('#crmCarrierSupplier').empty();
- 				$('#crmCarrierSupplier').append('<option value="0">Select Company</option>')
- 		if(_data != null) {
- 			for(var i = 0; i < _data.length; i++) {
- 				var _html = '<option value="' + _data[i].comp_id + '" data-crmcompId="'+_data[i].comp_id+'">' + _data[i].comp_name + '</option>';
- 				$('#crmCarrierSupplier').append(_html)
- 			}
- 		}
- 	}, function(err) {
- 		console.log(err)
- 	}, 2000)
+ 	//common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
+ 	//	"companyId": companyID,
+ 	//	"comp_isSupplier": 1
+ 	//}, function(data) {
+ 	//	var _data = data.data;
+ 	//	$('#crmCarrierSupplier').empty();
+ 	//			$('#crmCarrierSupplier').append('<option value="0">Select Company</option>')
+ 	//	if(_data != null) {
+ 	//		for(var i = 0; i < _data.length; i++) {
+ 	//			var _html = '<option value="' + _data[i].comp_id + '" data-crmcompId="'+_data[i].comp_id+'">' + _data[i].comp_name + '</option>';
+ 	//			$('#crmCarrierSupplier').append(_html)
+ 	//		}
+ 	//	}
+ 	//}, function(err) {
+ 	//	console.log(err)
+ 	//}, 2000)
+
+    //
+	$("#crmCarrierSupplier").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/crmcompany.ashx?action=read&companyId=" + companyID + "&comp_isSupplier=1",
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["comp_id"],
+	                    "text": users[i]["comp_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    dropdownParent: $("#myModal2"),
+	    placeholder: '请选择', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 3,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
 
 	//承运人
 	$("#crmCarrier").select2({
@@ -124,6 +176,7 @@ $(document).ready(function() {
 				};
 			}
 		},
+		dropdownParent:$("#myModal2"),
 		placeholder: '请选择', //默认文字提示
 		language: "zh-CN",
 		tags: true, //允许手动添加
@@ -348,7 +401,7 @@ function initTable(fromId) {
         ]
     }else{
     	ajaxUrl=dataUrl+'ajax/booking.ashx?action=read&companyId='+companyID
-    	tableTitle='<th>销售</th><th>订单号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>订舱时间</th><th>离港时间</th><th>财务状况</th><th>状态</th><th>操作</th>'
+    	tableTitle = '<th>销售</th><th>订单号</th><th>订舱号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
     	columns = [
     		{
@@ -360,6 +413,12 @@ function initTable(fromId) {
     		{
     			"mDataProp": "book_orderCode"
     		},
+            {
+                "mDataProp": "book_code",
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    $(td).html(rowData.book_code.replace(" ", "<br/>"))
+                }
+            },
     		{
     			"mDataProp": "comp_name2"
     		},
@@ -412,12 +471,12 @@ function initTable(fromId) {
     				}
     			}
     		},
-    		{
-    			"mDataProp": "book_id",
-    			"createdCell": function(td, cellData, rowData, row, col) {
-    				$(td).html("NULL"); //这里是财务状况，还没有任何的数添加到这里来，到时候这里估计要体现从其他函数过来的数。
-    			}    			
-    		},    		
+    		//{
+    		//	"mDataProp": "book_id",
+    		//	"createdCell": function(td, cellData, rowData, row, col) {
+    		//		$(td).html("NULL"); //这里是财务状况，还没有任何的数添加到这里来，到时候这里估计要体现从其他函数过来的数。
+    		//	}    			
+    		//},    		
     		{
     			"mDataProp": "orderstate_name_cn"
     		},
@@ -499,7 +558,6 @@ function initTable(fromId) {
 	return table;
 }
 
-	
 	
 /**
  * 确认订舱
