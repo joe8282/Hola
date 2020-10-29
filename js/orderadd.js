@@ -43,7 +43,12 @@ $(function(){
 	var bookingId,billId;
 	var _toCompany = '', _feeItem = '', _feeUnit = '', _numUnit = '';
 
-	var filesTable = GetFiles()
+	var filesTable
+
+	if (Id) {
+	    filesTable = GetFiles()
+	}
+	
 
 	$("#weighingDate").val(getDate());
 
