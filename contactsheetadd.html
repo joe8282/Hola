@@ -556,48 +556,58 @@ Purchase: http://wrapbootstrap.com
                 		<div class="widget-body none" id="warehouselist">
                 			<div id="horizontal-form">
                 				<div class="form-horizontal" role="form">
-                					<div class="form-group">
-                						<div class="col-sm-2">
-                							<select id="warehouse" style="width:100%;">
-                								<option value="0">请选择仓储</option>
-                							</select>
-                						</div>
-                						<div class="col-sm-5">
-                							<input type="text" class="form-control input-xs" style="width: 60%; float: left;" id="warehouseAddress" placeholder="地址：">
-                							<input type="text" class="form-control input-xs" style="width: 20%; float: left;" id="warehouseContact" placeholder="联系人">
-                							<input type="text" class="form-control input-xs" style="width: 20%; float: left;" id="warehouseContactWay" placeholder="联系方式">
-                						</div>
-                						<div class="col-sm-1">
-                							<input type="text" class="form-control input-xs" id="warehouseInCode" placeholder="入仓号">
-                						</div>
-                						<!--label for="" class="col-sm-1 control-label no-padding-right">入仓时间  </label-->
-                						<div class="col-sm-2">
-                							<div class="input-group">
-                								<input class="form-control date-picker input-xs" id="warehouseInTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon input-xs">
-                							            <i class="fa fa-calendar"></i>
-                							    </span>
-                                                <input class="form-control date-picker input-xs" id="warehouseOutTime" type="text" data-date-format="yyyy-mm-dd">
-                							</div>
-                						</div>
-                						<div class="col-sm-1">
-                							<input type="text" class="form-control input-xs" id="warehouseOutCode" placeholder="出仓号">
-                						</div>
-                						<!--label for="" class="col-sm-1 control-label no-padding-right">出仓时间  </label>
-                						<div class="col-sm-2">
-                							<div class="input-group">
-                								<input class="form-control date-picker input-xs" id="warehouseOutTime" type="text" data-date-format="yyyy-mm-dd">
-                								<span class="input-group-addon input-xs">
-                							            <i class="fa fa-calendar"></i>
-                							    </span>
-                							</div>
-                						</div-->
-                					</div> 
-                					<div class="form-group">
-                						<div class="col-sm-11">
-                							<input type="text" class="form-control input-xs" id="warehouseBeizhu" placeholder="备注">
-                						</div>
-                					</div>                					
+                                    <div class="form-group"></div>
+                                    <div class="form-group">
+                                        <div class="col-sm-3">
+                                            <select id="warehouse" style="width:100%;">
+                                                <!--<option value="0">请选择仓储</option>-->
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="warehouseAddress" placeholder="地址：">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <select id="warehouseContact" style="width: 100%;">
+                                                <option value="0">选择联系人</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="form-control" id="warehouseContactWay" placeholder="联系方式">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">入仓号  </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="warehouseInCode" placeholder="">
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">入仓时间  </label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker" id="warehouseInTime" type="text" data-date-format="yyyy-mm-dd">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">出仓号  </label>
+                                        <div class="col-sm-2">
+                                            <input type="text" class="form-control" id="warehouseOutCode" placeholder="">
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">出仓时间  </label>
+                                        <div class="col-sm-2">
+                                            <div class="input-group">
+                                                <input class="form-control date-picker" id="warehouseOutTime" type="text" data-date-format="yyyy-mm-dd">
+                                                <span class="input-group-addon">
+                                                    <i class="fa fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <input type="text" class="form-control" id="warehouseBeizhu" placeholder="备注">
+                                        </div>
+                                    </div>               					
                 				</div>
                 			</div>
                 		</div>

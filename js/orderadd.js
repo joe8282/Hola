@@ -643,21 +643,100 @@ $(function(){
 	});
 	
 	//仓储代理
-	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
-		"companyId": companyID,
-		'type': 'WAREHOUSE AGENT'
-	}, function(data) {
-		//console.log(data)
-		var _data = data.data;
-		if(_data != null) {
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name  + '</option>';
-				$('#warehouse').append(_html)
-			}
-		}	
-	}, function(err) {
-		console.log(err)
-	}, 2000)
+	//common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
+	//	"companyId": companyID,
+	//	'type': 'WAREHOUSE AGENT'
+	//}, function(data) {
+	//	console.log(data)
+	//	var _data = data.data;
+	//	if(_data != null) {
+	//		for(var i = 0; i < _data.length; i++) {
+	//			var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name  + '</option>';
+	//			$('#warehouse').append(_html)
+	//		}
+	//	}	
+	//}, function(err) {
+	//	console.log(err)
+    //}, 2000)
+	$("#warehouse").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/crmcompany.ashx?action=readbytype&type=WAREHOUSE AGENT&companyId=" + companyID,
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["comp_id"],
+	                    "text": users[i]["comp_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    placeholder: '请选择仓储', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 1,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
+	$("#warehouse").change(function () {
+	    var companyId_Contact = $("#warehouse").val();
+	    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+	        "Id": companyId_Contact
+	    }, function (data) {
+	        var _data = data.Data;
+	        $("#warehouseAddress").val(_data.comp_address);
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+	    common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+	        "companyId": companyId_Contact
+	    }, function (data) {
+	        var _data = data.data;
+	        $('#warehouseContact').empty();
+	        $('#warehouseContact').append('<option value="0">选择联系人</option>')
+	        if (_data != null) {
+	            for (var i = 0; i < _data.length; i++) {
+	                var _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	                $('#warehouseContact').append(_html)
+	            }
+	        }
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+	})
+
+	$("#warehouseContact").change(function () {
+	    $("#warehouseContactWay").val($("#warehouseContact").find("option:selected").attr("data-carrierContactEmail"));
+	})
 	
 	//陆运代理
 	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
