@@ -82,6 +82,13 @@ function GetDetail()
 			if(_data.comp_org){$('.companyOrg').text("Member of "+_data.comp_org+"; ")}
 			$('.companyUpdateTime').text(_data.comp_updateTime.substring(0, 19).replace('T',' '))
 			$('.companyRemark').text(_data.comp_remark)
+			var _badgesArr = new Array();
+			_badgesArr=_data.comp_badges.split(",");
+			for(var z=0;z<_badgesArr.length;z++){
+				var appendBadges='<span class="label label-success">'+_badgesArr[z]+'</span> '
+				$('.companyBadges').append(appendBadges)
+			}
+			
 		//$('.adRemark1').html(HtmlDecode(_data.prin_beizhu))	
 			oBill = GetBill(); //这里获取提单的信息，要不然会出现userCompanyId获取不到
 			getOrderSum();

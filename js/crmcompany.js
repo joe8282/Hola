@@ -91,7 +91,11 @@ function initTable() {
 				}
 			},
 			{ "mDataProp": "comp_contactPhone" },
-			{ "mDataProp": "comp_contactEmail" },
+			{ "mDataProp": "comp_contactEmail" ,
+				"createdCell": function (td, cellData, rowData, row, col) {
+					$(td).html('<a href="mailto:'+rowData.comp_contactEmail+'">'+rowData.comp_contactEmail+'<a>');
+				}	
+			},
 			{ "mDataProp": "comp_country" },  //去掉供应商，变成国家，但是没有显示数据，不知道是否没有数据。20190815 by daniel
 			// {
 			// 	"mDataProp": "comp_isSupplier",

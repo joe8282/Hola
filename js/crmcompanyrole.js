@@ -90,8 +90,29 @@ function initTable() {
 					$(td).html(_checkboxValues);
 				}
 			},
-			{ "mDataProp": "comp_contactPhone" },
-			{ "mDataProp": "comp_contactEmail" },
+			//{ "mDataProp": "comp_badges",
+/**			{ "mDataProp": "comp_type",
+				"createdCell": function (td, cellData, rowData, row, col) {
+					var _badgesArr = new Array();
+					_badgesArr=cellData.split(",");
+					for(var z=0;z<_badgesArr.length;z++){
+						var appendBadges='<span class="label label-success">'+_badgesArr[z]+'</span> '
+						appendBadges=appendBadges+appendBadges;
+					}
+					$(td).html(appendBadges);
+				}
+			},
+**/
+			{ "mDataProp": "comp_contactPhone" ,
+				"createdCell": function (td, cellData, rowData, row, col) {
+					$(td).html(rowData.comp_contactPhone);
+				}	
+			},
+			{ "mDataProp": "comp_contactEmail" ,
+				"createdCell": function (td, cellData, rowData, row, col) {
+					$(td).html('<a href="mailto:'+rowData.comp_contactEmail+'">'+rowData.comp_contactEmail+'<a>');
+				}	
+			},
 			{ "mDataProp": "comp_country" },  //去掉供应商，变成国家，但是没有显示数据，不知道是否没有数据。20190815 by daniel
 			// {
 			// 	"mDataProp": "comp_isSupplier",

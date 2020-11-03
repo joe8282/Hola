@@ -114,7 +114,7 @@ var en1 = {
             "nav_2" : "Crm Home", 
             "nav_2_1": "Customer Add",
             "nav_2_2": "My Customer",
-            "nav_2_3": "Company Customer",
+            "nav_2_3": "Company Customers",
             "nav_2_4": "Customer Group",
             "nav_3" : "SHIPMENTS MANAGEMENT", 
             "nav_3_1" : "Booking List",
