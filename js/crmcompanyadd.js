@@ -33,7 +33,7 @@ $(function(){
 	
 	var action = GetQueryString('action');	
 	var Id = GetQueryString('Id');
-	var sellId, CompanyName, CompanyCode, CompanyContent, CompanyIsSupplier, CompanyType, CompanyAddress,
+	var sellId, CompanyName, CompanyCode, CompanyName, CompanyBadges='', CompanyIsSupplier, CompanyType, CompanyAddress,
 		CompanyCountry, CompanyTel, CompanyFax, CompanyWeb, CompanyOrg, CompanyRemark, ContactName,
 		ContactPosition, ContactEmailFax, ContactSkype, ContactPhone, ContactWhatsapp, ContactFacebook,
 		ContactLinkined, ContactQq;
@@ -94,6 +94,13 @@ $(function(){
 					    	$(this).attr("checked","checked");
 					    }
 				    })
+			    }
+			    if (_data.comp_badges != '') {
+			        CompanyBadges = _data.comp_badges
+			        var _badges = _data.comp_badges.split(',')
+			        for (var i = 0; i < _badges.length; i++) {
+			            $('#Badges').append('<span class="label label-success" style="margin-right: 5px; ">' + _badges[i] + '</span> ');
+			        }
 			    }
 				//$("input[name='radio2'][value='" + _data.comp_type + "']").attr("checked", true),
 				$('#inputCompanyAddress').val(_data.comp_address),
@@ -174,6 +181,7 @@ $(function(){
 					'adminId': sellId,
 					'name': CompanyName,
 					'code': CompanyCode,
+					'badges': CompanyBadges,
 					'content': CompanyContent,
 					'isSupplier': CompanyIsSupplier,
 					'type': CompanyType,
@@ -236,6 +244,7 @@ $(function(){
 					'adminId': sellId,
 					'name': CompanyName,
 					'code': CompanyCode,
+					'badges': CompanyBadges,
 					'content': CompanyContent,
 					'isSupplier': CompanyIsSupplier,
 					'type': CompanyType,
@@ -264,6 +273,15 @@ $(function(){
 			}
 		}
 	});
+
+	$('.newBadges').on('click', function () {
+	    var text = $('#inputBadges').val();
+	    if (text != '') {
+	        CompanyBadges = CompanyBadges + text + ','
+	    }
+	    $('#inputBadges').val('')
+	    $('#Badges').append('<span class="label label-success" style="margin-right: 5px; ">' + text + '</span> ');
+	})
 
 
 	$('#send0').on('click', function() {
