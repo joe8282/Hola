@@ -42,6 +42,7 @@ $(function(){
 	var bill3Type,bill3Shipper,bill3Consignee,bill3NotifyParty,alsoNotify3,billBeizhu3,bill2Beizhu3,packageNum3=0, weightNum3=0, volumeNum3=0, package3, weight3, volume3,vgmNum3=0, vgm3,allContainer3='',shippingTerm3,shippingFeeTerm3,payAddress3,signAddress3;
 	var bookingId,billId;
 	var _toCompany = '', _feeItem = '', _feeUnit = '', _numUnit = '';
+	var isLock = 0;
 
 	var filesTable
 
@@ -1494,6 +1495,13 @@ $(function(){
     		$("#vgminfolist").addClass('none')
     	}
     })
+
+    $('#isLock').on('click', function () {
+        if ($("#isLock").is(":checked")) {
+            isLock = 1;
+        }
+        else { isLock = 0; }
+    })
     
     //集装箱处理
     // var boxRow = $('.containerList').clone()
@@ -1906,6 +1914,8 @@ $(function(){
     		$("#shippingFeeTerm").val(_data.book_shippingFeeTerm).trigger("change")
     		$('#payAddress').val(_data.book_payAddress)
     		$('#signAddress').val(_data.book_signAddress)
+    		if (_data.book_locked == 1) { $("#isLock").attr("checked", true) }
+    		
     	}, function(err) {
     		console.log(err)
     	}, 1000)
@@ -2736,7 +2746,8 @@ $(function(){
 					'carrier': carrier,
 					//'consignee': consignee,
 					'contractNo': contractNo,
-					'supplierData': supplierData
+					'supplierData': supplierData,
+				    'locked':isLock
 				}
 				console.log(parm)
 				common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=new', parm, function(data) {
@@ -2837,6 +2848,7 @@ $(function(){
 					'carrier': carrier,
 					'contractNo': contractNo,
 					'supplierData': supplierData,
+					'locked': isLock
 					//'allContainer': allContainer,
 					//'consignee': consignee
 				}
