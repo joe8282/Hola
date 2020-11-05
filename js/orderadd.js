@@ -1502,6 +1502,8 @@ $(function(){
         }
         else { isLock = 0; }
     })
+
+
     
     //集装箱处理
     // var boxRow = $('.containerList').clone()
@@ -2968,6 +2970,19 @@ function _sureCheckFun(id) {
 				}
 			});
 }
+
+//同步显示重量体积
+function getWeight() {
+    var weightNum = $('#weightNum').val();
+    var weight = $('#weight').val();
+    $('#weightShow').val(weightNum + ' ' + weight)
+}
+function getVolume() {
+    var volumeNum = $('#volumeNum').val();
+    var volume = $('#volume').val();
+    $('#volumeShow').val(volumeNum + ' ' + volume)
+}
+
 
 /*
 	add this plug in

@@ -445,8 +445,8 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">重量</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="weightNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                                                        <select id="weight" style="width:55%;">
+                                                        <input type="text" class="form-control" id="weightNum" placeholder="0.00" onkeyup="getWeight()" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="weight" onchange="getWeight()" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
                                                     </div>
@@ -454,8 +454,8 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">体积</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="volumeNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                                                        <select id="volume" style="width:55%;">
+                                                        <input type="text" class="form-control" id="volumeNum" placeholder="0.00" onkeyup="getVolume()" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="volume" onchange="getVolume()" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
                                                     </div>
