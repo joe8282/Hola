@@ -75,7 +75,8 @@ function initTable() {
 
                         var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='crmcompanygroupadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
                         +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
-                        +"<ul class='dropdown-menu dropdown-azure'>"
+                        + "<ul class='dropdown-menu dropdown-azure'>"
+                        + "<li><a href='crmcompanygroupdetail.html?Id=" + cellData + "'>" + get_lan('detail') + "</a></li>"
                         +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
                         +"</ul></div>"                        
 
