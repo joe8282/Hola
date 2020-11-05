@@ -515,7 +515,7 @@ function initTable(fromId) {
         "aaSorting": aaaSorting,
         "aoColumnDefs": aaaColumDefs,
 //		"bSort": true,
-//		"aaSorting": [[ 9, "desc" ]],
+		"aaSorting": [[ 5, "desc" ]],
 //		"bProcessing": true,
 		initComplete: function(settings) {
         	$('#example').colResizable({headerOnly:true,liveDrag:true, fixed:true, postbackSafe:true, resizeMode:flex});
