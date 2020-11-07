@@ -1122,6 +1122,7 @@ $(function(){
 					'userId': userID,
 					'adminId': userID,
 					'name': companyName,
+					'code': '',
 					'isSupplier': 1,
 					'type': 'FACTORY',
 					'contactName': contact,

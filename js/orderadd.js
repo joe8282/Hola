@@ -740,21 +740,100 @@ $(function(){
 	})
 	
 	//陆运代理
-	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
-		"companyId": companyID,
-		'type': 'LAND TRANSPORTATION AGENT'
-	}, function(data) {
-		//console.log(data)
-		var _data = data.data;
-		if(_data != null) {
-			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name  + '</option>';
-				$('#trailer').append(_html)
-			}
-		}	
-	}, function(err) {
-		console.log(err)
-	}, 2000)		
+	//common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
+	//	"companyId": companyID,
+	//	'type': 'LAND TRANSPORTATION AGENT'
+	//}, function(data) {
+	//	//console.log(data)
+	//	var _data = data.data;
+	//	if(_data != null) {
+	//		for(var i = 0; i < _data.length; i++) {
+	//			var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name  + '</option>';
+	//			$('#trailer').append(_html)
+	//		}
+	//	}	
+	//}, function(err) {
+	//	console.log(err)
+    //}, 2000)
+	$("#trailer").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/crmcompany.ashx?action=readbytype&type=LAND TRANSPORTATION AGENT&companyId=" + companyID,
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["comp_id"],
+	                    "text": users[i]["comp_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    placeholder: '请选择车行', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 1,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
+	$("#trailer").change(function () {
+	    var companyId_Contact = $("#trailer").val();
+	    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+	        "Id": companyId_Contact
+	    }, function (data) {
+	        var _data = data.Data;
+	        $("#trailerAddress").val(_data.comp_address);
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+	    common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+	        "companyId": companyId_Contact
+	    }, function (data) {
+	        var _data = data.data;
+	        $('#trailerContact').empty();
+	        $('#trailerContact').append('<option value="0">选择联系人</option>')
+	        if (_data != null) {
+	            for (var i = 0; i < _data.length; i++) {
+	                var _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + "|" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	                $('#trailerContact').append(_html)
+	            }
+	        }
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+	})
+
+	$("#trailerContact").change(function () {
+	    $("#trailerContactWay").val($("#trailerContact").find("option:selected").attr("data-carrierContactEmail"));
+	})
 
 	function _selectBill(crmId){
 		//SHIPPER
@@ -2098,8 +2177,9 @@ $(function(){
     		if(data.State == 1) {
     			var _data = data.Data;
     			for(var i = 0; i < _data.length; i++) {
-    				var trailerlist='<div style="margin: 5px 0px;">'+_data[i].comp_name+'&nbsp;&nbsp;&nbsp;&nbsp;地址：'+_data[i].botr_address+'&nbsp;&nbsp;&nbsp;&nbsp;联系人：'+_data[i].botr_contact+'&nbsp;&nbsp;&nbsp;&nbsp;联系方式：'+_data[i].botr_contactWay+'&nbsp;&nbsp;&nbsp;&nbsp;时间：'+_data[i].botr_time+'&nbsp;&nbsp;&nbsp;&nbsp;柜型：'+_data[i].botr_container+'&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a></div>'
-    				$("#trailerAll").append(trailerlist)
+    			    //var trailerlist = '<div style="margin: 5px 0px;">' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;地址：' + _data[i].botr_address + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].botr_contact + '&nbsp;&nbsp;&nbsp;&nbsp;联系方式：' + _data[i].botr_contactWay + '&nbsp;&nbsp;&nbsp;&nbsp;时间：' + _data[i].botr_time + '&nbsp;&nbsp;&nbsp;&nbsp;柜型：' + _data[i].botr_container + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a></div>'
+    			    var trailerlist = '<tr class="margin-left-20 margin-right-20"><td> ' + _data[i].comp_name + '</td><td>联系人：' + _data[i].botr_contact + '</td><td>联系方式：' + _data[i].botr_contactWay + '</td><td>地址：' + _data[i].botr_address + '</td><td>时间：' + _data[i].botr_time.substring(0, 10) + '</td><td>柜型：' + _data[i].botr_container + '</td><td>备注：' + _data[i].botr_remark + '</td><td><a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a></td></tr>'
+    				$(".trailerAll").append(trailerlist)
     			}
     			$('#addTrailer').text("继续添加")
     		}
@@ -2185,6 +2265,7 @@ $(function(){
 					'userId': userID,
 					'adminId': userID,
 					'name': companyName,
+					'code': '',
 					'isSupplier': 1,
 					'type': 'FACTORY',
 					'contactName': contact,
@@ -2217,33 +2298,36 @@ $(function(){
 			var trailerTime = $('#trailerTime').val()
 			var trailerNumUnit = $('#trailerNumUnit').val()
 			var trailerNum = $('#trailerNum').val()
-			var newNumUnit = trailerNum+'*'+trailerNumUnit
+			var newNumUnit = trailerNum + '*' + trailerNumUnit
+			var trailerRemark = $('#trailerRemark').val()
 			if(!trailer){
 				comModel("请选择车行")
 			}else if(!trailerAddress){
 				comModel("请输入地址")
 			}else{
-				var trailerlist='<div style="margin: 5px 0px;">'+trailerName+'&nbsp;&nbsp;&nbsp;&nbsp;地址：'+trailerAddress+'&nbsp;&nbsp;&nbsp;&nbsp;联系人：'+trailerContact+'&nbsp;&nbsp;&nbsp;&nbsp;联系方式：'+trailerContactWay+'&nbsp;&nbsp;&nbsp;&nbsp;时间：'+trailerTime+'&nbsp;&nbsp;&nbsp;&nbsp;柜型：'+newNumUnit+'&nbsp;&nbsp;&nbsp;&nbsp;<a class="deletetrailer">删除</a></div>'
-				$("#trailerAll").append(trailerlist)
+			    //var trailerlist = '<div style="margin: 5px 0px;">' + trailerName + '&nbsp;&nbsp;&nbsp;&nbsp;地址：' + trailerAddress + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + trailerContact + '&nbsp;&nbsp;&nbsp;&nbsp;联系方式：' + trailerContactWay + '&nbsp;&nbsp;&nbsp;&nbsp;时间：' + trailerTime + '&nbsp;&nbsp;&nbsp;&nbsp;柜型：' + newNumUnit + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deletetrailer">删除</a></div>'
+			    var trailerlist = '<tr><td> ' + trailerName + '</td><td>联系人：' + trailerContact + '</td><td>联系方式：' + trailerContactWay + '</td><td>地址：' + trailerAddress + '</td><td>时间：' + trailerTime + '</td><td>柜型：' + newNumUnit + '</td><td>备注：' + trailerRemark + '</td><td><a class="deletetrailer">删除</a></td></tr>'
+				$(".trailerAll").append(trailerlist)
 				$('#addTrailer').text("继续添加")
-				trailerData=trailerData+trailer+','+trailerAddress+','+trailerContact+','+trailerContactWay+','+trailerTime+','+newNumUnit+';'
+				trailerData = trailerData + trailer + ',' + trailerAddress + ',' + trailerContact + ',' + trailerContactWay + ',' + trailerTime + ',' + newNumUnit + ',' + trailerRemark + ';'
 				//console.log(trailerData)
 				if(action == 'modify'){
-					common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfee', {
+				    common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newtrailer', {
 						'bookingId':Id,
 						'crmId':trailer,
 						'address':trailerAddress,
 						'contact':trailerContact,
 						'contactWay':trailerContactWay,
 						'time':trailerTime,
-						'container':newNumUnit
+						'container': newNumUnit,
+						'remark': trailerRemark
 					}, function(data) {
 						if(data.State == 1) {
 							//console.log(parm)
-							//comModel("新增费用成功")
+						    comModel("新增拖车成功")
 					
 						} else {
-							comModel("新增费用失败")
+							comModel("新增拖车失败")
 						}
 					}, function(error) {
 						console.log(parm)
@@ -2253,7 +2337,8 @@ $(function(){
 		
 			/*删除*/
 			$('.deletetrailer').on('click', function() {
-				$(this).parent('div').remove()
+			    $(this).parents('tr').remove()
+			    console.log(trailerData)
 			})
 
 	});

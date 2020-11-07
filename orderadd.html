@@ -667,44 +667,46 @@ Purchase: http://wrapbootstrap.com
                                         </div>
                                     </div>
                                     <div class="widget-header">
-                                        <span class="widget-caption"><input type="checkbox" class="inverted" id="istrailer"> 添加拖车报关信息</span>
+                                        <span class="widget-caption"><input type="checkbox" class="inverted" id="istrailer"> 添加拖车信息</span>
                                     </div>
                                     <div class="form-horizontal none" role="form" id="trailerlist" style="margin:10px 0 20px 0;">
                                         <div class="form-group"></div>
+                                        <table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer" style="margin: 10px;"></table>
+                                        <hr class="wide">
                                         <div class="form-group">
-                                            <div class="col-sm-2">
-                                                <select id="trailer" style="width:100%;">
-                                                    <option value="0">请选择车行</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-5">
-                                                <input type="text" class="form-control" style="width: 40%; float: left;" id="trailerAddress" placeholder="地址：">
-                                                <input type="text" class="form-control" style="width: 30%; float: left;" id="trailerContact" placeholder="联系人：">
-                                                <input type="text" class="form-control" style="width: 30%;" id="trailerContactWay" placeholder="联系方式：">
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <div class="input-group">
+                                            <div class="col-sm-12">
+                                                <div style="width: 10%; float: left; margin-right: 1%;">
+                                                    <select id="trailer" style="width: 100%;">
+                                                        <!--<option value="0">请选择车行</option>-->
+                                                    </select>
+                                                </div>
+                                                <input type="text" class="form-control" style="width: 15%; float: left; margin-left: 1%;" id="trailerAddress" placeholder="地址："> 
+                                                <!--<input type="text" class="form-control" style="width: 30%; float: left;" id="trailerContact" placeholder="联系人：">-->
+                                                <select id="trailerContact" style="width: 10%; float: left; margin-right: 1%; ">
+                                                    <option value="0">选择联系人</option>
+                                                </select> 
+                                                <input type="text" class="form-control" style="width: 15%; float: left; margin-right: 1%; " id="trailerContactWay" placeholder="联系方式：">
+                                                <div class="input-group" style="width: 12%; float: left; margin-right: 1%; ">
                                                     <input class="form-control date-picker" id="trailerTime" type="text" data-date-format="yyyy-mm-dd">
                                                     <span class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </span>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control" style="width: 40%; float: left;" id="trailerNum" placeholder="0">
-                                                <select id="trailerNumUnit" class="form-control" style="width: 60%; float: left; padding: 0 5px;">
-                                                    <!--<option value=""></option>-->
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <button type="submit" id="addTrailer" class="btn btn-sm">添加</button>
+                                                <div style="width: 10%; float: left; margin-right: 1%; ">
+                                                    <input type="text" class="form-control" style="width: 40%; float: left;" id="trailerNum" placeholder="0">
+                                                    <select id="trailerNumUnit" class="form-control" style="width: 60%; float: left; padding: 0 5px;">
+                                                        <!--<option value=""></option>-->
+                                                    </select>
+                                                </div>
+                                                <input type="text" class="form-control" style="width: 15%; float: left; margin-right: 1%; " id="trailerRemark" placeholder="备注"> 
+                                                <button style="width: 5%; float: left;" type="submit" id="addTrailer" class="btn btn-sm">添加</button>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <!--<div class="form-group">
                                             <div class="col-sm-12" id="trailerAll">
-                                                <!--<div style="margin: 5px 0px;">海运费：1000*2(20GP)=USA2000&nbsp;&nbsp;&nbsp;&nbsp;<a Id='deleteFee'>删除</a></div>-->
+                                                <div style="margin: 5px 0px;">海运费：1000*2(20GP)=USA2000&nbsp;&nbsp;&nbsp;&nbsp;<a Id='deleteFee'>删除</a></div>
                                             </div>
-                                        </div>
+                                        </div>-->
                                     </div>
 
                                 </div>
