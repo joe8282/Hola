@@ -39,10 +39,6 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/skins.min.js"></script>
 
     <style>
-        .widget {
-            margin-bottom: 10px;
-        }
-
         #yingshouyingfu {
             overflow: auto;
             padding-bottom: 20px;
@@ -1477,7 +1473,10 @@ Purchase: http://wrapbootstrap.com
             minimumInputLength: 2
         });
         //--Bootstrap Date Picker--
-        $('.date-picker').datepicker();
+        $('.date-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
 
         $('#okTrailerTime').datepicker(
         	{ onSelect: gotoDate }

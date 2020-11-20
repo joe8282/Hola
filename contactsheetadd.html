@@ -40,11 +40,57 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/skins.min.js"></script>
     
 	<style>
-		.widget{margin-bottom: 10px;}
+        /*.widget{margin-bottom: 10px;}
         .select2-container{float: left; margin-right: 10px; }
         .select2-container--default .select2-selection--single{border-radius: 0px; height: 24px;border: 1px solid #ccc; font-size: 11px; padding: 0;}
         select{height: 24px; line-height: 24px; font-size: 11px; padding: 0;}
-        label{height: 24px; }
+        label{height: 24px; }*/
+
+        .select2-container {
+            margin-right: 10px;
+        }
+
+        .select2-container--default .select2-selection--single {
+            border-radius: 0px;
+            height: 24px;
+            line-height: 24px;
+            border: 1px solid #ccc;
+        }
+
+        #select2-crmuser-container {
+            height: 24px;
+            line-height: 24px;
+        }
+
+        .form-control {
+            border-radius: 0px;
+            height: 24px;
+            border: 1px solid #ccc;
+        }
+
+        select {
+            border-radius: 0px;
+            height: 24px;
+            border: 1px solid #ccc;
+            padding: 0;
+        }
+
+        .widget {
+            margin-bottom: 10px;
+        }
+
+        label {
+            text-align: right;
+        }
+
+        .input-group-addon {
+            height: 24px;
+            padding: 0 10px;
+        }
+
+        .form-group {
+            margin-bottom: 5px;
+        }
 	</style>    
 </head>
 <!-- /Head -->
@@ -151,64 +197,51 @@ Purchase: http://wrapbootstrap.com
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->   
-                <div class="alert alert-warning fade in">
-                    <button class="close" data-dismiss="alert">
-                        ×
-                    </button>
-                    <i class="fa-fw fa fa-warning"></i>
-                    <strong>Warning</strong> 
-                    <p>1，添加拖车报关信息，添加仓库信息，费用信息三个功能还不能使用</p>
-                    <p>2，当未选择客人的时候，以上三大功能应该不能使用才对。——已解决</p>
-                </div>    
                 <!-- Page Header -->
-                <div class="page-header position-relative" style="padding-top: 5px;">
-                    <div class="header-title col-sm-8" style="padding-top: 3px;">
-                        <div id="crm">
-                            <div>
-                                <div id="horizontal-form">
-                                    <div class="form-horizontal" role="form">
-                                        <div class="form-group">
-                                            <label class="col-sm-1 control-label">委托人</label>
-                                            <div class="col-sm-3">
-                                                <select id="crmuser" style="width:100%;">
-                                                    <option value="">选择委托人</option>
-                                                </select>
-                                            </div>
-                                            <label for="" class="col-sm-1 control-label">联系人</label>
-                                            <div class="col-sm-2">
-                                                <select id="crmcontact" style="width:100%;">
-                                                    <option value="0">选择联系人</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-sm-1">
-                                                <select id="incoterm">
-                                                    <!--<option value=""></option>-->
-                                                </select>
-                                            </div>
-                                            <label for="" class="col-sm-1 control-label">参考号</label>
-                                            <div class="col-sm-2">
-                                                <input type="text" class="form-control input-xs" id="outCode">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="page-header position-relative" style="height: auto;">
+                    <div class="header-title" style="width: 100%; height: auto;">
+                        <div id="crm" class="form-horizontal" role="form" style="padding-right: 10px;">
+                            <div style="width: 220px; display: inline-block;padding:5px 0;">
+                                <span class="control-label">委托人</span>
+                                <select id="crmuser" style="width:160px; font-size: 14px;">
+                                    <option value=""></option>
+                                </select>
                             </div>
+                            <div style="width: 220px; display: inline-block;padding:5px 0;">
+                                <span class="control-label">联系人</span>
+                                <select id="crmcontact" style="width:160px; font-size: 14px;">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                            <div style="width:150px; display: inline-block; padding:5px 0;">
+                                <span class="control-label">贸易条款</span>
+                                <select id="incoterm" style="width: 80px; display: inline-block;">
+                                    <!--<option value=""></option>-->
+                                </select>
+                            </div>
+                            <div style="width:170px; display: inline-block; padding:5px 0;">
+                                <span class="control-label">参考号码</span>
+                                <input type="text" class="form-control" id="outCode" style="width: 100px; display: inline-block;">
+                            </div>
+
+                            <div style="width: 480px; display: inline-block; padding: 5px; float: right; text-align: right;">
+                                <select id="sellId">
+                                    <option value="0">请选择销售人员</option>
+                                </select>
+                                <select id="luruId">
+                                    <option value="0">请选择录单人员</option>
+                                </select>
+                                <select id="kefuId">
+                                    <option value="0">请选择客服人员</option>
+                                </select>
+                                <select id="caozuoId">
+                                    <option value="0">请选择操作人员</option>
+                                </select>
+                            </div>
+
                         </div>
                     </div>
-                    <div class="col-sm-4" style="text-align: right;">                   
-	                    <select id="sellId" style="height: 30px;">
-	                    	<option value="0">请选择销售人员</option>
-	                    </select>
-	                    <select id="luruId" style="height: 30px;">
-	                    	<option value="0">请选择录单人员</option>
-	                    </select>
-	                    <select id="kefuId" style="height: 30px;">
-	                    	<option value="0">请选择客服人员</option>
-	                    </select>
-	                    <select id="caozuoId" style="height: 30px;">
-	                    	<option value="0">请选择操作人员</option>
-	                    </select>	                    
-                    </div>
+
                 </div>
                 <!-- /Page Header -->                
                 <!-- Page Body -->
@@ -355,7 +388,7 @@ Purchase: http://wrapbootstrap.com
                 						<label for="" class="col-sm-1 control-label no-padding-right">自定货  <sup>*</sup></label>
                 						<div class="col-sm-2">
                 							<select id="forwarder" style="width:100%;">
-                								<option value="0">请选择自定货</option>
+                								<!--<option value="0">请选择自定货</option>-->
                 							</select>
                 						</div>  
                 						</div>
@@ -402,12 +435,12 @@ Purchase: http://wrapbootstrap.com
                                         </div>   						
                 					</div>
                 					<div class="form-group">
-                						<label for="" class="col-sm-1 control-label no-padding-right">目的港  <sup>*</sup></label>
-                						<div class="col-sm-2">
-                							<select id="port2" style="width:100%;">
-                								<option value=""></option>
-                							</select>             							
-                						</div>
+                                        <label for="" class="col-sm-1 control-label no-padding-right">卸货港  <sup>*</sup></label>
+                                        <div class="col-sm-2">
+                                            <select id="port3" style="width:100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
                 						<label for="" class="col-sm-1 control-label no-padding-right">送货地  <sup>*</sup></label>
                 						<div class="col-sm-2">
                 							<input type="text" class="form-control input-xs" id="toAddress" placeholder="送货地">
@@ -430,12 +463,12 @@ Purchase: http://wrapbootstrap.com
                                         </div>						
                 					</div>
                 					<div class="form-group" id="carrier4">
-                						<label for="" class="col-sm-1 control-label no-padding-right">卸货港  <sup>*</sup></label>
-                						<div class="col-sm-2">
-                							<select id="port3" style="width:100%;">
-                								<option value=""></option>
-                							</select>             							
-                						</div>
+                                        <label for="" class="col-sm-1 control-label no-padding-right">目的港  <sup>*</sup></label>
+                                        <div class="col-sm-2">
+                                            <select id="port2" style="width:100%;">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
                 						<label for="" class="col-sm-1 control-label no-padding-right">航线编码  </label>
                 						<div class="col-sm-2">
                 							<input type="text" class="form-control input-xs" id="route" placeholder="航线编码">
@@ -783,8 +816,12 @@ Purchase: http://wrapbootstrap.com
             minimumInputLength: 2
         });  
         //--Bootstrap Date Picker--
-        $('.date-picker').datepicker(
-        );
+        $('.date-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
+        $('#okTime').datepicker({
+        });
         $('#okTrailerTime').datepicker(
         	{ onSelect: gotoDate }
         ).on('changeDate',gotoDate);

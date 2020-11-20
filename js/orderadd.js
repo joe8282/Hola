@@ -112,12 +112,7 @@ $(function(){
 	        "aaSorting": [[0, "desc"]],
 	        //		"bProcessing": true,
 	        "aoColumns": [
-                {
-                    "mDataProp": "file_bookingId",
-                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html(orderCode);
-                    }
-                },
+                {"mDataProp": "book_orderCode"},
                 { "mDataProp": "file_name" },
                 {
                     "mDataProp": "file_addTime",
