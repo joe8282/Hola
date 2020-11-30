@@ -33,7 +33,7 @@ $(function(){
 	
 	var action = GetQueryString('action');	
 	var Id = GetQueryString('Id');
-	var sellId, CompanyName, CompanyCode, CompanyName, CompanyBadges='', CompanyIsSupplier, CompanyType, CompanyAddress,
+	var sellId, CompanyName, CompanyCode, CompanyName, CompanyBadges = '', CompanyIsSupplier, CompanyType, CompanyRank, CompanyAddress,
 		CompanyCountry, CompanyTel, CompanyFax, CompanyWeb, CompanyOrg, CompanyRemark, ContactName,
 		ContactPosition, ContactEmailFax, ContactSkype, ContactPhone, ContactWhatsapp, ContactFacebook,
 		ContactLinkined, ContactQq;
@@ -86,7 +86,8 @@ $(function(){
 			$('#inputCompanyName').val(_data.comp_name)
 			$('#inputCompanyCode').val(_data.comp_code)
 			$('#inputCompanyContent').val(_data.comp_content),
-				$("input[name='radio1'][value='" + _data.comp_isSupplier + "']").attr("checked", true),
+			$("input[name='radio1'][value='" + _data.comp_isSupplier + "']").attr("checked", true),
+            $("input[name='radioRank'][value='" + _data.comp_rank + "']").attr("checked", true),
 				 checkBoxArray = _data.comp_type.split(",");
 			    for(var i=0;i<checkBoxArray.length;i++){
 			    	$("input[name='radio2']").each(function(){
@@ -133,6 +134,7 @@ $(function(){
         CompanyCode = $('#inputCompanyCode').val(),
 			CompanyContent = $('#inputCompanyContent').val(),
 			CompanyIsSupplier = $("input[name='radio1']:checked").val(),
+        CompanyRank = $("input[name='radioRank']:checked").val(),
 			//CompanyType = $("input[name='radio2']:checked").val(),
 			CompanyType = cType,
 			CompanyAddress = $('#inputCompanyAddress').val(),
@@ -185,6 +187,7 @@ $(function(){
 					'content': CompanyContent,
 					'isSupplier': CompanyIsSupplier,
 					'type': CompanyType,
+					'rank': CompanyRank,
 					'address': CompanyAddress,
 					'country': CompanyCountry,
 					'tel': CompanyTel,
@@ -248,6 +251,7 @@ $(function(){
 					'content': CompanyContent,
 					'isSupplier': CompanyIsSupplier,
 					'type': CompanyType,
+					'rank': CompanyRank,
 					'address': CompanyAddress,
 					'country': CompanyCountry,
 					'tel': CompanyTel,

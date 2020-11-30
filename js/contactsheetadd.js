@@ -1548,6 +1548,8 @@ $(function(){
 					'packageMarks': packageMarks,
 					'goodAbout': goodAbout,
 					'beizhu': beizhu,
+					'shippingTerm': 'CY-CY',
+					'shippingFeeTerm': 'FREIGHT PREPAID',
 					'sellId': sellId,
 					'luruId': luruId,
 					'kefuId': kefuId,

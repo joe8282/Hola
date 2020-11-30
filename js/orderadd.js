@@ -306,6 +306,23 @@ $(function(){
 		$('#send_file').addClass('none')
 		$('.HBLNav').text('新增HBL订单信息')
 		
+		$('#shippingTerm2').val($('#shippingTerm').val())
+		$('#shippingFeeTerm2').val($('#shippingFeeTerm').val())
+		$('#payAddress2').val($('#payAddress').val())
+		$('#signAddress2').val($('#signAddress').val())
+		$('#packageMarks2').val($('#packageMarks').val())
+		$('#goodAbout2').val($('#goodAbout').val())
+		$('#packageNum2').val($('#packageNum').val())
+		$('#package2').val($("#package").val()).trigger("change")
+		$('#weightNum2').val($('#weightNum').val())
+		$('#weight2').val($("#weight").val()).trigger("change")
+		$('#volumeNum2').val($('#volumeNum').val())
+		$('#volume2').val($("#volume").val()).trigger("change")
+		$('#vgmNum2').val($('#vgmNum').val())
+		$('#vgm2').val($("#vgm").val()).trigger("change")
+		$('#volumeShow2').val($('#volumeNum2').val() + ' ' + $("#volume2").val())
+		$('#weightShow2').val($('#weightNum2').val() + ' ' + $("#weight2").val())
+
 		$("#billcontainer").add('none')
 		if(action=='modify'){
 			loadContainer(1,Id)
@@ -1165,7 +1182,7 @@ $(function(){
 			$('#billType3').append(_html)
 		}
 		$("#billType").val('OMBL').trigger("change")
-		$("#billType2").val('OMBL').trigger("change")
+		$("#billType2").val('OHBL').trigger("change")
 		$("#billType3").val('OMBL').trigger("change")
 	}, function(error) {
 		console.log(parm)
@@ -1573,8 +1590,14 @@ $(function(){
     $('#isLock').on('click', function () {
         if ($("#isLock").is(":checked")) {
             isLock = 1;
+            $('input,textarea').prop('readonly', true);
+            $('select').prop('disabled', true);
         }
-        else { isLock = 0; }
+        else {
+            isLock = 0;
+            $('input,textarea').prop('readonly', false);
+            $('select').prop('disabled', false);
+        }
     })
 
 
@@ -1990,7 +2013,12 @@ $(function(){
     		$("#shippingFeeTerm").val(_data.book_shippingFeeTerm).trigger("change")
     		$('#payAddress').val(_data.book_payAddress)
     		$('#signAddress').val(_data.book_signAddress)
-    		if (_data.book_locked == 1) { $("#isLock").attr("checked", true) }
+    		if (_data.book_locked == 1)
+    		{
+    		    $("#isLock").attr("checked", true)
+    		    $('input,textarea').prop('readonly', true);
+    		    $('select').prop('disabled', true);
+    		}
     		
     	}, function(err) {
     		console.log(err)
@@ -2983,10 +3011,10 @@ function GetContainerSum(){
 			package0_sum+=Number($(this).val())
 		});
 		$('.containerAll').find("input[id='weightNum0']").each(function(){
-			weightNum0_sum+=Number($(this).val())
+		    weightNum0_sum += Number($(this).val())
 		});
 		$('.containerAll').find("input[id='volumeNum0']").each(function(){
-			volumeNum0_sum+=Number($(this).val())
+		    volumeNum0_sum += Number($(this).val())
 		});
 		// if(_containerListLength>1){
 		// 	// for(i=0;i<_containerListLength;i++){
@@ -3007,9 +3035,9 @@ function GetContainerSum(){
 			// $("#weight option[value='"+weightNum0_sel+"']").prop("selected", true);
 		// }
 		//上面是正则来替换件数，毛重，体积的数量，仅仅是数量而已 by daniel 20190731
-		(volumeNum0_sum>0?($('#volumeNum').val(volumeNum0_sum) & $("#volume option[value='"+volumeNum0_sel+"']").prop("selected", true)):"");
+			(volumeNum0_sum > 0 ? ($('#volumeNum').val(volumeNum0_sum.toFixed(3)) & $("#volume option[value='" + volumeNum0_sel + "']").prop("selected", true) & $('#volumeShow').val(volumeNum0_sum.toFixed(3) + ' ' + volumeNum0_sel)) : "");
 		(package0_sum>0?($('#packageNum').val(package0_sum) & $("#package option[value='"+package0_sel+"']").prop("selected", true)):"");
-		(weightNum0_sum>0?($('#weightNum').val(weightNum0_sum) & $("#weight option[value='"+weightNum0_sel+"']").prop("selected", true)):"");
+		(weightNum0_sum > 0 ? ($('#weightNum').val(weightNum0_sum.toFixed(3)) & $("#weight option[value='" + weightNum0_sel + "']").prop("selected", true) & $('#weightShow').val(weightNum0_sum.toFixed(3) + ' ' + weightNum0_sel)) : "");
 	}
 }
 
@@ -3061,6 +3089,16 @@ function getVolume() {
     var volumeNum = $('#volumeNum').val();
     var volume = $('#volume').val();
     $('#volumeShow').val(volumeNum + ' ' + volume)
+}
+function getWeight2() {
+    var weightNum2 = $('#weightNum2').val();
+    var weight2 = $('#weight2').val();
+    $('#weightShow2').val(weightNum2 + ' ' + weight2)
+}
+function getVolume2() {
+    var volumeNum2 = $('#volumeNum2').val();
+    var volume2 = $('#volume2').val();
+    $('#volumeShow2').val(volumeNum2 + ' ' + volume2)
 }
 
 

@@ -441,7 +441,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">重量</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="weightNum" placeholder="0.00" onkeyup="getWeight()" style="width:40%;float: left;margin-right: 5%;">
+                                                        <input type="text" class="form-control" id="weightNum" placeholder="0.000" onkeyup="getWeight()" style="width:40%;float: left;margin-right: 5%;">
                                                         <select id="weight" onchange="getWeight()" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
@@ -450,7 +450,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">体积</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="volumeNum" placeholder="0.00" onkeyup="getVolume()" style="width:40%;float: left;margin-right: 5%;">
+                                                        <input type="text" class="form-control" id="volumeNum" placeholder="0.000" onkeyup="getVolume()" style="width:40%;float: left;margin-right: 5%;">
                                                         <select id="volume" onchange="getVolume()" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
@@ -459,7 +459,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">VGM</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="vgmNum" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
+                                                        <input type="text" class="form-control" id="vgmNum" placeholder="0.000" style="width:40%;float: left;margin-right: 5%;">
                                                         <select id="vgm" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
@@ -512,7 +512,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group" style="margin-left: 0;">
                                                     <label>显示重量</label>
                                                     <div>
-                                                        <textarea class="form-control" rows="3" id="weightShow" placeholder="货物描述" disabled></textarea>
+                                                        <textarea class="form-control" rows="3" id="weightShow" placeholder="显示重量" disabled></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -520,7 +520,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group" style="margin-left: 0;">
                                                     <label>显示体积</label>
                                                     <div>
-                                                        <textarea class="form-control" rows="3" id="volumeShow" placeholder="货物描述" disabled></textarea>
+                                                        <textarea class="form-control" rows="3" id="volumeShow" placeholder="显示体积" disabled></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -736,11 +736,11 @@ Purchase: http://wrapbootstrap.com
                                                 <input type="text" class="form-control margin-right-5" id="sealNumber" placeholder="" style="width:10%;float: left;">
                                                 <input type="text" class="form-control margin-right-5" id="packageNum0" placeholder="0" style="width:4%;float: left;">
                                                 <select id="package0" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;"></select>
-                                                <input type="text" class="form-control margin-right-5" id="weightNum0" placeholder="0.00" style="width:5%;float: left;">
+                                                <input type="text" class="form-control margin-right-5" id="weightNum0" placeholder="0.000" style="width:5%;float: left;">
                                                 <select id="weight0" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;"></select>
-                                                <input type="text" class="form-control margin-right-5" id="volumeNum0" placeholder="0.00" style="width:5%;float: left;">
+                                                <input type="text" class="form-control margin-right-5" id="volumeNum0" placeholder="0.000" style="width:5%;float: left;">
                                                 <select id="volume0" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;"></select>
-                                                <input type="text" class="form-control margin-right-5" id="vgmNum0" placeholder="0.00" style="width:5%;float: left;">
+                                                <input type="text" class="form-control margin-right-5" id="vgmNum0" placeholder="0.000" style="width:5%;float: left;">
                                                 <select id="vgm0" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;"></select>
                                                 <input type="text" class="form-control margin-right-5" id="customsCode" placeholder="" style="width:9%;float: left;">
                                                 <input type="text" class="form-control margin-right-10" id="goodsName" placeholder="" style="width:9%;float: left;">
@@ -1097,8 +1097,8 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">重量</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="weightNum2" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                                                        <select id="weight2" style="width:55%;">
+                                                        <input type="text" class="form-control" id="weightNum2" onkeyup="getWeight2()" placeholder="0.000" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="weight2" onchange="getWeight2()" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
                                                     </div>
@@ -1106,8 +1106,8 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">体积</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="volumeNum2" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
-                                                        <select id="volume2" style="width:55%;">
+                                                        <input type="text" class="form-control" id="volumeNum2" onkeyup="getVolume2()" placeholder="0.000" style="width:40%;float: left;margin-right: 5%;">
+                                                        <select id="volume2" onchange="getVolume2()" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
                                                     </div>
@@ -1115,7 +1115,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">VGM</label>
                                                     <div class="input-group" style="width:240px;; float: right;">
-                                                        <input type="text" class="form-control" id="vgmNum2" placeholder="0.00" style="width:40%;float: left;margin-right: 5%;">
+                                                        <input type="text" class="form-control" id="vgmNum2" placeholder="0.000" style="width:40%;float: left;margin-right: 5%;">
                                                         <select id="vgm2" style="width:55%;">
                                                             <!--<option value=""></option>-->
                                                         </select>
@@ -1146,7 +1146,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group" style="margin-left: 0;">
                                                     <label>显示重量</label>
                                                     <div>
-                                                        <textarea class="form-control" rows="3" placeholder="货物描述"></textarea>
+                                                        <textarea class="form-control" id="weightShow2" rows="3" placeholder="显示重量"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1154,7 +1154,7 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group" style="margin-left: 0;">
                                                     <label>显示体积</label>
                                                     <div>
-                                                        <textarea class="form-control" rows="3" placeholder="货物描述"></textarea>
+                                                        <textarea class="form-control" id="volumeShow2" rows="3" placeholder="显示体积"></textarea>
                                                     </div>
                                                 </div>
                                             </div>
