@@ -310,7 +310,7 @@ function initTable(fromId) {
 				}		
 			},
 //			{ "mDataProp": "type_name"},
-			{ "mDataProp": "comp_name1"},
+			{ "mDataProp": "comp_name2"},
 //			{ "mDataProp": "book_movementType"},		
     		{
     			"mDataProp": "book_port1",
@@ -365,7 +365,7 @@ function initTable(fromId) {
 					var pod=rowData.book_port2;
 					if(rowData.book_state == 1) {
 						$(td).parent().find("td").css("background-color","#fdfdbf");
-						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + ","+rowData.book_userId+",\""+pol+"\",\""+pod+"\")'>" + get_lan('con_top_5') + "</a>"
+						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_sellId + ",\"" + pol + "\",\"" + pod + "\")'>" + get_lan('con_top_5') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a></li>"
@@ -565,7 +565,7 @@ function initTable(fromId) {
 /**
  * 确认订舱
  */
- function _sureFun(id,crmId,pol,pod) {
+ function _sureFun(id,crmId,sellId,pol,pod) {
  	$("#myModal2").modal("show");
  	$('#bookId').val(id)
  	$('#orderHblLi').empty();
@@ -587,8 +587,8 @@ function initTable(fromId) {
  	}, function(err) {
  		console.log(err)
  	}, 2000)
-
-
+ 	console.log(sellId)
+ 	$("#sellId").val(sellId).trigger("change");
  	$("#crmuser").val(crmId).trigger("change");
  	$("#emailToBookingParty").val($("#crmuser").find("option:selected").attr("data-crmEmail")+",");
  	$('#summernote').summernote('code', "Dear "+$("#crmuser").find("option:selected").attr("data-crmName")+", </br></br>BeyondAdmin's Databoxes are meant to provide you a completely flexible  and very easy to customize tool to visualize data. You can create databoxes in multiple sizes and different styles.");

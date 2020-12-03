@@ -1590,12 +1590,12 @@ $(function(){
     $('#isLock').on('click', function () {
         if ($("#isLock").is(":checked")) {
             isLock = 1;
-            $('input,textarea').prop('readonly', true);
+            $('input,textarea').prop('disabled', true);
             $('select').prop('disabled', true);
         }
         else {
             isLock = 0;
-            $('input,textarea').prop('readonly', false);
+            $('input,textarea').prop('disabled', false);
             $('select').prop('disabled', false);
         }
     })
