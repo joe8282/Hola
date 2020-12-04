@@ -42,7 +42,7 @@ function initTable() {
 //  		"mDataProp": "type_name"
 //  	},
     	{
-    		"mDataProp": "comp_name2"
+    		"mDataProp": "crm_name"
     	},
     	{
     		"mDataProp": "book_movementType"
