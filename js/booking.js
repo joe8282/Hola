@@ -310,7 +310,7 @@ function initTable(fromId) {
 				}		
 			},
 //			{ "mDataProp": "type_name"},
-			{ "mDataProp": "crm_name" },
+			{ "mDataProp": "comp_name" },
 //			{ "mDataProp": "book_movementType"},		
     		{
     			"mDataProp": "book_port1",
