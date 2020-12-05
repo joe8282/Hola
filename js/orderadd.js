@@ -1598,6 +1598,7 @@ $(function(){
             $('input,textarea').prop('disabled', false);
             $('select').prop('disabled', false);
         }
+        $('#isLock').prop('disabled', false);
     })
 
 

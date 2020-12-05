@@ -634,7 +634,7 @@ function initTable(fromId) {
  			//console.log(data)
  			var _data = data.data;
  			if(_data != null) {
-				var _html2 = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
+				var _html2 = '<option value="" data-pol="" data-pod="">New Shipments</option>';
 				$('#orderLi').append(_html2)
  				for(var i = 0; i < _data.length; i++) {
  					var _html = '<option value="' + _data[i].book_id + '">' + _data[i].book_orderCode + ' ['+ _data[i].book_port1 +' — '+_data[i].book_port2+']</option>';
