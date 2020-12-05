@@ -615,7 +615,7 @@ function initTable(fromId) {
  				}
  			}
  		}else{
-			var _html = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
+			var _html = '<option value="" data-pol="" data-pod="">New Shipments</option>';
 			$('#orderLi').append(_html)
  		}
  	}, function(err) {
@@ -646,7 +646,7 @@ function initTable(fromId) {
 	 				}
  				}
  			}else{	 				
-				var _html = '<option value="0" data-pol="" data-pod="">New Shipments</option>';
+				var _html = '<option value="" data-pol="" data-pod="">New Shipments</option>';
 				$('#orderLi').append(_html)
  			}
  		}, function(err) {
