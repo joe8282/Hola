@@ -595,8 +595,8 @@ function initTable(fromId) {
  	//获取委托人订单
  	common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
  		"companyId": companyID,
- 		// "crmId": $("#crmuser").val()
- 		"crmId": $("#crmuser").find("option:selected").attr("data-crmId")
+ 	    "crmId": $("#crmuser").val()
+ 		//"crmId": $("#crmuser").find("option:selected").attr("data-crmId")
  	}, function(data) {
  		//console.log(data)
  		$('#orderLi').empty();
@@ -628,8 +628,8 @@ function initTable(fromId) {
  		//获取委托人订单
  		common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
  			"companyId": companyID,
- 			// "crmId": $("#crmuser").val()
- 			"crmId": $("#crmuser").find("option:selected").attr("data-crmId")
+ 			"crmId": $("#crmuser").val()
+ 		    //"crmId": $("#crmuser").find("option:selected").attr("data-crmId")
  		}, function(data) {
  			//console.log(data)
  			var _data = data.data;
