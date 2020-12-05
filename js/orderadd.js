@@ -555,7 +555,7 @@ $(function(){
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].comp_customerId + '">' + _data[i].comp_name + '</option>';
+				var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
 				$('#crmuser').append(_html)
 			}
 		}	
