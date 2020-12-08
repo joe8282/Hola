@@ -623,8 +623,10 @@ Purchase: http://wrapbootstrap.com
 ////          minimumInputLength: 3
 ////      });    
         //--Bootstrap Date Picker--
-        $('.date-picker').datepicker(
-        );
+        $('.date-picker').datepicker({
+            autoclose: true,
+            todayHighlight: true
+        });
         $('#okTrailerTime').datepicker(
         	{ onSelect: gotoDate }
         ).on('changeDate',gotoDate);

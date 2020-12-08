@@ -305,8 +305,8 @@ function initTable(fromId) {
 				}	
     		},
 			{ "mDataProp": "book_code",
-				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html("<a href='bookingpreview.html?code=" + rowData.book_code + "' target='_blank'>" + rowData.book_code + "</a>")
+			"createdCell": function (td, cellData, rowData, row, col) {
+			    $(td).html("<a href='bookingpreview.html?code=" + rowData.book_code + "' target='_blank'>" + rowData.book_code + "</a><br/><a href='javascript:void(0);' onclick='_toOrderDetail(&quot;" + rowData.book_orderCode + "&quot;)'>[ " + rowData.book_orderCode + " ]</a>")
 				}		
 			},
 //			{ "mDataProp": "type_name"},
@@ -751,11 +751,21 @@ function initTable(fromId) {
  	}, 1000)
  });
  
- 
+ /**
+  * 跳转到订单详情
+  */
+ function _toOrderDetail(code) {
+     console.log(code)
+     common.ajax_req('GET', true, dataUrl, 'booking.ashx?action=readbyordercode', { 'code': code }, function (data) {
+         if (data.State == 1) {
+             location.href = 'orderadd.html?action=modify&Id=' + data.Data.book_id
+         }
+     }, function (error) {
+         console.log(parm)
+     }, 1000)
+ }
 /**
  * 取消
- * @param id
- * @private
  */
  function _cancelFun(id) {
  	$("#myModal").modal("show");

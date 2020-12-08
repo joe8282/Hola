@@ -110,12 +110,15 @@ function initTable() {
                     //     +"<li><a href='billoflading.html?code="+rowData.book_code+"'>" + get_lan('con_top_4') + "</a></li>"
                     //     +"<li class='divider'></li>"
                     //     +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + ((rowData.book_state==1)?get_lan('delete'):"") + "</a></li>"
-                    //     +"</ul></div>")
+    		    //     +"</ul></div>")
+    		        if (rowData.book_state == 3) {
+    		            $(td).parent().find("td").css("background-color", "orange");
+    		        }
                     $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
                         var _thisHtml_head='';
                         if(rowData.book_state==1){
                             _thisHtml_head="<div class='btn-group'><a class='btn btn-blue btn-sm' href='bookingadd.html?action=modify&Id=" + cellData + "'> " + get_lan('edit') + "</a>";
-                            _thisHtml_del="<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>";
+                            _thisHtml_del = "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('cancel') + "</a></li>";
                         }else{                            
                             _thisHtml_head="<div class='btn-group'><a class='btn btn-blue btn-sm' href='bookingadd.html?action=review&Id=" + cellData + "'> " + get_lan('review') + "</a>";
                             _thisHtml_del="";
@@ -211,17 +214,20 @@ function initTable() {
  	bootbox.confirm("Are you sure to cancel?", function(result) {
  		if(result) {
  			$.ajax({
- 				url: dataUrl + 'ajax/booking.ashx?action=cancel',
+ 			    url: dataUrl + 'ajax/booking.ashx?action=modify',
  				data: {
- 					"Id": id
+ 				    "Id": id,
+                    'state': 3
  				},
  				dataType: "json",
  				type: "post",
  				success: function(backdata) {
- 					if(backdata.State == 1) {
+ 				    if (backdata.State == 1) {
+ 				        comModel("取消成功")
  						oTable.fnReloadAjax(oTable.fnSettings());
  					} else {
- 						alert("Delete Failed！");
+ 				        comModel("取消失败")
+ 				        oTable.fnReloadAjax(oTable.fnSettings());
  					}
  				},
  				error: function(error) {

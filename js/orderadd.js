@@ -738,7 +738,13 @@ $(function(){
 	        $('#warehouseContact').append('<option value="0">选择联系人</option>')
 	        if (_data != null) {
 	            for (var i = 0; i < _data.length; i++) {
-	                var _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	                var _html = ''
+	                if (i == 0) {
+	                    _html = '<option selected value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	                }else{
+	                    _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	                }
+	                    
 	                $('#warehouseContact').append(_html)
 	            }
 	        }
@@ -1755,6 +1761,8 @@ $(function(){
     			orderCode = getCode()
     		}
     		$('#title3').html('订单号：' + orderCode)
+    		$('#warehouseInCode').val(orderCode + 'WH');
+    		$('#warehouseOutCode').val(orderCode + 'WH');
     	}) 	
     	//$('#STATELIST span').eq(0).addClass('btn-blue')
     	$('#STATELIST li').eq(0).addClass('active')
@@ -2780,7 +2788,8 @@ $(function(){
 			} else if(crmCompanyId == '0') {
 				comModel("请选择委托人")
 			} else {
-				var parm = {
+			    var parm = {
+			        'whichId': 2, //1=联系单，2=订单，3=订舱单
 					'fromId': 0,
 					'orderCode': orderCode,
 					'code': code,

@@ -11,7 +11,7 @@ var en2 = {
             "primary" : "set primary",            
         };
         
-var oTable,oblTable,oFollow,oDemand,ogetOrderSum;
+var oTable, oblTable, oFollow, oDemand, ogetOrderSum, relatedComTable;
 var typeId;
 var Id = GetQueryString('Id');
 var userCompanyId;
@@ -1118,8 +1118,8 @@ function initBlListTable() {   //这里加一个相关的订单，但是还不�
 function initRelateComListTable() {   //这里加一个相关的订单，但是还不知道如何查询这些订单是相关的公司的 20190816 by daniel
     var ajaxUrlBl,tableTitleRelatedCom,columnsBl
     	ajaxUrlBl=dataUrl+'ajax/crmcompany.ashx?action=read&upId='+userCompanyId;
-    	tableTitleRelatedCom='<th>公司名称</th><th>联系人</th><th>联系电话</th><th>邮箱</th><th>添加时间</th>'
-    	$('#tableTitleRelatedCom').html(tableTitleRelatedCom)
+    	//tableTitleRelatedCom='<th>公司名称</th><th>联系人</th><th>联系电话</th><th>邮箱</th><th>添加时间</th>'
+    	//$('#tableTitleRelatedCom').html(tableTitleRelatedCom)
     	columnsBl = [
     		{
     			"mDataProp": "comp_name"
@@ -1139,10 +1139,16 @@ function initRelateComListTable() {   //这里加一个相关的订单，但是�
     				if(rowData.comp_updateTime != null) {
     					$(td).html(rowData.comp_updateTime.substring(0, 10));
     				} else {
-    					$(td).html("NULL");
+    					$(td).html("");
     				}
     			}
     		},
+            {
+                "mDataProp": "comp_id",
+                "createdCell": function (td, cellData, rowData, row, col) {
+                    $(td).html("");
+                }
+            },
     	]
     
 	var tableBl = $("#relatedComPanel_list").dataTable({
@@ -1156,9 +1162,9 @@ function initRelateComListTable() {   //这里加一个相关的订单，但是�
         "aaSorting": [[4, 'desc']],
         "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
-            {"bSortable": false, "aTargets": [0,1,2,3]}
+            {"bSortable": false, "aTargets": [0,1,2,3,4]}
         ],
-//		"bSort": true,
+	    "bSort": false,
 //		"aaSorting": [[ 9, "desc" ]],
 //		"bProcessing": true,
 		"aoColumns": columnsBl,
@@ -1193,6 +1199,54 @@ function initRelateComListTable() {   //这里加一个相关的订单，但是�
 	});
 	return tableBl;
 }
+
+/*新增供应商*/
+$('#sendRelatedCom').on('click', function () {
+    var companyName = $('#companyNameRelated').val()
+    var contact = $('#contactRelated').val()
+    var phone = $('#phoneRelated').val()
+    var email = $('#emailRelated').val()
+    if (!email) {
+        comModel("请输入公司名称")
+    } else if (!contact) {
+        comModel("请输入联系人")
+    } else if (!phone) {
+        comModel("请输入联系电话")
+    } else if (!email) {
+        comModel("请输入邮箱")
+    } else {
+        common.ajax_req('POST', true, dataUrl, 'crmcompany.ashx?action=new', {
+            'companyId': companyID,
+            'userId': userID,
+            'adminId': userID,
+            'name': companyName,
+            'isSupplier': 1,
+            'type': 'FACTORY',
+            'contactName': contact,
+            'contactPhone': phone,
+            'contactEmail': email,
+            'upId': userCompanyId
+        }, function (data) {
+            if (data.State == 1) {
+                comModel("新增成功")
+                $("#companyNameRelated").val("")
+                $("#contactRelated").val("")
+                $("#phoneRelated").val("")
+                $("#emailRelated").val("")
+                relatedComTable.fnReloadAjax(relatedComTable.fnSettings())
+
+            } else {
+                comModel("新增失败")
+            }
+        }, function (error) {
+            //console.log(parm)
+        }, 1000)
+    }
+    $("#addNewSuppliers").find("input").each(function () { ///当添加了新的供应商后，清空input, by daniel 20190730
+        $(this).val("")
+    })
+
+});
 
 //获取订单的数量，暂时还获取不了。 by daniel 20191028
 function getOrderSum(){
