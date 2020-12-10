@@ -1479,15 +1479,24 @@ Purchase: http://wrapbootstrap.com
             todayHighlight: true
         });
 
-        $('#okTrailerTime').datepicker(
-        	{ onSelect: gotoDate }
-        ).on('changeDate', gotoDate);
-        
-        function gotoDate(ev) {
-            //console.log(ev.date)
-            //$("#okBillTime").val(getNewDay(formatTime(ev.date), 2))
-            $("#okPortTime").val($("#okBillTime").val())
-        }
+        $('#bookingTime').datepicker().on('changeDate', function (e) {
+            $('#okTrailerTime').datepicker('setStartDate', $("#bookingTime").val());
+        });
+
+        $('#okTrailerTime').datepicker().on('changeDate', function (e) {
+            $('#okPortTime').datepicker('setStartDate', $("#okTrailerTime").val());
+            $('#truePortTime').datepicker('setStartDate', $("#okTrailerTime").val());
+            //$('#okPortTime').datepicker('setDate', $("#okTrailerTime").val());
+            //$('#truePortTime').datepicker('setDate', $("#okTrailerTime").val());
+        });
+
+        $('#okPortTime').datepicker().on('changeDate', function (e) {
+            $('#okPortTime2').datepicker('setStartDate', $("#okPortTime").val());
+            $('#truePortTime2').datepicker('setStartDate', $("#okPortTime").val());
+        });
+
+
+
         //时间格式化
         function formatTime(date) {
             var year = date.getFullYear();

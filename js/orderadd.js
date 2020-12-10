@@ -1939,12 +1939,15 @@ $(function(){
     		$('#fromAddress').val(_data.book_fromAddress)
     		$('#toAddress').val(_data.book_toAddress)
     		$('#okTime').val(_data.book_okTime.substring(0, 10))
-    		$('#okTrailerTime').val(_data.book_okTrailerTime?_data.book_okTrailerTime.substring(0, 10):'')	  		  		
+    		//$('#okTrailerTime').val(_data.book_okTrailerTime ? _data.book_okTrailerTime.substring(0, 10) : '')
+    		$('#okTrailerTime').datepicker('setDate', _data.book_okTrailerTime ? _data.book_okTrailerTime.substring(0, 10) : '');
 	  		if(_data.book_okBillTime != null) {
-	  			$('#okBillTime').val(_data.book_okBillTime.substring(0, 10))
+	  		    //$('#okBillTime').val(_data.book_okBillTime.substring(0, 10))
+	  		    $('#okBillTime').datepicker('setDate', _data.book_okBillTime.substring(0, 10));
 	  		}
 	  		if(_data.book_okPortTime != null) {
-	  			$('#okPortTime').val(_data.book_okPortTime.substring(0, 10))
+	  		    //$('#okPortTime').val(_data.book_okPortTime.substring(0, 10))
+	  		    $('#okPortTime').datepicker('setDate', _data.book_okPortTime.substring(0, 10));
 	  		}	  		
 //  		$('#GP20').val(_data.book_20GP)
 //  		var _GP20 = _data.book_20GP.split(' ')
@@ -1977,9 +1980,11 @@ $(function(){
     		$('#warehouseContact').val(_data.book_warehouseContact)
     		$('#warehouseContactWay').val(_data.book_warehouseContactWay)
     		$('#warehouseInCode').val(_data.book_warehouseInCode)
-    		$('#warehouseInTime').val(_data.book_warehouseInTime?_data.book_warehouseInTime.substring(0, 10):"")
+    		//$('#warehouseInTime').val(_data.book_warehouseInTime ? _data.book_warehouseInTime.substring(0, 10) : "")
+    		$('#warehouseInTime').datepicker('setDate', _data.book_warehouseInTime ? _data.book_warehouseInTime.substring(0, 10) : "");
     		$('#warehouseOutCode').val(_data.book_warehouseOutCode)
-    		$('#warehouseOutTime').val(_data.book_warehouseOutTime?_data.book_warehouseOutTime.substring(0, 10):"")
+    		//$('#warehouseOutTime').val(_data.book_warehouseOutTime ? _data.book_warehouseOutTime.substring(0, 10) : "")
+    		$('#warehouseOutTime').datepicker('setDate', _data.book_warehouseOutTime ? _data.book_warehouseOutTime.substring(0, 10) : "");
     		$('#warehouseBeizhu').val(_data.book_warehouseBeizhu)
     		$("input[name='bill1Type'][value='" + _data.book_bill1Type + "']").attr("checked", true)
     		$('#inShipper').val(HtmlDecode(_data.book_bill1Shipper))
@@ -2006,16 +2011,20 @@ $(function(){
     			$('#vgm').val(vgm0[1]).trigger("change")
     		}
     		if(_data.book_okPortTime2!=null){
-    			$('#okPortTime2').val(_data.book_okPortTime2.substring(0, 10))
+    		    //$('#okPortTime2').val(_data.book_okPortTime2.substring(0, 10))
+    		    $('#okPortTime2').datepicker('setDate', _data.book_okPortTime2.substring(0, 10));
     		}
     		else{
-    			$("#okPortTime2").val(getDate())
+    		    //$('#okPortTime2').datepicker('setDate', new Date());
+    		    $('#okPortTime2').datepicker('setDate', new Date());
     		}
     		if(_data.book_truePortTime!=null){
-    			$('#truePortTime').val(_data.book_truePortTime.substring(0, 10))
+    		    //$('#truePortTime').val(_data.book_truePortTime.substring(0, 10))
+    		    $('#truePortTime').datepicker('setDate', _data.book_truePortTime.substring(0, 10));
     		}  
     		if(_data.book_truePortTime2!=null){
-    			$('#truePortTime2').val(_data.book_truePortTime2.substring(0, 10))
+    		    //$('#truePortTime2').val(_data.book_truePortTime2.substring(0, 10))
+    		    $('#truePortTime2').datepicker('setDate', _data.book_truePortTime2.substring(0, 10));
     		}      		
     		$('#allContainer').val(_data.book_allContainer)
     		$("#shippingTerm").val(_data.book_shippingTerm).trigger("change")
@@ -2246,17 +2255,21 @@ $(function(){
     	}, 2000)    	
     
     } else {
-    	$("#okTime").val(getDate());
+//    	$("#okTime").val(getDate());
 //  	$("#okTrailerTime").val(getDate());
 //  	$("#okBillTime").val(getDate());
 //  	$("#okPortTime").val(getDate());
-    	$("#okPortTime2").val(getDate());
+//    	$("#okPortTime2").val(getDate());
 //  	$("#truePortTime").val(getDate());
 //  	$("#truePortTime2").val(getDate());
-    	$("#warehouseInTime").val(getDate());
-    	$("#warehouseOutTime").val(getDate());
-    	$("#trailerTime").val(getDate());
-    	
+    	//$("#warehouseInTime").val(getDate());
+    	//$("#warehouseOutTime").val(getDate());
+    	//$("#trailerTime").val(getDate());
+    	$('#okTime').datepicker('setDate', new Date());
+    	//$('#okPortTime2').datepicker('setDate', new Date());
+    	$('#warehouseInTime').datepicker('setDate', new Date());
+    	$('#warehouseOutTime').datepicker('setDate', new Date());
+    	$('#trailerTime').datepicker('setDate', new Date());
     }
     
     if(action == 'modify') {

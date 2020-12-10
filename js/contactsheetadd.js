@@ -999,7 +999,8 @@ $(function(){
     		$("#carrier").val(_data.book_carrier).trigger("change")
     		$('#fromAddress').val(_data.book_fromAddress)
     		$('#toAddress').val(_data.book_toAddress)
-    		$('#okTime').val(_data.book_okTime.substring(0, 10))
+    		//$('#okTime').val(_data.book_okTime.substring(0, 10))
+    		$('#okTime').datepicker('setDate', _data.book_okTime.substring(0, 10));
     		$('#okTrailerTime').val(_data.book_okTrailerTime.substring(0, 10))
     		$('#okBillTime').val(_data.book_okBillTime.substring(0, 10))
     		$('#okPortTime').val(_data.book_okPortTime.substring(0, 10))
@@ -1158,7 +1159,7 @@ $(function(){
     	}, 2000)
     
     } else {
-    	$("#okTime").val(getDate());
+    	//$("#okTime").val(getDate());
 //  	$("#okTrailerTime").val(getDate());
 //  	$("#okBillTime").val(getDate());
 //  	$("#okPortTime").val(getDate());

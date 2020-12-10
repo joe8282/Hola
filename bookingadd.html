@@ -628,14 +628,12 @@ Purchase: http://wrapbootstrap.com
             autoclose: true,
             todayHighlight: true
         });
-        $('#okTrailerTime').datepicker(
-        	{ onSelect: gotoDate }
-        ).on('changeDate',gotoDate);
-        function gotoDate(ev){
-			//console.log(ev.date)
-			$("#okBillTime").val(getNewDay(formatTime(ev.date) ,2))
-			$("#okPortTime").val($("#okBillTime").val())
-        }
+
+        $('#okTrailerTime').datepicker().on('changeDate', function (e) {
+            $('#okBillTime').datepicker('setDate', getNewDay(formatTime(ev.date), 2));
+            $('#okPortTime').datepicker('setDate', $("#okBillTime").val());
+        });
+
 		//时间格式化
 		function formatTime(date) {
 		  var year = date.getFullYear();
