@@ -153,7 +153,8 @@ $(function(){
 	function _selectSupplier(){
 		//获取供应商列表
 		common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
-			"upId": companyID
+		    "companyId": companyID,
+		    "isSupplier":1
 		}, function(data) {
 			//console.log(data)
 			var _data = data.data;

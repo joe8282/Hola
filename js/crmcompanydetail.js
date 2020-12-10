@@ -56,7 +56,8 @@ function GetDetail()
 		//初始化信息;
 		var _data = data.Data;
 		userCompanyId = _data.comp_customerId;
-		oblTable=initBlListTable();
+		oblTable = initBlListTable();
+		orderTable = initOrderListTable();
 		relatedComTable=initRelateComListTable();
 		$('.companyName').text(_data.comp_name)
 		$('.companyContent').text(_data.comp_content)
@@ -91,7 +92,7 @@ function GetDetail()
 			
 		//$('.adRemark1').html(HtmlDecode(_data.prin_beizhu))	
 			oBill = GetBill(); //这里获取提单的信息，要不然会出现userCompanyId获取不到
-			getOrderSum();
+			//getOrderSum();
 	}, function(err) {
 		console.log(err)
 	}, 2000)
@@ -186,7 +187,7 @@ function GetContact2() {
                                         '<div class="databox-right" style="width: 100%; height: auto;">'+
                                             '<div class="databox-text">'+
                                         		'<a href="javascript:void(0);" onclick="_deleteContactFun(' + _data[i].coco_id + ')"><i class="glyphicon glyphicon-remove orange" style="float:right;"></i></a>'+
-                                        		'<a href="crmcompanycontactadd.html?action=modify&Id='+_data[i].coco_id +'"><i class="glyphicon glyphicon-cog blue" style="float:right; margin-right:10px;"></i></a>'+_htmlFirst+
+                                        		'<a href="crmcompanycontactadd.html?action=modify&Id=' + _data[i].coco_id + '"><i class="glyphicon glyphicon-cog blue" style="float:right; margin-right:10px;"></i></a>' + _htmlFirst + 
                                             	'<strong><span style="font-size: 14px;">'+_data[i].coco_name+'</span></strong> <span>'+_data[i].coco_position+'</span></div>'+
                                                 '<div class="databox-text"><i class="stat-icon icon-xlg fa fa-phone" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_phone+'</i>' +
                                                 '<i class="stat-icon icon-xlg fa fa-envelope" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_email+'</i> '+
@@ -1115,7 +1116,144 @@ function initBlListTable() {   //这里加一个相关的订单，但是还不�
 	return tableBl;
 }
 
-function initRelateComListTable() {   //这里加一个相关的订单，但是还不知道如何查询这些订单是相关的公司的 20190816 by daniel
+function initOrderListTable() {   //相关订单
+    var ajaxUrlBl, columnsBl
+    ajaxUrlBl = dataUrl + 'ajax/booking.ashx?action=read&fromId=0&companyId=' + userCompanyId + '&crmId=' + companyID;
+    //console.log(tableTitleOrder)
+    columnsBl = [
+        {
+            "mDataProp": "book_orderCode"
+        },
+        {
+            "mDataProp": "book_port1",
+            "mRender": function (data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
+                return (full.book_port1 + " <i class='fa fa-long-arrow-right'></i></br> " + full.book_port2)
+            }
+        },
+        // {
+        // 	"mDataProp": "book_port2"
+        // },
+        {
+            "mDataProp": "book_allContainer"
+            //  			"mDataProp": "book_id",
+            //  			"createdCell": function(td, cellData, rowData, row, col) {
+            //  				var tohtml = ''
+            //  				if(rowData.book_20GP.substr(0, 1) != ' ') {
+            //  					tohtml = rowData.book_20GP;
+            //  				}
+            //  				if(rowData.book_40GP.substr(0, 1) != ' ') {
+            //  					tohtml = tohtml + '<br/>' + rowData.book_40GP;
+            //  				}
+            //  				if(rowData.book_40HQ.substr(0, 1) != ' ') {
+            //  					tohtml = tohtml + '<br/>' + rowData.book_40HQ;
+            //  				}
+            //  				$(td).html(tohtml);
+            //  			}
+        },
+        {
+            "mDataProp": "book_time",
+            "createdCell": function (td, cellData, rowData, row, col) {
+                if (rowData.book_time != null) {
+                    $(td).html(rowData.book_time.substring(0, 10));
+                } else {
+                    $(td).html("NULL");
+                }
+            }
+        },
+        {
+            "mDataProp": "book_okPortTime",
+            "createdCell": function (td, cellData, rowData, row, col) {
+                if (rowData.book_okPortTime != null) {
+                    $(td).html(rowData.book_okPortTime.substring(0, 10));
+                } else {
+                    $(td).html("NULL");
+                }
+            }
+        },
+        {
+            "mDataProp": "orderstate_name_cn"
+        },
+        // {
+        // 	"mDataProp": "book_id",
+        // 	"createdCell": function (td, cellData, rowData, row, col) {
+        // 		// $(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
+//   //                +"<ul class='dropdown-menu dropdown-azure'>"
+//   //                +"<li><a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a></li>"
+//   //                +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
+//   //                +"</ul></div>")
+        // 		// $(td).html("<a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")	
+        // 		// .append("<a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a>")						
+//                  $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
+
+//                      var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
+//                      +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+//                      +"<ul class='dropdown-menu dropdown-azure'>"
+//                      +"<li><a href='orderfee.html?Id=" + cellData + "'>财务状况</a></li>"
+//                      +"</ul></div>"                        
+
+//                      return (_thisHtml);
+
+//                  })
+        // 	}
+        // }, 		
+    ]
+
+    var tableOrder = $("#orderpanel_list").dataTable({
+        //"iDisplayLength":10,
+        "sAjaxSource": ajaxUrlBl,
+        //		'bPaginate': true,
+        //		"bDestory": true,
+        //		"bRetrieve": true,
+        //		"bFilter": false,
+        "bLengthChange": false,
+        "aaSorting": [[3, 'desc']],
+        "aoColumnDefs": [//设置列的属性，此处设置第一列不排序
+            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+            { "bSortable": false, "aTargets": [1, 2, 4, 5] }
+        ],
+        //		"bSort": true,
+        //		"aaSorting": [[ 9, "desc" ]],
+        //		"bProcessing": true,
+        "aoColumns": columnsBl,
+        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+        //		"sPaginationType": "bootstrap",
+        "oLanguage": {
+            //			"sUrl": "js/zh-CN.txt"
+            //			"sSearch": "快速过滤："
+            "sProcessing": "正在加载数据，请稍后...",
+            "sLengthMenu": "每页显示 _MENU_ 条记录",
+            "sZeroRecords": get_lan('nodata'),
+            "sEmptyTable": "表中无数据存在！",
+            "sInfo": get_lan('page'),
+            "sInfoEmpty": "显示0到0条记录",
+            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+            //"sInfoPostFix": "",
+            "sSearch": get_lan('search'),
+            //"sUrl": "",
+            //"sLoadingRecords": "载入中...",
+            //"sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": get_lan('first'),
+                "sPrevious": get_lan('previous'),
+                "sNext": get_lan('next'),
+                "sLast": get_lan('last'),
+            }
+            //"oAria": {
+            //    "sSortAscending": ": 以升序排列此列",
+            //    "sSortDescending": ": 以降序排列此列"
+            //}
+        }
+    });
+    setTimeout(function () {
+        var _dataTable = $('#orderpanel_list').DataTable();
+        var info = _dataTable.page.info();
+        var dataRows = info.recordsTotal;
+        $("#orderSum").text(dataRows);
+    }, 2000);
+    return tableOrder;
+}
+
+function initRelateComListTable() { 
     var ajaxUrlBl,tableTitleRelatedCom,columnsBl
     	ajaxUrlBl=dataUrl+'ajax/crmcompany.ashx?action=read&upId='+userCompanyId;
     	//tableTitleRelatedCom='<th>公司名称</th><th>联系人</th><th>联系电话</th><th>邮箱</th><th>添加时间</th>'
@@ -1249,13 +1387,13 @@ $('#sendRelatedCom').on('click', function () {
 });
 
 //获取订单的数量，暂时还获取不了。 by daniel 20191028
-function getOrderSum(){
-	common.ajax_req('GET', true, dataUrl, 'booking.ashx?action=read', {'companyId':companyID,'crmId':userCompanyId}, function(data) {
-		var _data = data.data;
-		//console.log(userCompanyId);
-		$("#orderSum").text(_data.length);
-	}, function(error) {
-		console.log(parm)
-	}, 1000)
-}
+//function getOrderSum(){
+//	common.ajax_req('GET', true, dataUrl, 'booking.ashx?action=read', {'companyId':companyID,'crmId':userCompanyId}, function(data) {
+//		var _data = data.data;
+//		//console.log(userCompanyId);
+//		$("#orderSum").text(_data.length);
+//	}, function(error) {
+//		console.log(parm)
+//	}, 1000)
+//}
 
