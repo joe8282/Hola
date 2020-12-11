@@ -1979,10 +1979,16 @@ $(function(){
     		$('#warehouseAddress').val(_data.book_warehouseAddress)
     		$('#warehouseContact').val(_data.book_warehouseContact)
     		$('#warehouseContactWay').val(_data.book_warehouseContactWay)
-    		$('#warehouseInCode').val(_data.book_warehouseInCode)
+    		if (_data.book_warehouseInCode == '') {
+    		    $('#warehouseInCode').val(orderCode + 'WH');
+    		    $('#warehouseOutCode').val(orderCode + 'WH');
+    		} else {
+    		    $('#warehouseInCode').val(_data.book_warehouseInCode)
+    		    $('#warehouseOutCode').val(_data.book_warehouseOutCode)
+    		}
+    		
     		//$('#warehouseInTime').val(_data.book_warehouseInTime ? _data.book_warehouseInTime.substring(0, 10) : "")
     		$('#warehouseInTime').datepicker('setDate', _data.book_warehouseInTime ? _data.book_warehouseInTime.substring(0, 10) : "");
-    		$('#warehouseOutCode').val(_data.book_warehouseOutCode)
     		//$('#warehouseOutTime').val(_data.book_warehouseOutTime ? _data.book_warehouseOutTime.substring(0, 10) : "")
     		$('#warehouseOutTime').datepicker('setDate', _data.book_warehouseOutTime ? _data.book_warehouseOutTime.substring(0, 10) : "");
     		$('#warehouseBeizhu').val(_data.book_warehouseBeizhu)

@@ -1118,7 +1118,7 @@ function initBlListTable() {   //这里加一个相关的订单，但是还不�
 
 function initOrderListTable() {   //相关订单
     var ajaxUrlBl, columnsBl
-    ajaxUrlBl = dataUrl + 'ajax/booking.ashx?action=read&fromId=0&companyId=' + userCompanyId + '&crmId=' + companyID;
+    ajaxUrlBl = dataUrl + 'ajax/booking.ashx?action=read&fromId=0&companyId=' + companyID + '&crmId=' + Id;
     //console.log(tableTitleOrder)
     columnsBl = [
         {
