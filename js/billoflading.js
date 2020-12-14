@@ -27,6 +27,8 @@ $(document).ready(function() {
 	$("input[name='blReleaseType']").css({"display":"none"});
 	$("span[data-update='dataModify']").css({"display":"none"});
 
+	GetDetail();
+
     $('#bookingFinancialBtn').on('click', function() {
     	location.href = 'getinvoice.html?Id='+bookingId;
     })
@@ -130,8 +132,7 @@ $(document).ready(function() {
 		console.log(err)
 	}, 2000)
 
-	GetDetail();
-	GetContainer(); //加载柜型的直接放在这里 by daniel 20190916
+
 
 /*JQuery 限制文本框只能输入数字和小数点*/  
     $("#packageNum0,#weightNum0,#volumeNum0,#vgmNum0,#vgminfoNum").keyup(function(){    
@@ -331,17 +332,17 @@ function GetDetail()
 		var package0 = _data.book_package.split(' ')
 		$('#inPackage').val(package0[0])
 		$('#PackageSel').val(package0[1]).trigger("change")
-		$('#Package').text(_data.book_package?_data.book_package:'<i class="fa fa-edit tooltip-info" data-toggle="tooltip" data-original-title="点击修改"></i>')
+		$('#Package').html(_data.book_package ? _data.book_package : '<i class="fa fa-edit tooltip-info" data-toggle="tooltip" data-original-title="点击修改"></i>')
 
 		var weight0 = _data.book_weight.split(' ')
 		$('#inWeight').val(weight0[0])
 		$('#WeightSel').val(weight0[1]).trigger("change")
-		$('#Weight').text(_data.book_weight?_data.book_weight:'<i class="fa fa-edit tooltip-info" data-toggle="tooltip" data-original-title="点击修改"></i>')
+		$('#Weight').html(_data.book_weight ? _data.book_weight : '<i class="fa fa-edit tooltip-info" data-toggle="tooltip" data-original-title="点击修改"></i>')
 
 		var volume0 = _data.book_volume.split(' ')
 		$('#inMeasurement').val(volume0[0])
 		$('#MeasurementSel').val(volume0[1]).trigger("change")
-		$('#Measurement').text(_data.book_volume?_data.book_volume:'<i class="fa fa-edit tooltip-info" data-toggle="tooltip" data-original-title="点击修改"></i>')
+		$('#Measurement').html(_data.book_volume ? _data.book_volume : '<i class="fa fa-edit tooltip-info" data-toggle="tooltip" data-original-title="点击修改"></i>')
 //		//$('#inputConsignee').val(_data.book_consignee)
 //		$('#inputContractNo').val(_data.book_contractNo)
 //		$("#warehouse").val(_data.book_warehouse).trigger("change")
@@ -394,6 +395,24 @@ function GetDetail()
 		$("#shippingFeeTerm").val(_data.book_shippingFeeTerm).trigger("change")
 		$('#payAddress').val(_data.book_payAddress)
 		$('#signAddress').val(_data.book_signAddress)
+
+		common.ajax_req("get", true, dataUrl, "booking.ashx?action=readvgmbyid", {
+		    "bookingId": bookingId
+		}, function (data) {
+		    $('#vgminfoNum').val(data.Data.vgm_num),
+            $('#vgminfoUnit').val(data.Data.vgm_unit),
+            $('#vgminfoWay').val(data.Data.vgm_way),
+            $('#inputResponsibility').val(data.Data.vgm_responsibility),
+            $('#inputAuthorize').val(data.Data.vgm_authorize),
+            $('#inputWeighing').val(data.Data.vgm_weighing),
+            $('#weighingDate').val(data.Data.vgm_weighingDate),
+            $('#inputVmgBeizhu').val(data.Data.vgm_beizhu)
+		}, function (err) {
+		    console.log(err)
+		}, 1000)
+
+		GetContainer();
+
 	}, function(err) {
 		console.log(err)
 	}, 1000)
