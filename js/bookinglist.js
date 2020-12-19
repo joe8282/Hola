@@ -112,7 +112,7 @@ function initTable() {
                     //     +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + ((rowData.book_state==1)?get_lan('delete'):"") + "</a></li>"
     		    //     +"</ul></div>")
     		        if (rowData.book_state == 3) {
-    		            $(td).parent().find("td").css("background-color", "orange");
+    		            $(td).parent().find("td").css("background-color", "red");
     		        }
                     $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
                         var _thisHtml_head='';

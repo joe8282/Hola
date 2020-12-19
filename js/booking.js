@@ -35,7 +35,7 @@ $(document).ready(function() {
 	$('#title2').text(get_lan('con_top_4')) 
 
 	oTable = initTable(fromId);
-	$('#summernote').summernote({ 
+	$('#summernote,#cancel_summernote').summernote({
 	toolbar: [
 	    // [groupName, [list of button]]
 	    ['style', ['bold', 'italic', 'underline']],
@@ -363,12 +363,13 @@ function initTable(fromId) {
 					var stateText = '';
 					var pol=rowData.book_port1;
 					var pod=rowData.book_port2;
+					var allContainer = rowData.book_movementType + " / " +rowData.book_allContainer
 					if(rowData.book_state == 1) {
 						$(td).parent().find("td").css("background-color","#fdfdbf");
 						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_sellId + ",\"" + pol + "\",\"" + pod + "\")'>" + get_lan('con_top_5') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a></li>"
+	                    + "<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'> " + get_lan('cancel') + "</a></li>"
 	                    //+"<li><a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a></li>"
 	                    +"<li class='divider'></li>"
 	                    //+"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
@@ -378,7 +379,7 @@ function initTable(fromId) {
 						// 	.append("<a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
 					} else if(rowData.book_state == 2) {
-						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a>"
+					    $(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'>" + get_lan('cancel') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li></li>"
@@ -391,7 +392,7 @@ function initTable(fromId) {
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
 					} else if (rowData.book_state == 3) {
 					    $(td).parent().find("td").css("background-color", "red");
-					    $(td).html("<span></span>")
+					    $(td).html("<span><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_reasonFun(" + cellData + ",\"" + rowData.book_beizhu + "\")'>" + get_lan('reason') + "</a></span>")
 					}
 				
 				}
@@ -767,21 +768,120 @@ function initTable(fromId) {
 /**
  * 取消
  */
- function _cancelFun(id) {
+ var emailTitle = '', emailContent = '', emailAccount = '', emailAccount2 = ''
+ function _cancelFun(id, crmId, state, code, allContainer, pol, pod, carrierSupplierEmail) {
+     emailAccount2 = carrierSupplierEmail
+     if (state == 1) {
+         $("#sendTH").hide();
+     } else {
+         $("#sendTH").show();
+     }
  	$("#myModal").modal("show");
  	$('#bookId').val(id)
+
+ 	common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+ 	    "companyId": companyID
+ 	}, function (data) {
+ 	    //console.log(data)
+ 	    var _data = data.data;
+ 	    $('#crmuser').empty();
+ 	    if (_data != null) {
+ 	        for (var i = 0; i < _data.length; i++) {
+ 	            var _html = '<option value="' + _data[i].comp_id + '" data-crmId="' + _data[i].comp_customerId + '" data-crmName="' + _data[i].comp_contactName + '" data-crmEmail="' + _data[i].comp_contactEmail + '">' + _data[i].comp_name + '</option>';
+ 	            $('#crmuser').append(_html)
+ 	        }
+ 	    }
+ 	}, function (err) {
+ 	    console.log(err)
+ 	}, 2000)
+
+ 	common.ajax_req("GET", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+ 	    "companyId": crmId
+ 	}, function (data) {
+ 	    var _data = data.data;
+ 	    $('#crmName').empty();
+ 	    $('#crmName').append('<option value="0">Select Contact</option>')
+ 	    if (_data != null) {
+ 	        for (var i = 0; i < _data.length; i++) {
+ 	            var _html = '<option value="' + _data[i].coco_id + '" data-Name="' + _data[i].coco_name + '" data-Email="' + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+ 	            $('#crmName').append(_html)
+ 	        }
+ 	    }
+ 	}, function (err) {
+ 	    console.log(err)
+ 	}, 2000)
+
+ 	$("#crmuser").val(crmId).trigger("change");
+ 	$("#crmName").find(':contains(' + $("#crmuser").find("option:selected").attr("data-crmName") + ')').attr('selected', true).trigger("change");
+ 	$("#crmEmail").val($("#crmuser").find("option:selected").attr("data-crmEmail"));
+ 	$('#cancel_summernote').summernote('code', "Dear " + $("#crmuser").find("option:selected").attr("data-crmName") + ", </br></br>订舱委托号（BOOKING NO.)：" + code + "</br>起运港（POL）：" + pol + "</br>目的港（POD）：" + pod + "</br>货量（CARGO）：" + allContainer.replace('_', '\'') + "</br>以上订舱由于 " + $("#beizhu").val() + " 原因，已在系统取消，如需重新订舱，请再次发起。");
+ 	emailTitle = code + " // " + pol + " " + pod + " " + allContainer.replace('_', '\'') + ", CANCEL"
+ 	emailContent = $('#cancel_summernote').summernote("code")
+
+ 	$("#crmuser").change(function () {
+ 	    //获取委托人联系人
+ 	    var companyId_Contact = $("#crmuser").val();
+ 	    common.ajax_req("GET", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+ 	        "companyId": companyId_Contact
+ 	    }, function (data) {
+ 	        var _data = data.data;
+ 	        $('#crmName').empty();
+ 	        $('#crmName').append('<option value="0">Select Contact</option>')
+ 	        if (_data != null) {
+ 	            for (var i = 0; i < _data.length; i++) {
+ 	                var _html = '<option value="' + _data[i].coco_id + '" data-Name="' + _data[i].coco_name + '" data-Email="' + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+ 	                $('#crmName').append(_html)
+ 	            }
+ 	            $("#crmName").find(':contains(' + $("#crmuser").find("option:selected").attr("data-crmName") + ')').attr('selected', true).trigger("change");
+ 	            $('#cancel_summernote').summernote('code', "Dear " + $("#crmuser").find("option:selected").attr("data-crmName") + ", </br></br>订舱委托号（BOOKING NO.)：" + code + "</br>起运港（POL）：" + pol + "</br>目的港（POD）：" + pod + "</br>货量（CARGO）：" + allContainer.replace('_', '\'') + "</br>以上订舱由于 " + $("#beizhu").val() + " 原因，已在系统取消，如需重新订舱，请再次发起。");
+ 	            $("#crmEmail").val($("#crmuser").find("option:selected").attr("data-crmEmail"));
+ 	            emailContent = $('#cancel_summernote').summernote("code")
+
+ 	        }
+ 	    }, function (err) {
+ 	        console.log(err)
+ 	    }, 2000)
+ 	    
+ 	})
+ 	$("#crmName").change(function () {
+ 	    $("#crmEmail").val($("#crmName").find("option:selected").attr("data-Email"));
+ 	    $('#cancel_summernote').summernote('code', "Dear " + $("#crmName").find("option:selected").attr("data-Name") + ", </br></br>订舱委托号（BOOKING NO.)：" + code + "</br>起运港（POL）：" + pol + "</br>目的港（POD）：" + pod + "</br>货量（CARGO）：" + allContainer.replace('_', '\'') + "</br>以上订舱由于 " + $("#beizhu").val() + " 原因，已在系统取消，如需重新订舱，请再次发起。");
+ 	    emailContent = $('#cancel_summernote').summernote("code")
+ 	})
+
  }
- $('#btnSave').on('click', function() {
+ $('#btnSave').on('click', function () {
+     //是否发邮件
+     var isCancelSendeMail = 0;
+     if ($("#CancelSendEmail").is(":checked")) {
+         isCancelSendeMail = 1
+     } else {
+         isCancelSendeMail = 0
+     }
+     var isCancelSendeMail2 = 0;
+     if ($("#CancelSendEmail2").is(":checked")) {
+         isCancelSendeMail2 = 1
+     } else {
+         isCancelSendeMail2 = 0
+     }
+
  	var parm = {
  		'Id': $('#bookId').val(),
  		'state': 3,
- 		'beizhu': $('#beizhu').val()
+ 		'beizhu': $('#beizhu').val(),
+ 		'isCancelSendeMail': isCancelSendeMail,
+ 		'isCancelSendeMail2': isCancelSendeMail2,
+ 		'emailContent': emailContent,
+ 		'emailTitle': emailTitle,
+ 		'emailAccount': $("#crmEmail").val(),
+ 		'emailAccount2': emailAccount2,
+
  	}
  	common.ajax_req('POST', true, dataUrl, 'booking.ashx?action=modify', parm, function(data) {
  		if(data.State == 1) {
  			$("#myModal").modal("hide");
  			comModel("取消成功")
- 			oTable.fnReloadAjax(oTable.fnSettings());
+ 			//oTable.fnReloadAjax(oTable.fnSettings());
  		} else {
  			$("#myModal").modal("hide");
  			comModel("取消失败")
@@ -820,6 +920,16 @@ function initTable(fromId) {
  			});
  		}
  	});
+ }
+
+ /**
+  * 取消原因
+  */
+ function _reasonFun(id, beizhu) {
+     console.log(beizhu)
+     $('#bookId').val(id)
+     $('#reason_beizhu').html(beizhu)
+     $("#myModal0").modal("show");
  }
 
 /*

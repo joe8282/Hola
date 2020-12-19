@@ -224,34 +224,68 @@ Purchase: http://wrapbootstrap.com
     </div>   
     
     <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-sm" id="myModal0" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">取消订舱原因</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal" id="resForm">
+                        <input type="hidden" id="objectId" />
+
+                        <div class="form-group" id="cancel_code">
+                            <p id="reason_beizhu"></p>
+                            <input id="bookId" type="hidden" />
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+
+    <!--LArge Modal Templates-->
     <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
-    	<div class="modal-dialog modal-sm">
-    		<div class="modal-content">
-    
-    			<div class="modal-header">
-    				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    				<h4 class="modal-title" id="mySmallModalLabel">取消订舱</h4>
-    			</div>
-    			<div class="modal-body" style="padding: 10px 40px;">
-    				<form class="form-horizontal" id="resForm">
-    					<input type="hidden" id="objectId" />
-    
-    					<div class="form-group" id="code">
-    						<!--<label class="control-label" for="inputCode">取消原因：</label> -->
-    						<textarea class="form-control" rows="5" id="beizhu" placeholder="取消原因"></textarea>
-    						<input id="bookId" type="hidden" />
-    					</div>
-    
-    				</form>
-    			</div>
-    			<div class="modal-footer">
-    				<button class="btn btn-primary" id="btnSave" set-lan="html:submit">确定</button>
-    				<button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
-    			</div>
-    		</div>
-    		<!-- /.modal-content -->
-    	</div>
-    	<!-- /.modal-dialog -->
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">取消订舱</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal" id="resForm">
+                        <input type="hidden" id="objectId" />
+
+                        <div class="form-group" id="cancel_code">
+                            <p><textarea class="form-control" rows="3" id="beizhu" placeholder="取消原因"></textarea></p>
+                            <p>委托人：<select id="crmuser" style="width: 78%;"></select></p>
+                            <p>联系人：<select id="crmName" style="width: 30%; padding: 3px;"><option value="0">Select Contact</option></select> <input type="text" id="crmEmail" placeholder="联系人邮箱" style="width: 30%;"> 是否发送邮件 <input type="checkbox" class="inverted" id="CancelSendEmail"></p>
+                            <!--<label class="control-label" for="inputCode">取消原因：</label> -->
+                            <p id="sendTH">是否向订舱的同行联系人发送邮件 <input type="checkbox" class="inverted" id="CancelSendEmail2"></p>
+                            <div class="summernote" id="cancel_summernote"></div>
+                            <input id="bookId" type="hidden" />
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnSave" set-lan="html:submit">确定</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
     </div>
     <!--End Large Modal Templates-->
 
@@ -337,6 +371,8 @@ Purchase: http://wrapbootstrap.com
     	<!-- /.modal-dialog -->
     </div>
     <!--End Large Modal Templates-->
+
+
     
     <!--Basic Scripts-->
     <script src="assets/js/jquery-2.0.3.min.js"></script>
