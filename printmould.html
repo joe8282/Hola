@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>Print Mould</title>
+
+    <meta name="description" content="data tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/jquery-ui.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+
+    <!--Page Related styles-->
+    <link href="css/common.css" rel="stylesheet" />    
+    <style>
+        #printArea{
+            margin:10px;
+            width: 1240px;
+            height: 1754px;
+            /*border: 1px solid black;
+            background-image: url(upload/img/hblmould.png);   */  
+            background-size:1240px 1754px;       
+            background-repeat:no-repeat;
+            background-position:center;
+            position: relative;
+            float: left;
+        }
+        #printControl{
+            margin: 10px;
+            float: left;
+        }
+        #mouldLogo{
+            position: absolute;
+        }
+    </style>
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>    
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <div id="printArea">
+            <img id="mouldBackgroud" src="">
+            <img id="mouldLogo" src="" />
+        </div>
+        <div id="printControl" class="form-group">
+            <button class="btn btn-primary col-sm-12" id="btnPrint">打印</button>
+            <p><label>数据名称：</label><input type="text" name="itemName" id="itemName"></p>
+            <p><label>数据位置：</label><input type="text" name="itemPosition" id="itemPosition"></p>
+            <p><label>字体大小：</label><input type="text" name="itemWeight" id="itemWeight"></p>
+            <p><label>数据位置：</label><input type="text" name="itemDim" id="itemDim"></p>
+            <p><label>数据备注：</label><input type="text" name="itemRemark" id="itemRemark"></p>
+            <button class="btn btn-primary col-sm-12" id="btnSave">保存</button>
+        </div>
+    </div>   
+
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+
+    <script src="assets/js/bootstrap.min.js"></script>
+  <script src="assets/js/jquery-ui-1.10.4.custom.js"></script>
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script> 
+    
+    <script src="js/common.js"></script>
+    <script src="js/printmould.js"></script> 
+    <script src="js/lan.js"></script> 
+    
+    
+</body>
+<!--  /Body -->
+</html>
