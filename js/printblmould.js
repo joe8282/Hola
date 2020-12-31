@@ -71,21 +71,58 @@ $(document).ready(function() {
 	$("#mouldBackgroud").css({"left":"0","top":"0","width":"1240px","height":"1754px"});
 	//$("#printArea").css({"background-image":"url(upload/img/hblmould.png)","font-size":"200%"});
 	$("#printArea").css("background-image",imgSrc);
-	$("#printArea div,#printArea #mouldLogo").draggable({
-		containment: "#printArea",
-		cursor: "move"
-	});
-	$("#printArea div,#printArea #mouldLogo").resizable({
-		containment: "#printArea",
-		stop: function( event, ui ) {
-			var _width=$(this).width();
-			var _height=$(this).height();
-			$("#itemDim").val(_width+"px,"+_height+"px");
-		}
-	});
+	DraggableResizable();
 
-	//当按下层的时候，移动会有背景色
-	$('#printArea div,#printArea #mouldLogo').mousedown(function(){
+
+	$("#addHLine").click(function() {
+		var HLine='<div style="border-top:1px solid black; height:10px; width:100px; left:0px; top:0px; position:absolute;"></div>';
+		$("#printArea").append(HLine);
+		alert($("#printArea>div").length)
+		DraggableResizable();
+	})
+	$("#addVLine").click(function() {
+		var HLine='<div style="border-left:1px solid black; height:100px; width:10px; left:0px; top:0px; position:absolute;"></div>';
+		$("#printArea").append(HLine);
+		alert($("#printArea>div").length)
+		DraggableResizable();
+	})
+	$("#addSqure").click(function() {
+		var HLine='<div style="border:1px solid black; height:100px; width:100px; left:0px; top:0px; position:absolute;"></div>';
+		$("#printArea").append(HLine);
+		alert($("#printArea>div").length)
+		DraggableResizable();
+	})
+	$("#addLabel").click(function() {
+		var HLine='<div style="border:1px solid black; height:100px; width:100px; left:0px; top:0px; position:absolute;"></div>';
+		$("#printArea").append(HLine);
+		alert($("#printArea>div").length)
+		DraggableResizable();
+	})
+
+	// //当按下层的时候，移动会有背景色
+	// $('#printArea div,#printArea #mouldLogo').mousedown(function(){
+	// 	alert("dddddd")
+	// 	$(this).css("background-color","#FFFFCC");
+	// 	var x=$(this).position().top;
+	// 	var y=$(this).position().left; 
+	// 	var _width=$(this).width();
+	// 	var _height=$(this).height();
+	// 	$("#itemPosition").val(x+"px,"+y+"px");
+	// 	$("#itemName").val($(this).attr("id"));
+	// 	$("#itemWeight").val($(this).css("font-size"));
+	// 	$("#itemDim").val(_width+"px,"+_height+"px");
+
+	// });	
+	// //当松开层移动的时候，背景色消失
+	// $('#printArea div,#printArea #mouldLogo').mouseup(function(){
+	// 	$(this).css("background-color","");
+	// 	var x=$(this).position().top;
+	// 	var y=$(this).position().left; 
+	// 	$("#itemPosition").val(x+"px,"+y+"px");
+	// });	//当按下层的时候，移动会有背景色
+	$(document).on('mousedow','#printArea div,#printArea #mouldLogo',function (e) {
+	//$('#printArea div,#printArea #mouldLogo').mousedown(function(){
+		alert("dddddd")
 		$(this).css("background-color","#FFFFCC");
 		var x=$(this).position().top;
 		var y=$(this).position().left; 
@@ -98,7 +135,7 @@ $(document).ready(function() {
 
 	});	
 	//当松开层移动的时候，背景色消失
-	$('#printArea div,#printArea #mouldLogo').mouseup(function(){
+	$(document).on('mousedow','#printArea div,#printArea #mouldLogo',function (e) {
 		$(this).css("background-color","");
 		var x=$(this).position().top;
 		var y=$(this).position().left; 
@@ -106,5 +143,19 @@ $(document).ready(function() {
 	});
 })
 
+function DraggableResizable(){
+	$("#printArea div,#printArea #mouldLogo").draggable({
+		containment: "#printArea",
+		cursor: "move"
+	});
+	$("#printArea div,#printArea #mouldLogo").resizable({
+		containment: "#printArea",
+		stop: function( event, ui ) {
+			var _width=$(this).width();
+			var _height=$(this).height();
+			$("#itemDim").val(_width+"px,"+_height+"px");
+		}
+	});
+}
 
 
