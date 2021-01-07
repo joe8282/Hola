@@ -73,6 +73,14 @@ $(document).ready(function() {
 	$("#printArea").css("background-image",imgSrc);
 	DraggableResizable();
 
+	// $("#mouldLogo").resizable({
+	// 	containment: "#printArea",
+	// 	stop: function( event, ui ) {
+	// 		var _width=$(this).width();
+	// 		var _height=$(this).height();
+	// 		$("#itemDim").val(_width+"px,"+_height+"px");
+	// 	}
+	// });
 
 	$("#addHLine").click(function() {
 		var HLine='<div style="border-top:1px solid black; height:10px; width:100px; left:0px; top:0px; position:absolute;"></div>';
@@ -120,9 +128,8 @@ $(document).ready(function() {
 	// 	var y=$(this).position().left; 
 	// 	$("#itemPosition").val(x+"px,"+y+"px");
 	// });	//当按下层的时候，移动会有背景色
-	$(document).on('mousedow','#printArea div,#printArea #mouldLogo',function (e) {
+	$(document).on('mousedown','#printArea div,#mouldLogo',function (e) {
 	//$('#printArea div,#printArea #mouldLogo').mousedown(function(){
-		alert("dddddd")
 		$(this).css("background-color","#FFFFCC");
 		var x=$(this).position().top;
 		var y=$(this).position().left; 
@@ -130,12 +137,13 @@ $(document).ready(function() {
 		var _height=$(this).height();
 		$("#itemPosition").val(x+"px,"+y+"px");
 		$("#itemName").val($(this).attr("id"));
+		console.log($(this).attr("id"));
 		$("#itemWeight").val($(this).css("font-size"));
 		$("#itemDim").val(_width+"px,"+_height+"px");
 
 	});	
 	//当松开层移动的时候，背景色消失
-	$(document).on('mousedow','#printArea div,#printArea #mouldLogo',function (e) {
+	$(document).on('mouseup','#printArea div,#mouldLogo',function (e) {
 		$(this).css("background-color","");
 		var x=$(this).position().top;
 		var y=$(this).position().left; 
@@ -144,11 +152,11 @@ $(document).ready(function() {
 })
 
 function DraggableResizable(){
-	$("#printArea div,#printArea #mouldLogo").draggable({
+	$("#printArea div,#mouldLogo").draggable({
 		containment: "#printArea",
 		cursor: "move"
 	});
-	$("#printArea div,#printArea #mouldLogo").resizable({
+	$("#printArea div").resizable({
 		containment: "#printArea",
 		stop: function( event, ui ) {
 			var _width=$(this).width();
