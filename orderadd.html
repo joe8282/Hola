@@ -668,20 +668,29 @@ Purchase: http://wrapbootstrap.com
                                     </div>
                                     <div class="form-horizontal none" role="form" id="trailerlist" style="margin:10px 0 20px 0;">
                                         <div class="form-group"></div>
-                                        <table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer" style="margin: 10px;"></table>
+                                        <table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer" style="margin: 10px;">
+                                            <tr>
+                                                <td>车行</td><td>装箱公司</td><td>地址</td><td>联系人</td><td>联系方式</td><td>时间</td><td>柜型</td><td>SO号码</td><td>备注</td><td>操作</td>
+                                            </tr>
+                                        </table>
                                         <hr class="wide">
                                         <div class="form-group">
                                             <div class="col-sm-12">
-                                                <div style="width: 10%; float: left; margin-right: 1%;">
+                                                <div style="width: 12%; float: left; margin-right: 1%;">
                                                     <select id="trailer" style="width: 100%;">
                                                         <!--<option value="0">请选择车行</option>-->
                                                     </select>
                                                 </div>
+                                                <div style="width: 12%; float: left; margin-right: 1%;">
+                                                    <select id="packingCompany" style="width: 100%;">
+                                                        <option value="0">请选择装箱公司</option>
+                                                    </select>
+                                                </div>
                                                 <input type="text" class="form-control" style="width: 15%; float: left; margin-right: 1%;" id="trailerAddress" placeholder="地址："> 
-                                                <!--<input type="text" class="form-control" style="width: 30%; float: left;" id="trailerContact" placeholder="联系人：">-->
-                                                <select id="trailerContact" style="width: 10%; float: left; margin-right: 1%; ">
+                                                <input type="text" class="form-control" style="width: 10%; float: left; margin-right: 1%;" id="trailerContact" placeholder="联系人：">
+                                                <!--<select id="trailerContact" style="width: 10%; float: left; margin-right: 1%; ">
                                                     <option value="0">选择联系人</option>
-                                                </select> 
+                                                </select>--> 
                                                 <input type="text" class="form-control" style="width: 15%; float: left; margin-right: 1%; " id="trailerContactWay" placeholder="联系方式：">
                                                 <div class="input-group" style="width: 12%; float: left; margin-right: 1%; ">
                                                     <input class="form-control date-picker" id="trailerTime" type="text" data-date-format="yyyy-mm-dd">
@@ -695,8 +704,12 @@ Purchase: http://wrapbootstrap.com
                                                         <!--<option value=""></option>-->
                                                     </select>
                                                 </div>
-                                                <input type="text" class="form-control" style="width: 15%; float: left; margin-right: 1%; " id="trailerRemark" placeholder="备注"> 
-                                                <button style="width: 5%; float: left;" type="submit" id="addTrailer" class="btn btn-sm">添加</button>
+                                            </div>
+                                            <div class="col-sm-12" style="margin-top:10px;">
+                                                <input type="text" class="form-control" style="width: 10%; float: left; margin-right: 1%; " id="trailerSo" placeholder="SO号码">
+                                                <input type="text" class="form-control" style="width: 20%; float: left; margin-right: 1%; " id="trailerRemark" placeholder="备注">
+                                                <button style="width: 6%; float: left; margin-right: 1%;" type="submit" id="addTrailer" class="btn btn-sm">添加</button>
+                                                <button style="width: 9%; float: left;" type="submit" id="addTrailer0" class="btn btn-sm">以往拖车记录</button>
                                             </div>
                                         </div>
                                         <!--<div class="form-group">
@@ -1436,6 +1449,88 @@ Purchase: http://wrapbootstrap.com
         <!-- /.modal-dialog -->
     </div>
     <!--End Large Modal Templates-->
+
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-lg" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">以往拖车记录</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 10px;">
+                    <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="tableTitle">
+                                <th>车行</th>
+                                <th>装箱公司</th>
+                                <th>地址</th>
+                                <th>联系人</th>
+                                <th>联系方式</th>
+                                <th>柜型</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trailerList"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+
+
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-lg" id="myModal3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">派车单</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 10px;">
+                    <table class="table table-hover table-striped table-bordered" style="margin-bottom: 10px;">
+                        <thead>
+                            <tr>
+                                <th style="text-align: right;">TO</th>
+                                <td colspan="5" id="t_comp_name"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right;">装箱公司</th>
+                                <td colspan="2" id="t_packing_comp_name"></td>
+                                <th style="text-align: right;">装箱公司地址</th>
+                                <td colspan="2" id="t_address"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right;">装箱联系人</th>
+                                <td colspan="2" id="t_contact"></td>
+                                <th style="text-align: right;">装箱联系方式</th>
+                                <td colspan="2" id="t_contactWay"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right;">装箱时间</th>
+                                <td id="t_time"></td>
+                                <th style="text-align: right;">装箱柜型</th>
+                                <td id="t_container"></td>
+                                <th style="text-align: right;">装箱SO号码</th>
+                                <td id="t_so"></td>
+                            </tr>
+                            <tr>
+                                <th style="text-align: right;">备注</th></td>
+                                <td colspan="5" id="t_remark"></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+
     <!--Basic Scripts-->
     <script src="assets/js/jquery-2.0.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>

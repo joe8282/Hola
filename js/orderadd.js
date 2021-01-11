@@ -567,6 +567,8 @@ $(function(){
 		crmCompanyId = $("#crmuser").val();
 		_selectSupplier(crmCompanyId)
 		_selectBill(crmCompanyId)
+		crmCompanyName = $("#crmuser").find("option:selected").text();
+		_selectPackingCom(crmCompanyId, crmCompanyName) //获取装箱公司
 	})
 	
 	function _selectSupplier(crmId){
@@ -587,6 +589,37 @@ $(function(){
 		}, function(err) {
 			console.log(err)
 		}, 2000)
+	}
+
+	function _selectPackingCom(crmId, crmCompanyName) {
+	    //获取装箱公司
+	    $("#packingCompany").append('<option value="' + crmId + '" selected>' + crmCompanyName + '</option>')
+	    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+	        "Id": crmId
+	    }, function (data) {
+	        var _data = data.Data;
+	        $("#trailerAddress").val(_data.comp_address);
+	        $("#trailerContact").val(_data.comp_contactName);
+	        $("#trailerContactWay").val(_data.comp_contactPhone + '|' + _data.comp_contactEmail);
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+	    common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+	        "upId": crmId
+	    }, function (data) {
+	        //console.log(data)
+	        var _data = data.data;
+	        if (_data != null) {
+	            for (var i = 0; i < _data.length; i++) {
+	                //var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"> ' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].comp_contactName + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：' + _data[i].comp_contactPhone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：' + _data[i].comp_contactEmail + '</div>'
+	                var crmlist = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>'
+	                $("#packingCompany").append(crmlist)
+	            }
+	        }
+
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
 	}
 	
 	//自定货
@@ -822,36 +855,38 @@ $(function(){
 	        return repo.text;
 	    } // 函数用于呈现当前的选择
 	});
-	$("#trailer").change(function () {
-	    var companyId_Contact = $("#trailer").val();
+	$("#packingCompany").change(function () {
+	    var companyId_Contact = $("#packingCompany").val();
 	    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
 	        "Id": companyId_Contact
 	    }, function (data) {
 	        var _data = data.Data;
 	        $("#trailerAddress").val(_data.comp_address);
+	        $("#trailerContact").val(_data.comp_contactName);
+	        $("#trailerContactWay").val(_data.comp_contactPhone + '|' + _data.comp_contactEmail);
 	    }, function (err) {
 	        console.log(err)
 	    }, 2000)
-	    common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
-	        "companyId": companyId_Contact
-	    }, function (data) {
-	        var _data = data.data;
-	        $('#trailerContact').empty();
-	        $('#trailerContact').append('<option value="0">选择联系人</option>')
-	        if (_data != null) {
-	            for (var i = 0; i < _data.length; i++) {
-	                var _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + "|" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
-	                $('#trailerContact').append(_html)
-	            }
-	        }
-	    }, function (err) {
-	        console.log(err)
-	    }, 2000)
+	    //common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+	    //    "companyId": companyId_Contact
+	    //}, function (data) {
+	    //    var _data = data.data;
+	    //    $('#trailerContact').empty();
+	    //    $('#trailerContact').append('<option value="0">选择联系人</option>')
+	    //    if (_data != null) {
+	    //        for (var i = 0; i < _data.length; i++) {
+	    //            var _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + "|" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	    //            $('#trailerContact').append(_html)
+	    //        }
+	    //    }
+	    //}, function (err) {
+	    //    console.log(err)
+	    //}, 2000)
 	})
 
-	$("#trailerContact").change(function () {
-	    $("#trailerContactWay").val($("#trailerContact").find("option:selected").attr("data-carrierContactEmail"));
-	})
+	//$("#trailerContact").change(function () {
+	//    $("#trailerContactWay").val($("#trailerContact").find("option:selected").attr("data-carrierContactEmail"));
+	//})
 
 	function _selectBill(crmId){
 		//SHIPPER
@@ -1747,22 +1782,27 @@ $(function(){
     	this.title = get_lan('con_top_3')
 		$('#title1').text(get_lan('con_top_3'))
 		$('#title2').text(get_lan('con_top_3'))
+		common.ajax_req("get", true, dataUrl, "booking.ashx?action=getordercode", {
+		    "companyId": companyID
+		}, function (data) {
+		    //console.log(data)
+		    if (data.State == 1) {
+		        orderCode = data.Data
+		    } 
+		    $('#title3').html('订单号：' + orderCode)
+		    $('#warehouseInCode').val(orderCode + 'WH');
+		    $('#warehouseOutCode').val(orderCode + 'WH');
+		})
     	common.ajax_req("get", true, dataUrl, "weiinfo.ashx?action=read", {
     		"companyId": companyID
     	}, function(data) {
     		//console.log(data)
     		if(data.State == 1) {
-    			orderCode = data.Data.wein_preNum + getCode()
     			$('#payAddress').val(data.Data.wein_gameTitle1)
     			$('#signAddress').val(data.Data.wein_gameTitle2)
     			$('#payAddress2').val(data.Data.wein_gameTitle1)
     			$('#signAddress2').val(data.Data.wein_gameTitle2)
-    		} else {
-    			orderCode = getCode()
-    		}
-    		$('#title3').html('订单号：' + orderCode)
-    		$('#warehouseInCode').val(orderCode + 'WH');
-    		$('#warehouseOutCode').val(orderCode + 'WH');
+    		} 
     	}) 	
     	//$('#STATELIST span').eq(0).addClass('btn-blue')
     	$('#STATELIST li').eq(0).addClass('active')
@@ -2225,7 +2265,7 @@ $(function(){
     			var _data = data.Data;
     			for(var i = 0; i < _data.length; i++) {
     			    //var trailerlist = '<div style="margin: 5px 0px;">' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;地址：' + _data[i].botr_address + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].botr_contact + '&nbsp;&nbsp;&nbsp;&nbsp;联系方式：' + _data[i].botr_contactWay + '&nbsp;&nbsp;&nbsp;&nbsp;时间：' + _data[i].botr_time + '&nbsp;&nbsp;&nbsp;&nbsp;柜型：' + _data[i].botr_container + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a></div>'
-    			    var trailerlist = '<tr class="margin-left-20 margin-right-20"><td> ' + _data[i].comp_name + '</td><td>联系人：' + _data[i].botr_contact + '</td><td>联系方式：' + _data[i].botr_contactWay + '</td><td>地址：' + _data[i].botr_address + '</td><td>时间：' + _data[i].botr_time.substring(0, 10) + '</td><td>柜型：' + _data[i].botr_container + '</td><td>备注：' + _data[i].botr_remark + '</td><td><a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a></td></tr>'
+    			    var trailerlist = '<tr><td> ' + _data[i].comp_name + '</td><td> ' + _data[i].packing_comp_name + '</td><td>' + _data[i].botr_address + '</td><td>' + _data[i].botr_contact + '</td><td>' + _data[i].botr_contactWay + '</td><td>' + _data[i].botr_time.substring(0, 10) + '</td><td>' + _data[i].botr_container + '</td><td> ' + _data[i].botr_so + '</td><td>' + _data[i].botr_remark + '</td><td><a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a>&nbsp;&nbsp;<a class="detailTrailer"  artiid="' + _data[i].botr_id + '" contact="' + _data[i].botr_contact + '" contactWay="' + _data[i].botr_contactWay + '" container="' + _data[i].botr_container + '" address="' + _data[i].botr_address + '" so="' + _data[i].botr_so + '" remark="' + _data[i].botr_remark + '" time="' + _data[i].botr_time.substring(0, 10) + '" comp_name="' + _data[i].comp_name + '" packing_comp_name="' + _data[i].packing_comp_name + '">派车单</a></td></tr>'
     				$(".trailerAll").append(trailerlist)
     			}
     			$('#addTrailer').text("继续添加")
@@ -2254,6 +2294,21 @@ $(function(){
     					console.log(error);
     				}
     			});
+    		})
+
+    	    /*派车单*/
+    		$('.detailTrailer').on('click', function () {
+    		    console.log($(this).attr('artiid'))
+    		    $("#myModal3").modal("show");
+    		    $("#t_contact").text($(this).attr('contact'))
+    		    $("#t_contactWay").text($(this).attr('contactWay'))
+    		    $("#t_address").text($(this).attr('address'))
+    		    $("#t_container").text($(this).attr('container'))
+    		    $("#t_time").text($(this).attr('time'))
+    		    $("#t_so").text($(this).attr('so'))
+    		    $("#t_remark").text($(this).attr('remark'))
+    		    $("#t_comp_name").text($(this).attr('comp_name'))
+    		    $("#t_packing_comp_name").text($(this).attr('packing_comp_name'))
     		})
     	
     	}, function(err) {
@@ -2342,6 +2397,8 @@ $(function(){
 	$('#addTrailer').on('click', function() {
 			var trailer = $('#trailer').val()
 			var trailerName = $('#trailer').find("option:selected").text()
+			var pckingCompanyId = $('#packingCompany').val()
+			var pckingCompanyName = $('#packingCompany').find("option:selected").text()
 			var trailerAddress = $('#trailerAddress').val()
 			var trailerContact = $('#trailerContact').val()
 			var trailerContactWay = $('#trailerContactWay').val()
@@ -2349,6 +2406,7 @@ $(function(){
 			var trailerNumUnit = $('#trailerNumUnit').val()
 			var trailerNum = $('#trailerNum').val()
 			var newNumUnit = trailerNum + '*' + trailerNumUnit
+			var trailerSo = $('#trailerSo').val()
 			var trailerRemark = $('#trailerRemark').val()
 			if(!trailer){
 				comModel("请选择车行")
@@ -2356,20 +2414,22 @@ $(function(){
 				comModel("请输入地址")
 			}else{
 			    //var trailerlist = '<div style="margin: 5px 0px;">' + trailerName + '&nbsp;&nbsp;&nbsp;&nbsp;地址：' + trailerAddress + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + trailerContact + '&nbsp;&nbsp;&nbsp;&nbsp;联系方式：' + trailerContactWay + '&nbsp;&nbsp;&nbsp;&nbsp;时间：' + trailerTime + '&nbsp;&nbsp;&nbsp;&nbsp;柜型：' + newNumUnit + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deletetrailer">删除</a></div>'
-			    var trailerlist = '<tr><td> ' + trailerName + '</td><td>联系人：' + trailerContact + '</td><td>联系方式：' + trailerContactWay + '</td><td>地址：' + trailerAddress + '</td><td>时间：' + trailerTime + '</td><td>柜型：' + newNumUnit + '</td><td>备注：' + trailerRemark + '</td><td><a class="deletetrailer">删除</a></td></tr>'
+			    var trailerlist = '<tr><td>' + trailerName + '</td><td> ' + pckingCompanyName + '</td><td>' + trailerAddress + '</td><td>' + trailerContact + '</td><td>' + trailerContactWay + '</td><td>' + trailerTime + '</td><td>' + newNumUnit + '</td><td> ' + trailerSo + '</td><td>' + trailerRemark + '</td><td><a class="deletetrailer">删除</a></td></tr>'
 				$(".trailerAll").append(trailerlist)
 				$('#addTrailer').text("继续添加")
-				trailerData = trailerData + trailer + ',' + trailerAddress + ',' + trailerContact + ',' + trailerContactWay + ',' + trailerTime + ',' + newNumUnit + ',' + trailerRemark + ';'
+				trailerData = trailerData + trailer + ',' + pckingCompanyId + ',' + trailerAddress + ',' + trailerContact + ',' + trailerContactWay + ',' + trailerTime + ',' + newNumUnit + ',' + trailerSo + ',' + trailerRemark + ';'
 				//console.log(trailerData)
 				if(action == 'modify'){
 				    common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newtrailer', {
 						'bookingId':Id,
-						'crmId':trailer,
+						'crmId': trailer,
+						'packingCrmId': pckingCompanyId,
 						'address':trailerAddress,
 						'contact':trailerContact,
 						'contactWay':trailerContactWay,
 						'time':trailerTime,
 						'container': newNumUnit,
+						'so': trailerSo,
 						'remark': trailerRemark
 					}, function(data) {
 						if(data.State == 1) {
@@ -2392,6 +2452,42 @@ $(function(){
 			})
 
 	});
+
+	$('#addTrailer0').click(function () {
+	    $("#myModal2").modal("show");
+	    $("#trailerList").empty()
+	    //加载拖车报关
+	    common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
+	        "crmId": crmCompanyId
+	    }, function (data) {
+	        //console.log(data.Data)
+	        if (data.State == 1) {
+	            var _data = data.Data;
+	            for (var i = 0; i < _data.length; i++) {
+	                //var trailerlist = '<div style="margin: 5px 0px;">' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;地址：' + _data[i].botr_address + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].botr_contact + '&nbsp;&nbsp;&nbsp;&nbsp;联系方式：' + _data[i].botr_contactWay + '&nbsp;&nbsp;&nbsp;&nbsp;时间：' + _data[i].botr_time + '&nbsp;&nbsp;&nbsp;&nbsp;柜型：' + _data[i].botr_container + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a></div>'
+	                var trailerlist = '<tr><td> ' + _data[i].comp_name + '</td><td> ' + _data[i].packing_comp_name + '</td><td>' + _data[i].botr_address + '</td><td>' + _data[i].botr_contact + '</td><td>' + _data[i].botr_contactWay + '</td><td>' + _data[i].botr_container + '</td><td><a class="selectTrailer" artiid="' + _data[i].botr_id + '" contact="' + _data[i].botr_contact + '" contactWay="' + _data[i].botr_contactWay + '" container="' + _data[i].botr_container + '" address="' + _data[i].botr_address + '">选择</a></td></tr>'
+	                $("#trailerList").append(trailerlist)
+	            }
+	        }
+
+	        /*选择*/
+	        $('.selectTrailer').on('click', function () {
+	            console.log($(this).attr('artiid'))
+	            $("#myModal2").modal("hide");
+	            $("#trailerContact").val($(this).attr('contact'))
+	            $("#trailerContactWay").val($(this).attr('contactWay'))
+	            $("#trailerAddress").val($(this).attr('address'))
+	            var container = $(this).attr('container').split('*')
+	            $("#trailerNum").val(container[0])
+	            $("#trailerNumUnit").find("option:contains("+container[1]+")").attr("selected", true)
+	        })
+
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+
+	});
+
 	
 //	/*新增费用*/
 //	$('#send11').on('click', function() {

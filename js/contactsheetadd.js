@@ -952,15 +952,13 @@ $(function(){
     
     //获取系统信息
     if(action == 'add') {
-    	common.ajax_req("get", true, dataUrl, "weiinfo.ashx?action=read", {
-    		"companyId": companyID
-    	}, function(data) {
-    		//console.log(data)
-    		if(data.State == 1) {
-    			orderCode = data.Data.wein_preNum + getCode()
-    		} else {
-    			orderCode = getCode()
-    		}
+    	common.ajax_req("get", true, dataUrl, "booking.ashx?action=getordercode", {
+    	    "companyId": companyID
+    	}, function (data) {
+    	    //console.log(data)
+    	    if (data.State == 1) {
+    	        orderCode = data.Data
+    	    }
     	})
     }
     
