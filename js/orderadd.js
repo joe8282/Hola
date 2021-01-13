@@ -148,6 +148,7 @@ $(function(){
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
+                'userName':userName,
 	            'typeId': 1,
 	            'name': $('#filename').val(),
 	            "url": $("#Pname").val()
@@ -232,7 +233,7 @@ $(function(){
 				if(data.State == 1) {
 					var _data = data.Data;
 					for(var i = 0; i < _data.length; i++) {
-						var feilist = '<div class="col-sm-1"><div class="bg-green white text-align-center">' + _data[i].bofo_state + '</div><div class="text-align-center font-80">' + _data[i].bofo_time.substring(0, 16).replace('T', ' ') + '</div><div class="text-align-center">' + _data[i].bofo_userName + '</div>'
+					    var feilist = '<tr><td>' + _data[i].bofo_time.substring(0, 16).replace('T', ' ') + '</td><td>' + _data[i].bofo_userName + '</td><td>' + _data[i].bofo_state + '</td></tr>'
 						$("#FOLLOWLIST").append(feilist)
 					}
 				}
@@ -450,13 +451,14 @@ $(function(){
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
 				//var statelist = '<span class="col-sm-1 widget-caption text-align-center bordered-1 bordered-gray" stateId='+_data[i].state_id+'>' + _data[i].state_name_cn + '</span>'
-				var statelist = '<li data-target="#simplewizardstep'+_data[i].state_id+'>">' + _data[i].state_name_cn + '<span class="chevron"></span></li>'
+			    var statelist = '<li data-target="#simplewizardstep' + _data[i].state_id + '" stateId="' + _data[i].state_id + '">' + _data[i].state_name_cn + '<span class="chevron"></span></li>'
 				$("#STATELIST").append(statelist)
 			}
 		}
 		
 		$('#STATELIST li').on('click', function() {
-			var which=$(this)
+		    var which = $(this)
+            console.log(which)
 			if((which.attr('stateId')-stateId)==1){				
 				common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfollow', {
 					'bookingId': Id,
@@ -467,7 +469,8 @@ $(function(){
 				}, function(data) {
 					if(data.State == 1) {
 						//console.log(which.text())
-						which.addClass('btn-blue')
+					    //which.addClass('btn-blue')
+					    which.addClass('active')
 						comModel("操作成功")
 					} else {
 						comModel("操作失败")
@@ -1746,6 +1749,8 @@ $(function(){
     			vgmBeizhu = $('#inputVmgBeizhu').val()
     		console.log(weighingDate)
     		common.ajax_req('get', false, dataUrl, 'booking.ashx?action=modifycontainer', {
+    		    'userId': userID,
+    		    'userName': userName, 
     			'bookingId': Id,
     			'containerData': containerData,
     			'allPackageNum': allPackageNum + ' ' + allPackage,
@@ -2651,7 +2656,9 @@ $(function(){
 			comModel("SHIPPER不能为空")
 		} else {
 			var parm = {
-				'bookingId': Id,
+			    'bookingId': Id,
+			    'userId': userID,
+                'userName':userName,
 				'companyId': companyID,
 				'package2': package2,
 				'weight2': weight2,
@@ -3014,9 +3021,11 @@ $(function(){
 			} else if(!port2) {
 				comModel("请输入目的港")
 			} else {
-				var parm = {
+			    var parm = {
+			        'whichId': 2, //1=联系单，2=订单，3=订舱单
 					'Id': Id,
 					'userId': userID,
+					'userName': userName,
 					'crmContactId': 0,
 					'code': code,
 					'outCode': outCode,

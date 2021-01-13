@@ -256,7 +256,7 @@ Purchase: http://wrapbootstrap.com
                                 <li class="tab-red"><a class="containertab" data-toggle="tab" href="#CONTAINER">集装箱信息</a></li>
                                 <li class="tab-red"><a class="ordertab" href="#FEE" id="orderFee">费用管理</a></li>
                                 <li class="tab-red"><a class="filetab" data-toggle="tab" href="#FILE">文件信息</a></li>
-                                <li class="tab-red"><a class="followtab" data-toggle="tab" href="#FOLLOW">跟进信息</a></li>
+                                <li class="tab-red"><a class="followtab" data-toggle="tab" href="#FOLLOW">订单动态</a></li>
                                 <li class="dropdown">
                                     <a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="HBLNav">HBL订单信息</span> <b class="caret"></b></a>
                                     <ul class="dropdown-menu dropdown-blue">
@@ -1027,8 +1027,21 @@ Purchase: http://wrapbootstrap.com
                                     </div>
                                 </div>
                                 <div id="FOLLOW" class="tab-pane">
+                                    <div class="margin-bottom-20">
+                                        <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                                            <thead>
+                                                <tr class="tableTitle">
+                                                    <!--<th></th>-->
+                                                    <th>时间</th>
+                                                    <th>操作人</th>
+                                                    <th>行为</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="FOLLOWLIST"></tbody>
+                                        </table>
+                                    </div>
                                     <div class="form-horizontal" role="form">
-                                        <div class="form-group" id="FOLLOWLIST">
+                                        <div class="form-group">
                                             <!--<div class="col-sm-1">
                                                 <div class="bg-green white text-align-center">新订单</div>
                                                 <div class="text-align-center font-80">2018-7-1</div>

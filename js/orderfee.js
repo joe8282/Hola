@@ -1612,6 +1612,7 @@ $(function(){
 		var parm = {
 			'bookingId': Id,
 			'userId': userID,
+			'userName': userName,
 			'feeData': feeData
 		}
 		console.log(parm)
@@ -1646,6 +1647,7 @@ $(function(){
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
+	            'userName': userName,
 	            'toCompany': $('#toCompany_2').val(),
 	            'payNumber': $('#payNumber').val(),
                 'typeId': 1,

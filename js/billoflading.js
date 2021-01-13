@@ -1047,6 +1047,7 @@ $('#send0').click(function() {
 				'bookingId': bookingId,
 				'companyId': companyID,
 				'userId': userID,
+				'userName': userName,
 				'item': _item,
 				'content1': _content1,
 				'content2': _content2

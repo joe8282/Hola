@@ -1160,6 +1160,7 @@ $(function(){
 						'crmCompanyId': toId,
 						'crmContactId': 0,
 						'userId': userID,
+						'userName': userName,
 						'movementType': movementType,
 						'incoterm': '',
 						'port1': port1,
@@ -1242,9 +1243,11 @@ $(function(){
 				} else if(!port2) {
 					comModel("请输入目的港")
 				} else {
-					var parm = {
+				    var parm = {
+				        'whichId': 3, //1=联系单，2=订单，3=订舱单
 						'Id': Id,
 						'userId': userID,
+						'userName': userName,
 //						'crmContactId': crmContactId,
 						'outCode': outCode,
 						'movementType': movementType,
