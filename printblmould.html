@@ -135,7 +135,7 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Content -->
             <div class="page-content">
                 <!-- Page Breadcrumb -->
-                <div class="page-breadcrumbs page-header position-relative">
+                <div class="page-breadcrumbs page-header position-relative" style="z-index: auto;">
                     <div class="header-title">
                         <ul class="breadcrumb">
                             <li>
@@ -161,7 +161,7 @@ Purchase: http://wrapbootstrap.com
                     </div>
                     <div class="btn-group">
                         <a class="btn btn-sm btn-azure dropdown-toggle" data-toggle="dropdown">
-                            Action <i class="fa fa-angle-down"></i>
+                            Add Model <i class="fa fa-angle-down"></i>
                         </a>
                         <ul class="dropdown-menu dropdown-azure">
                             <li>
@@ -171,7 +171,7 @@ Purchase: http://wrapbootstrap.com
                                 <a href="javascript:void(0);" id="addVLine">Add V Line</a>
                             </li>
                             <li>
-                                <a href="javascript:void(0);" id="addSqure">Add Squre</a>
+                                <a href="javascript:void(0);" id="addSquare">Add Square</a>
                             </li>
                             <li>
                                 <a href="javascript:void(0);" id="addLabel">Add Label</a>
@@ -187,23 +187,47 @@ Purchase: http://wrapbootstrap.com
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->
-                <div class="alert alert-warning fade in">
+                <!-- Page Header -->
+                <div class="page-header position-relative" style="height: auto; z-index: auto; display: none;">
+                </div>
+                <!-- /Page Header -->  
+                <div class="alert alert-warning fade in" style="display: none;">
                 </div>   
                 <!-- Page Body -->
                 <div class="page-body">
                 	<div class="widget">
-                		<div class="widget-body container-fluid">
+                		<div class="widget-body container-fluid" style="z-index: 1;">
                             <div id="printArea">
-                                <img id="mouldBackgroud" src="">
-                                <img id="mouldLogo" src="" />
+                                <!--img id="mouldBackgroud" src="" />
+                                <img id="mouldLogo" src="" /-->
                             </div>
                             <div id="printControl" class="form-group">
                                 <button class="btn btn-primary col-sm-12" id="btnPrint">打印</button>
-                                <p><label>数据名称：</label><input type="text" name="itemName" id="itemName"></p>
-                                <p><label>数据位置：</label><input type="text" name="itemPosition" id="itemPosition"></p>
-                                <p><label>字体大小：</label><input type="text" name="itemWeight" id="itemWeight"></p>
-                                <p><label>数据位置：</label><input type="text" name="itemDim" id="itemDim"></p>
-                                <p><label>数据备注：</label><input type="text" name="itemRemark" id="itemRemark"></p>
+                                <p><label>数据名称：</label><input type="text" name="itemName" id="itemName"><input type="hidden" name="itemId" id="itemId"></p>
+                                <p><label>数据位置：</label><input type="text" name="itemPosition" id="itemPosition"><input type="hidden" name="itemType" id="itemType"></p>
+                                <p>
+                                    <label>字体大小：</label>
+                                    <select name="itemSize" id="itemSize">
+                                        <option value="8px">8px</option>
+                                        <option value="10px">10px</option>
+                                        <option value="12px" selected="selected">12px</option>
+                                        <option value="14px">14px</option>
+                                        <option value="16px">16px</option>
+                                        <option value="22px">22px</option>
+                                        <option value="26px">26px</option>
+                                        <option value="32px">32px</option>
+                                    </select>
+                                </p>
+                                <p>
+                                    <label>字体粗细：</label>
+                                    <select name="itemWeight" id="itemWeight">
+                                        <option value="400">normal</option>
+                                        <option value="700">bold</option>
+                                    </select>
+                                </p>
+                                <p><label>数据尺寸：</label><input type="text" name="itemDim" id="itemDim"></p>
+                                <p><label>数据备注：</label></p>
+                                <p><textarea name="itemRemark" id="itemRemark" style="width: 100%;"></textarea></p>
                                 <button class="btn btn-primary col-sm-12" id="btnSave">保存</button>
                             </div>
                 		</div>
@@ -216,7 +240,56 @@ Purchase: http://wrapbootstrap.com
         <!-- /Page Container -->
         <!-- Main Container -->
     </div>   
+
     <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">添加新数据</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnSave" set-lan="html:submit">确定</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-sm" id="myModal_img" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">添加新图像</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnSave" set-lan="html:submit">确定</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
     <!--End Large Modal Templates-->
 
     <!--Basic Scripts-->
