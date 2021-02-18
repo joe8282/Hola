@@ -53,6 +53,59 @@ $(function(){
 
 	$("#weighingDate").val(getDate());
 
+    //复制订单
+	$('#copyFun').click(function () {
+	    $("#myModal_copy").modal("show");
+	});
+	$('#btnCopySave').click(function () {
+	    //是否复制费用
+	    var isCopyFee = 0;
+	    if ($("#copy_orderFee").is(":checked")) {
+	        isCopyFee = 1
+	    } else {
+	        isCopyFee = 0
+	    }
+	    //是否复制仓库
+	    var isCopyWarehouse = 0;
+	    if ($("#copy_orderWarehouse").is(":checked")) {
+	        isCopyWarehouse = 1
+	    } else {
+	        isCopyWarehouse = 0
+	    }
+	    //是否复制拖车
+	    var isCopyTrailer = 0;
+	    if ($("#copy_orderTrailer").is(":checked")) {
+	        isCopyTrailer = 1
+	    } else {
+	        isCopyTrailer = 0
+	    }
+
+	    if ($('#copy_orderCode').val() == "") {
+	        comModel("订单号不能为空！")
+	    } else {
+	        var parm = {
+	            'ordercode': $('#copy_orderCode').val(),
+	            'companyId': companyID,
+	            'userId': userID,
+	            'isCopyFee': isCopyFee,
+	            'isCopyWarehouse': isCopyWarehouse,
+	            'isCopyTrailer': isCopyTrailer
+	        }
+	        console.log(parm)
+	        common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=copyorder', parm, function (data) {
+	            if (data.State == 1) {
+	                comModel("订单复制成功")
+	            } else {
+	                comModel("订单复制失败")
+	            }
+	            $("#myModal_copy").modal("hide");
+	        }, function (error) {
+	        }, 2000)
+	    }
+
+	});
+
+
 	/**
 	 * 表格初始化
 	 * @returns {*|jQuery}
@@ -758,35 +811,38 @@ $(function(){
 	});
 	$("#warehouse").change(function () {
 	    var companyId_Contact = $("#warehouse").val();
-	    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
-	        "Id": companyId_Contact
-	    }, function (data) {
-	        var _data = data.Data;
-	        $("#warehouseAddress").val(_data.comp_address);
-	    }, function (err) {
-	        console.log(err)
-	    }, 2000)
-	    common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
-	        "companyId": companyId_Contact
-	    }, function (data) {
-	        var _data = data.data;
-	        $('#warehouseContact').empty();
-	        $('#warehouseContact').append('<option value="0">选择联系人</option>')
-	        if (_data != null) {
-	            for (var i = 0; i < _data.length; i++) {
-	                var _html = ''
-	                if (i == 0) {
-	                    _html = '<option selected value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
-	                }else{
-	                    _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	    if (companyId_Contact != null) {
+	        common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+	            "Id": companyId_Contact
+	        }, function (data) {
+	            var _data = data.Data;
+	            $("#warehouseAddress").val(_data.comp_address);
+	        }, function (err) {
+	            console.log(err)
+	        }, 2000)
+	        common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+	            "companyId": companyId_Contact
+	        }, function (data) {
+	            var _data = data.data;
+	            $('#warehouseContact').empty();
+	            $('#warehouseContact').append('<option value="0">选择联系人</option>')
+	            if (_data != null) {
+	                for (var i = 0; i < _data.length; i++) {
+	                    var _html = ''
+	                    if (i == 0) {
+	                        _html = '<option selected value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	                    } else {
+	                        _html = '<option value="' + _data[i].coco_id + '" data-carrierContactName="' + _data[i].coco_name + '" data-carrierContactEmail="' + _data[i].coco_phone + ";" + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
+	                    }
+
+	                    $('#warehouseContact').append(_html)
 	                }
-	                    
-	                $('#warehouseContact').append(_html)
 	            }
-	        }
-	    }, function (err) {
-	        console.log(err)
-	    }, 2000)
+	        }, function (err) {
+	            console.log(err)
+	        }, 2000)
+	    }
+
 	})
 
 	$("#warehouseContact").change(function () {
@@ -1787,6 +1843,7 @@ $(function(){
     	this.title = get_lan('con_top_3')
 		$('#title1').text(get_lan('con_top_3'))
 		$('#title2').text(get_lan('con_top_3'))
+		$('#copyFun').hide()
 		common.ajax_req("get", true, dataUrl, "booking.ashx?action=getordercode", {
 		    "companyId": companyID
 		}, function (data) {
@@ -1950,6 +2007,7 @@ $(function(){
     				$('#STATELIST li').eq(i).addClass('active')
     			}
     		})
+    		$('#copy_orderCode').val(_data.book_orderCode)
     		orderCode = _data.book_orderCode
     		crmCompanyId = _data.book_crmCompanyId
     		//crmContactId=_data.book_crmContactId
