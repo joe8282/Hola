@@ -155,7 +155,7 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Content -->
             <div class="page-content">
                 <!-- Page Breadcrumb -->
-                <div class="page-breadcrumbs page-header position-relative">
+                <div class="page-breadcrumbs page-header position-relative" style="z-index: 999; ">
                     <div class="header-title">
                         <ul class="breadcrumb">
                             <li>
@@ -182,11 +182,27 @@ Purchase: http://wrapbootstrap.com
                         <a class="label label-primary tooltip-darkorange" id="copyFun">
                             <i class="fa fa-plus-circle"></i>
                         </a>
+                        <a class="label label-primary tooltip-darkorange dropdown-toggle" data-toggle="dropdown" id="printDetail">
+                            <i class="glyphicon glyphicon-print"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-azure">
+                            <li>
+                                <span id="printMBL" style="cursor: pointer; padding-left:20px;">MBL打印</span>
+                            </li>
+                            <li>
+                                <span id="printHBL" style="cursor: pointer; padding-left:20px;">HBL打印</span>
+                            </li>
+                            <li>
+                                <span id="printContactSheet" style="cursor: pointer; padding-left: 20px; ">联系单打印</span>
+                            </li>
+                            <li>
+                                <span id="printTrailer" style="cursor: pointer; padding-left: 20px; ">拖车单打印</span>
+                            </li>
+                        </ul>
                     </div>
-                </div>
                 <!-- /Page Breadcrumb -->    
                 <!-- Page Header -->
-                <div class="page-header position-relative" style="height: auto;">
+                <div class="page-header position-relative" style="height: auto; padding:10px;">
                     <div class="header-title" style="width: 100%; height: auto;">
                         <div class="form-horizontal" role="form" style="padding-right: 12px;">
                             <div style="width: 300px; display: inline-block;margin-left:15px; padding:5px 0;">
@@ -1558,8 +1574,6 @@ Purchase: http://wrapbootstrap.com
                 </div>
                 <div class="modal-body" style="padding: 10px 40px;">
                     <form class="form-horizontal" id="resForm">
-                        <input type="hidden" id="objectId" />
-
                         <div class="form-group" id="cancel_code">
                             <p>订单号：<input type="text" id="copy_orderCode" style="width: 90%;" placeholder="填写订单号"></p>
                             <p>是否复制费用：<input type="checkbox" class="inverted" id="copy_orderFee"></p>

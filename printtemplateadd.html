@@ -1,0 +1,247 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>Company List</title>
+
+    <meta name="description" content="data tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+    <link href="assets/css/jquery-ui.min.css" rel="stylesheet" />
+
+    <!--Fonts-->
+    <!-- <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css"> -->
+
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+    <!--Page Related styles-->
+    <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet" />   
+    <link href="css/common.css" rel="stylesheet" />
+
+    <style>
+        #printArea{
+            width: 1200px;
+            min-height: 2000px;
+            position: relative;
+            float: left;
+        }
+        #printControl {
+            background-color: #fff;
+            padding: 10px;
+            position: fixed;
+            right: 30px;
+            width:240px;
+            /*float: left;*/
+        }
+        #mouldLogo{
+            position: absolute;
+        }
+    </style>
+    
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>    
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Breadcrumb -->
+            <div class="page-breadcrumbs page-header position-relative" style="position:fixed; width:100%; top:0; z-index: 10000;">
+                <div class="header-title">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="#" set-lan="html:con_top_1">Home</a>
+                        </li>
+                        <li>
+                            <a href="printtemplatelist.html" set-lan="html:nav_3_6">CRM Home</a>
+                        </li>
+                        <li id="title1" class="active">Booking Add</li>
+                    </ul>
+                </div>
+                <div class="header-buttons">
+                    <!--<a class="sidebar-toggler" href="#">
+                        <i class="fa fa-arrows-h"></i>
+                    </a>
+                    <a class="refresh" id="refresh-toggler" href="">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                    </a>
+                    <a class="fullscreen" id="fullscreen-toggler" href="#">
+                        <i class="glyphicon glyphicon-fullscreen"></i>
+                    </a>-->
+                    <form class="form-horizontal" id="addForm" style="padding-right:20px;">
+                        模板名称：<input type="text" name="tpName" id="tpName" placeholder="填写模板名称" style="height:25px;">&nbsp;&nbsp;
+                        模板类型：
+                        <select name="tpType" id="tpType" style="height:25px; padding:0px;">
+                            <option value="1">MBL打印</option>
+                            <option value="2">HBL打印</option>
+                            <option value="3">联系单打印</option>
+                            <option value="4">拖车单打印</option>
+                        </select>
+                        &nbsp;&nbsp;
+                        <span class="btn btn-primary" id="btnSave" style="cursor: pointer; ">保存</span>
+                    </form>
+                </div>
+                <div class="btn-group">
+                    <a class="btn btn-sm btn-azure dropdown-toggle" data-toggle="dropdown">
+                        Add Model <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-azure">
+                        <li>
+                            <a href="javascript:void(0);" id="addImg">Add Images</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" id="addHLine">Add H Line</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" id="addVLine">Add V Line</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" id="addSquare">Add Square</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0);" id="addLabel">Add Label</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="javascript:void(0);" id="addData">Add Data</a>
+                        </li>
+                        <!--<li>
+                            <a href="javascript:void(0);" id="addCntrList">Add Container List</a>
+                        </li>-->
+                    </ul>
+                </div>
+            </div>
+            <!-- /Page Breadcrumb -->
+            <!-- Page Body -->
+            <div class="page-body" style="margin-top:40px;">
+                <div class="widget">
+                    <div>
+                        <div class="widget-body" id="printArea"></div>
+                        <div id="printControl" class="form-group">
+                            <form class="form-horizontal" id="setForm">
+                                <p style="background-color:#808080; text-align:center; color:#fff; line-height:30px;"><span id="item-Id"></span> 属性设置<input type="hidden" name="itemId" id="itemId"><input type="hidden" name="itemType" id="itemType"></p>
+                                <p id="name">
+                                    <label>数据名称：</label>
+                                    <textarea name="itemName" id="itemName" placeholder="填写数据名称" style="width:100%;"></textarea>
+                                </p>
+                                <p id="relation">
+                                    <label>数据关联：</label>
+                                    <!--<input type="text" name="itemName" id="itemName">-->
+                                    <select name="itemRelation" id="itemRelation" style="width: 100%; height: 25px; padding: 0px;">
+                                        <option value="">请关联订单属性</option>
+                                        <option value="book_bill1Shipper">Shipper</option>
+                                        <option value="book_bill1Consignee">Consignee</option>
+                                        <option value="book_bill1NotifyParty">NotifyParty</option>
+                                    </select>
+                                </p>
+                                <!--<p><label>数据位置：</label><input type="text" name="itemPosition" id="itemPosition" style="width:70%;"><input type="hidden" name="itemType" id="itemType"></p>-->
+                                <p id="size">
+                                    <label>字体大小：</label>
+                                    <select name="itemSize" id="itemSize" style="width: 100%; height: 25px; padding: 0px;">
+                                        <option value="8px">8px</option>
+                                        <option value="10px">10px</option>
+                                        <option value="12px" selected="selected">12px</option>
+                                        <option value="14px">14px</option>
+                                        <option value="16px">16px</option>
+                                        <option value="22px">22px</option>
+                                        <option value="26px">26px</option>
+                                        <option value="32px">32px</option>
+                                    </select>
+                                </p>
+                                <p id="weight">
+                                    <label>字体粗细：</label>
+                                    <select name="itemWeight" id="itemWeight" style="width: 100%; height: 25px; padding: 0px;">
+                                        <option value="400">normal</option>
+                                        <option value="700">bold</option>
+                                    </select>
+                                </p>
+                                <!--<p><label>数据尺寸：</label><input type="text" name="itemDim" id="itemDim" style="width:70%;"></p>-->
+                                <!--<p><label>数据备注：</label></p>
+                                <p><textarea name="itemRemark" id="itemRemark" style="width:100%;"></textarea></p>-->
+                                <p style="text-align:center; line-height:40px;margin-top:20px;"><a class="btn btn-primary" id="btnDelete">删除</a><a class="btn btn-primary" id="btnSubmit">确定</a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Page Body -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+    </div>   
+
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-sm" id="myModal_img" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none; margin-top:50px;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalPrint">添加新图像</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <input type="file" class="file" id="imgfile" accept="image/*">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnImgSave" set-lan="html:submit">确定</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script> 
+    
+    <!--Page Related Scripts-->
+  <script src="assets/js/jquery-ui-1.10.4.custom.js"></script>
+    
+    <script src="js/common.js"></script>
+    <script src="js/printtemplateadd.js"></script>
+    <script src="js/lan.js"></script>
+    
+    <!--Google Analytics::Demo Only-->
+    <!--<script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-52103994-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>-->  
+    
+</body>
+<!--  /Body -->
+</html>

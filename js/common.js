@@ -207,6 +207,7 @@ function getNav(){
                             //'<li class="book2"><a href="bookingadd.html?fromId=1"><span class="menu-text" set-lan="html:nav_3_2">Booking Add</span></a></li>' +
                             '<li class="book4"><a href="contactsheetadd.html?action=add"><span class="menu-text" set-lan="html:nav_3_4">ContactSheet Add</span></a></li>' +
                             '<li class="book5"><a href="orderadd.html?action=add"><span class="menu-text" set-lan="html:nav_3_5">Order Add</span></a></li>' +
+                            '<li class="book6"><a href="printtemplatelist.html"><span class="menu-text" set-lan="html:nav_3_6">Print Template</span></a></li>' +
 						'</ul>'+
                     '</li>' +       
 					'<li class="navli33"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_3"> SHIPMENT MANAGEMENT</span><i class="menu-expand"></i></a>'+

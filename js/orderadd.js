@@ -53,6 +53,22 @@ $(function(){
 
 	$("#weighingDate").val(getDate());
 
+    //打印
+	if (action == 'add') { $('#printDetail').hide() }
+	$('#printMBL').click(function () {
+	    location.href = "printdetail.html?action=add&typeId=1&aboutId=" + Id
+	});
+	$('#printHBL').click(function () {
+	    location.href = "printdetail.html?action=add&typeId=2&aboutId=" + Id
+	});
+	$('#printContactSheet').click(function () {
+	    location.href = "printdetail.html?action=add&typeId=3&aboutId=" + Id
+	});
+	$('#printTrailer').click(function () {
+	    location.href = "printdetail.html?action=add&typeId=4&aboutId=" + Id
+	});
+
+
     //复制订单
 	$('#copyFun').click(function () {
 	    $("#myModal_copy").modal("show");

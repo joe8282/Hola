@@ -5,7 +5,8 @@ var cn2 = {
             "con_top_3" : "订舱列表", 
             "con_top_4" : "订单列表", 
             "con_top_5" : "确认订舱", 
-            "con_top_6" : "费用管理", 
+            "con_top_6": "费用管理",
+            "con_top_7": "打印管理",
         };
 
 var en2 = {
@@ -13,7 +14,8 @@ var en2 = {
             "con_top_2" : "SHIPMENTS MANAGEMENT",   
             "con_top_3" : "Booking List",    
             "con_top_4" : "Order List",  
-            "con_top_6" : "FEE MANAGEMENT", 
+            "con_top_6": "FEE MANAGEMENT",
+            "con_top_7": "PRINT MANAGEMENT",
         };
 
 var fromId = '0';
@@ -489,8 +491,9 @@ function initTable(fromId) {
 				"createdCell": function (td, cellData, rowData, row, col) {
 					$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
 	    			+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
-                    +"<ul class='dropdown-menu dropdown-azure'>"
-                    +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
+                    + "<ul class='dropdown-menu dropdown-azure'>"
+                    + "<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
+                    +"<li><a href='printrecord.html?aboutId=" + cellData + "'>" + get_lan('con_top_7') + "</a></li>"
                     +"</ul></div>")
 					if(rowData.book_orderState == 2) {
 						$(td).parent().find("td").css("background-color","#fdfdbf");
