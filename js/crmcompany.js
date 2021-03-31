@@ -134,7 +134,7 @@ function initTable() {
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a></li>"
 	                    //+"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'>" + get_lan('follow') + "</a></li>"
-	                    +"<li><a href='crmcompanycontactadd.html?action=add&companyId="+rowData.comp_customerId +"'>" + get_lan('addcontact') + "</a></li>"
+	                    + "<li><a href='crmcompanycontactadd.html?action=add&userCompanyId=" + rowData.comp_customerId + "'>" + get_lan('addcontact') + "</a></li>"
 	                    +"<li><a href='bookingadd.html?action=add&crmId="+cellData +"&fromId=1'>" + get_lan('addbooking') + "</a></li>"
 	                    +"<li><a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a></li>"
 	                    +"<li class='divider'></li>"

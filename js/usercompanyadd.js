@@ -108,7 +108,8 @@ $(function(){
 //		console.log(parm)
 //	}, 500)
 	
-	if(action == 'modify'||action == 'edit') {
+	if (action == 'modify' || action == 'edit') {
+	    if (leixing != 1) { $('#isvip').hide() }
 		$('#conactModify1').hide()
 		$('#conactModify2').hide()	
 		if(action == 'edit') {

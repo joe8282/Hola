@@ -191,7 +191,15 @@ $('.allsha_back').click(function(){
 //左侧导航
 function getNav(){
          
-	var NavHtm =  	'<li class="navli100"><a href="index.html"><i class="menu-icon glyphicon glyphicon-home"></i><span class="menu-text" set-lan="html:navHome"> Home </span></a></li>'+
+    var NavHtm = '<li class="navli100"><a href="index.html"><i class="menu-icon glyphicon glyphicon-home"></i><span class="menu-text" set-lan="html:navHome"> Home </span></a></li>'+
+                    '<li class="navli90 active open"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_0"> SYSTEM MANAGEMENT </span><i class="menu-expand"></i></a>' +
+                        '<ul class="submenu">' +
+                            '<li class="free1"><a href="companydetail.html?Id=' + companyID + '"><span class="menu-text" set-lan="html:nav_0_1">Company Info</span></a></li>' +
+							'<li class="free2"><a href="bookinglist.html"><span class="menu-text" set-lan="html:nav_3_1">Booking List</span></a></li>' +
+                            '<li class="free3"><a href="bookingadd.html?action=add"><span class="menu-text" set-lan="html:nav_3_2">Booking Add</span></a></li>' +
+							'<li class="free4"><a href="rate.html"><span class="menu-text" set-lan="html:nav_4_1">Rate List</span></a></li>' +
+                        '</ul>' +
+                    '</li>' +
 					'<li class="navli2"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_2"> CRM Home </span><i class="menu-expand"></i></a>'+
                         '<ul class="submenu">'+
                             '<li class="crm2"><a href="crmcompany.html"><span class="menu-text" set-lan="html:nav_2_2">My Customer</span></a></li>' +
@@ -208,14 +216,9 @@ function getNav(){
                             '<li class="book4"><a href="contactsheetadd.html?action=add"><span class="menu-text" set-lan="html:nav_3_4">ContactSheet Add</span></a></li>' +
                             '<li class="book5"><a href="orderadd.html?action=add"><span class="menu-text" set-lan="html:nav_3_5">Order Add</span></a></li>' +
                             '<li class="book6"><a href="printtemplatelist.html"><span class="menu-text" set-lan="html:nav_3_6">Print Template</span></a></li>' +
+                            '<li class="book7"><a href="profit_report.html"><span class="menu-text" set-lan="html:nav_3_8">Profit Report</span></a></li>' +
 						'</ul>'+
                     '</li>' +       
-					'<li class="navli33"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_3"> SHIPMENT MANAGEMENT</span><i class="menu-expand"></i></a>'+
-                        '<ul class="submenu">'+
-							'<li class="book11"><a href="bookinglist.html"><span class="menu-text" set-lan="html:nav_3_1">Booking List</span></a></li>' +
-							'<li class="book22"><a href="bookingadd.html?action=add"><span class="menu-text" set-lan="html:nav_3_2">Booking Add</span></a></li>' +
-						'</ul>'+
-                    '</li>' + 
                     '<li class="navli4"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_4"> RATES MANAGEMENT</span><i class="menu-expand"></i></a>' +
 	                    '<ul class="submenu">' +
 	                    '<li class="rate1"><a href="ratelist.html"><span class="menu-text" set-lan="html:nav_4_1">Rate List</span></a></li>' +
@@ -223,12 +226,7 @@ function getNav(){
                         '<li class="rate3"><a href="truckingchargelist.html"><span class="menu-text" set-lan="html:nav_4_3">Trucking List</span></a></li>' +
 	                    '<li class="rate4"><a href="rateadd.html"><span class="menu-text" set-lan="html:nav_4_4">Add Rate</span></a></li>' +
 	                    '</ul>' +
-                    '</li>' +
-                    '<li class="navli44"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_4"> RATES MANAGEMENT</span><i class="menu-expand"></i></a>' +
-	                    '<ul class="submenu">' +
-	                    '<li class="rate11"><a href="rate.html"><span class="menu-text" set-lan="html:nav_4_1">Rate List</span></a></li>' +
-	                    '</ul>' +
-                    '</li>' +     
+                    '</li>' +  
                     '<li class="navli5"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_5"> FINANCIAL MANAGEMENT</span><i class="menu-expand"></i></a>' +
 	                    '<ul class="submenu">' +
                         '<li class="financial3"><a href="pricesheetlist.html"><span class="menu-text" set-lan="html:nav_5_3">Price Sheet</span></a></li>' +
@@ -236,6 +234,8 @@ function getNav(){
 	                    '<li class="financial5"><a href="billadd.html?typeId=2"><span class="menu-text" set-lan="html:nav_5_5">Receivables</span></a></li>' +
 	                    '<li class="financial6"><a href="exchangerate.html"><span class="menu-text" set-lan="html:nav_5_6">Set Exchangerate</span></a></li>' +
                         '<li class="financial7"><a href="feemanage.html"><span class="menu-text" set-lan="html:nav_5_7">Fee Management</span></a></li>' +
+                        '<li class="financial8"><a href="receivable_report.html?type=debit"><span class="menu-text" set-lan="html:nav_5_8">Receivable Report</span></a></li>' +
+                        '<li class="financial9"><a href="receivable_report.html?type=credit"><span class="menu-text" set-lan="html:nav_5_9">Payable Report</span></a></li>' +
 	                    '</ul>' +
                     '</li>' +             
                     '<li class="navli6"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_6"> EMAIL PROMPT PLAN</span><i class="menu-expand"></i></a>' +
@@ -271,7 +271,7 @@ function getNav(){
                     '</li>' +
 					'<li class="navli0"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_0"> SYSTEM MANAGEMENT </span><i class="menu-expand"></i></a>'+
                         '<ul class="submenu">'+
-                            '<li class="sys1"><a href="usercompanyadd.html?action=edit&Id='+companyID+'&permission=1001"><span class="menu-text" set-lan="html:nav_0_1">Company Info</span></a></li>'+  
+                            '<li class="sys1"><a href="usercompanyadd.html?action=edit&Id='+companyID+'"><span class="menu-text" set-lan="html:nav_0_1">Company Info</span></a></li>'+  
                             '<li class="sys2"><a href="usercompanydepartment.html"><span class="menu-text" set-lan="html:nav_0_2">Department Management</span></a></li>'+ 
                             '<li class="sys3"><a href="userinfo.html"><span class="menu-text" set-lan="html:nav_0_3">Worker Management</span></a></li>'+ 
                             '<li class="sys4"><a href="systerm.html"><span class="menu-text" set-lan="html:nav_0_4">Parameter Settings</span></a></li>' +
@@ -279,7 +279,7 @@ function getNav(){
                             '<li class="sys5"><a href="remark.html"><span class="menu-text" set-lan="html:nav_0_6">Remark Management</span></a></li>' +
                         '</ul>'+
                     '</li>' +
-					'<li class="navli00"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_00"> USER MANAGEMENT </span><i class="menu-expand"></i></a>'+
+					'<li class="navli"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_00"> USER MANAGEMENT </span><i class="menu-expand"></i></a>'+
                         '<ul class="submenu">'+
                             '<li class="account1"><a href="usercompany.html"><span class="menu-text" set-lan="html:nav_00_1">User List</span></a></li>'+  
                             '<li class="account2"><a href="usercompanyadd.html?action=add"><span class="menu-text" set-lan="html:nav_00_2">User Add</span></a></li>'+ 
@@ -310,29 +310,29 @@ function getHead(){
 		'<ul class="pull-right dropdown-menu dropdown-arrow dropdown-login-area">' +
 		'<li class="email"><a>职位：'+userPosition+'</a></li>' +
 		'<li class="email"><a>代码：'+userCode+'</a></li>' +
-		'<li>' +
-		'<div class="avatar-area">' +
-		'<img src="assets/img/avatars/adam-jansen.jpg" class="avatar">' +
-		'<span class="caption">Change Photo</span>' +
-		'</div>' +
-		'</li>' +
-		'<li class="theme-area">' +
-		'<ul class="colorpicker" id="skin-changer">' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#5DB2FF;" rel="assets/css/skins/blue.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#2dc3e8;" rel="assets/css/skins/azure.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#03B3B2;" rel="assets/css/skins/teal.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#53a93f;" rel="assets/css/skins/green.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#FF8F32;" rel="assets/css/skins/orange.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#cc324b;" rel="assets/css/skins/pink.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#AC193D;" rel="assets/css/skins/darkred.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#8C0095;" rel="assets/css/skins/purple.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#0072C6;" rel="assets/css/skins/darkblue.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#585858;" rel="assets/css/skins/gray.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#474544;" rel="assets/css/skins/black.min.css"></a></li>' +
-		'<li><a class="colorpick-btn" href="#" style="background-color:#001940;" rel="assets/css/skins/deepblue.min.css"></a></li>' +
-		'</ul>' +
-		'</li>' +
-		'<li class="dropdown-footer"><a Id="loginout">退出</a></li>' +
+		//'<li>' +
+		//'<div class="avatar-area">' +
+		//'<img src="assets/img/avatars/adam-jansen.jpg" class="avatar">' +
+		//'<span class="caption">Change Photo</span>' +
+		//'</div>' +
+		//'</li>' +
+		//'<li class="theme-area">' +
+		//'<ul class="colorpicker" id="skin-changer">' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#5DB2FF;" rel="assets/css/skins/blue.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#2dc3e8;" rel="assets/css/skins/azure.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#03B3B2;" rel="assets/css/skins/teal.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#53a93f;" rel="assets/css/skins/green.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#FF8F32;" rel="assets/css/skins/orange.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#cc324b;" rel="assets/css/skins/pink.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#AC193D;" rel="assets/css/skins/darkred.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#8C0095;" rel="assets/css/skins/purple.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#0072C6;" rel="assets/css/skins/darkblue.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#585858;" rel="assets/css/skins/gray.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#474544;" rel="assets/css/skins/black.min.css"></a></li>' +
+		//'<li><a class="colorpick-btn" href="#" style="background-color:#001940;" rel="assets/css/skins/deepblue.min.css"></a></li>' +
+		//'</ul>' +
+		//'</li>' +
+		'<li class="dropdown-footer"><a href="userinfoadd.html?action=pw&Id=' + userID + '">修改密码</a>&nbsp;&nbsp;<a Id="loginout">退出</a></li>' +
 		'</ul>' +
 		'</li>'            
 	$('.account-area').append(NavHtm)
@@ -345,12 +345,13 @@ function getHead(){
 }
 
 
+var leixing, level
 //获取用户信息
 function getUserInfo() {
 	function getPsuc(data) {
 		console.log(data)
-		var leixing=data.Data.usin_leixing,level=data.Data.usin_level
-		userName=data.Data.usin_name
+		leixing=data.Data.usin_leixing,level=data.Data.usin_level
+		var userName = data.Data.usin_name
 		userPosition=data.Data.usin_position
 		userCode=data.Data.usin_code
 		companyId = data.Data.usin_companyId
@@ -374,12 +375,12 @@ function getUserInfo() {
 		})
 		
 		//菜单控制
-		if(leixing==1) {
-			$('.navli0,.navli2,.navli3,.navli33,.navli4,.navli44').hide()
-		}else if(leixing==2) {
-			$('.navli00,.navli33,.navli44').hide()
-		}else{
-			$('.navli00,.navli2,.navli3,.navli4').hide()
+		if(leixing==1) {  //管理员
+		    $('.navli90,.navli0,.navli2,.navli3,.navli4,.navli5,.navli6').hide()
+		} else if (leixing == 2) { //VIP用户
+		    $('.navli90,.navli').hide()
+		}else{ //普通用户
+		    $('.navli,.navli0,.navli1,.navli2,.navli3,.navli4,.navli5,.navli6').hide()
 		}
 		
 	}

@@ -17,7 +17,7 @@ $(function(){
 	
 	var action = GetQueryString('action');	
 	var back = GetQueryString('back');
-	var companyId = GetQueryString('companyId');
+	var userCompanyId = GetQueryString('userCompanyId');
 	var Id = GetQueryString('Id');
 	var ContactName,ContactPosition, ContactEmailFax, ContactSkype, ContactPhone, ContactWhatsapp, ContactFacebook,
 		ContactLinkined, ContactQq;
@@ -67,7 +67,8 @@ $(function(){
 			} else {
 				var parm = {
 					'userId': userID,
-					'companyId': companyId,
+					'actionId': companyID,
+					'companyId': userCompanyId,
 					'contactName': ContactName,
 					'contactPhone': ContactPhone,
 					'contactEmail': ContactEmail,
@@ -82,10 +83,12 @@ $(function(){
 				common.ajax_req('POST', true, dataUrl, 'crmcompanycontact.ashx?action=new', parm, function(data) {
 					if(data.State == 1) {
 						comModel("新增联系人成功")
-						if(back!=1){
+						if(back==null){
 							location.href = 'crmcompany.html';							
-						}else{
-							location.href = 'crmcompanydetail.html?Id='+companyId
+						} else if (back == userCompanyId) {
+						    location.href = 'companydetail.html?Id=' + back
+						} else {
+						    location.href = 'crmcompanydetail.html?Id=' + back
 						}
 
 					} else {

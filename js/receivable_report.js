@@ -1,0 +1,443 @@
+﻿//语言包
+var cn2 = {
+    "con_top_1": "首页",
+    "con_top_2": "财务管理中心",
+
+};
+
+var en2 = {
+    "con_top_1": "Home",
+    "con_top_2": "Financial MANAGEMENTe",
+
+};
+
+$(document).ready(function() {
+    //	initModal();
+    var type = GetQueryString('type')
+    if (type == 'debit') {
+        this.title = get_lan('nav_5_8')
+        $('.navli5').addClass("active open")
+        $('.financial8').addClass("active")
+        $('#title1').text(get_lan('nav_5_8'))
+        $('#title2').text(get_lan('nav_5_8'))
+    } else {
+        this.title = get_lan('nav_5_9')
+        $('.navli5').addClass("active open")
+        $('.financial9').addClass("active")
+        $('#title1').text(get_lan('nav_5_9'))
+        $('#title2').text(get_lan('nav_5_9'))
+    }
+
+
+
+	
+
+    $('#send').on('click', function () {
+
+	    var sellIds = [], luruIds = [], kefuIds = [], caozuoIds = [], userIds
+
+	    if ($("#sellId").val() != null) {
+	        sellIds = $("#sellId").val()
+	    }
+	    if ($("#luruId").val() != null) {
+	        luruIds = $("#luruId").val()
+	    }
+	    if ($("#kefuId").val() != null) {
+	        kefuIds = $("#kefuId").val()
+	    }
+	    if ($("#caozuoId").val() != null) {
+	        caozuoIds = $("#caozuoId").val()
+	    }
+	    function unique(arr) {
+	        return Array.from(new Set(arr))
+	    }
+	    userIds = unique(sellIds.concat(luruIds).concat(kefuIds).concat(caozuoIds))
+	    console.log(userIds.toString())
+	    GetStatement($("input[name='radio2']:checked").val(), $("input[name='radio1']:checked").val(), userIds.toString())
+	})
+
+	common.ajax_req("get", true, dataUrl, "usercompany.ashx?action=readbyid", {
+	    "Id": companyID
+	}, function (data) {
+	    //初始化信息;
+	    var _data = data.Data;
+	    $('.companyName').text(_data.comp_name)
+	    $('.companyAddress').text(_data.comp_address)
+	    $('.companyTel').text(_data.comp_tel)
+	    $('.companyFax').text(_data.comp_fax)
+	    $('.companyEmail').text(_data.comp_email)
+	}, function (err) {
+	    console.log(err)
+	}, 2000)
+
+	var OWNER_Unit = '', exchangeRate=1
+	common.ajax_req("get", true, dataUrl, "weiinfo.ashx?action=read", {
+	    "companyId": companyID
+	}, function (data) {
+	    //console.log(data)
+	    if (data.State == 1) {
+	        OWNER_Unit = data.Data.wein_currency
+	        $('.OWNER_Unit').text(OWNER_Unit)
+
+	        if (OWNER_Unit != 'USD') {
+	            common.ajax_req("get", true, dataUrl, "exchangerate.ashx?action=readbyowner", {
+	                "owner": OWNER_Unit,
+	                "other": 'USD'
+	            }, function (data) {
+	                if (data.State == 1) {
+	                    exchangeRate = data.Data.rate_exchangeRate
+
+	                    GetStatement(1, 1, null)
+	                }
+	            })
+	        }
+	        
+	    }
+	})
+
+
+	
+
+	$("#sellId").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/userinfo.ashx?action=read&companyId=" + companyID + "&rolename=销售",
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["usin_id"],
+	                    "text": users[i]["usin_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    placeholder: '请选择销售人员', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 1,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
+
+	$("#luruId").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/userinfo.ashx?action=read&companyId=" + companyID + "&rolename=录单",
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["usin_id"],
+	                    "text": users[i]["usin_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    placeholder: '请选择录单人员', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 1,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
+
+	$("#kefuId").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/userinfo.ashx?action=read&companyId=" + companyID + "&rolename=客服",
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["usin_id"],
+	                    "text": users[i]["usin_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    placeholder: '请选择客服人员', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 1,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
+
+	$("#caozuoId").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/userinfo.ashx?action=read&companyId=" + companyID + "&rolename=操作",
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["usin_id"],
+	                    "text": users[i]["usin_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    placeholder: '请选择操作人员', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 1,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
+
+	function GetStatement(timeType,timeWhich,userIds)
+	{
+	    var nowdate = new Date();
+	    var year = nowdate.getFullYear(), month = nowdate.getMonth() + 1, date = nowdate.getDate()
+	    $('#timePrint').text(year + "-" + month + "-" + date)
+	    if (timeType == 1) {
+	        $('#timeType').text('离港日期')
+	    } else if (timeType == 2) {
+	        $('#timeType').text('工作单日期')
+	    } else {
+	        $('#timeType').text('截关日期')
+	    }
+	    if (timeWhich == 1) {
+	        $('#timeFromTo').text($('#month').val())
+	    } else {
+	        $('#timeFromTo').text('从' + $('#date2').val() + '到' + $('#date2').val())
+	    }
+
+	    $('#statement_data').empty()
+	    $('#allProfit').empty()
+	    $('#allCount').empty()
+	    $('#allBili').empty()
+
+	    common.ajax_req('GET', false, dataUrl, 'booking.ashx?action=readfee', {
+	        'companyId': companyID,
+	        'feeType': type,
+	        'timeType': timeType,
+	        'timeWhich': timeWhich,
+	        'time0': $('#month').val(),
+	        'time1': $('#date1').val(),
+	        'time2': $('#date2').val(),
+	        'userIds': userIds
+	    }, function (data) {
+	        //console.log(data)
+	        if (data.State == 1) {
+	            function trans(obj1, key1) {
+	                var obj = {};
+	                var arr = [];
+	                for (i in obj1) {
+	                    if (arr.indexOf(obj1[i][key1]) == "-1") {
+	                        arr.push(obj1[i][key1]);
+	                        //console.log(i);
+	                    }
+	                }
+	                for (j in arr) {
+	                    for (k in obj1) {
+	                        if (obj1[k][key1] == arr[j]) {
+	                            if (obj[arr[j]]) {
+	                                obj[arr[j]].push(obj1[k]);
+	                            } else {
+	                                obj[arr[j]] = [obj1[k]];
+	                            }
+
+	                        }
+	                    }
+	                }
+	                return obj;
+	            }
+	            function trans2(obj1, key1) {
+	                var obj = {};
+	                var arr = [];
+	                for (i in obj1) {
+	                    if (arr.indexOf(obj1[i][key1].replace(/-/g, '').substring(0, 6)) == "-1") {
+	                        arr.push(obj1[i][key1].replace(/-/g, '').substring(0, 6));
+	                        //console.log(i);
+	                    }
+	                }
+	                for (j in arr) {
+	                    for (k in obj1) {
+	                        if (obj1[k][key1].replace(/-/g, '').substring(0, 6) == arr[j]) {
+	                            if (obj[arr[j]]) {
+	                                obj[arr[j]].push(obj1[k]);
+	                            } else {
+	                                obj[arr[j]] = [obj1[k]];
+	                            }
+
+	                        }
+	                    }
+	                }
+	                return obj;
+	            }
+	            var obj2 = trans(data.Data, "comp_name");
+	            for (i in obj2) {
+	                if (timeType == 1) {
+	                    obj2[i] = trans2(obj2[i], "book_truePortTime");
+	                } else if (timeType == 2) {
+	                    obj2[i] = trans2(obj2[i], "book_time");
+	                } else {
+	                    obj2[i] = trans2(obj2[i], "book_okTrailerTime");
+	                }
+
+	            }
+	            //console.log(obj2)
+
+	            var all_USD = 0, all_OWNER = 0, all_OWNER_ALL = 0
+	            for (i in data.Data) {
+	                var feeUnit = data.Data[i]["bofe_feeUnit"]
+	                if (feeUnit == 'USD') {
+	                    all_USD = all_USD + data.Data[i]["bofe_allFee"]
+	                } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
+	                    all_OWNER = all_OWNER + data.Data[i]["bofe_allFee"]
+	                }
+	            }
+	            all_OWNER_ALL = all_USD * exchangeRate + all_OWNER
+	            $('#allProfit').text(all_OWNER)
+	            $('#allCount').text(all_USD)
+	            $('#allBili').text(all_OWNER_ALL)
+
+	            for (i in obj2) {
+	                var _html = '<div class="item"></div><div style="width:100%;font-size:14px; font-weight:bold;"><div style="float:left;width:25%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">' + i + '</div><div class="d_num" style="float:left;width:25%;"></div><div class="d_profit" style="float:left;width:25%;"></div><div class="d_bili" style="float:left;width:25%;"></div></div>';
+	                $('#statement_data').append(_html)
+	                var d_USD = 0, d_OWNER = 0, d_OWNER_ALL = 0
+	                for (j in obj2[i]) {
+	                    var USD = 0, OWNER = 0, OWNER_ALL = 0
+	                    for (k in obj2[i][j]) {
+	                        var feeUnit = obj2[i][j][k]["bofe_feeUnit"]
+	                        if (feeUnit == 'USD') {
+	                            USD = USD + obj2[i][j][k]["bofe_allFee"]
+	                        } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
+	                            OWNER = OWNER + obj2[i][j][k]["bofe_allFee"]
+	                        }
+	                    }
+	                    OWNER_ALL = USD*exchangeRate + OWNER
+	                    $('.item:last').append('<div style="width:100%;"><div style="float:left;width:25%;">' + j + '</div><div style="float:left;width:25%;">' + USD + '</div><div style="float:left;width:25%;">' + OWNER + '</div><div style="float:left;width:25%;">' + OWNER_ALL + '</div></div>')
+	                    d_USD = d_USD + USD
+	                    d_OWNER = d_OWNER + OWNER
+	                    d_OWNER_ALL = d_OWNER_ALL + OWNER_ALL
+	                }
+	                $('.d_num:last').text(d_USD)
+	                $('.d_profit:last').text(d_OWNER)
+	                $('.d_bili:last').text(d_OWNER_ALL)
+	                
+	            }
+	        }
+
+	    }, function (error) {
+	        //console.log(parm)
+	    }, 1000)
+	}
+
+
+
+});

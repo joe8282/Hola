@@ -11,7 +11,7 @@ var en2 = {
             "primary" : "set primary",            
         };
         
-var oTable, oblTable, oFollow, oDemand, ogetOrderSum, relatedComTable;
+var oTable, oblTable, oDemand, relatedComTable;
 var typeId;
 var Id = GetQueryString('Id');
 var userCompanyId;
@@ -19,11 +19,11 @@ var userCompanyId;
 $(document).ready(function() {
 //	initModal();
 	
-	this.title = get_lan('nav_2_1')
-	$('.navli2').addClass("active open")
-	$('.crm1').addClass("active")	
-	$('#title1').text(get_lan('nav_2_1'))
-	$('#title2').text(get_lan('nav_2_1'))
+    this.title = get_lan('nav_0_1')
+	$('.navli90').addClass("active open")
+	$('.free1').addClass("active")	
+	$('#title1').text(get_lan('nav_0'))
+	$('#title2').text(get_lan('nav_0_1'))
 	$('#mySmallModalLabel').text(get_lan('nav_2_1'))
 	
 	$('#send5').hide()
@@ -33,16 +33,14 @@ $(document).ready(function() {
 		location.href = 'crmcompanyadd.html?action=modify&Id='+Id;
 	})
 		
-	//oTable=GetContact();
-	
 
+	$('#send0').on('click', function () {
+	    location.href = 'usercompanyadd.html?action=edit&Id=' + Id;
+	})
 	$('#send3').on('click', function() {
-	    location.href = 'crmcompanycontactadd.html?action=add&back='+Id+'&userCompanyId=' + userCompanyId;
+	    location.href = 'crmcompanycontactadd.html?action=add&back=' + Id + '&userCompanyId=' + Id;
 	})
 	
-	oFollow=GetFollow();
-	
-		
 	//oBill=GetBill();	
 	$('#send00').hide()
 	
@@ -50,50 +48,23 @@ $(document).ready(function() {
 });
 function GetDetail() 
 {
-	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+    common.ajax_req("get", true, dataUrl, "usercompany.ashx?action=readbyid", {
 		"Id": Id
 	}, function(data) {
 		//初始化信息;
 		var _data = data.Data;
-		userCompanyId = _data.comp_customerId;
-		oblTable = initBlListTable();
-		orderTable = initOrderListTable();
+	    //userCompanyId = _data.comp_customerId;
+		oTable2 = GetContact2();
+		oDemand = GetDemand();
 		relatedComTable=initRelateComListTable();
 		$('.companyName').text(_data.comp_name)
 		$('.companyContent').text(_data.comp_content)
-		if(_data.comp_isSupplier==1){
-			$('.companyIsSupplier').text("是")
-		}else{
-			$('.companyIsSupplier').text("否")
-		}
-		if(_data.comp_type){
-			var _compType=[];
-			var _compTypeHtml="";
-			_compType=_data.comp_type.split(",");
-			for (var i = 0; i < _compType.length; i++) {
-				_compTypeHtml+='<span class="badge badge-green badge-square">'+_compType[i]+'</span> ';
-			}
-		}
-			$('.companyType').html(_compTypeHtml)
-			$('.companyAddress').text(_data.comp_address)
-			$('.companyCountry').text(_data.comp_country)
 			$('.companyTel').text(_data.comp_tel)
 			$('.companyFax').text(_data.comp_fax)
-			$('.companyWeb').text(_data.comp_web)
-			if(_data.comp_org){$('.companyOrg').text("Member of "+_data.comp_org+"; ")}
-			$('.companyUpdateTime').text(_data.comp_updateTime.substring(0, 19).replace('T',' '))
-			$('.companyRemark').text(_data.comp_remark)
-			var _badgesArr = new Array();
-			_badgesArr=_data.comp_badges.split(",");
-			for(var z=0;z<_badgesArr.length;z++){
-				var appendBadges='<span class="label label-success">'+_badgesArr[z]+'</span> '
-				$('.companyBadges').append(appendBadges)
-			}
+			$('.companyEmail').text(_data.comp_email)
 			
 		//$('.adRemark1').html(HtmlDecode(_data.prin_beizhu))	
 			oBill = GetBill(); //这里获取提单的信息，要不然会出现userCompanyId获取不到
-			oDemand = GetDemand();
-			oTable2 = GetContact2();
 			//getOrderSum();
 	}, function(err) {
 		console.log(err)
@@ -106,63 +77,11 @@ function GetDetail()
  * 表格初始化
  * @returns {*|jQuery}
  */
-//function GetContact() {
-//	var table = $("#example").dataTable({
-//		//"iDisplayLength":10,
-//		"sAjaxSource": dataUrl+'ajax/crmcompanycontact.ashx?action=readtop&companyId='+Id,
-//		'bPaginate': false,
-//		"bInfo" : false,
-////		"bDestory": true,
-////		"bRetrieve": true,
-//		"bFilter": false,
-//		"bSort": false,
-//		"aaSorting": [[ 0, "desc" ]],
-////		"bProcessing": true,
-//		"aoColumns": [
-//			{ "mDataProp": "coco_name" },
-//			{ "mDataProp": "coco_email" },
-//			{ "mDataProp": "coco_phone" },
-//			{ "mDataProp": "coco_position" },
-//			{ "mDataProp": "coco_qq" },
-//			{ "mDataProp": "coco_skype" },
-//			{ "mDataProp": "coco_whatsapp" },
-//			{ "mDataProp": "coco_facebook" },
-//			{ "mDataProp": "coco_linkedin" },						
-//			{
-//				"mDataProp": "coco_id",
-//				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-//					if(oData.coco_first==1){
-//						$(nTd).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
-//	                    +"<ul class='dropdown-menu dropdown-azure'>"
-//	                    +"<li><a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a></li>"
-//	                    +"<li><a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a></li>"
-//	                    +"</ul></div>")
-//					// $(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-//					// 	.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")					
-//					}else{
-//						$(nTd).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
-//	                    +"<ul class='dropdown-menu dropdown-azure'>"
-//	                    +"<li><a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a></li>"
-//	                    +"<li><a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a></li>"
-//	                    +"<li><a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a></li>"
-//	                    +"</ul></div>")
-//						// $(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id="+sData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-//						// .append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
-//						// .append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
-//					}
-
-//				}
-//			},
-//		]
-//	});
-//	return table;
-//}
 
 function GetContact2() {
 		$(".companyPersons").empty();
 	common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
-	    "companyId": userCompanyId,
-        "actionId": companyID
+		"companyId": Id
 	}, function(data) {
 		if(data) {
 			var _data = data.data;
@@ -248,7 +167,7 @@ function _primaryFun(cocoId) {
 		url: dataUrl+'ajax/crmcompanycontact.ashx?action=primary',
 		data: {
 			"Id": cocoId,
-			"companyId": userCompanyId
+			"companyId": Id
 		},
 		dataType: "json",
 		type: "post",
@@ -266,204 +185,12 @@ function _primaryFun(cocoId) {
 	});
 }
 
-$("#id-date-picker-1").val(getDate());
-function GetFollow() {
-	var table1 = $("#follow").dataTable({
-		//"iDisplayLength":10,
-		"sAjaxSource": dataUrl+'ajax/crmcompanyfollow.ashx?action=read&companyId='+Id,
-//		'bPaginate': true,
-//		"bDestory": true,
-//		"bRetrieve": true,
-//		"bFilter": false,
-		"bSort": false,
-		"aaSorting": [[ 0, "desc" ]],
-//		"bProcessing": true,
-		"aoColumns": [
-			{ "mDataProp": "usin_name" },
-			{ "mDataProp": "cofo_content" },
-			{ "mDataProp": "cofo_followWay" },
-			{
-				"mDataProp": "cofo_followTime",
-				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-					$(nTd).html(oData.cofo_followTime.substring(0, 10));
-				}			
-			},					
-			{
-				"mDataProp": "cofo_id",
-				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-					$(nTd).html("<a href='javascript:void(0);' " +
-								"onclick='_editFollowFun(\"" + oData.cofo_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						.append("<a href='javascript:void(0);' onclick='_deleteFollowFun(" + sData + ")'>" + get_lan('delete') + "</a>")
-
-				}
-			},
-		],
-//		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
-//		"sPaginationType": "bootstrap",
-		"oLanguage": {
-//			"sUrl": "js/zh-CN.txt"
-//			"sSearch": "快速过滤："
-			"sProcessing": "正在加载数据，请稍后...",
-			"sLengthMenu": "每页显示 _MENU_ 条记录",
-			"sZeroRecords": get_lan('nodata'),
-			"sEmptyTable": "表中无数据存在！",
-			"sInfo": get_lan('page'),
-			"sInfoEmpty": "显示0到0条记录",
-			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
-			//"sInfoPostFix": "",
-			"sSearch": get_lan('search'),
-			//"sUrl": "",
-			//"sLoadingRecords": "载入中...",
-			//"sInfoThousands": ",",
-			"oPaginate": {
-				"sFirst": get_lan('first'),
-				"sPrevious": get_lan('previous'),
-				"sNext": get_lan('next'),
-				"sLast": get_lan('last'),
-			}
-			//"oAria": {
-			//    "sSortAscending": ": 以升序排列此列",
-			//    "sSortDescending": ": 以降序排列此列"
-			//}
-		}		
-	});
-	return table1;
-}
-
-/**
- * 删除
- * @param id
- * @private
- */
-function _deleteFollowFun(id) {
-	bootbox.confirm("Are you sure?", function(result) {
-		if(result) {
-			$.ajax({
-				url: dataUrl + 'ajax/crmcompanyfollow.ashx?action=cancel',
-				data: {
-					"Id": id
-				},
-				dataType: "json",
-				type: "post",
-				success: function(backdata) {
-					if(backdata.State) {
-						comModel("删除成功")
-						oFollow.fnReloadAjax(oFollow.fnSettings());
-					} else {
-						alert("Delete Failed！");
-					}
-				},
-				error: function(error) {
-					console.log(error);
-				}
-			});
-		}
-	});
-
-}
-
-
-var followId, followWay, followTime, followContent;
-
-/**
- * 编辑数据带出值
- */
-function _editFollowFun(fId) {
-	followId=fId;
-	common.ajax_req("get", true, dataUrl, "crmcompanyfollow.ashx?action=readbyid", {
-		"Id": fId
-	}, function(data) {
-		//console.log(data.Data)
-		//初始化信息
-		var _data = data.Data
-		$("input[name='radio1'][value='"+_data.cofo_followWay+"']").attr("checked",true),
-		$("#id-date-picker-1").val(_data.cofo_followTime.substring(0, 10));
-		$("#editor").html(_data.cofo_content);
-		$("#send4").hide();
-		$("#send5").show();		
-	}, function(err) {
-		console.log(err)
-	}, 5000)
-	
-
-}
-
-/*下一步*/
-$('#send4').on('click', function() {
-	followWay = $("input[name='radio1']:checked").val(),
-	followTime = $('#id-date-picker-1').val(),
-	followContent= $('#editor').html();
-    
-	if(!followTime) {
-		comModel("请输入跟进时间")
-	} else if(!followContent) {
-		comModel("请输入跟进内容")
-	} else {
-		var parm = {
-			'userId': userID,
-			'companyId': Id,
-			'content': followContent,
-			'followWay': followWay,
-			'followTime': followTime
-		}
-	
-		common.ajax_req('POST', true, dataUrl, 'crmcompanyfollow.ashx?action=new', parm, function(data) {
-			if(data.State == 1) {
-				comModel("新增跟进信息成功")
-				$("input[name='radio1'][value='Phone']").attr("checked",true),
-				$('#id-date-picker-1').val("")
-				$('#editor').html("")
-				oFollow.fnReloadAjax(oFollow.fnSettings());
-				//location.href = 'crmcompanydetail.html?Id=' + Id;
-			} else {
-				comModel("新增跟进信息失败")
-			}
-		}, function(error) {
-			console.log(parm)
-		}, 10000)
-	}
-});
-
-$('#send5').on('click', function() {
-	followWay = $("input[name='radio1']:checked").val(),
-	followTime = $('#id-date-picker-1').val(),
-	followContent= $('#editor').html();
-    
-	if(!followTime) {
-		comModel("请输入跟进时间")
-	} else if(!followContent) {
-		comModel("请输入跟进内容")
-	} else {
-		var parm = {
-			'Id': followId,
-			'userId': userID,
-			'content': followContent,
-			'followWay': followWay,
-			'followTime': followTime
-		}
-	
-		common.ajax_req('POST', true, dataUrl, 'crmcompanyfollow.ashx?action=modify', parm, function(data) {
-			if(data.State == 1) {
-				comModel("修改跟进信息成功")
-				$("input[name='radio1'][value='Phone']").attr("checked",true),
-				$('#id-date-picker-1').val("")
-				$('#editor').html("")
-				oFollow.fnReloadAjax(oFollow.fnSettings());
-				//location.href = 'crmcompanydetail.html?Id=' + Id;
-			} else {
-				comModel("修改跟进信息失败")
-			}
-		}, function(error) {
-			console.log(parm)
-		}, 10000)
-	}
-});
 
 //需求管理
 function GetDemand() {
 	var table1 = $("#Demand").dataTable({
 		//"iDisplayLength":10,
-	    "sAjaxSource": dataUrl + 'ajax/crmcompanydemand.ashx?action=read&actionId=' + companyID + '&companyId=' + userCompanyId,
+		"sAjaxSource": dataUrl+'ajax/crmcompanydemand.ashx?action=read&companyId='+Id,
 //		'bPaginate': true,
 //		"bDestory": true,
 //		"bRetrieve": true,
@@ -574,8 +301,8 @@ $('#send0').on('click', function() {
 	} else {
 		var parm = {
 			'userId': userID,
-			'actionId': companyID,
-			'companyId': userCompanyId,
+			'companyId': Id,
+			'actionId': Id,
 			'incoterm': incoterm,
 			'port1': port1,
 			'port2': port2,
@@ -682,7 +409,7 @@ function GetBill() {
 	console.log(userCompanyId)
 	var table1 = $("#Bill").dataTable({
 		//"iDisplayLength":10,
-		"sAjaxSource": dataUrl+'ajax/crmcompanybill.ashx?action=read&actionId='+companyID+'&companyId='+userCompanyId,
+		"sAjaxSource": dataUrl+'ajax/crmcompanybill.ashx?action=read&companyId='+Id,
 //		'bPaginate': true,
 //		"bDestory": true,
 //		"bRetrieve": true,
@@ -798,8 +525,8 @@ $('#send11').on('click', function() {
 	} else {
 		var parm = {
 			'userId': userID,
-			'actionId': companyID,
-			'companyId': userCompanyId,
+			'actionId': Id,
+			'companyId': Id,
 			//'name': billName,
 			'content': billContent,
 			'typeId': billTypeId,
@@ -982,284 +709,11 @@ $.fn.dataTableExt.oApi.fnReloadAjax = function(oSettings) {
 }
 });
 
-function initBlListTable() {   //这里加一个相关的订单，但是还不知道如何查询这些订单是相关的公司的 20190816 by daniel
-    var ajaxUrlBl,tableTitleBl,columnsBl
-    	ajaxUrlBl=dataUrl+'ajax/booking.ashx?action=read&fromId=1&companyId='+userCompanyId+'&crmId='+companyID;
-    	tableTitleBl='<th>订舱委托号</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港</th><th>货量</th><th>订舱时间</th><th>离港时间</th><th>状态</th>'
-    	$('#tableTitleBl').html(tableTitleBl)
-    	columnsBl = [
-    		{
-    			"mDataProp": "book_code"
-    		},
-    		{
-    			"mDataProp": "book_port1",
-	            "mRender" : function(data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
-	                      return (full.book_port1 +" <i class='fa fa-long-arrow-right'></i></br> "+ full.book_port2)
-	                    }
-    		},
-    		// {
-    		// 	"mDataProp": "book_port2"
-    		// },
-    		{
-    			"mDataProp": "book_allContainer"
-//  			"mDataProp": "book_id",
-//  			"createdCell": function(td, cellData, rowData, row, col) {
-//  				var tohtml = ''
-//  				if(rowData.book_20GP.substr(0, 1) != ' ') {
-//  					tohtml = rowData.book_20GP;
-//  				}
-//  				if(rowData.book_40GP.substr(0, 1) != ' ') {
-//  					tohtml = tohtml + '<br/>' + rowData.book_40GP;
-//  				}
-//  				if(rowData.book_40HQ.substr(0, 1) != ' ') {
-//  					tohtml = tohtml + '<br/>' + rowData.book_40HQ;
-//  				}
-//  				$(td).html(tohtml);
-//  			}
-    		},
-    		{
-    			"mDataProp": "book_time",
-    			"createdCell": function(td, cellData, rowData, row, col) {
-    				if(rowData.book_time != null) {
-    					$(td).html(rowData.book_time.substring(0, 10));
-    				} else {
-    					$(td).html("NULL");
-    				}
-    			}
-    		},    		
-    		{
-    			"mDataProp": "book_okPortTime",
-    			"createdCell": function(td, cellData, rowData, row, col) {
-    				if(rowData.book_okPortTime != null) {
-    					$(td).html(rowData.book_okPortTime.substring(0, 10));
-    				} else {
-    					$(td).html("NULL");
-    				}
-    			}
-    		}, 		
-    		{
-    			"mDataProp": "state_name_cn"
-    		},
-			// {
-			// 	"mDataProp": "book_id",
-			// 	"createdCell": function (td, cellData, rowData, row, col) {
-			// 		// $(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
-   //   //                +"<ul class='dropdown-menu dropdown-azure'>"
-   //   //                +"<li><a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a></li>"
-   //   //                +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
-   //   //                +"</ul></div>")
-			// 		// $(td).html("<a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")	
-			// 		// .append("<a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a>")						
-   //                  $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
 
-   //                      var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
-   //                      +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
-   //                      +"<ul class='dropdown-menu dropdown-azure'>"
-   //                      +"<li><a href='orderfee.html?Id=" + cellData + "'>财务状况</a></li>"
-   //                      +"</ul></div>"                        
-
-   //                      return (_thisHtml);
-
-   //                  })
-			// 	}
-			// }, 		
-    	]
-    
-	var tableBl = $("#blpanel_list").dataTable({
-		//"iDisplayLength":10,
-		"sAjaxSource": ajaxUrlBl,
-//		'bPaginate': true,
-//		"bDestory": true,
-//		"bRetrieve": true,
-//		"bFilter": false,
-		"bLengthChange":false,
-        "aaSorting": [[3, 'desc']],
-        "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
-            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
-            {"bSortable": false, "aTargets": [1,2,4,5]}
-        ],
-//		"bSort": true,
-//		"aaSorting": [[ 9, "desc" ]],
-//		"bProcessing": true,
-		"aoColumns": columnsBl,
-//		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
-//		"sPaginationType": "bootstrap",
-		"oLanguage": {
-//			"sUrl": "js/zh-CN.txt"
-//			"sSearch": "快速过滤："
-			"sProcessing": "正在加载数据，请稍后...",
-			"sLengthMenu": "每页显示 _MENU_ 条记录",
-			"sZeroRecords": get_lan('nodata'),
-			"sEmptyTable": "表中无数据存在！",
-			"sInfo": get_lan('page'),
-			"sInfoEmpty": "显示0到0条记录",
-			"sInfoFiltered": "数据表中共有 _MAX_ 条记录",
-			//"sInfoPostFix": "",
-			"sSearch": get_lan('search'),
-			//"sUrl": "",
-			//"sLoadingRecords": "载入中...",
-			//"sInfoThousands": ",",
-			"oPaginate": {
-				"sFirst": get_lan('first'),
-				"sPrevious": get_lan('previous'),
-				"sNext": get_lan('next'),
-				"sLast": get_lan('last'),
-			}
-			//"oAria": {
-			//    "sSortAscending": ": 以升序排列此列",
-			//    "sSortDescending": ": 以降序排列此列"
-			//}
-		}
-	});
-    setTimeout(function () {
-     	var _dataTable = $('#blpanel_list').DataTable();
-		var info = _dataTable.page.info();
-		var dataRows = info.recordsTotal; 
-		$("#bookingSum").text(dataRows);
-	}, 2000);
-	return tableBl;
-}
-
-function initOrderListTable() {   //相关订单
-    var ajaxUrlBl, columnsBl
-    ajaxUrlBl = dataUrl + 'ajax/booking.ashx?action=read&fromId=0&companyId=' + companyID + '&crmId=' + Id;
-    //console.log(tableTitleOrder)
-    columnsBl = [
-        {
-            "mDataProp": "book_orderCode"
-        },
-        {
-            "mDataProp": "book_port1",
-            "mRender": function (data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
-                return (full.book_port1 + " <i class='fa fa-long-arrow-right'></i></br> " + full.book_port2)
-            }
-        },
-        // {
-        // 	"mDataProp": "book_port2"
-        // },
-        {
-            "mDataProp": "book_allContainer"
-            //  			"mDataProp": "book_id",
-            //  			"createdCell": function(td, cellData, rowData, row, col) {
-            //  				var tohtml = ''
-            //  				if(rowData.book_20GP.substr(0, 1) != ' ') {
-            //  					tohtml = rowData.book_20GP;
-            //  				}
-            //  				if(rowData.book_40GP.substr(0, 1) != ' ') {
-            //  					tohtml = tohtml + '<br/>' + rowData.book_40GP;
-            //  				}
-            //  				if(rowData.book_40HQ.substr(0, 1) != ' ') {
-            //  					tohtml = tohtml + '<br/>' + rowData.book_40HQ;
-            //  				}
-            //  				$(td).html(tohtml);
-            //  			}
-        },
-        {
-            "mDataProp": "book_time",
-            "createdCell": function (td, cellData, rowData, row, col) {
-                if (rowData.book_time != null) {
-                    $(td).html(rowData.book_time.substring(0, 10));
-                } else {
-                    $(td).html("NULL");
-                }
-            }
-        },
-        {
-            "mDataProp": "book_okPortTime",
-            "createdCell": function (td, cellData, rowData, row, col) {
-                if (rowData.book_okPortTime != null) {
-                    $(td).html(rowData.book_okPortTime.substring(0, 10));
-                } else {
-                    $(td).html("NULL");
-                }
-            }
-        },
-        {
-            "mDataProp": "orderstate_name_cn"
-        },
-        // {
-        // 	"mDataProp": "book_id",
-        // 	"createdCell": function (td, cellData, rowData, row, col) {
-        // 		// $(td).html("<div class='btn-group'><a class='btn btn-sm dropdown-toggle' data-toggle='dropdown'>Action <i class='fa fa-angle-down'></i></a>"
-//   //                +"<ul class='dropdown-menu dropdown-azure'>"
-//   //                +"<li><a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a></li>"
-//   //                +"<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
-//   //                +"</ul></div>")
-        // 		// $(td).html("<a href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")	
-        // 		// .append("<a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a>")						
-//                  $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
-
-//                      var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
-//                      +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
-//                      +"<ul class='dropdown-menu dropdown-azure'>"
-//                      +"<li><a href='orderfee.html?Id=" + cellData + "'>财务状况</a></li>"
-//                      +"</ul></div>"                        
-
-//                      return (_thisHtml);
-
-//                  })
-        // 	}
-        // }, 		
-    ]
-
-    var tableOrder = $("#orderpanel_list").dataTable({
-        //"iDisplayLength":10,
-        "sAjaxSource": ajaxUrlBl,
-        //		'bPaginate': true,
-        //		"bDestory": true,
-        //		"bRetrieve": true,
-        //		"bFilter": false,
-        "bLengthChange": false,
-        "aaSorting": [[3, 'desc']],
-        "aoColumnDefs": [//设置列的属性，此处设置第一列不排序
-            //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
-            { "bSortable": false, "aTargets": [1, 2, 4, 5] }
-        ],
-        //		"bSort": true,
-        //		"aaSorting": [[ 9, "desc" ]],
-        //		"bProcessing": true,
-        "aoColumns": columnsBl,
-        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
-        //		"sPaginationType": "bootstrap",
-        "oLanguage": {
-            //			"sUrl": "js/zh-CN.txt"
-            //			"sSearch": "快速过滤："
-            "sProcessing": "正在加载数据，请稍后...",
-            "sLengthMenu": "每页显示 _MENU_ 条记录",
-            "sZeroRecords": get_lan('nodata'),
-            "sEmptyTable": "表中无数据存在！",
-            "sInfo": get_lan('page'),
-            "sInfoEmpty": "显示0到0条记录",
-            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
-            //"sInfoPostFix": "",
-            "sSearch": get_lan('search'),
-            //"sUrl": "",
-            //"sLoadingRecords": "载入中...",
-            //"sInfoThousands": ",",
-            "oPaginate": {
-                "sFirst": get_lan('first'),
-                "sPrevious": get_lan('previous'),
-                "sNext": get_lan('next'),
-                "sLast": get_lan('last'),
-            }
-            //"oAria": {
-            //    "sSortAscending": ": 以升序排列此列",
-            //    "sSortDescending": ": 以降序排列此列"
-            //}
-        }
-    });
-    setTimeout(function () {
-        var _dataTable = $('#orderpanel_list').DataTable();
-        var info = _dataTable.page.info();
-        var dataRows = info.recordsTotal;
-        $("#orderSum").text(dataRows);
-    }, 2000);
-    return tableOrder;
-}
 
 function initRelateComListTable() { 
     var ajaxUrlBl,tableTitleRelatedCom,columnsBl
-    	ajaxUrlBl=dataUrl+'ajax/crmcompany.ashx?action=read&upId='+userCompanyId;
+    	ajaxUrlBl=dataUrl+'ajax/crmcompany.ashx?action=read&upId='+Id;
     	//tableTitleRelatedCom='<th>公司名称</th><th>联系人</th><th>联系电话</th><th>邮箱</th><th>添加时间</th>'
     	//$('#tableTitleRelatedCom').html(tableTitleRelatedCom)
     	columnsBl = [
@@ -1367,7 +821,7 @@ $('#sendRelatedCom').on('click', function () {
             'contactName': contact,
             'contactPhone': phone,
             'contactEmail': email,
-            'upId': userCompanyId
+            'upId': Id
         }, function (data) {
             if (data.State == 1) {
                 comModel("新增成功")

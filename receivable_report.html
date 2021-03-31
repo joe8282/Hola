@@ -1,0 +1,355 @@
+﻿<!DOCTYPE html>
+<!--
+BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.2.0
+Version: 1.0.0
+Purchase: http://wrapbootstrap.com
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- Head -->
+<head>
+    <meta charset="utf-8" />
+    <title>Company List</title>
+    <meta name="description" content="data tables" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
+    <!--Basic Styles-->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+    <link id="bootstrap-rtl-link" href="" rel="stylesheet" />
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="assets/css/weather-icons.min.css" rel="stylesheet" />
+    <!--Fonts-->
+    <!-- <link href="http://fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css"> -->
+    <!--Beyond styles-->
+    <link id="beyond-link" href="assets/css/beyond.min.css" rel="stylesheet" />
+    <!--<link href="assets/css/demo.min.css" rel="stylesheet" />
+    <link href="assets/css/typicons.min.css" rel="stylesheet" />
+    <link href="assets/css/animate.min.css" rel="stylesheet" />
+    <link id="skin-link" href="" rel="stylesheet" type="text/css" />-->
+    <!--Page Related styles-->
+    <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/css/select2.min.css" rel="stylesheet" />
+    <link href="assets/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+    <link href="css/common.css" rel="stylesheet" />
+    <style>
+        #example input {
+            width: 85px;
+        }
+    </style>
+
+    <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
+    <script src="assets/js/skins.min.js"></script>
+</head>
+<!-- /Head -->
+<!-- Body -->
+<body>
+    <!-- Loading Container -->
+    <div class="loading-container">
+        <div class="loading-progress">
+            <div class="rotator">
+                <div class="rotator">
+                    <div class="rotator colored">
+                        <div class="rotator">
+                            <div class="rotator colored">
+                                <div class="rotator colored"></div>
+                                <div class="rotator"></div>
+                            </div>
+                            <div class="rotator colored"></div>
+                        </div>
+                        <div class="rotator"></div>
+                    </div>
+                    <div class="rotator"></div>
+                </div>
+                <div class="rotator"></div>
+            </div>
+            <div class="rotator"></div>
+        </div>
+    </div>
+    <!--  /Loading Container -->
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-container">
+                <!-- Navbar Barnd -->
+                <div class="navbar-header pull-left">
+                    <a href="#" class="navbar-brand">
+                        <small>
+                            <img src="assets/img/logo.png" alt="" />
+                        </small>
+                    </a>
+                </div>
+                <!-- /Navbar Barnd -->
+                <!-- Sidebar Collapse -->
+                <div class="sidebar-collapse" id="sidebar-collapse">
+                    <i class="collapse-icon fa fa-bars"></i>
+                </div>
+                <!-- /Sidebar Collapse -->
+                <!-- Account Area and Settings --->
+                <div class="navbar-header pull-right">
+                    <div class="navbar-account">
+                        <ul class="account-area" style="right: 10px;"></ul>
+                    </div>
+                </div>
+                <!-- /Account Area and Settings -->
+            </div>
+        </div>
+    </div>
+    <!-- /Navbar -->
+    <!-- Main Container -->
+    <div class="main-container container-fluid">
+        <!-- Page Container -->
+        <div class="page-container">
+            <!-- Page Sidebar -->
+            <div class="page-sidebar" id="sidebar">
+                <!-- Page Sidebar Header-->
+                <div class="sidebar-header-wrapper">
+                    <input type="text" class="searchinput" />
+                    <i class="searchicon fa fa-search"></i>
+                    <div class="searchhelper">Search Reports, Charts, Emails or Notifications</div>
+                </div>
+                <!-- /Page Sidebar Header -->
+                <!-- Sidebar Menu -->
+                <ul class="nav sidebar-menu">
+                    <!--<li>
+                        <a href="index.html">
+                            <i class="menu-icon glyphicon glyphicon-home"></i>
+                            <span class="menu-text" set-lan="html:navHome"> Home </span>
+                        </a>
+                    </li>
+                    <li class="active open">
+                        <a href="#" class="menu-dropdown">
+                            <i class="menu-icon fa fa-desktop"></i>
+                            <span class="menu-text" set-lan="html:nav_1"> Warehouse Home </span>
+                            <i class="menu-expand"></i>
+                        </a>
+
+                        <ul class="submenu">
+                            <li class="typeId1">
+                                <a href="publicdata.html?typeid=1">
+                                    <span class="menu-text" set-lan="html:nav_1_1">Carriers</span>
+                                </a>
+                            </li>
+                            <li class="typeId2">
+                                <a href="publicdata.html?typeid=2">
+                                    <span class="menu-text" set-lan="html:nav_1_2">Sea Ports</span>
+                                </a>
+                            </li>
+                            <li class="typeId3">
+                                <a href="publicdata.html?typeid=3">
+                                    <span class="menu-text" set-lan="html:nav_1_3">Incoterms</span>
+                                </a>
+                            </li>
+                            <li class="typeId4">
+                                <a href="publicdata.html?typeid=4">
+                                    <span class="menu-text" set-lan="html:nav_1_4">Container Type</span>
+                                </a>
+                            </li>
+                            <li class="typeId5">
+                                <a href="publicdata.html?typeid=5">
+                                    <span class="menu-text" set-lan="html:nav_1_5">Air Ports</span>
+                                </a>
+                            </li>
+                            <li class="typeId6">
+                                <a href="publicdata.html?typeid=6">
+                                    <span class="menu-text" set-lan="html:nav_1_6">Charge Item</span>
+                                </a>
+                            </li>
+                            <li class="typeId7">
+                                <a href="publicdata.html?typeid=7">
+                                    <span class="menu-text" set-lan="html:nav_1_7">Movement Type</span>
+                                </a>
+                            </li>
+                            <li class="typeId8">
+                                <a href="publicdata.html?typeid=8">
+                                    <span class="menu-text" set-lan="html:nav_1_8">Weight Unit</span>
+                                </a>
+                            </li>
+                            <li class="typeId9">
+                                <a href="publicdata.html?typeid=9">
+                                    <span class="menu-text" set-lan="html:nav_1_9">Volume Unit</span>
+                                </a>
+                            </li>
+                            <li class="typeId10">
+                                <a href="publicdata.html?typeid=10">
+                                    <span class="menu-text" set-lan="html:nav_1_10">Package Unit</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>-->
+                </ul>
+                <!-- /Sidebar Menu -->
+            </div>
+            <!-- /Page Sidebar -->
+            <!-- Page Content -->
+            <div class="page-content">
+                <!-- Page Breadcrumb -->
+                <div class="page-breadcrumbs page-header position-relative">
+                    <div class="header-title">
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="#" set-lan="html:con_top_1">Home</a>
+                            </li>
+                            <li>
+                                <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
+                            </li>
+                            <li id="title1" class="active">Booking Add</li>
+                        </ul>
+                    </div>
+                    <div class="header-buttons">
+                    </div>
+                </div>
+                <!-- /Page Breadcrumb -->
+                <!-- Page Body -->
+                <div class="page-body">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">日期选择：</label>
+                                    <div class="col-sm-11">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="radio1" type="radio" checked="checked" value="1" class="none">
+                                                <span class="text" style="z-index:20000;">
+                                                    <input class="date-picker" id="month" type="text">
+                                                </span>
+                                            </label>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label>
+                                                <input name="radio1" type="radio" value="2" class="none">
+                                                <span class="text" style="z-index:20000;">
+                                                    <input class="date-picker" id="date1" type="text">-<input class="date-picker" id="date2" type="text">
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">日期类别：</label>
+                                    <div class="col-sm-11">
+                                        <div class="radio">
+                                            <label>
+                                                <input name="radio2" type="radio" checked="checked" value="1" class="none">
+                                                <span class="text">离港日期 </span>
+                                            </label>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label>
+                                                <input name="radio2" type="radio" value="2" class="none">
+                                                <span class="text">工作单日期 </span>
+                                            </label>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                            <label>
+                                                <input name="radio2" type="radio" value="3" class="none">
+                                                <span class="text">截关日期 </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">人员选择：</label>
+                                    <div class="col-sm-11">
+                                        <select id="sellId" multiple="multiple" style="width:200px;">
+                                            <!--<option value="0">销售</option>-->
+                                        </select>
+                                        <select id="luruId" multiple="multiple" style="width:200px;">
+                                            <!--<option value="0">录单</option>-->
+                                        </select>
+                                        <select id="kefuId" multiple="multiple" style="width:200px;">
+                                            <!--<option value="0">客服</option>-->
+                                        </select>
+                                        <select id="caozuoId" multiple="multiple" style="width:200px;">
+                                            <!--<option value="0">操作</option>-->
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="form-group"><div class="col-sm-offset-1 col-sm-11"><button type="submit" id="send" class="btn btn-blue">显示报表</button></div></div>
+                            <div>&nbsp;</div>
+                        </div>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div style="text-align: center; line-height: 180%; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #ccc">
+                                <div class="companyName" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;"></div>
+                                <div class="companyAddress"></div>
+                                <div><span class="companyTel"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="companyFax"></span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="companyEmail"></span></div>
+                            </div>
+                            <div style="text-align: center; line-height:200%; margin-bottom:20px; font-weight:bold; font-size:22px; ">客户应收统计表</div>
+                            <div style="text-align: center; height: 50px; line-height: 50px; padding:10px;">
+                                <div style=" float:left;width:50%;text-align:left;"><span id="timeType"></span>&nbsp;&nbsp;<span id="timeFromTo"></span></div><div style="float:left;width:50%; text-align:right;">打印日期&nbsp;&nbsp;<span id="timePrint"></span></div>
+                            </div>
+                            <div style="line-height: 40px; ">
+                                <div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:25%;">客户/余额年月</div><div style="float:left;width:25%;">USD</div><div style="float:left;width:25%;" class="OWNER_Unit">本位币</div><div style="float:left;width:25%;">折合(<span class="OWNER_Unit">本位币</span>)</div></div>
+                                <div id="statement_data" style="float: left; width: 100%; text-align: center;"></div>
+                                <div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:25%;">总计</div><div id="allCount" style="float:left;width:25%;"></div><div id="allProfit" style="float:left;width:25%;"></div><div id="allBili" style="float:left;width:25%;"></div></div>
+                                <div>&nbsp;</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Page Body -->
+            </div>
+            <!-- /Page Content -->
+        </div>
+        <!-- /Page Container -->
+        <!-- Main Container -->
+    </div>
+    <!--Basic Scripts-->
+    <script src="assets/js/jquery-2.0.3.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+
+    <!--Beyond Scripts-->
+    <script src="assets/js/beyond.min.js"></script>
+
+    <!--Page Related Scripts-->
+    <script src="assets/js/datatable/jquery.dataTables.min.js"></script>
+    <script src="assets/js/datatable/dataTables.bootstrap.min.js"></script>
+    <script src="assets/js/bootbox/bootbox.js"></script>
+
+    <!--Bootstrap Date Picker-->
+    <script src="assets/js/datetime/bootstrap-datepicker.js"></script>
+    <script src="assets/js/select2/select2.min.js"></script>
+    <script src="assets/js/select2/zh-CN.js"></script>
+
+    <script src="js/common.js"></script>
+    <script src="js/receivable_report.js"></script>
+    <script src="js/lan.js"></script>
+    <script>
+        $('#month').datepicker({
+            language: "zh-CN", //语言
+            todayHighlight: true, //是否今日高亮
+            format: 'yyyy-mm', //点击月份后显示在input中的格式
+            autoclose: true, //是否开启自动关闭
+            startView: 'months', //开始视图层，为月视图层
+            maxViewMode:'years', //最大视图层，为年视图层
+            minViewMode: 'months', //最小视图层，为月视图层
+        });
+        $('#month').datepicker('setDate', new Date());
+
+        $('#date1,#date2').datepicker({
+            language: "zh-CN", //语言
+            todayHighlight: true, //是否今日高亮
+            format: 'yyyy-mm-dd', //点击月份后显示在input中的格式
+            autoclose: true, //是否开启自动关闭
+        });
+        $('#date1,#date2').datepicker('setDate', new Date());
+    </script>
+
+    <!--Google Analytics::Demo Only-->
+    <!--<script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'http://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-52103994-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>-->
+
+</body>
+<!--  /Body -->
+</html>
