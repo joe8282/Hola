@@ -262,9 +262,7 @@ $(document).ready(function() {
 
 	function GetStatement(timeType,timeWhich,userIds)
 	{
-	    var nowdate = new Date();
-	    var year = nowdate.getFullYear(), month = nowdate.getMonth() + 1, date = nowdate.getDate()
-	    $('#timePrint').text(year + "-" + month + "-" + date)
+	    $('#timePrint').text(getDate())
 	    if (timeType==1) {
 	        $('#timeType').text('离港日期')
 	    } else if (timeType == 2) {

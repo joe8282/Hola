@@ -20,12 +20,14 @@ $(document).ready(function() {
         $('.financial8').addClass("active")
         $('#title1').text(get_lan('nav_5_8'))
         $('#title2').text(get_lan('nav_5_8'))
+        $('#typeTitle').text('客户应收统计表')
     } else {
         this.title = get_lan('nav_5_9')
         $('.navli5').addClass("active open")
         $('.financial9').addClass("active")
         $('#title1').text(get_lan('nav_5_9'))
         $('#title2').text(get_lan('nav_5_9'))
+        $('#typeTitle').text('客户应付统计表')
     }
 
 
@@ -300,9 +302,7 @@ $(document).ready(function() {
 
 	function GetStatement(timeType,timeWhich,userIds)
 	{
-	    var nowdate = new Date();
-	    var year = nowdate.getFullYear(), month = nowdate.getMonth() + 1, date = nowdate.getDate()
-	    $('#timePrint').text(year + "-" + month + "-" + date)
+	    $('#timePrint').text(getDate())
 	    if (timeType == 1) {
 	        $('#timeType').text('离港日期')
 	    } else if (timeType == 2) {

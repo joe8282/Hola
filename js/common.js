@@ -236,6 +236,7 @@ function getNav(){
                         '<li class="financial7"><a href="feemanage.html"><span class="menu-text" set-lan="html:nav_5_7">Fee Management</span></a></li>' +
                         '<li class="financial8"><a href="receivable_report.html?type=debit"><span class="menu-text" set-lan="html:nav_5_8">Receivable Report</span></a></li>' +
                         '<li class="financial9"><a href="receivable_report.html?type=credit"><span class="menu-text" set-lan="html:nav_5_9">Payable Report</span></a></li>' +
+                        '<li class="financial10"><a href="financial_statement.html"><span class="menu-text" set-lan="html:nav_5_10">Payable Report</span></a></li>' +
 	                    '</ul>' +
                     '</li>' +             
                     '<li class="navli6"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_6"> EMAIL PROMPT PLAN</span><i class="menu-expand"></i></a>' +
@@ -504,6 +505,20 @@ function getDate() {
 	
 	var data = year+'-' + p(month) +'-'+ p(date);
 	return data;
+}
+
+
+//两个时间相差多少天 date1和date2是2019-06-18格式 
+function daysDistance(date1, date2) {
+    //parse() 是 Date 的一个静态方法 , 所以应该使用 Date.parse() 来调用，而不是作为 Date 的实例方法。返回该日期距离 1970/1/1 午夜时间的毫秒数
+    date1 = Date.parse(date1);
+    date2 = Date.parse(date2);
+    //计算两个日期之间相差的毫秒数的绝对值
+    var ms = Math.abs(date2 - date1);
+    //毫秒数除以一天的毫秒数,就得到了天数
+    var days = Math.floor(ms / (24 * 3600 * 1000));
+    return days;
+
 }
 
 
