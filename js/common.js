@@ -218,7 +218,16 @@ function getNav(){
                             '<li class="book6"><a href="printtemplatelist.html"><span class="menu-text" set-lan="html:nav_3_6">Print Template</span></a></li>' +
                             '<li class="book7"><a href="profit_report.html"><span class="menu-text" set-lan="html:nav_3_8">Profit Report</span></a></li>' +
 						'</ul>'+
-                    '</li>' +       
+                    '</li>' +
+                    '<li class="navli7"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_7"> SHIPMENT MANAGEMENT</span><i class="menu-expand"></i></a>' +
+                        '<ul class="submenu">' +
+                            '<li class="rfq0"><a href="rfqnew.html"><span class="menu-text" set-lan="html:nav_7_1">RFQ Add</span></a></li>' +
+                            '<li class="rfq1"><a href="rfqincompany.html?type=my"><span class="menu-text" set-lan="html:nav_7_2">RFQ Mnagement In Company</span></a></li>' +
+                            '<li class="rfq2"><a href="rfqincompany.html?type=company"><span class="menu-text" set-lan="html:nav_7_3">Company In RFQ Mnagement</span></a></li>' +
+                            '<li class="rfq3"><a href="rfqoutcompany.html?type=in"><span class="menu-text" set-lan="html:nav_7_4">RFQ Mnagement Out Company</span></a></li>' +
+                            '<li class="rfq4"><a href="rfqoutcompany.html?type=out"><span class="menu-text" set-lan="html:nav_7_5">Company Out RFQ Mnagement</span></a></li>' +
+						'</ul>' +
+                    '</li>' +
                     '<li class="navli4"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_4"> RATES MANAGEMENT</span><i class="menu-expand"></i></a>' +
 	                    '<ul class="submenu">' +
 	                    '<li class="rate1"><a href="ratelist.html"><span class="menu-text" set-lan="html:nav_4_1">Rate List</span></a></li>' +

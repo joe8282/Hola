@@ -1,21 +1,24 @@
 //语言包
 var cn2 = {
             "con_top_1" : "首页",
-            "con_top_2" : "客户管理中心",   
+            "con_top_2": "询盘管理中心",
         };
 
 var en2 = {
             "con_top_1" : "Home",
-            "con_top_2" : "CRM Home",        
+            "con_top_2": "RFQ Management",
         };
 
 $(function(){
 
-	this.title = get_lan('nav_2_1') 	
-	$('.navli2').addClass("active open")
-	$('.crm1').addClass("active")	
-	$('#title1').text(get_lan('nav_2_1'))
-	$('#title2').text(get_lan('nav_2_1')) 
+	this.title = get_lan('nav_7_1') 	
+	$('.navli7').addClass("active open")
+	$('.rfq0').addClass("active")
+	$('#title1').text(get_lan('nav_7_1'))
+	$('#title2').text(get_lan('nav_7_1'))
+
+	var action = GetQueryString('action');
+
 	var incoterm;
 
 	//贸易条款
@@ -76,7 +79,7 @@ $(function(){
 		var _data = data.data;
 		for(var i = 0; i < _data.length; i++) {
 			//var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
-			var _html = '<div class="radio" style="float:left;margin-right:20px;"><label><input name="rfqMovementType" id="rfqMovementType" type="radio" class="colored-blue"><span class="text" style="margin-left: -20px;">' + _data[i].puda_name_en + '</span></div>'
+		    var _html = '<div class="radio" style="float:left;margin-right:20px;"><label><input name="rfqMovementType" id="rfqMovementType" type="radio" class="colored-blue" value="' + _data[i].puda_name_en + '"><span class="text" style="margin-left: -20px;">' + _data[i].puda_name_en + '</span></div>'
 			$('#movementType').append(_html)
 		}
 		$('input[name="rfqMovementType"]:eq(0)').attr('checked', 'true');
@@ -153,8 +156,108 @@ $(function(){
 
 
 	/*下一步*/
-	$('#send1,#send2').on('click', function() {
-		
+	$('#send1').on('click', function() {
+	    var typeId = $("input[name='rfqShowPlace']:checked").val(),
+        incoterm = $('#incoterm').val(),
+        port1 = $('#inputPol').val(),
+        port2 = $('#inputPod').val(),
+        fromAddress = $('#inputPortReceipt').val(),
+        toAddress = $('#inputPortDelivery').val(),
+        okTime = $('#cargoReadyTime').val(),
+        packageNum = $('#grossWeight').val(),
+        weightNum = $('#volumeCbm').val(),
+        volumeNum = $('#packageCartons').val(),
+        package = packageNum + ' CARTONS',
+        weight = weightNum + ' KGS',
+        volume = volumeNum + ' CBM',
+	    container = $('#container').val(),
+	    goodsNum = $('#containerNum').val() + ' ' + container,
+        remark = HtmlEncode($('#inputCompanyContent').val()),
+        goods = $('#cargoName').val(),
+        customsCode = $('#hscode').val(),
+        movementType = $('input[name="rfqMovementType"]:checked').val(),
+	    contactCompany = $('#rfqCompany').val(),
+	    contact = $('#rfqContact').val(),
+	    contactPhone = $('#rfqTel').val(),
+	    contactEmail = $('#rfqEmail').val(),
+	    contactCountry = $('#rfqCountry').val()
+
+        var isCustoms = 0;
+        if ($("#rfqNeedCustoms").is(":checked")) {
+            isCustoms = 1
+        } else {
+            isCustoms = 0
+        }
+
+        var isInsurance = 0;
+        if ($("#rfqNeedInsurance").is(":checked")) {
+            isInsurance = 1
+        } else {
+            isInsurance = 0
+        }
+
+        var isWarehouse = 0;
+        if ($("#rfqNeedWarehouse").is(":checked")) {
+            isWarehouse = 1
+        } else {
+            isWarehouse = 0
+        }
+
+        if (action == 'add') {
+            if (port1 == '') {
+                comModel("请选择港口")
+            } else if (port2 == '') {
+                comModel("请选择港口")
+            } else {
+                var parm = {
+                    'typeId': typeId,
+                    'companyId': companyID,
+                    'userId': userID,
+                    'movementType': movementType,
+                    'incoterm': incoterm,
+                    'port1': port1,
+                    'port2': port2,
+                    'fromAddress': fromAddress,
+                    'toAddress': toAddress,
+                    'okTime': okTime,
+                    'package': package,
+                    'weight': weight,
+                    'volume': volume,
+                    'goodsNum': goodsNum,
+                    'goods': goods,
+                    'customsCode': customsCode,
+                    'remark': remark,
+                    'isCustoms': isCustoms,
+                    'isInsurance': isInsurance,
+                    'isWarehouse': isWarehouse,
+                    'contactCompany': contactCompany,
+                    'contact': contact,
+                    'contactPhone': contactPhone,
+                    'contactEmail': contactEmail,
+                    'contactCountry': contactCountry
+                }
+                //console.log(parm)
+                //return false
+                common.ajax_req('POST', false, dataUrl, 'rfqinfo.ashx?action=new', parm, function (data) {
+                    if (data.State == 1) {
+                        //console.log(parm)
+                        comModel("新增成功")
+                        if (typeId == 1) {
+                            location.href = 'rfqincompany.html';
+                        }else if (typeId == 2) {
+                            location.href = 'rfqoutcompany.html';
+                        }
+
+                    } else {
+                        comModel("新增失败")
+                    }
+                }, function (error) {
+                    console.log(parm)
+                }, 2000)
+            }
+
+        }
+
 	});
 
 	

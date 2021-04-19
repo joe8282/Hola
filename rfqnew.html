@@ -149,8 +149,6 @@ Purchase: http://wrapbootstrap.com
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->     
-                <div class="alert alert-warning fade in">
-                </div>   
                 <!-- Page Body -->
                 <div class="page-body">
                 	<div class="widget">
@@ -158,14 +156,14 @@ Purchase: http://wrapbootstrap.com
                 			<span class="widget-caption">新增询盘</span>
                 		</div>
                 		<div class="widget-body">
-                			<div id="horizontal-form">
-                				<form class="form-horizontal" role="form">
+                            <div id="horizontal-form" class="form-horizontal">
+
                                     <div class="form-group">
                                         <label for="inputPol" class="col-sm-1 control-label no-padding-right"></label>
                                         <div class="col-sm-3">
                                             <div class="radio">
                                                 <label>
-                                                    <input name="rfqShowPlace" id="rfqShowPlace" type="radio" class="colored-blue" checked="checked" value="0">
+                                                    <input name="rfqShowPlace" id="rfqShowPlace" type="radio" class="colored-blue" checked="checked" value="1">
                                                     <span class="text" style="margin-left: -20px;">企业内</span>
                                                 </label>
                                             </div>
@@ -173,7 +171,7 @@ Purchase: http://wrapbootstrap.com
                                         <div class="col-sm-3">
                                             <div class="radio">
                                                 <label>
-                                                    <input name="rfqShowPlace" id="rfqShowPlace" type="radio" class="colored-blue" value="1">
+                                                    <input name="rfqShowPlace" id="rfqShowPlace" type="radio" class="colored-blue" value="2">
                                                     <span class="text" style="margin-left: -20px;">企业外</span>
                                                 </label>
                                             </div>
@@ -259,17 +257,17 @@ Purchase: http://wrapbootstrap.com
                                             <div class="form-group">
                                                 <label for="inputIncoterm" class="col-sm-1 control-label no-padding-right"></label>
                                                 <div class="col-sm-1">
-                                                        <div class="spinner spinner-right">
-                                                            <div class="spinner-buttons btn-group btn-group-vertical ">
-                                                                <button type="button" class="btn spinner-up success">
-                                                                    <i class="fa fa-plus"></i>
-                                                                </button>
-                                                                <button type="button" class="btn spinner-down danger">
-                                                                    <i class="fa fa-minus"></i>
-                                                                </button>
-                                                            </div>
-                                                            <input type="text" class="spinner-input form-control" maxlength="3">
+                                                    <div class="spinner spinner-right">
+                                                        <div class="spinner-buttons btn-group btn-group-vertical ">
+                                                            <button type="button" class="btn spinner-up success">
+                                                                <i class="fa fa-plus"></i>
+                                                            </button>
+                                                            <button type="button" class="btn spinner-down danger">
+                                                                <i class="fa fa-minus"></i>
+                                                            </button>
                                                         </div>
+                                                        <input type="text" id="containerNum" class="spinner-input form-control" maxlength="3">
+                                                    </div>
                                                 </div>
                                                 <div class="col-sm-1" style="padding-left: 0;">
                                                     <select id="container"></select>
@@ -308,23 +306,35 @@ Purchase: http://wrapbootstrap.com
                                         <label for="inputIncoterm" class="col-sm-1 control-label no-padding-right">运输方式</label>
                                         <div class="col-sm-10" id="movementType">
                                             <!--select id="movementType" style="width: 100px; display: inline-block;">
-                                                <option value=""></option>
-                                            </select-->
+                        <option value=""></option>
+                    </select-->
                                         </div>
                                     </div>
-                					<div class="form-group">
-                						<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">询盘备注</label>
-                						<div class="col-sm-10">
-                							<textarea class="form-control" rows="3" id="inputCompanyContent" placeholder="询盘备注">
-                                                1, 询盘的字段除开上面这些，还应该有：是否已报价，报价人，报价时间，发送报价时间，报价费用表对应的ID，询盘状态（已分配，未分配，已回收，已关闭）                     
+                                    <div class="form-group">
+                                        <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">询盘备注</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" rows="3" id="inputCompanyContent" placeholder="询盘备注">
+                                                1, 询盘的字段除开上面这些，还应该有：是否已报价，报价人，报价时间，发送报价时间，报价费用表对应的ID，询盘状态（已分配，未分配，已回收，已关闭）
                                             </textarea>
-                						</div>
-                					</div>               					
-                				</form>
-                			</div>
+                                        </div>
+                                    </div>
+                            </div>
                 		</div>             					
                 	</div>
-				</div>
+                    <div class="widget" style="margin-top: 20px;">
+                        <div class="widget-body">
+                            <div id="horizontal-form">
+                                <div class="form-horizontal" role="form">
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-1 col-sm-11">
+                                            <button type="submit" id="send1" class="btn btn-darkorange">确认提交</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- /Page Body -->
             </div>
             <!-- /Page Content -->
