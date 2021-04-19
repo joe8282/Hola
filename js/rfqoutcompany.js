@@ -24,16 +24,16 @@ var _getSellNameArr = new Array();
 var oTable; var rfqId;
 $(document).ready(function () {
     $('.navli7').addClass("active open")
-    if (type == 'my') {
-        $('.rfq1').addClass("active")
-        this.title = get_lan('nav_7_2')
-        $('#title1').text(get_lan('nav_7_2'))
-        $('#title2').text(get_lan('nav_7_2'))
-    } else if (type == 'company') {
-        $('.rfq2').addClass("active")
-        this.title = get_lan('nav_7_3')
-        $('#title1').text(get_lan('nav_7_3'))
-        $('#title2').text(get_lan('nav_7_3'))
+    if (type == 'in') {
+        $('.rfq3').addClass("active")
+        this.title = get_lan('nav_7_4')
+        $('#title1').text(get_lan('nav_7_4'))
+        $('#title2').text(get_lan('nav_7_4'))
+    } else if (type == 'out') {
+        $('.rfq4').addClass("active")
+        this.title = get_lan('nav_7_5')
+        $('#title1').text(get_lan('nav_7_5'))
+        $('#title2').text(get_lan('nav_7_5'))
     }
 
 
