@@ -221,7 +221,7 @@ function getNav(){
                     '</li>' +
                     '<li class="navli7"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_7"> SHIPMENT MANAGEMENT</span><i class="menu-expand"></i></a>' +
                         '<ul class="submenu">' +
-                            '<li class="rfq0"><a href="rfqnew.html"><span class="menu-text" set-lan="html:nav_7_1">RFQ Add</span></a></li>' +
+                            '<li class="rfq0"><a href="rfqnew.html?action=add"><span class="menu-text" set-lan="html:nav_7_1">RFQ Add</span></a></li>' +
                             '<li class="rfq1"><a href="rfqincompany.html?type=my"><span class="menu-text" set-lan="html:nav_7_2">RFQ Mnagement In Company</span></a></li>' +
                             '<li class="rfq2"><a href="rfqincompany.html?type=company"><span class="menu-text" set-lan="html:nav_7_3">Company In RFQ Mnagement</span></a></li>' +
                             '<li class="rfq3"><a href="rfqoutcompany.html?type=in"><span class="menu-text" set-lan="html:nav_7_4">RFQ Mnagement Out Company</span></a></li>' +

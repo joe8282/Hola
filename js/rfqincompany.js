@@ -120,7 +120,9 @@ function initTable() {
 		            else if (full.rfq_state == 2) { stateText = '已分配', actionUser = '（分配人）', actionTime = '（分配时间）' }
 		            else if (full.rfq_state == 3) { $("td:first").css("background-color", "#CC66CC"); stateText = '已关闭', actionUser = '（关闭人）', actionTime = '（关闭时间）' }
 		            else if (full.rfq_state == 4) { stateText = '已转换', actionUser = '（转换人）', actionTime = '（转换时间）' }
-		            return ('<strong><a class="getStatuName" href="#">' + stateText + "</a></strong></br> " + full.actionUser + actionUser + "</br> " + full.rfq_actionTime.substring(0, 10)) + actionTime;
+		            var _html = '<strong><a class="getStatuName" href="#">' + stateText + "</a></strong></br> " + full.actionUser + actionUser + "</br> " + full.rfq_actionTime.substring(0, 10) + actionTime
+		            if (full.rfq_state == 2) { _html = _html + '<br/>' + full.distribute_name + '（被分配人）' }
+		            return (_html);
 		         }
 		    },
             {

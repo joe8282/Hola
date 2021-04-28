@@ -273,7 +273,7 @@ $(document).ready(function() {
 	    if (timeWhich == 1) {
 	        $('#timeFromTo').text($('#month').val())
 	    } else {
-	        $('#timeFromTo').text('从' + $('#date2').val() + '到' + $('#date2').val())
+	        $('#timeFromTo').text('从' + $('#date1').val() + '到' + $('#date2').val())
 	    }
 
 	    $('#statement_data').empty()
