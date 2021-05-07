@@ -212,10 +212,10 @@ $(function(){
 					if(data.State == 1) {
 						if(bt=="send1"){
 							comModel("新增客户成功")
-							//location.href = 'crmcompany.html';							
+							location.href = 'crmcompany.html';							
 						}else{
 							comModel("继续新增联系人")
-							//location.href = 'crmcompanycontactadd.html?action=add&companyId='+data.Data;
+							location.href = 'crmcompanycontactadd.html?action=add&companyId='+data.Data;
 						}
 					} else if (data.State == 0) {
 					    //comModel(data.Data)
@@ -264,7 +264,7 @@ $(function(){
 				common.ajax_req('POST', false, dataUrl, 'crmcompany.ashx?action=modify', parm, function(data) {
 					if(data.State == 1) {
 						comModel("修改成功")
-						//location.href = 'crmcompany.html';
+						location.href = 'crmcompany.html';
 					} else if (data.State == 0) {
 					    comModel(data.Data)
 					} else {

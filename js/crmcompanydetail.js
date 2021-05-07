@@ -21,10 +21,10 @@ $(document).ready(function() {
 	
 	this.title = get_lan('nav_2_1')
 	$('.navli2').addClass("active open")
-	$('.crm1').addClass("active")	
-	$('#title1').text(get_lan('nav_2_1'))
-	$('#title2').text(get_lan('nav_2_1'))
-	$('#mySmallModalLabel').text(get_lan('nav_2_1'))
+	$('.crm2').addClass("active")	
+	$('#title1').text(get_lan('nav_2_5'))
+	$('#title2').text(get_lan('nav_2_5'))
+	$('#mySmallModalLabel').text(get_lan('nav_2_5'))
 	
 	$('#send5').hide()
 	
@@ -1378,7 +1378,7 @@ $('#sendRelatedCom').on('click', function () {
                 relatedComTable.fnReloadAjax(relatedComTable.fnSettings())
 
             } else {
-                comModel("新增失败")
+                comModel("新增失败：" + data.Data)
             }
         }, function (error) {
             //console.log(parm)

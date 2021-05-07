@@ -59,10 +59,10 @@ $(document).ready(function() {
 	                success: function (backdata) {
 	                    if (backdata.State == 1) {
 	                        comModel("新增成功！")
-	                        //location.href = 'emailpp_group.html';
+	                        location.href = 'crmcompanygroup.html';
 	                    } else {
 	                        comModel("新增失败！")
-	                        //location.href = 'emailpp_group.html';
+	                        location.href = 'crmcompanygroup.html';
 	                    }
 	                },
 	                error: function (error) {

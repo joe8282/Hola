@@ -4,7 +4,7 @@ var cn2 = {
             "con_top_2" : "客户管理中心",   
             "follow" : "跟进",
             "addcontact" : "新增联系人",
-            "addbooking" : "新增订舱单",
+            "addbooking" : "新增联系单",
             "sendemail" : "发送账号邮件",
         };
 
@@ -135,7 +135,7 @@ function initTable() {
 	                    +"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a></li>"
 	                    //+"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'>" + get_lan('follow') + "</a></li>"
 	                    + "<li><a href='crmcompanycontactadd.html?action=add&userCompanyId=" + rowData.comp_customerId + "'>" + get_lan('addcontact') + "</a></li>"
-	                    +"<li><a href='bookingadd.html?action=add&crmId="+cellData +"&fromId=1'>" + get_lan('addbooking') + "</a></li>"
+	                    + "<li><a href='contactsheetadd.html?action=add&crmId=" + cellData + "'>" + get_lan('addbooking') + "</a></li>"
 	                    +"<li><a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a></li>"
 	                    +"<li class='divider'></li>"
 	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + ((rowData.book_state==1)?get_lan('delete'):"") + "</a></li>"

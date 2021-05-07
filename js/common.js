@@ -361,7 +361,7 @@ function getUserInfo() {
 	function getPsuc(data) {
 		console.log(data)
 		leixing=data.Data.usin_leixing,level=data.Data.usin_level
-		var userName = data.Data.usin_name
+		userName = data.Data.usin_name
 		userPosition=data.Data.usin_position
 		userCode=data.Data.usin_code
 		companyId = data.Data.usin_companyId

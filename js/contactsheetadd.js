@@ -107,7 +107,40 @@ $(function(){
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
 				var _html = '<option value="' + _data[i].comp_customerId + '" data-comId="' + _data[i].comp_id + '" data-sellId="'+_data[i].comp_adminId+'">' + _data[i].comp_name + '</option>';
+				if (_data[i].comp_id == GetQueryString('crmId')) {
+				    _html = '<option selected value="' + _data[i].comp_customerId + '" data-comId="' + _data[i].comp_id + '" data-sellId="' + _data[i].comp_adminId + '">' + _data[i].comp_name + '</option>';
+				}
 				$('#crmuser').append(_html)
+
+			}
+
+			if (GetQueryString('crmId') != null) {
+			    crmCompanyId = $("#crmuser").val();
+			    crmContactListId = $("#crmuser").find("option:selected").attr("data-comId");
+			    _selectSupplier(crmCompanyId)
+			    _selectBill(crmCompanyId)
+			    //获取联系人列表
+			    common.ajax_req("get", false, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+			        //"companyId": crmCompanyId
+			        "companyId": crmContactListId
+			    }, function (data) {
+			        console.log(data)
+			        var _data = data.data;
+			        $('#crmcontact').append('<option value="0">选择联系人</option>')
+			        if (_data != null) {
+			            for (var i = 0; i < _data.length; i++) {
+			                var _html = '<option value="' + _data[i].coco_id + '">' + _data[i].coco_name + '</option>';
+			                $('#crmcontact').append(_html)
+			                if (_data[i].coco_first == 1) { $("#crmcontact").val(_data[i].coco_id) };
+			            }
+			        }
+			        $("#sellId").val($("#crmuser").find("option:selected").attr("data-sellId"));
+			        $('#istrailer').attr("disabled", false);
+			        $('#isfeeinfo').attr("disabled", false);
+			        $('#iswarehouse').attr("disabled", false);
+			    }, function (err) {
+			        console.log(err)
+			    }, 2000)
 			}
 		}	
 	}, function(err) {
