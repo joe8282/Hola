@@ -22,26 +22,40 @@ $(document).ready(function() {
 	var action = GetQueryString('action');
 	var Id = GetQueryString('Id');
 	//$("#btnEdit").hide();
-	//$("#btnEdit").click(_editSaveFun);
+    //$("#btnEdit").click(_editSaveFun);
 
-	oTable = initTable();
+	if (action == 'add') {
+	    oTable = initTable();
+	}
+	
 
 	$("#checkAll").on("click", function () {
 	    var xz = $(this).prop("checked");//判断全选按钮的选中状态
 	    var ck = $("input[name='checkList']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
 	});
 
+	var strArrg = [];
+	$('#example tbody').on('click', '.ckGroupId', function (event) {    
+	    if ($(this).prop("checked") == true) {
+	        strArrg.push($(this).val())
+	    } else {
+	        strArrg.splice(jQuery.inArray($(this).val(), strArrg), 1)
+	    }
+	    //console.log(strArrg.toString())
+	})
+    
+
 
 	$("#btnAddSave").on("click", function () {
-	    var str = '';
-	    $("input[name='checkList']:checked").each(function (i, o) {
-	        str += $(this).val();
-	        str += ",";
-	    });
+	    //var str = '';
+	    //$("input[name='checkList']:checked").each(function (i, o) {
+	    //    str += $(this).val();
+	    //    str += ",";
+	    //});
 
 	    if ($("#emailGroupname").val() == '') {
 	        comModel("客户群组名称不能为空！")
-	    } else if (str.length == 0) {
+	    } else if (strArrg.length == 0) {
 	        comModel("请选择客户！")
 	    } else {
 	        if (action == 'add') {
@@ -49,7 +63,7 @@ $(document).ready(function() {
 	                'companyId': companyID,
 	                'userId': userID,
 	                'cg_name': $("#crmGroupname").val(),
-	                'cg_crmIds': str
+	                'cg_crmIds': strArrg.toString()
 	            };
 	            $.ajax({
 	                url: dataUrl + 'ajax/crmcompanygroup.ashx?action=newcrmCompanyGroup',
@@ -78,8 +92,8 @@ $(document).ready(function() {
                     'Id': Id,
                     'userId': userID,
                     'cg_name': $("#crmGroupname").val(),
-                    'cg_crmIds': str,
-                    'cg_crmIdsCount': str.split(",").length - 1
+                    'cg_crmIds': strArrg.toString(),
+                    'cg_crmIdsCount': strArrg.length
 	            };
 	            $.ajax({
 	                url: dataUrl + 'ajax/crmcompanygroup.ashx?action=modifycrmCompanyGroup',
@@ -110,12 +124,13 @@ $(document).ready(function() {
 	        //console.log(data.Data)
 	        //初始化信息
 	        $("#crmGroupname").val(data.Data.cg_name)
-	        var maillist = data.Data.cg_crmIds.split(',')
-	        setTimeout(function() {
-	            for (var i = 0; i < maillist.length; i++) {
-	                $("input[name='checkList'][value='" + maillist[i] + "']").attr("checked", true)
-	            }
-	        }, 2000)
+	        strArrg = data.Data.cg_crmIds.split(',')
+	        oTable = initTable(strArrg);
+	        //setTimeout(function() {
+	        //    for (var i = 0; i < maillist.length; i++) {
+	        //        $("input[name='checkList'][value='" + maillist[i] + "']").attr("checked", true)
+	        //    }
+	        //}, 2000)
 
 	    }, function (err) {
 	        console.log(err)
@@ -131,7 +146,7 @@ $(document).ready(function() {
  * 表格初始化
  * @returns {*|jQuery}
  */
-function initTable() {
+function initTable(maillist) {
     
 	var table = $("#example").dataTable({
 		//"iDisplayLength":10,
@@ -159,7 +174,13 @@ function initTable() {
             				{
             				    "mDataProp": "comp_id",
             				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-            				        $(nTd).html("<input type='checkbox' name='checkList' value='" + sData + "'>");
+            				        //console.log($.inArray(sData.toString(), maillist))
+            				        if ($.inArray(sData.toString(), maillist) > -1) {
+            				            $(nTd).html("<input type='checkbox' checked class='ckGroupId' name='checkList' value='" + sData + "'>");
+            				        } else {
+            				            $(nTd).html("<input type='checkbox' class='ckGroupId' name='checkList' value='" + sData + "'>");
+            				        }
+            				        
             				    }
             				},
            { "mDataProp": "comp_name" },
@@ -173,7 +194,7 @@ function initTable() {
 			            var _checkboxValue = '<span class="badge badge-primary badge-square">' + checkBoxArray[i] + '</span> ';
 			            _checkboxValues = _checkboxValues + _checkboxValue;
 		            }
-		            console.log(_checkboxValues)
+		            //console.log(_checkboxValues)
 		            $(td).html(_checkboxValues);
 	            }
             },

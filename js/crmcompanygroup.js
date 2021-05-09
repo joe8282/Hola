@@ -39,7 +39,7 @@ function initTable() {
 		//"iDisplayLength":10,
 	    "sAjaxSource": dataUrl + 'ajax/crmcompanygroup.ashx?action=readcrmCompanyGroup&companyId=' + companyID,
 	    "bLengthChange": false,
-        "aaSorting": [[1, 'desc']],
+        "aaSorting": [[2, 'desc']],
         //"aoColumnDefs":[//设置列的属性，此处设置第一列不排序
         //    {"bSortable": false, "aTargets": [5]}
         //],
