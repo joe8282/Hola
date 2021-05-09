@@ -2976,11 +2976,7 @@ $(function(){
 //		console.log(feeData)
 		
 		if(action == 'add') {
-			if(!port1) {
-				comModel("请输入起运港")
-			} else if(!port2) {
-				comModel("请输入目的港")
-			} else if(crmCompanyId == '0') {
+			if(crmCompanyId == '0') {
 				comModel("请选择委托人")
 			} else {
 			    var parm = {
@@ -3090,11 +3086,9 @@ $(function(){
 		}
 		
 		if(action == 'modify') {
-			if(!port1) {
-				comModel("请输入起运港")
-			} else if(!port2) {
-				comModel("请输入目的港")
-			} else {
+		    if (crmCompanyId == '0') {
+		        comModel("请选择委托人")
+		    } else {
 			    var parm = {
 			        'whichId': 2, //1=联系单，2=订单，3=订舱单
 					'Id': Id,
