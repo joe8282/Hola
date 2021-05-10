@@ -36,7 +36,7 @@ $(document).ready(function() {
 
     $('#send').on('click', function () {
 
-	    var sellIds = [], luruIds = [], kefuIds = [], caozuoIds = [], userIds
+        var sellIds = [], luruIds = [], kefuIds = [], caozuoIds = [], userIds, crmIds = []
 
 	    if ($("#sellId").val() != null) {
 	        sellIds = $("#sellId").val()
@@ -50,12 +50,15 @@ $(document).ready(function() {
 	    if ($("#caozuoId").val() != null) {
 	        caozuoIds = $("#caozuoId").val()
 	    }
+	    if ($("#crmuser").val() != null) {
+	        crmIds = $("#crmuser").val()
+	    }
 	    function unique(arr) {
 	        return Array.from(new Set(arr))
 	    }
 	    userIds = unique(sellIds.concat(luruIds).concat(kefuIds).concat(caozuoIds))
 	    console.log(userIds.toString())
-	    GetStatement($("input[name='radio2']:checked").val(), $("input[name='radio1']:checked").val(), userIds.toString())
+	    GetStatement($("input[name='radio2']:checked").val(), $("input[name='radio1']:checked").val(), userIds.toString(), crmIds.toString())
 	})
 
 	common.ajax_req("get", true, dataUrl, "usercompany.ashx?action=readbyid", {
@@ -89,7 +92,7 @@ $(document).ready(function() {
 	                if (data.State == 1) {
 	                    exchangeRate = data.Data.rate_exchangeRate
 
-	                    GetStatement(1, 1, null)
+	                    GetStatement(1, 1, null, null)
 	                }
 	            })
 	        }
@@ -97,8 +100,55 @@ $(document).ready(function() {
 	    }
 	})
 
-
-	
+	$("#crmuser").select2({
+	    ajax: {
+	        url: dataUrl + "ajax/crmcompany.ashx?action=read&companyId=" + companyID,
+	        dataType: 'json',
+	        delay: 250,
+	        data: function (params) {
+	            params.offset = 10; //显示十条 
+	            params.page = params.page || 1; //页码 
+	            return {
+	                q: params.term,
+	                page: params.page,
+	                offset: params.offset
+	            };
+	        },
+	        cache: true,
+	        /* *@params res 返回值 *@params params 参数 */
+	        processResults: function (res, params) {
+	            var users = res.data;
+	            var options = [];
+	            for (var i = 0, len = users.length; i < len; i++) {
+	                var option = {
+	                    "id": users[i]["comp_id"],
+	                    "text": users[i]["comp_name"]
+	                };
+	                options.push(option);
+	            }
+	            return {
+	                results: options,
+	                pagination: {
+	                    more: (params.page * params.offset) < res.total
+	                }
+	            };
+	        }
+	    },
+	    placeholder: '请选择公司', //默认文字提示
+	    language: "zh-CN",
+	    tags: true, //允许手动添加
+	    allowClear: true, //允许清空
+	    escapeMarkup: function (markup) {
+	        return markup;
+	    }, // 自定义格式化防止xss注入
+	    minimumInputLength: 1,
+	    formatResult: function formatRepo(repo) {
+	        return repo.text;
+	    }, // 函数用来渲染结果
+	    formatSelection: function formatRepoSelection(repo) {
+	        return repo.text;
+	    } // 函数用于呈现当前的选择
+	});
 
 	$("#sellId").select2({
 	    ajax: {
@@ -300,7 +350,7 @@ $(document).ready(function() {
 	    } // 函数用于呈现当前的选择
 	});
 
-	function GetStatement(timeType,timeWhich,userIds)
+	function GetStatement(timeType, timeWhich, userIds, crmIds)
 	{
 	    $('#timePrint').text(getDate())
 	    if (timeType == 1) {
@@ -329,7 +379,8 @@ $(document).ready(function() {
 	        'time0': $('#month').val(),
 	        'time1': $('#date1').val(),
 	        'time2': $('#date2').val(),
-	        'userIds': userIds
+	        'userIds': userIds,
+	        'crmIds': crmIds,
 	    }, function (data) {
 	        //console.log(data)
 	        if (data.State == 1) {
