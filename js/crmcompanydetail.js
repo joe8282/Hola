@@ -39,8 +39,7 @@ $(document).ready(function() {
 	$('#send3').on('click', function() {
 	    location.href = 'crmcompanycontactadd.html?action=add&back='+Id+'&userCompanyId=' + userCompanyId;
 	})
-	
-	oFollow=GetFollow();
+
 	
 		
 	//oBill=GetBill();	
@@ -92,6 +91,7 @@ function GetDetail()
 			
 		//$('.adRemark1').html(HtmlDecode(_data.prin_beizhu))	
 			oBill = GetBill(); //这里获取提单的信息，要不然会出现userCompanyId获取不到
+			oFollow = GetFollow();
 			oDemand = GetDemand();
 			oTable2 = GetContact2();
 			//getOrderSum();
@@ -270,7 +270,7 @@ $("#id-date-picker-1").val(getDate());
 function GetFollow() {
 	var table1 = $("#follow").dataTable({
 		//"iDisplayLength":10,
-		"sAjaxSource": dataUrl+'ajax/crmcompanyfollow.ashx?action=read&companyId='+Id,
+	    "sAjaxSource": dataUrl + 'ajax/crmcompanyfollow.ashx?action=read&actionId=' + companyID + '&companyId=' + userCompanyId,
 //		'bPaginate': true,
 //		"bDestory": true,
 //		"bRetrieve": true,
@@ -401,7 +401,8 @@ $('#send4').on('click', function() {
 	} else {
 		var parm = {
 			'userId': userID,
-			'companyId': Id,
+			'companyId': userCompanyId,
+		    'actionId':companyID,
 			'content': followContent,
 			'followWay': followWay,
 			'followTime': followTime
