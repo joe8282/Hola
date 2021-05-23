@@ -300,6 +300,7 @@ $(document).ready(function () {
 
 	//当按下层的时候，移动会有背景色
 	$(document).on('mousedown', '#printArea div,#printArea img', function (e) {
+	    console.log($(this).attr("itemrelation"))
 	//$('#printArea div,#printArea #mouldLogo').mousedown(function(){
 		$(this).css("background-color","#FFFFCC");
 		var x=$(this).position().top;
@@ -312,8 +313,9 @@ $(document).ready(function () {
 		    $("#itemType").val($(this).attr("itemtype"));
 		}
 		$("#itemName").val($(this).text());
-		//$("#itemPosition").val(x+"px,"+y+"px");
-		$("#itemRelation").val($(this).attr("itemrelation")).trigger("change");
+	    //$("#itemPosition").val(x+"px,"+y+"px");
+	    //$("#itemRelation").val($(this).attr("itemrelation")).trigger("change");
+		$("#itemRelation").val($(this).attr("itemrelation"));
 		$("#itemSize").val($(this).css("font-size"));
 		$("#itemWeight").val($(this).css("font-weight"));
 		//$("#itemRemark").val($(this).attr("itemremark"));
