@@ -11,7 +11,7 @@ var en2 = {
 
 
 $(document).ready(function () {
-    this.title = get_lan('nav_3_3')
+    this.title = get_lan('nav_3_7')
     $('.navli3').addClass("active open")
     $('.book6').addClass("active")
     $('#title1').text(get_lan('nav_3_7'))
@@ -224,7 +224,38 @@ $(document).ready(function () {
 		    $("#" + $("#itemId").val() + "").attr("itemrelation", $(this).val());
 		    var value = mblData[$(this).val()]
 		    //console.log(value)
-		    $("#" + $("#itemId").val() + " p").html(value);
+		    if ($(this).val() == 'book_crmCompanyId' || $(this).val() == 'book_warehouse' || $(this).val() == 'book_forwarder') {
+		        common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+		            "Id": value
+		        }, function (data) {
+		            var _data = data.Data;
+		            $("#" + $("#itemId").val() + " p").html(_data.comp_name);
+		        }, function (err) {
+		            console.log(err)
+		        }, 2000)
+		    } else if ($(this).val() == 'bookingTrailer') {
+		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
+		            "bookingId": aboutId
+		        }, function (data) {
+		            //console.log(data.Data)
+		            if (data.State == 1) {
+		                var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                            '<tr><td>车行</td><td>装箱公司</td><td>地址</td><td>联系人</td><td>联系方式</td><td>时间</td><td>柜型</td><td>SO号码</td><td>备注</td></tr>'
+		                var _data = data.Data;
+		                for (var i = 0; i < _data.length; i++) {
+		                    var trailerlist = '<tr><td> ' + _data[i].comp_name + '</td><td> ' + _data[i].packing_comp_name + '</td><td>' + _data[i].botr_address + '</td><td>' + _data[i].botr_contact + '</td><td>' + _data[i].botr_contactWay + '</td><td>' + _data[i].botr_time.substring(0, 10) + '</td><td>' + _data[i].botr_container + '</td><td> ' + _data[i].botr_so + '</td><td>' + _data[i].botr_remark + '</td></tr>'
+		                    _html = _html + trailerlist
+		                }
+		                _html = _html + '</table>'
+		                $("#" + $("#itemId").val() + " p").html(_html);
+		            }
+		        }, function (err) {
+		            console.log(err)
+		        }, 2000)
+		    } else {
+		        $("#" + $("#itemId").val() + " p").html(value);
+		    }
+		    
 		}
 	})
 	$('#printControl textarea').keyup(function () {
@@ -323,12 +354,12 @@ $(document).ready(function () {
 	if (action == 'modify') {
 	    common.ajax_req("get", false, dataUrl, "printrecord.ashx?action=readbyid", {
 	        "Id": Id
-	    }, function (data) {
-	        //console.log(data.Data)
+	    }, function (data) {    
 	        //初始化信息
 	        var _data = data.Data
             PrintTpId = _data.prre_templateId
-			$('#printArea').html(_data.prre_content)
+            $('#printArea').html(_data.prre_content)
+            //console.log(_data.prre_content)
 	    }, function (err) {
 	        console.log(err)
 	    }, 5000)
@@ -342,14 +373,25 @@ $(document).ready(function () {
 
 	$("#btnSave").click(function () {
 	    //console.log($("#itemId").val())
-	    $('#printArea .ui-resizable-handle').remove()
-	    $('#printArea img').parent().remove()
-	    console.log($("#printArea").html())
+	    //console.log($("#printArea").html())
+	    console.log($("#printArea .ui-wrapper").length)
+	    if ($("#printArea .ui-wrapper").length>0) {
+	        $('#printArea .ui-resizable-handle').remove()
+	        $('#printArea img').parent().remove()
+	    }
+	    //console.log($("#printArea").html())
+	    //return false
 	    var content = $("#printArea").html()
-	    if (content == '') {
-	        comModel("请在画布中配置好打印内容")
-	    } else {
-	        if (action == 'add') {
+	    $("#printArea").print({
+	        globalStyles: true,//是否包含父文档的样式，默认为true
+	        mediaPrint: false,//是否包含media='print'的链接标签。会被globalStyles选项覆盖，默认为false
+	        stylesheet: null,//外部样式表的URL地址，默认为null
+	        noPrintSelector: ".no-print",//不想打印的元素的jQuery选择器，默认为".no-print"
+	        iframe: false,//是否使用一个iframe来替代打印表单的弹出窗口，true为在本页面进行打印，false就是说新开一个页面打印，默认为true
+	        append: null,//将内容添加到打印内容的后面
+	        prepend: null,//将内容添加到打印内容的前面，可以用来作为要打印内容
+	        deferred: $.Deferred((function () { //回调函数
+	            console.log('Printing done');
 	            var parm = {
 	                'companyId': companyID,
 	                'userId': userID,
@@ -361,39 +403,22 @@ $(document).ready(function () {
 
 	            common.ajax_req('POST', false, dataUrl, 'printrecord.ashx?action=new', parm, function (data) {
 	                if (data.State == 1) {
-	                    comModel("生成打印记录成功")
-	                    location.href = 'booking.html';
-	                }else {
+	                    comModel("已生成打印记录")
+	                    //location.href = 'booking.html';
+	                } else {
 	                    comModel("生成打印记录失败")
 	                }
 	            }, function (error) {
 	                console.log(parm)
 	            }, 10000)
-	        }
-	        if (action == 'modify') {
-	            var parm = {
-	                'Id': Id,
-	                //'companyId': companyID,
-	                'userId': userID,
-	                'templateId': PrintTpId,
-	                'content': content,
-	            }
 
-	            common.ajax_req('POST', false, dataUrl, 'printtemplate.ashx?action=modify', parm, function (data) {
-	                if (data.State == 1) {
-	                    comModel("修改模板成功")
-	                    location.href = 'printtemplatelist.html';
-	                } else {
-	                    comModel("修改模板失败")
-	                }
-	            }, function (error) {
-	                console.log(parm)
-	            }, 10000)
-	        }
-
-	    }
+	        }))
+	    });
 	})
+
 })
+
+
 
 function DraggableResizable() {
     $("#printArea div").resizable({

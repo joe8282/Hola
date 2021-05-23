@@ -68,10 +68,10 @@ Purchase: http://wrapbootstrap.com
                     <ul class="breadcrumb">
                         <li>
                             <i class="fa fa-home"></i>
-                            <a href="#" set-lan="html:con_top_1">Home</a>
+                            <a href="index.html" set-lan="html:con_top_1">Home</a>
                         </li>
                         <li>
-                            <a href="printtemplatelist.html" set-lan="html:nav_3_6">CRM Home</a>
+                            <a href="booklist.html" set-lan="html:nav_3_6">CRM Home</a>
                         </li>
                         <li id="title1" class="active">Booking Add</li>
                     </ul>
@@ -132,52 +132,106 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Body -->
             <div class="page-body" style="margin-top:40px;">
                 <div class="widget">
-                    <div>
-                        <div class="widget-body" id="printArea"></div>
-                        <div id="printControl" class="form-group">
-                            <form class="form-horizontal" id="setForm">
-                                <p style="background-color:#808080; text-align:center; color:#fff; line-height:30px;"><span id="item-Id"></span> 属性设置<input type="hidden" name="itemId" id="itemId"><input type="hidden" name="itemType" id="itemType"></p>
-                                <p id="name">
-                                    <label>数据名称：</label>
-                                    <textarea name="itemName" id="itemName" placeholder="填写数据名称" style="width:100%;"></textarea>
-                                </p>
-                                <p id="relation">
-                                    <label>数据关联：</label>
-                                    <!--<input type="text" name="itemName" id="itemName">-->
-                                    <select name="itemRelation" id="itemRelation" style="width: 100%; height: 25px; padding: 0px;">
-                                        <option value="">请关联订单属性</option>
-                                        <option value="book_bill1Shipper">Shipper</option>
-                                        <option value="book_bill1Consignee">Consignee</option>
-                                        <option value="book_bill1NotifyParty">NotifyParty</option>
-                                    </select>
-                                </p>
-                                <!--<p><label>数据位置：</label><input type="text" name="itemPosition" id="itemPosition" style="width:70%;"><input type="hidden" name="itemType" id="itemType"></p>-->
-                                <p id="size">
-                                    <label>字体大小：</label>
-                                    <select name="itemSize" id="itemSize" style="width: 100%; height: 25px; padding: 0px;">
-                                        <option value="8px">8px</option>
-                                        <option value="10px">10px</option>
-                                        <option value="12px" selected="selected">12px</option>
-                                        <option value="14px">14px</option>
-                                        <option value="16px">16px</option>
-                                        <option value="22px">22px</option>
-                                        <option value="26px">26px</option>
-                                        <option value="32px">32px</option>
-                                    </select>
-                                </p>
-                                <p id="weight">
-                                    <label>字体粗细：</label>
-                                    <select name="itemWeight" id="itemWeight" style="width: 100%; height: 25px; padding: 0px;">
-                                        <option value="400">normal</option>
-                                        <option value="700">bold</option>
-                                    </select>
-                                </p>
-                                <!--<p><label>数据尺寸：</label><input type="text" name="itemDim" id="itemDim" style="width:70%;"></p>-->
-                                <!--<p><label>数据备注：</label></p>
-                                <p><textarea name="itemRemark" id="itemRemark" style="width:100%;"></textarea></p>-->
-                                <p style="text-align:center; line-height:40px;margin-top:20px;"><a class="btn btn-primary" id="btnDelete">删除</a><!--<a class="btn btn-primary" id="btnSubmit">确定</a>--></p>
-                            </form>
-                        </div>
+                    <div class="widget-body" id="printArea"></div>
+                    <div id="printControl" class="form-group">
+                        <form class="form-horizontal" id="setForm">
+                            <p style="background-color:#808080; text-align:center; color:#fff; line-height:30px;"><span id="item-Id"></span> 属性设置<input type="hidden" name="itemId" id="itemId"><input type="hidden" name="itemType" id="itemType"></p>
+                            <p id="name">
+                                <label>数据名称：</label>
+                                <textarea name="itemName" id="itemName" placeholder="填写数据名称" style="width:100%;"></textarea>
+                            </p>
+                            <p id="relation">
+                                <label>数据关联：</label>
+                                <!--<input type="text" name="itemName" id="itemName">-->
+                                <select name="itemRelation" id="itemRelation" style="width: 100%; height: 25px; padding: 0px;">
+                                    <option value="">请关联订单属性</option>
+                                    <option value="book_crmCompanyId">委托人</option>
+                                    <option value="book_code">订舱单号</option>
+                                    <option value="book_orderCode">订单号</option>
+                                    <option value="book_billCode">承运人单号</option>
+                                    <option value="book_outCode">参考号码</option>
+                                    <option value="book_movementType">运输方式</option>
+                                    <option value="book_incoterm">贸易条款</option>
+                                    <option value="book_shippingTerm">运输条款</option>
+                                    <option value="book_shippingFeeTerm">运费条款</option>
+                                    <option value="book_payAddress">付款地点</option>
+                                    <option value="book_signAddress">签单地点</option>
+                                    <option value="book_port1">起运港</option>
+                                    <option value="book_port2">目的港</option>
+                                    <option value="book_port3">卸货港</option>
+                                    <option value="book_port4">目的地</option>
+                                    <option value="book_port5">中转港</option>
+                                    <option value="book_forwarder">订舱同行</option>
+                                    <option value="book_route">航线编码</option>
+                                    <option value="book_vessel">船名</option>
+                                    <option value="book_voyage">航次</option>
+                                    <option value="book_fromAddress">提货地</option>
+                                    <option value="book_toAddress">送货地</option>
+                                    <option value="book_okTime">货好时间</option>
+                                    <option value="book_okTrailerTime">截关日期</option>
+                                    <option value="book_okBillTime">截单日期</option>
+                                    <option value="book_okPortTime">预离港日</option>
+                                    <option value="book_okPortTime2">预到港日</option>
+                                    <option value="book_truePortTime">实离港日</option>
+                                    <option value="book_truePortTime2">实到港日</option>
+                                    <option value="book_package">包装</option>
+                                    <option value="book_weight">重量</option>
+                                    <option value="book_volume">体积</option>
+                                    <option value="book_weightShow">显示重量</option>
+                                    <option value="book_volumeShow">显示体积</option>
+                                    <option value="book_vgm">VGM</option>
+                                    <option value="book_allContainer">合计箱数或者件数</option>
+                                    <option value="book_packageMarks">外包装唛头</option>
+                                    <option value="book_goodAbout">货物描述</option>
+                                    <option value="book_carrier">承运人</option>
+                                    <option value="book_consignee">Consignee</option>
+                                    <option value="book_contractNo">合约号</option>
+                                    <option value="book_warehouse">仓储</option>
+                                    <option value="book_warehouseAddress">仓储地址</option>
+                                    <option value="book_warehouseContact">仓储联系人</option>
+                                    <option value="book_warehouseContactWay">仓储联系方式</option>
+                                    <option value="book_warehouseInCode">入仓号</option>
+                                    <option value="book_warehouseInTime">入仓时间</option>
+                                    <option value="book_warehouseOutCode">出仓号</option>
+                                    <option value="book_warehouseOutTime">出仓时间</option>
+                                    <option value="book_warehouseBeizhu">仓储备注</option>
+                                    <option value="book_bill1Type">提单类型</option>
+                                    <option value="book_bill1Shipper">Shipper</option>
+                                    <option value="book_bill1Consignee">Consignee</option>
+                                    <option value="book_bill1NotifyParty">NotifyParty</option>
+                                    <option value="book_alsoNotify">ALSO NOTIFY</option>
+                                    <option value="book_billBeizhu">提单备注</option>
+                                    <option value="book_bill2Beizhu">对单备注</option>
+                                    <option value="book_beizhu">备注</option>
+                                    <option value="bookingTrailer">拖车信息</option>
+                                </select>
+                            </p>
+                            <!--<p><label>数据位置：</label><input type="text" name="itemPosition" id="itemPosition" style="width:70%;"><input type="hidden" name="itemType" id="itemType"></p>-->
+                            <p id="size">
+                                <label>字体大小：</label>
+                                <select name="itemSize" id="itemSize" style="width: 100%; height: 25px; padding: 0px;">
+                                    <option value="8px">8px</option>
+                                    <option value="10px">10px</option>
+                                    <option value="12px" selected="selected">12px</option>
+                                    <option value="14px">14px</option>
+                                    <option value="16px">16px</option>
+                                    <option value="22px">22px</option>
+                                    <option value="26px">26px</option>
+                                    <option value="32px">32px</option>
+                                </select>
+                            </p>
+                            <p id="weight">
+                                <label>字体粗细：</label>
+                                <select name="itemWeight" id="itemWeight" style="width: 100%; height: 25px; padding: 0px;">
+                                    <option value="400">normal</option>
+                                    <option value="700">bold</option>
+                                </select>
+                            </p>
+                            <!--<p><label>数据尺寸：</label><input type="text" name="itemDim" id="itemDim" style="width:70%;"></p>-->
+                            <!--<p><label>数据备注：</label></p>
+            <p><textarea name="itemRemark" id="itemRemark" style="width:100%;"></textarea></p>-->
+                            <p style="text-align:center; line-height:40px;margin-top:20px;"><a class="btn btn-primary" id="btnDelete">删除</a><!--<a class="btn btn-primary" id="btnSubmit">确定</a>--></p>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -221,7 +275,8 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/beyond.min.js"></script> 
     
     <!--Page Related Scripts-->
-  <script src="assets/js/jquery-ui-1.10.4.custom.js"></script>
+    <script src="assets/js/jquery-ui-1.10.4.custom.js"></script>
+    <script src="assets/js/jQuery.print.min.js"></script>
     
     <script src="js/common.js"></script>
     <script src="js/printdetail.js"></script>
