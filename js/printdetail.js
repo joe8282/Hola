@@ -25,18 +25,16 @@ $(document).ready(function () {
 
     //加载MBL信息
     var mblData
-    if (typeId == 1) {
-        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
-            "Id": aboutId
-        }, function (data) {
-            console.log(data.Data)
-            //初始化信息
-            mblData = data.Data
+    common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+        "Id": aboutId
+    }, function (data) {
+        console.log(data.Data)
+        //初始化信息
+        mblData = data.Data
 
-        }, function (err) {
-            console.log(err)
-        }, 1000)
-    }
+    }, function (err) {
+        console.log(err)
+    }, 1000)
 
 
     //加载所有模板列表
@@ -62,6 +60,84 @@ $(document).ready(function () {
                 var _data = data.Data
                 $('#printArea').html(_data.prtp_content)
                 DraggableResizable()
+                var divArr = $('#printArea div');
+                $.each(divArr, function (i, n) {
+                    if ($(this).attr("itemtype") == "data")
+                    {
+                        var id = $(this).attr("id")
+                        if ($(this).attr("itemrelation") == 'book_crmCompanyId' || $(this).attr("itemrelation") == 'book_warehouse' || $(this).attr("itemrelation") == 'book_forwarder') {
+                            var value = mblData[$(this).attr("itemrelation")]
+                            common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+                                "Id": value
+                            }, function (data) {
+                                var _data = data.Data;
+                                $("#" + id + "").find("p").html(_data.comp_name);
+                            }, function (err) {
+                                console.log(err)
+                            }, 2000)
+                        } else if ($(this).attr("itemrelation") == 'bookingTrailer') {  //拖车信息数据集
+                            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
+                                "bookingId": aboutId
+                            }, function (data) {
+                                //console.log(data.Data)
+                                if (data.State == 1) {
+                                    var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                                        '<tr><td>车行</td><td>装箱公司</td><td>地址</td><td>联系人</td><td>联系方式</td><td>时间</td><td>柜型</td><td>SO号码</td><td>备注</td></tr>'
+                                    var _data = data.Data;
+                                    for (var i = 0; i < _data.length; i++) {
+                                        var trailerlist = '<tr><td> ' + _data[i].comp_name + '</td><td> ' + _data[i].packing_comp_name + '</td><td>' + _data[i].botr_address + '</td><td>' + _data[i].botr_contact + '</td><td>' + _data[i].botr_contactWay + '</td><td>' + _data[i].botr_time.substring(0, 10) + '</td><td>' + _data[i].botr_container + '</td><td> ' + _data[i].botr_so + '</td><td>' + _data[i].botr_remark + '</td></tr>'
+                                        _html = _html + trailerlist
+                                    }
+                                    _html = _html + '</table>'
+                                    $("#" + id + "").find("p").html(_html);
+                                    console.log($(this).attr("itemrelation"))
+                                }
+                            }, function (err) {
+                                console.log(err)
+                            }, 2000)
+                        } else if ($(this).attr("itemrelation") == 'bookingContainer') {  //集装箱信息数据集
+                            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
+                                "whichId": 1,
+                                "bookingId": aboutId
+                            }, function (data) {
+                                //console.log(data.Data)
+                                if (data.State == 1) {
+                                    var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                                        '<tr><td>柜型</td><td>柜号</td><td>封条号</td><td>包装</td><td>重量</td><td>体积</td><td>VGM</td><td>海关编码</td><td>货物名称</td></tr>'
+                                    var _data = data.Data;
+                                    for (var i = 0; i < _data.length; i++) {
+                                        var trailerlist = '<tr><td> ' + _data[i].boco_typeName + '</td><td> ' + _data[i].boco_number + '</td><td>' + _data[i].boco_sealNumber + '</td><td>' + _data[i].boco_package + '</td><td>' + _data[i].boco_weight + '</td><td>' + _data[i].boco_volume + '</td><td>' + _data[i].boco_vgm + '</td><td> ' + _data[i].boco_customsCode + '</td><td>' + _data[i].boco_goodsName + '</td></tr>'
+                                        _html = _html + trailerlist
+                                    }
+                                    _html = _html + '</table>'
+                                    $("#" + id + "").find("p").html(_html);
+                                }
+                            }, function (err) {
+                                console.log(err)
+                            }, 2000)
+                        } else if ($(this).attr("itemrelation") == 'bookingVGM') {  //集装箱VGM信息
+                            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readvgmbyid", {
+                                "bookingId": aboutId
+                            }, function (data) {
+                                //console.log(data.Data)
+                                if (data.State == 1) {
+                                    var _data = data.Data;
+                                    var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                                        '<tr><td>VGM</td><td>VGM方式</td><td>称重日期</td><td>责任方</td><td>授权人</td><td>称重人</td><td>备注</td></tr>'
+                                    var trailerlist = '<tr><td> ' + _data.vgm_num + _data.vgm_unit + '</td><td> ' + _data.vgm_way + '</td><td> ' + _data.vgm_weighingDate.substring(0, 10) + '</td><td>' + _data.vgm_responsibility + '</td><td>' + _data.vgm_authorize + '</td><td>' + _data.vgm_weighing + '</td><td>' + _data.vgm_beizhu + '</td></tr>'
+                                    _html = _html + trailerlist
+                                    _html = _html + '</table>'
+                                    $("#" + id + "").find("p").html(_html);
+                                }
+                            }, function (err) {
+                                console.log(err)
+                            }, 2000)
+                        } else {
+                            var value = mblData[$(this).attr("itemrelation")]
+                            $(this).find("p").html(value);
+                        }
+                    }
+                });
             }, function (err) {
                 console.log(err)
             }, 5000)
@@ -222,9 +298,9 @@ $(document).ready(function () {
 		    $("#" + $("#itemId").val() + "").css("font-weight", $(this).val());
 		} else if ($(this).attr("id") == "itemRelation") {
 		    $("#" + $("#itemId").val() + "").attr("itemrelation", $(this).val());
-		    var value = mblData[$(this).val()]
 		    //console.log(value)
 		    if ($(this).val() == 'book_crmCompanyId' || $(this).val() == 'book_warehouse' || $(this).val() == 'book_forwarder') {
+		        var value = mblData[$(this).val()]
 		        common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
 		            "Id": value
 		        }, function (data) {
@@ -233,7 +309,7 @@ $(document).ready(function () {
 		        }, function (err) {
 		            console.log(err)
 		        }, 2000)
-		    } else if ($(this).val() == 'bookingTrailer') {
+		    } else if ($(this).val() == 'bookingTrailer') {  //拖车信息数据集
 		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
 		            "bookingId": aboutId
 		        }, function (data) {
@@ -252,7 +328,45 @@ $(document).ready(function () {
 		        }, function (err) {
 		            console.log(err)
 		        }, 2000)
+		    } else if ($(this).val() == 'bookingContainer') {  //集装箱信息数据集
+		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
+		            "whichId": 1,
+		            "bookingId": aboutId
+		        }, function (data) {
+		            //console.log(data.Data)
+		            if (data.State == 1) {
+		                var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                            '<tr><td>柜型</td><td>柜号</td><td>封条号</td><td>包装</td><td>重量</td><td>体积</td><td>VGM</td><td>海关编码</td><td>货物名称</td></tr>'
+		                var _data = data.Data;
+		                for (var i = 0; i < _data.length; i++) {
+		                    var trailerlist = '<tr><td> ' + _data[i].boco_typeName + '</td><td> ' + _data[i].boco_number + '</td><td>' + _data[i].boco_sealNumber + '</td><td>' + _data[i].boco_package + '</td><td>' + _data[i].boco_weight + '</td><td>' + _data[i].boco_volume + '</td><td>' + _data[i].boco_vgm + '</td><td> ' + _data[i].boco_customsCode + '</td><td>' + _data[i].boco_goodsName + '</td></tr>'
+		                    _html = _html + trailerlist
+		                }
+		                _html = _html + '</table>'
+		                $("#" + $("#itemId").val() + " p").html(_html);
+		            }
+		        }, function (err) {
+		            console.log(err)
+		        }, 2000)
+		    } else if ($(this).val() == 'bookingVGM') {  //集装箱VGM信息
+		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readvgmbyid", {
+		            "bookingId": aboutId
+		        }, function (data) {
+		            //console.log(data.Data)
+		            if (data.State == 1) {
+		                var _data = data.Data;
+		                var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                            '<tr><td>VGM</td><td>VGM方式</td><td>称重日期</td><td>责任方</td><td>授权人</td><td>称重人</td><td>备注</td></tr>'
+		                var trailerlist = '<tr><td> ' + _data.vgm_num + _data.vgm_unit + '</td><td> ' + _data.vgm_way + '</td><td> ' + _data.vgm_weighingDate.substring(0, 10) + '</td><td>' + _data.vgm_responsibility + '</td><td>' + _data.vgm_authorize + '</td><td>' + _data.vgm_weighing + '</td><td>' + _data.vgm_beizhu + '</td></tr>'
+		                _html = _html + trailerlist
+		                _html = _html + '</table>'
+		                $("#" + $("#itemId").val() + " p").html(_html);
+		            }
+		        }, function (err) {
+		            console.log(err)
+		        }, 2000)
 		    } else {
+		        var value = mblData[$(this).val()]
 		        $("#" + $("#itemId").val() + " p").html(value);
 		    }
 		    
