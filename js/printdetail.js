@@ -142,6 +142,8 @@ $(document).ready(function () {
 
                         }
                     }
+                    $(this).css("word-wrap","break-word"); //by daniel 2021-5-25
+                    $(this).css("overflow","hidden"); //by daniel 2021-5-25
                 });
             }, function (err) {
                 console.log(err)
@@ -225,7 +227,7 @@ $(document).ready(function () {
 	})
 	$("#addData").click(function () {
 	    var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Data Content</p></div>';
+	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute; word-wrap: break-all;"><p>Data Content</p></div>';
 	    $("#printArea").append(Data);
 	    $("#relation").show();
 	    $("#name").hide();

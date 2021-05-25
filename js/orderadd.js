@@ -56,7 +56,8 @@ $(function(){
     //打印
 	if (action == 'add') { $('#printDetail').hide() }
 	$('#printMBL').click(function () {
-	    location.href = "printdetail.html?action=add&typeId=1&aboutId=" + Id
+	    //location.href = "printdetail.html?action=add&typeId=1&aboutId=" + Id
+	    window.open("printdetail.html?action=add&typeId=1&aboutId=" + Id,"_blank");
 	});
 	$('#printHBL').click(function () {
 	    location.href = "printdetail.html?action=add&typeId=2&aboutId=" + Id
