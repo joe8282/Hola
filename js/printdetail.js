@@ -102,14 +102,12 @@ $(document).ready(function () {
                             }, function (data) {
                                 //console.log(data.Data)
                                 if (data.State == 1) {
-                                    var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
-                                        '<tr><td>柜型</td><td>柜号</td><td>封条号</td><td>包装</td><td>重量</td><td>体积</td><td>VGM</td><td>海关编码</td><td>货物名称</td></tr>'
+                                    var _html = ''
                                     var _data = data.Data;
                                     for (var i = 0; i < _data.length; i++) {
-                                        var trailerlist = '<tr><td> ' + _data[i].boco_typeName + '</td><td> ' + _data[i].boco_number + '</td><td>' + _data[i].boco_sealNumber + '</td><td>' + _data[i].boco_package + '</td><td>' + _data[i].boco_weight + '</td><td>' + _data[i].boco_volume + '</td><td>' + _data[i].boco_vgm + '</td><td> ' + _data[i].boco_customsCode + '</td><td>' + _data[i].boco_goodsName + '</td></tr>'
+                                        var trailerlist = '<div>' + _data[i].boco_number + '/' + _data[i].boco_sealNumber + '/' + _data[i].boco_typeName + '/' + _data[i].boco_package + '/' + _data[i].boco_weight + '/' + _data[i].boco_volume + '</div>'
                                         _html = _html + trailerlist
                                     }
-                                    _html = _html + '</table>'
                                     $("#" + id + "").find("p").html(_html);
                                 }
                             }, function (err) {
@@ -133,8 +131,15 @@ $(document).ready(function () {
                                 console.log(err)
                             }, 2000)
                         } else {
-                            var value = mblData[$(this).attr("itemrelation")]
-                            $(this).find("p").html(value);
+                            //console.log(mblData[$(this).attr("itemrelation")])
+                            if ($(this).attr("itemrelation").indexOf('Time') > 0 && (mblData[$(this).attr("itemrelation")] != null || mblData[$(this).attr("itemrelation")] != '')) {
+                                var value = mblData[$(this).attr("itemrelation")].substring(0, 10)
+                                $(this).find("p").html(value);
+                            } else {
+                                var value = mblData[$(this).attr("itemrelation")]
+                                $(this).find("p").html(value);
+                            }
+
                         }
                     }
                 });
@@ -335,14 +340,12 @@ $(document).ready(function () {
 		        }, function (data) {
 		            //console.log(data.Data)
 		            if (data.State == 1) {
-		                var _html = '<table class="table table-striped table-hover table-bordered trailerAll" cellspacing="0" width="100%" id="exampleTrailer">' +
-                            '<tr><td>柜型</td><td>柜号</td><td>封条号</td><td>包装</td><td>重量</td><td>体积</td><td>VGM</td><td>海关编码</td><td>货物名称</td></tr>'
+		                var _html = ''
 		                var _data = data.Data;
 		                for (var i = 0; i < _data.length; i++) {
-		                    var trailerlist = '<tr><td> ' + _data[i].boco_typeName + '</td><td> ' + _data[i].boco_number + '</td><td>' + _data[i].boco_sealNumber + '</td><td>' + _data[i].boco_package + '</td><td>' + _data[i].boco_weight + '</td><td>' + _data[i].boco_volume + '</td><td>' + _data[i].boco_vgm + '</td><td> ' + _data[i].boco_customsCode + '</td><td>' + _data[i].boco_goodsName + '</td></tr>'
+		                    var trailerlist = '<div>' + _data[i].boco_number + '/' + _data[i].boco_sealNumber + '/' + _data[i].boco_typeName + '/' + _data[i].boco_package + '/' + _data[i].boco_weight + '/' + _data[i].boco_volume + '</div>'
 		                    _html = _html + trailerlist
 		                }
-		                _html = _html + '</table>'
 		                $("#" + $("#itemId").val() + " p").html(_html);
 		            }
 		        }, function (err) {
@@ -366,8 +369,15 @@ $(document).ready(function () {
 		            console.log(err)
 		        }, 2000)
 		    } else {
-		        var value = mblData[$(this).val()]
-		        $("#" + $("#itemId").val() + " p").html(value);
+		        //var value = mblData[$(this).val()]
+		        //$("#" + $("#itemId").val() + " p").html(value);
+		        if ($(this).val().indexOf("Time") >= 0 && (mblData[$(this).val()] != null || mblData[$(this).val()] != '')) {
+		            var value = mblData[$(this).val()].substring(0, 10)
+		            $("#" + $("#itemId").val() + " p").html(value);
+		        } else {
+		            var value = mblData[$(this).val()]
+		            $("#" + $("#itemId").val() + " p").html(value);
+		        }
 		    }
 		    
 		}
