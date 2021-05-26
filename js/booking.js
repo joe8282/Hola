@@ -393,7 +393,7 @@ function initTable(fromId) {
 						// 	.append("<a href='bookingadd.html?action=modify&Id=" + cellData + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
 					} else if (rowData.book_state == 3) {
-					    $(td).parent().find("td").css("background-color", "red");
+					    $(td).parent().find("td").css("background-color", "#ABABAB");
 					    $(td).html("<span><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_reasonFun(" + cellData + ",\"" + rowData.book_beizhu + "\")'>" + get_lan('reason') + "</a></span>")
 					}
 				

@@ -62,7 +62,8 @@ function initTable() {
         ],
 //		"bProcessing": true,
 		"aoColumns": [
-			{ "mDataProp": "usin_name"},
+			{ "mDataProp": "usin_name",
+				"sWidth":"100px"},
 			{
 //				"mDataProp": "comp_name",
 //				"createdCell": function (td, cellData, rowData, row, col) {
@@ -96,7 +97,9 @@ function initTable() {
 					$(td).html('<a href="mailto:'+rowData.comp_contactEmail+'">'+rowData.comp_contactEmail+'<a>');
 				}	
 			},
-			{ "mDataProp": "comp_country" },  //去掉供应商，变成国家，但是没有显示数据，不知道是否没有数据。20190815 by daniel
+			{ "mDataProp": "comp_country",
+				"sWidth":"38px"
+			},  //去掉供应商，变成国家，但是没有显示数据，不知道是否没有数据。20190815 by daniel
 			// {
 			// 	"mDataProp": "comp_isSupplier",
 			// 	"createdCell": function (td, cellData, rowData, row, col) {

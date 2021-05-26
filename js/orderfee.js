@@ -1493,7 +1493,7 @@ $(function(){
         feeboxAll_len=$('.feeList').length+1;
 		var feeboxRow = '<div class="col-sm-12 feeList">'+
             '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
-            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收1</option><option value="credit">应付1</option></select>'+
+            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付1</option></select>'+
             '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
             '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+

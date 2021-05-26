@@ -35,6 +35,13 @@ Purchase: http://wrapbootstrap.com
     <!--Page Related styles-->
     <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet" />   
     <link href="css/common.css" rel="stylesheet" />
+    <style>
+        table th, table td{
+            white-space: normal !important;
+            min-width: 80px;
+            max-width: 380px;
+        }
+    </style>
     
     <!--Skin Script: Place this script in head to load scripts for skins and rtl support-->
     <script src="assets/js/skins.min.js"></script>    
@@ -183,28 +190,18 @@ Purchase: http://wrapbootstrap.com
             <!-- Page Content -->
             <div class="page-content">
                 <!-- Page Breadcrumb -->
-                <div class="page-breadcrumbs">
-                    <ul class="breadcrumb">
-                        <li>
-                            <i class="fa fa-home"></i>
-                            <a href="#" set-lan="html:con_top_1">Home</a>
-                        </li>
-                        <li>
-                            <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
-                        </li>
-                        <li id="title1" class="active">Company List</li>
-                    </ul>
-                </div>
-                <!-- /Page Breadcrumb -->
-                <!-- Page Header -->
-                <div class="page-header position-relative">
+                <div class="page-breadcrumbs page-header position-relative">
                     <div class="header-title">
-                        <h1>
-                            <span id="title2">Company List</span>
-                            <small>
-                                <i class="fa fa-angle-right"></i>
-                            </small>
-                        </h1>
+                        <ul class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i>
+                                <a href="#" set-lan="html:con_top_1">Home</a>
+                            </li>
+                            <li>
+                                <a href="publicdata.html?typeid=1" set-lan="html:con_top_2">CRM Home</a>
+                            </li>
+                            <li id="title1" class="active">Company List</li>
+                        </ul>
                     </div>
                     <!--Header Buttons-->
                     <div class="header-buttons">
@@ -229,6 +226,8 @@ Purchase: http://wrapbootstrap.com
                     </div>
                     <!--Header Buttons End-->
                 </div>
+                <!-- /Page Breadcrumb -->
+                <!-- Page Header -->
                 <!-- /Page Header -->
                 <!-- Page Body -->
                 <div class="page-body">
