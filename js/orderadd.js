@@ -59,15 +59,10 @@ $(function(){
 	    //location.href = "printdetail.html?action=add&typeId=1&aboutId=" + Id
 	    window.open("printdetail.html?action=add&typeId=1&aboutId=" + Id,"_blank");
 	});
-	$('#printHBL').click(function () {
+	$('#printContainer').click(function () {
 	    location.href = "printdetail.html?action=add&typeId=2&aboutId=" + Id
 	});
-	$('#printContactSheet').click(function () {
-	    location.href = "printdetail.html?action=add&typeId=3&aboutId=" + Id
-	});
-	$('#printTrailer').click(function () {
-	    location.href = "printdetail.html?action=add&typeId=4&aboutId=" + Id
-	});
+
 
 
     //复制订单
@@ -2181,8 +2176,14 @@ $(function(){
     			if(data.State == 1) {
     				for(var i = 0; i < _data.length; i++) {
     					var crmlist = '<li><a class="billmodiy" data-toggle="tab" href="#dropdown2" billId=' + _data[i].bobi_id + '>' + _data[i].bobi_billCode + '</a></li>'
-    					$(".dropdown-menu").append(crmlist)
+    					$("#billList").append(crmlist)
+    					var crmlist = '<li><span class="printHBL" data-billid="' + _data[i].bobi_id + '" style="cursor: pointer; padding-left: 20px; ">HBL打印(' + _data[i].bobi_billCode + ')</span></li>'
+    					$("#pringType").append(crmlist)
     				}
+
+    				$('.printHBL').click(function (e) {
+    				    location.href = "printdetail.html?action=add&typeId=3&aboutId=" + e.target.dataset.billid
+    				});
     			}
     			/*编辑HBL*/
     			$('.billmodiy').on('click', function() {

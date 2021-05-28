@@ -187,16 +187,16 @@ Purchase: http://wrapbootstrap.com
                         <a class="label label-primary tooltip-darkorange dropdown-toggle" data-toggle="dropdown" id="printDetail">
                             <i class="glyphicon glyphicon-print"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-azure">
+                        <ul class="dropdown-menu dropdown-azure" id="pringType">
                             <li>
                                 <span id="printMBL" style="cursor: pointer; padding-left:20px;">MBL打印</span>
                             </li>
                             <li>
-                                <span id="printHBL" style="cursor: pointer; padding-left:20px;">集装箱信息打印</span>
+                                <span id="printContainer" style="cursor: pointer; padding-left:20px;">集装箱信息打印</span>
                             </li>
-                            <li>
+                            <!--<li>
                                 <span id="printContactSheet" style="cursor: pointer; padding-left: 20px; ">HBL打印</span>
-                            </li>
+                            </li>-->
                             <!--<li>
                                 <span id="printTrailer" style="cursor: pointer; padding-left: 20px; ">联系单打印</span>
                             </li>-->
@@ -280,7 +280,7 @@ Purchase: http://wrapbootstrap.com
                                 <li class="tab-red"><a class="followtab" data-toggle="tab" href="#FOLLOW">订单动态</a></li>
                                 <li class="dropdown">
                                     <a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="HBLNav">HBL订单信息</span> <b class="caret"></b></a>
-                                    <ul class="dropdown-menu dropdown-blue">
+                                    <ul class="dropdown-menu dropdown-blue" id="billList">
                                         <li><a class="billnew" data-toggle="tab" href="#dropdown1">新增</a></li>
                                         <!--<li><a class="billmodiy" data-toggle="tab" href="#dropdown2">@fat</a></li>-->
                                     </ul>

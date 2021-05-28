@@ -57,9 +57,9 @@ function initTable() {
 			    "createdCell": function (td, cellData, rowData, row, col) {
 			        var value
 			        if (rowData.prtp_typeId == 1) { value = 'MBL打印' }
-			        else if (rowData.prtp_typeId == 2) { value = 'HBL打印' }
-			        else if (rowData.prtp_typeId == 3) { value = '联系单打印' }
-			        else if (rowData.prtp_typeId == 4) { value = '拖车单打印' }
+			        else if (rowData.prtp_typeId == 2) { value = '集装箱打印' }
+			        else if (rowData.prtp_typeId == 3) { value = 'HBL打印' }
+			        else if (rowData.prtp_typeId == 4) { value = '联系单打印' }
 			        $(td).html(value);
 			    }
 			},

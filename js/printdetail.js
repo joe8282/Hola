@@ -23,18 +23,32 @@ $(document).ready(function () {
     var aboutId = GetQueryString('aboutId');
     var PrintTpId = 0;
 
-    //加载MBL信息
+    //加载信息
     var mblData
-    common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
-        "Id": aboutId
-    }, function (data) {
-        console.log(data.Data)
-        //初始化信息
-        mblData = data.Data
+    if (typeId == 1 || typeId == 2) {
+        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+            "Id": aboutId
+        }, function (data) {
+            console.log(data.Data)
+            //初始化信息
+            mblData = data.Data
 
-    }, function (err) {
-        console.log(err)
-    }, 1000)
+        }, function (err) {
+            console.log(err)
+        }, 1000)
+    } else if (typeId == 3) {
+        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbillbyid", {
+            "Id": aboutId
+        }, function (data) {
+            console.log(data.Data)
+            //初始化信息
+            mblData = data.Data
+
+        }, function (err) {
+            console.log(err)
+        }, 1000)
+    }
+
 
 
     //加载所有模板列表
@@ -125,6 +139,25 @@ $(document).ready(function () {
                                     var trailerlist = '<tr><td> ' + _data.vgm_num + _data.vgm_unit + '</td><td> ' + _data.vgm_way + '</td><td> ' + _data.vgm_weighingDate.substring(0, 10) + '</td><td>' + _data.vgm_responsibility + '</td><td>' + _data.vgm_authorize + '</td><td>' + _data.vgm_weighing + '</td><td>' + _data.vgm_beizhu + '</td></tr>'
                                     _html = _html + trailerlist
                                     _html = _html + '</table>'
+                                    $("#" + id + "").find("p").html(_html);
+                                }
+                            }, function (err) {
+                                console.log(err)
+                            }, 2000)
+                        } else if ($(this).attr("itemrelation") == 'bobi_containerType') {  //HBL柜号
+                            var _html = ''
+                            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
+                                "whichId": 2,
+                                "bookingId": aboutId
+                            }, function (data) {
+                                //console.log(data.Data)
+                                if (data.State == 1) {
+                                    var _html = ''
+                                    var _data = data.Data;
+                                    for (var i = 0; i < _data.length; i++) {
+                                        var trailerlist = '<div>' + _data[i].boco_number + '/' + _data[i].boco_sealNumber + '/' + _data[i].boco_typeName + '/' + _data[i].boco_package + '/' + _data[i].boco_weight + '/' + _data[i].boco_volume + '</div>'
+                                        _html = _html + trailerlist
+                                    }
                                     $("#" + id + "").find("p").html(_html);
                                 }
                             }, function (err) {
