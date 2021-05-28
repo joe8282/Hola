@@ -79,7 +79,7 @@ $(function(){
     }, 2000)
 
 	//加载订单信息
-	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+	common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbyid", {
 		"Id": Id
 	}, function(data) {
 		console.log(data.Data)
@@ -89,6 +89,7 @@ $(function(){
 		$('#title3').html('订单号：' + _data.book_orderCode)
 		$('#ordercode').val(orderCode)
 		crmId = _data.book_crmCompanyId;
+		console.log(crmId)
         containerType=_data.book_allContainer;
 	}, function(err) {
 		console.log(err)
@@ -311,14 +312,14 @@ $(function(){
     common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
         "companyId": companyID
     }, function(data) {
-        //console.log(data)
+        console.log(data)
         var _data = data.data;
         if(_data != null) {
             for(var i = 0; i < _data.length; i++) {
-                var _html = '<option value="' + _data[i].comp_customerId + '" name="'+_data[i].comp_id+'">' + _data[i].comp_name + '</option>';
+                var _html = '<option name="' + _data[i].comp_customerId + '" value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
                 $('#crmuser').append(_html)
             }
-        }   
+        }
     }, function(err) {
         console.log(err)
     }, 2000)
@@ -1519,7 +1520,8 @@ $(function(){
             language: "zh-CN",
             minimumInputLength: 2
         });
-        $('.feeList:last').find('.toCompany').val($('#crmuser option:selected').attr("name")).trigger("change")
+	    //$('.feeList:last').find('.toCompany').val($('#crmuser option:selected').attr("id")).trigger("change")
+        $('.feeList:last').find('.toCompany').val($('#crmuser').val()).trigger("change")
 //		//费用类型
 		$('.feeList:last').find('.feeItem').append(_feeItem)
         $("#feeItem"+feeboxAll_len).select2({
