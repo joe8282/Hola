@@ -404,6 +404,23 @@ function getUserInfo() {
 }	
 
 //获取权限
+function hasPermission(permission) {
+    function getPsuc(data) {
+        var userPermissionArr = data.Data.usin_permission.split(',')
+        if ($.inArray(permission, userPermissionArr) == -1) {
+            alert("没有权限，请联系管理员！")
+            history.go(-1)
+        }
+    }
+    function getPerr(err) {
+        console.log(err)
+    }
+    common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=readbyid', {
+        Id: userID
+    }, getPsuc, getPerr, 5000)
+}
+
+//获取权限
 //function hasPermission(userRole) {
 //    function getPsuc(data) {
 //        console.log(data)

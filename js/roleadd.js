@@ -9,7 +9,9 @@ var en2 = {
             "con_top_2" : "System Management",       
         };
 
-$(function(){
+$(function () {
+    hasPermission('1010')
+
 	this.title = get_lan('nav_0_5')
 	$('.navli0').addClass("active open")
 	$('.sys2').addClass("active")	
