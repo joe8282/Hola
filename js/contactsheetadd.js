@@ -106,7 +106,7 @@ $(function(){
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].comp_customerId + '" data-comId="' + _data[i].comp_id + '" data-sellId="'+_data[i].comp_adminId+'">' + _data[i].comp_name + '</option>';
+			    var _html = '<option value="' + _data[i].comp_customerId + '" data-comId="' + _data[i].comp_id + '" data-sellId="' + _data[i].comp_adminId + '">' + _data[i].comp_name + '</option>';
 				if (_data[i].comp_id == GetQueryString('crmId')) {
 				    _html = '<option selected value="' + _data[i].comp_customerId + '" data-comId="' + _data[i].comp_id + '" data-sellId="' + _data[i].comp_adminId + '">' + _data[i].comp_name + '</option>';
 				}
@@ -121,8 +121,8 @@ $(function(){
 			    _selectBill(crmCompanyId)
 			    //获取联系人列表
 			    common.ajax_req("get", false, dataUrl, "crmcompanycontact.ashx?action=readtop", {
-			        //"companyId": crmCompanyId
-			        "companyId": crmContactListId
+			        "companyId": crmCompanyId
+			        //"companyId": crmContactListId
 			    }, function (data) {
 			        console.log(data)
 			        var _data = data.data;
@@ -149,13 +149,13 @@ $(function(){
 	$("#crmuser").change(function() {
 		$('#crmcontact').empty()
 		crmCompanyId = $("#crmuser").val();
-		crmContactListId=$("#crmuser").find("option:selected").attr("data-comId");
+		crmContactListId = $("#crmuser").find("option:selected").attr("data-comId");
 		_selectSupplier(crmCompanyId)
 		_selectBill(crmCompanyId)
 		//获取联系人列表
 		common.ajax_req("get", false, dataUrl, "crmcompanycontact.ashx?action=readtop", {
-			//"companyId": crmCompanyId
-			"companyId": crmContactListId
+			"companyId": crmCompanyId
+			//"companyId": crmContactListId
 		}, function(data) {
 			console.log(data)
 			var _data = data.data;
