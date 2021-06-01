@@ -403,10 +403,7 @@ function getUserInfo() {
 	}, getPsuc, getPerr, 5000)
 }	
 
-<<<<<<< HEAD
-// //获取权限
-// function hasPermission(perCode,userRole) {
-=======
+
 //获取权限
 function hasPermission(permission) {
     function getPsuc(data) {
@@ -426,7 +423,6 @@ function hasPermission(permission) {
 
 //获取权限
 //function hasPermission(userRole) {
->>>>>>> e86fe9cc7a6b69f85bd33d99ed146b5db609df72
 //    function getPsuc(data) {
 //        console.log(data)
 //        if (data.State == 1) {
@@ -442,8 +438,7 @@ function hasPermission(permission) {
 //        console.log(err)
 //    }
 //    common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=haspermission', {
-// //       'permission': GetQueryString('permission'), //当权限码是地址参数的时候使用 by daniel 20210531
-//        'permission': perCode, //当权限码是直接赋值的时候使用 by daniel 20210531
+//       'permission': GetQueryString('permission'), //当权限码是地址参数的时候使用 by daniel 20210531
 //        'userRole': userRole
 //    }, getPsuc, getPerr, 5000)
 // }
