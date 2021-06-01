@@ -91,7 +91,7 @@ function initTable() {
  	bootbox.confirm("Are you sure?", function(result) {
  		if(result) {
  			$.ajax({
- 				url: dataUrl + 'ajax/usercompanydepartment.ashx?action=cancel',
+ 			    url: dataUrl + 'ajax/userinfo.ashx?action=cancelrole',
  				data: {
  					"Id": id
  				},
