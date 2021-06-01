@@ -403,8 +403,30 @@ function getUserInfo() {
 	}, getPsuc, getPerr, 5000)
 }	
 
+<<<<<<< HEAD
 // //获取权限
 // function hasPermission(perCode,userRole) {
+=======
+//获取权限
+function hasPermission(permission) {
+    function getPsuc(data) {
+        var userPermissionArr = data.Data.usin_permission.split(',')
+        if ($.inArray(permission, userPermissionArr) == -1) {
+            alert("没有权限，请联系管理员！")
+            history.go(-1)
+        }
+    }
+    function getPerr(err) {
+        console.log(err)
+    }
+    common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=readbyid', {
+        Id: userID
+    }, getPsuc, getPerr, 5000)
+}
+
+//获取权限
+//function hasPermission(userRole) {
+>>>>>>> e86fe9cc7a6b69f85bd33d99ed146b5db609df72
 //    function getPsuc(data) {
 //        console.log(data)
 //        if (data.State == 1) {
