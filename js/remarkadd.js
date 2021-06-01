@@ -20,6 +20,7 @@ $(function(){
 	var action = GetQueryString('action');
 	
 	if (action == 'modify') {
+		hasPermission('1015'); //权限控制：修改备注
 	    common.ajax_req("get", true, dataUrl, "remark.ashx?action=readbyid", {
 	        "Id": Id
 	    }, function (data) {
@@ -34,6 +35,7 @@ $(function(){
 	    }, 5000)
 	
 	} else {
+		hasPermission('1014'); //权限控制：新增备注
 	
 	}
 

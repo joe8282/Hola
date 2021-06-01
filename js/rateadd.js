@@ -12,6 +12,7 @@ var en2 = {
         };
 
 $(function(){
+    hasPermission('1402'); //权限控制：新增运价
 	$('.navli4').addClass("active open")	
 	$('#title1').text(get_lan('con_top_3'))
 	$('#title2').text(get_lan('con_top_3'))

@@ -12,24 +12,28 @@ var en2 = {
 $(function () {
     var action = GetQueryString('action');
     if (action == 'truckcharge') {
+        hasPermission('1416'); //权限控制：上传拖箱列表
         this.title = get_lan('con_top_2')
         $('#title0').text(get_lan('nav_4'))
         $('#title1').text(get_lan('con_top_2'))
         $('.navli4').addClass("active open")
         $('.rate3').addClass("active")
     } else if (action == 'localcharge') {
+        hasPermission('1409'); //权限控制：上传本地费用列表
         this.title = get_lan('con_top_2')
         $('#title0').text(get_lan('nav_4'))
         $('#title1').text(get_lan('con_top_2'))
         $('.navli4').addClass("active open")
         $('.rate2').addClass("active")
     } else if (action == 'mail') {
+        hasPermission('1202'); //权限控制：上传邮件列表
         this.title = get_lan('nav_6_1')
         $('#title0').text(get_lan('nav_6_1'))
         $('#title1').text(get_lan('con_top_2'))
         $('.navli6').addClass("active open")
         $('.emailprompt1').addClass("active")
     } else if (action == 'rate') {
+        hasPermission('1403'); //权限控制：上传运价列表
         this.title = get_lan('con_top_2')
         $('#title0').text(get_lan('nav_4'))
         $('#title1').text(get_lan('con_top_2'))

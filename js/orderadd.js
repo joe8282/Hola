@@ -54,7 +54,12 @@ $(function(){
 	$("#weighingDate").val(getDate());
 
     //打印
-	if (action == 'add') { $('#printDetail').hide() }
+	if (action == 'add') {
+    	hasPermission('1702'); //权限控制
+		$('#printDetail').hide() 
+	}else{
+    	hasPermission('1703'); //权限控制
+	}
 	$('#printMBL').click(function () {
 	    //location.href = "printdetail.html?action=add&typeId=1&aboutId=" + Id
 	    window.open("printdetail.html?action=add&typeId=1&aboutId=" + Id,"_blank");

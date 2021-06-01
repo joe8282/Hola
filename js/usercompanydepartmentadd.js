@@ -34,6 +34,7 @@ $(function(){
 	var CompanyName, CompanyContent, CompanyHead, CompanyDepartmentId, CompanyCode, CompanyNumber, CreateTime, CancelTime;
 	
 	if(action == 'modify') {	
+		hasPermission('1004'); //权限控制：修改部门
 		setTimeout(function() {
 			common.ajax_req("get", true, dataUrl, "usercompanydepartment.ashx?action=readbyid", {
 				"Id": Id
@@ -60,7 +61,7 @@ $(function(){
 		}, 100)
 	
 	} else {
-	
+		hasPermission('1002'); //权限控制：新增部门
 	}
 
 	

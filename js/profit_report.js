@@ -12,6 +12,7 @@ var en2 = {
 };
 
 $(document).ready(function() {
+    hasPermission('1721'); //权限控制
 //	initModal();
     this.title = get_lan('nav_3_8')
 	$('.navli3').addClass("active open")

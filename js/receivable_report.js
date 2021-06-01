@@ -15,6 +15,7 @@ $(document).ready(function() {
     //	initModal();
     var type = GetQueryString('type')
     if (type == 'debit') {
+		hasPermission('1322'); //权限控制：查看应收报表
         this.title = get_lan('nav_5_8')
         $('.navli5').addClass("active open")
         $('.financial8').addClass("active")
@@ -22,6 +23,7 @@ $(document).ready(function() {
         $('#title2').text(get_lan('nav_5_8'))
         $('#typeTitle').text('客户应收统计表')
     } else {
+		hasPermission('1324'); //权限控制：查看应付报表
         this.title = get_lan('nav_5_9')
         $('.navli5').addClass("active open")
         $('.financial9').addClass("active")

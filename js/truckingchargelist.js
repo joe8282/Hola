@@ -12,6 +12,7 @@ var en2 = {
 var oTable;
 var typeId;
 $(document).ready(function() {
+	hasPermission('1414'); //权限控制：查看拖箱费用
 //	initModal();
 	this.title = get_lan('nav_4_3')
 	$('.navli4').addClass("active open")

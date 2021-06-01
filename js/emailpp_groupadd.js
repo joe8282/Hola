@@ -119,6 +119,7 @@ $(document).ready(function() {
 	
 
 	if (action == 'modify') {
+    	hasPermission('1206'); //权限控制：修改群组邮件列表
 	    common.ajax_req("get", false, dataUrl, "mail.ashx?action=readmailgroupbyid", {
 	        "Id": Id
 	    }, function (data) {
@@ -137,7 +138,7 @@ $(document).ready(function() {
 	    }, 5000)
 
 	} else {
-
+    	hasPermission('1205'); //权限控制：新增群组邮件列表
 	}
 
 });

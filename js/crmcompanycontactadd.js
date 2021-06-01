@@ -23,6 +23,7 @@ $(function(){
 		ContactLinkined, ContactQq;
 	
 	if(action == 'modify') {
+		hasPermission('1604'); //权限控制
 		//setTimeout(function() {
 				console.log(Id)
 			common.ajax_req("get", true, dataUrl,"crmcompanycontact.ashx?action=readbyid", {
@@ -46,7 +47,7 @@ $(function(){
 			}, 5000)
 		//}, 100)
 	} else {
-	
+		hasPermission('1604'); //权限控制
 	}
 	
 	/*下一步*/

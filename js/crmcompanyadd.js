@@ -71,6 +71,7 @@ $(function(){
 	}, 1000)
 	
 	if(action == 'modify') {
+		hasPermission('1603'); //权限控制
 		$('#conactModify1').hide()
 		$('#conactModify2').hide()	
 //		$('#accountModify1').hide()
@@ -118,7 +119,7 @@ $(function(){
 		}, 5000)
 	
 	} else {
-	
+		hasPermission('1602'); //权限控制
 	}
 	
 	/*下一步*/

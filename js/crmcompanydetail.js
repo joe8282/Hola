@@ -18,6 +18,7 @@ var userCompanyId;
 
 $(document).ready(function() {
 //	initModal();
+	hasPermission('1606'); //权限控制
 	
 	this.title = get_lan('nav_2_1')
 	$('.navli2').addClass("active open")

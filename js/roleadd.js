@@ -39,6 +39,7 @@ $(function () {
 	});
 	
 	if (action == 'modify') {
+		hasPermission('1012'); //权限控制：修改角色
 	    common.ajax_req("get", true, dataUrl, "userinfo.ashx?action=readrolebyid", {
 	        "Id": Id
 	    }, function (data) {
@@ -55,6 +56,7 @@ $(function () {
 	    }, 5000)
 	
 	} else {
+		hasPermission('1011'); //权限控制：新增角色
 	
 	}
 

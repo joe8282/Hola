@@ -12,6 +12,7 @@ var en2 = {
 var oTable;
 var typeId;
 $(document).ready(function() {
+    hasPermission('1207'); //权限控制：新增群组邮件列表
 //	initModal();
 	this.title = get_lan('nav_6_1')
 	$('.navli6').addClass("active open")

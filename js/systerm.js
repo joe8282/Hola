@@ -10,6 +10,7 @@ var en2 = {
         };
 
 $(function(){
+	hasPermission('1010'); //权限控制：参数设置
 	this.title = get_lan('nav_0_4')
 	$('.navli0').addClass("active open")
 	$('.sys4').addClass("active")	

@@ -13,6 +13,7 @@ var oTable;
 var typeId;
 $(document).ready(function() {
 //	initModal();
+    hasPermission('1203'); //权限控制：查看邮件列表
 	this.title = get_lan('nav_6_1')
 	$('.navli6').addClass("active open")
 	$('.emailprompt1').addClass("active")	

@@ -23,6 +23,7 @@ $('.rate1').addClass("active")
 var oTable;
 
 $(document).ready(function() {
+    hasPermission('1401'); //权限控制：查看运价列表
 	this.title = get_lan('con_top_3') 
 	$('.navli4').addClass("active open")	
 	$('#title1').text(get_lan('con_top_3'))

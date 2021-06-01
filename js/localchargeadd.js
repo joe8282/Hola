@@ -215,6 +215,7 @@ $(function(){
 	})
 	
 	if(action == 'modify') {	
+    	hasPermission('1412'); //权限控制：新增当地费用	
 	    $("#saveAsNew").addClass('none');
 		common.ajax_req("get", false, dataUrl, "localcharge.ashx?action=readbyid", {
 			"Id": Id
@@ -250,7 +251,7 @@ $(function(){
 		}, 5000)
 	
 	} else {
-	
+    	hasPermission('1408'); //权限控制：新增当地费用	
 	}
 	
 	/*下一步*/

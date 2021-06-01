@@ -10,6 +10,7 @@ var en2 = {
         };
 
 $(function(){
+    hasPermission('1304'); //权限控制：查看费用详细清单	
 	this.title = get_lan('nav_5_3') 	
 	$('.navli5').addClass("active open")
 	$('.financial3').addClass("active")	

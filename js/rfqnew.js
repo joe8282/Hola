@@ -10,7 +10,7 @@ var en2 = {
         };
 
 $(function(){
-
+	hasPermission('1501'); //权限控制：新增询盘
 	this.title = get_lan('nav_7_1') 	
 	$('.navli7').addClass("active open")
 	$('.rfq0').addClass("active")

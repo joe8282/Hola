@@ -238,7 +238,8 @@ $(function(){
 	    }
 	})
 	
-	if(action == 'modify') {		
+	if(action == 'modify') {	
+		hasPermission('1417'); //权限控制：查看拖箱费用	
 		common.ajax_req("get", false, dataUrl, "truckingcharge.ashx?action=readbyid2", {
 			"Id": Id
 		}, function(data) {
@@ -342,7 +343,7 @@ $(function(){
 		}, 5000)
 	
 	} else {
-	
+		hasPermission('1415'); //权限控制：查看拖箱费用
 	}
 	
 	/*下一步*/

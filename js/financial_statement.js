@@ -12,6 +12,7 @@ var en2 = {
 };
 
 $(document).ready(function() {
+    hasPermission('1326'); //权限控制：查看对账通知单
     //	initModal();
     this.title = get_lan('nav_5_10')
     $('.navli5').addClass("active open")

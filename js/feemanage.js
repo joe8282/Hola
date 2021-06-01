@@ -14,6 +14,7 @@ var en2 = {
 var _feeItemArr = new Array();
 
 $(function(){
+    hasPermission('1310'); //权限控制：查看费用管理
 	$('.navli5').addClass("active open")
 	$('.financial7').addClass("active")
 

@@ -263,6 +263,7 @@ $(document).ready(function () {
     //});	
 
 	if (action == 'modify') {
+    	hasPermission('1719'); //权限控制
 	    common.ajax_req("get", false, dataUrl, "printtemplate.ashx?action=readbyid", {
 	        "Id": Id
 	    }, function (data) {
@@ -279,7 +280,7 @@ $(document).ready(function () {
 	    DraggableResizable()
 
 	} else {
-
+    	hasPermission('1718'); //权限控制
 	}
 
 

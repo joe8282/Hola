@@ -12,6 +12,7 @@ var en2 = {
         };
 
 $(function(){
+	hasPermission('1716'); //权限控制
 	$('.navli3').addClass("active open")	
 	this.title = get_lan('con_top_3')
 	$('#title1').text(get_lan('con_top_3'))

@@ -13,6 +13,7 @@ var en2 = {
 var oTable;
 
 $(document).ready(function() {
+    hasPermission('1306'); //权限控制：查看汇率	
 	this.title = get_lan('nav_5_6')
 	$('.navli5').addClass("active open")
 	$('.financial6').addClass("active")	

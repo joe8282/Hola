@@ -511,7 +511,8 @@ $(function(){
 		}
 	})
 
-	if(action == 'modify') {		
+	if(action == 'modify') {	
+    	hasPermission('1303'); //权限控制：修改费用清单	
 		common.ajax_req("get", false, dataUrl, "pricesheet.ashx?action=readbyid", {
 			"Id": Id
 		}, function(data) {
@@ -902,7 +903,7 @@ $(function(){
 		}, 5000)
 	
 	} else {
-	
+    	hasPermission('1302'); //权限控制：修改费用清单	
 	}
 	$('tr').on('click', function () { //点击TR即可选择上了。不需要每次都点击那个checkbox, by daniel 20191015
 		checkbox_or=$(this).find(':checkbox');

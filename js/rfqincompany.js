@@ -23,6 +23,7 @@ var _getSellNameArr = new Array();
 
 var oTable; var rfqId;
 $(document).ready(function () {
+    hasPermission('1502'); //权限控制：查看内部询盘
     $('.navli7').addClass("active open")
     if (type == 'my') {
         $('.rfq1').addClass("active")

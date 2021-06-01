@@ -12,6 +12,7 @@ var en2 = {
 var oTable;
 var typeId;
 $(document).ready(function() {
+    hasPermission('1407'); //权限控制：查看当地费用列表	
 //	initModal();
 	this.title = get_lan('nav_4_2')
 	$('.navli4').addClass("active open")
