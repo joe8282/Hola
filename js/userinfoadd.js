@@ -90,17 +90,13 @@ $(function(){
 				console.log(err)
 			}, 5000)
 		}, 500)
-	
-	} else if (action=='permission') {}{
-		hasPermission('1008'); //权限控制：职员权限
-	} else if (action=='pw') {}{
-		hasPermission('1009'); //权限控制：修改密码
 	} else{
 		hasPermission('1005'); //权限控制：新增职员
 	}
 
 	
 	if(action == 'pw') {
+		hasPermission('1009'); //权限控制：修改密码
 		$('#companyModify1').hide()
 		$('#companyModify2').hide()
 		$('#permissionModify1').hide()
@@ -124,6 +120,7 @@ $(function(){
 	}
 
 	if (action == 'permission') {
+		hasPermission('1008'); //权限控制：职员权限
 	    $('#companyModify1').hide()
 	    $('#companyModify2').hide()
 	    $('#conactModify1').hide()
