@@ -309,7 +309,10 @@ var permissionData = [{
 	text: '客户管理中心',
 	children: [{
 		value: "1601", //crmcompany.html  已设置 20210601
-		text: "查看客户列表"
+		text: "查看我的客户列表"
+	}, {
+	    value: "1618",
+		text: "查看公司客户列表"
 	}, {
 	    value: "1602", //crmcompanyadd.html  已设置 20210601
 		text: "新增客户"

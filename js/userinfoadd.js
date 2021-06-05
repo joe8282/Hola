@@ -90,7 +90,7 @@ $(function(){
 				console.log(err)
 			}, 5000)
 		}, 500)
-	} else{
+	}else{
 		hasPermission('1005'); //权限控制：新增职员
 	}
 
