@@ -21,13 +21,24 @@ var typeId;
 
 $(document).ready(function() {
 	hasPermission('1601'); //权限控制
-//	initModal();
-	this.title = get_lan('nav_2_2')
-	$('.navli2').addClass("active open")
-	$('.crm2').addClass("active")	
-	$('#title1').text(get_lan('nav_2_2'))
-	$('#title2').text(get_lan('nav_2_2'))
-	$('#mySmallModalLabel').text(get_lan('nav_2_2'))
+    //	initModal();
+
+	if (GetQueryString('type')) {
+	    this.title = get_lan('nav_2_2')
+	    $('.navli2').addClass("active open")
+	    $('.crm2').addClass("active")
+	    $('#title1').text(get_lan('nav_2_2'))
+	    $('#title2').text(get_lan('nav_2_2'))
+	    $('#mySmallModalLabel').text(get_lan('nav_2_2'))
+	} else {
+	    this.title = get_lan('nav_2_0')
+	    $('.navli2').addClass("active open")
+	    $('.crm0').addClass("active")
+	    $('#title1').text(get_lan('nav_2_0'))
+	    $('#title2').text(get_lan('nav_2_0'))
+	    $('#mySmallModalLabel').text(get_lan('nav_2_0'))
+	}
+
 
 	$('#addFun').on('click', function() {
 		location.href = 'crmcompanyadd.html?action=add';
@@ -49,10 +60,17 @@ function initTable() {
         	$(this).html('<input style="width:100%;" type="text" placeholder="搜索 '+title+'" />');
         }
     });
+
+    var tourl = ''
+    if (GetQueryString('type')) {
+        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID
+    } else {
+        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID
+    }
     
 	var table = $("#example").dataTable({
 		//"iDisplayLength":10,
-	    "sAjaxSource": dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID,
+	    "sAjaxSource": tourl,
 //		'bPaginate': true,
 //		"bDestory": true,
 //		"bRetrieve": true,

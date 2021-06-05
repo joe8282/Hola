@@ -201,8 +201,9 @@ function getNav(){
                         '</ul>' +
                     '</li>' +
 					'<li class="navli2"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_2"> CRM Home </span><i class="menu-expand"></i></a>'+
-                        '<ul class="submenu">'+
-                            '<li class="crm2"><a href="crmcompany.html"><span class="menu-text" set-lan="html:nav_2_2">My Customer</span></a></li>' +
+                        '<ul class="submenu">' +
+                            '<li class="crm0"><a href="crmcompany.html"><span class="menu-text" set-lan="html:nav_2_0">All Customer</span></a></li>' +
+                            '<li class="crm2"><a href="crmcompany.html?type=myselft"><span class="menu-text" set-lan="html:nav_2_2">My Customer</span></a></li>' +
                             '<li class="crm3"><a href="crmcompanyrole.html"><span class="menu-text" set-lan="html:nav_2_3">Company Customer</span></a></li>' +
                             '<li class="crm4"><a href="crmcompanygroup.html"><span class="menu-text" set-lan="html:nav_2_4">Customer Group</span></a></li>' +
                             '<li class="crm1"><a href="crmcompanyadd.html?action=add"><span class="menu-text" set-lan="html:nav_2_1">Customer Add</span></a></li>' +
