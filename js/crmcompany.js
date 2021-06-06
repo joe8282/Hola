@@ -20,10 +20,10 @@ var oTable;
 var typeId;
 
 $(document).ready(function() {
-	hasPermission('1601'); //权限控制
     //	initModal();
 
 	if (GetQueryString('type')) {
+		hasPermission('1601'); //权限控制
 	    this.title = get_lan('nav_2_2')
 	    $('.navli2').addClass("active open")
 	    $('.crm2').addClass("active")
@@ -31,6 +31,7 @@ $(document).ready(function() {
 	    $('#title2').text(get_lan('nav_2_2'))
 	    $('#mySmallModalLabel').text(get_lan('nav_2_2'))
 	} else {
+		hasPermission('1618'); //权限控制
 	    this.title = get_lan('nav_2_0')
 	    $('.navli2').addClass("active open")
 	    $('.crm0').addClass("active")
