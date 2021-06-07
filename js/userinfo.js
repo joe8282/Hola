@@ -45,7 +45,7 @@ function initTable() {
         "aaSorting": [[9, 'desc']],
         "aoColumnDefs":[//设置列的属性，此处设置第一列不排序
             //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
-            {"bSortable": false, "aTargets": [0,1,2,3,4,5,6,10]}
+            {"bSortable": false, "aTargets": [0,1,2,3,4,5,6,10,11]}
         ],
 //		"bProcessing": true,
 		"aoColumns": [
@@ -81,7 +81,17 @@ function initTable() {
 				"createdCell": function (td, cellData, rowData, row, col) {
 					$(td).html(rowData.usin_updateTime.substring(0, 10));
 				}			
-			},				
+			},
+			{
+			    "mDataProp": "usin_state",
+			    "createdCell": function (td, cellData, rowData, row, col) {
+			        if (rowData.usin_state == 1) {
+			            $(td).text('正常');
+			        } else {
+			            $(td).text('停用');
+			        }
+			    }
+			},
 			{
 				"mDataProp": "usin_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
@@ -91,11 +101,16 @@ function initTable() {
 					// 	.append("<a href='userinfoadd.html?action=pw&Id="+cellData +"'>" + get_lan('admin') + "</a>");
 
                     $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
-
+                        if (rowData.usin_state == 1) {
+                            _li = "<li><a href='javascript:void(0);' onclick='_stopFun(" + cellData + ")'>" + get_lan('stop') + "</a></li>"
+                        } else {
+                            _li = "<li><a href='javascript:void(0);' onclick='_startFun(" + cellData + ")'>" + get_lan('start') + "</a></li>"
+                        }
                         var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='userinfoadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
                         +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                         +"<ul class='dropdown-menu dropdown-azure'>"
-                        +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        + "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        + _li
                         + "<li><a href='userinfoadd.html?action=pw&Id=" + cellData + "'>" + get_lan('admin') + "</a></li>"
                         + "<li><a href='userinfoadd.html?action=permission&Id=" + cellData + "'>" + get_lan('permission') + "</a></li>"
                         +"</ul></div>"                        
@@ -165,6 +180,68 @@ function _deleteFun(id) {
 			});
 		}
 	});
+}
+
+/**
+ * 停用
+ * @param id
+ * @private
+ */
+function _stopFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/userinfo.ashx?action=modify',
+                data: {
+                    "Id": id,
+                    "state": 2
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        oTable.fnReloadAjax(oTable.fnSettings());
+                    } else {
+                        alert("Stop Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+}
+
+/**
+ * 启用
+ * @param id
+ * @private
+ */
+function _startFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/userinfo.ashx?action=modify',
+                data: {
+                    "Id": id,
+                    "state": 1
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        oTable.fnReloadAjax(oTable.fnSettings());
+                    } else {
+                        alert("Start Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
 }
 
 /*
