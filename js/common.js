@@ -406,20 +406,42 @@ function getUserInfo() {
 
 
 //获取权限
-function hasPermission(permission) {
+function hasPermission(permission, back) {
     function getPsuc(data) {
         var userPermissionArr = data.Data.usin_permission.split(',')
         if ($.inArray(permission, userPermissionArr) == -1) {
-            alert("没有权限，请联系管理员！")
-            history.go(-1)
+            if (back == 1) {
+                console.log(back)
+                return false
+            } else {
+                alert("没有权限，请联系管理员！")
+                history.go(-1)
+            }
         }
     }
     function getPerr(err) {
         console.log(err)
     }
-    common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=readbyid', {
+    common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=readbyid', {
         Id: userID
     }, getPsuc, getPerr, 5000)
+}
+
+function isPermission(permission) {
+    var back = 1;
+    function getPsuc(data) {
+        var userPermissionArr = data.Data.usin_permission.split(',')
+        if ($.inArray(permission, userPermissionArr) == -1) {
+            back = 2
+        }
+    }
+    function getPerr(err) {
+        console.log(err)
+    }
+    common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=readbyid', {
+        Id: userID
+    }, getPsuc, getPerr, 5000)
+    return back
 }
 
 //获取权限
