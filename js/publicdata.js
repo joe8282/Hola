@@ -352,9 +352,19 @@ function initTable() {
 					"mDataProp": "puda_id",
 					"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
 						if(oData.puda_companyId==companyID || companyID==0){
-							$(nTd).html("<a href='javascript:void(0);' " +
-									"onclick='_editFun(\"" + oData.puda_id + "\",\"" + oData.puda_name_en + "\",\"" + oData.puda_name_cn + "\",\"" + oData.puda_country_en + "\",\"" + oData.puda_country_cn + "\",\"" + oData.puda_code + "\")'>" + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-								.append("<a href='javascript:void(0);' onclick='_deleteFun(" + sData + ")'>" + get_lan('delete') + "</a>");				
+
+							if(isPermission('1102')==1){
+								$(nTd).html("<a href='javascript:void(0);' " +
+										"onclick='_editFun(\"" + oData.puda_id + "\",\"" + oData.puda_name_en + "\",\"" + oData.puda_name_cn + "\",\"" + oData.puda_country_en + "\",\"" + oData.puda_country_cn + "\",\"" + oData.puda_code + "\")'>" + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;");
+										
+							}else{
+								$(nTd).html('')
+							}	
+							if(isPermission('1103')==1 && isPermission('1102')==1){
+								$(nTd).append("<a href='javascript:void(0);' onclick='_deleteFun(" + sData + ")'>" + get_lan('delete') + "</a>");
+							}else if(isPermission('1103')==1 && isPermission('1102')!=1){
+								$(nTd).html("<a href='javascript:void(0);' onclick='_deleteFun(" + sData + ")'>" + get_lan('delete') + "</a>");
+							}
 						}
 						else{
 							$(nTd).html('')
