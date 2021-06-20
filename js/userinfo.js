@@ -106,10 +106,17 @@ function initTable() {
                         } else {
                             _li = "<li><a href='javascript:void(0);' onclick='_startFun(" + cellData + ")'>" + get_lan('start') + "</a></li>"
                         }
+
+                        if(isPermission('1007')==1){
+                        	_perDel="<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        } else {
+                        	_perDel=""
+                        	_li=""
+                        }
                         var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='userinfoadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
                         +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                         +"<ul class='dropdown-menu dropdown-azure'>"
-                        + "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        + _perDel
                         + _li
                         + "<li><a href='userinfoadd.html?action=pw&Id=" + cellData + "'>" + get_lan('admin') + "</a></li>"
                         + "<li><a href='userinfoadd.html?action=permission&Id=" + cellData + "'>" + get_lan('permission') + "</a></li>"

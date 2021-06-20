@@ -84,11 +84,17 @@ function initTable() {
 //						.append("<a href='usercompanyadd.html?action=pw&uId="+rowData.comp_adminId +"'>" + get_lan('admin') + "</a>");
                     $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
 
-                        var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='usercompanydepartmentadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
-                        +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
-                        +"<ul class='dropdown-menu dropdown-azure'>"
-                        +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
-                        +"</ul></div>"                        
+                        if(isPermission('1003')==1){
+	                        var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='usercompanydepartmentadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
+	                        +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+	                        +"<ul class='dropdown-menu dropdown-azure'>"
+	                        +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+	                        +"</ul></div>"
+                        }else{
+	                        var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='usercompanydepartmentadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
+	                        +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+	                        +"</div>"
+                        }
                         return (_thisHtml);
 					})
 				}

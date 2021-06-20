@@ -107,7 +107,11 @@ function initTable() {
            {
                "mDataProp": "mqid",
                "createdCell": function (td, cellData, rowData, row, col) {
-                   $(td).html("<a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sendFun(" + cellData + ")'>" + get_lan('send') + "</a>");
+               		if(isPermission('1221')==1){
+                		$(td).html("<a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sendFun(" + cellData + ")'>" + get_lan('send') + "</a>");
+                	}else{
+                		$(td).html("");
+                	}
                }
            },
 	    ],
@@ -140,7 +144,13 @@ function initTable() {
 			//    "sSortAscending": ": 以升序排列此列",
 			//    "sSortDescending": ": 以降序排列此列"
 			//}
-		}
+		},
+        "fnInitComplete": function (oSettings, json) {
+            if (isPermission('1220') == 1) {
+                $('<a href="#myModal" id="addFun" class="label label-primary tooltip-darkorange" data-toggle="modal"><i class="glyphicon glyphicon-play"></i></a>').appendTo($('.header-buttons'));
+            }
+            //$("#addFun").click(_init);
+        }
 	});
 
 	return table;

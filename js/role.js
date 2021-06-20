@@ -44,8 +44,19 @@ function initTable() {
 			{
 			    "mDataProp": "role_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-					 $(td).html("<a href='roleadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-					 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>");
+                    $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel  
+                    	var _perDel="";
+                        if(isPermission('1013')==1){
+                        	_perDel="<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        }
+
+                        var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='roleadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>"
+                        +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+                        +"<ul class='dropdown-menu dropdown-azure'>"
+                        + _perDel
+                        +"</ul></div>"                        
+                        return (_thisHtml);
+					})
 				}
 			},
 		],

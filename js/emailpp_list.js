@@ -24,7 +24,7 @@ $(document).ready(function() {
 	    location.href = 'fileinput.html?action=mail';
 	})
 
-	$("#addFun").click(_init);
+	//$("#addFun").click(_init);
 	$("#btnSave").click(_addFun);
 	$("#btnEdit").click(_editSaveFun);
 
@@ -97,11 +97,15 @@ function initTable() {
 		 				// .append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
 
                     $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
+                    	var _perDel="";
+                        if(isPermission('1204')==1){
+                        	_perDel="<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        }
 
                         var _thisHtml="<div class='btn-group'><a class='btn btn-blue btn-sm' href='javascript:void(0);' id='editEmail' data-id='"+rowData.ml_id+"'>" + get_lan('edit') + "</a>"
                         +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                         +"<ul class='dropdown-menu dropdown-azure'>"
-                        +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        +_perDel
                         +"</ul></div>"                        
 
                         return (_thisHtml);
@@ -139,6 +143,17 @@ function initTable() {
 			//    "sSortAscending": ": 以升序排列此列",
 			//    "sSortDescending": ": 以降序排列此列"
 			//}
+		},
+		"fnInitComplete": function (oSettings, json) {
+		    if (isPermission('1201') == 1) {
+		        $('<a href="#myModal" id="addFun" class="label label-primary tooltip-darkorange" data-toggle="modal"><i class="fa fa-plus-circle"></i></a>').appendTo($('.header-buttons'));
+		    }
+//				'<a href="#" class="btn btn-primary" id="editFun">修改</a> ' + '&nbsp;' +
+//				'<a href="#" class="btn btn-danger" id="deleteFun">'+get_lan('delete')+'</a>' + '&nbsp;')
+
+			$("#deleteFun").click(_deleteList);
+//			$("#editFun").click(_value);
+			$("#addFun").click(_init);
 		}
 	});
 

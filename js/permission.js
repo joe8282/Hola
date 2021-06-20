@@ -8,7 +8,7 @@ var permissionData = [{
 		value: "1002", //usercompanydepartmentadd.html 已设置 20210601
 		text: "新增部门"
 	}, {
-		value: "1003", 
+		value: "1003", //usercompanydepartment.html 已设置 20210620
 		text: "删除部门"
 	}, {
 		value: "1004", //usercompanydepartmentadd.html 已设置 20210601
@@ -20,7 +20,7 @@ var permissionData = [{
 		value: "1006", //userinfoadd.html  已设置 20210601
 		text: "修改职员"
 	}, {
-		value: "1007",
+		value: "1007", //userinfo.html 已设置 20210620
 		text: "删除职员"
 	}, {
 		value: "1008", //userinfoadd.html  已设置 20210601
@@ -38,7 +38,7 @@ var permissionData = [{
 		value: "1012", //roleadd.html  已设置 20210601
 		text: "修改角色"
 	}, {
-		value: "1013",
+		value: "1013", //role.html 已设置 20210620
 		text: "删除角色"
 	}, {
 		value: "1014", //remarkadd.html  已设置 20210601
@@ -47,27 +47,27 @@ var permissionData = [{
 		value: "1015", //remarkadd.html  已设置 20210601
 		text: "修改备注"
 	}, {
-		value: "1016",
+		value: "1016", //remark.html 已设置 20210620
 		text: "删除备注"
 	}]
 }, {
 	value: '11',
 	text: '基础数据管理',
 	children: [{
-		value: "1101",
+		value: "1101", //publicdata.html  已设置 202100620
 		text: "新增数据"
 	}, {
-	    value: "1102",
+	    value: "1102", //publicdata.html  已设置 202100620
 		text: "修改数据"
 	}, {
-	    value: "1103",
+	    value: "1103", //publicdata.html  已设置 202100620
 		text: "删除数据"
 	}]
 }, {
 	value: '12',
 	text: '邮件推广中心',
 	children: [{
-		value: "1201",
+		value: "1201", //emailpp_list.html  已设置 20210620
 		text: "新增邮件地址"
 	}, {
 	    value: "1202", //fileinput.html  已设置 20210601
@@ -76,7 +76,7 @@ var permissionData = [{
 	    value: "1203", //emailpp_list.html  已设置 20210601
 		text: "查看邮件列表"
 	}, {
-	    value: "1204",
+	    value: "1204", //emailpp_list.html  已设置 20210620
 		text: "删除邮件列表"
 	}, {
 	    value: "1205", //emailpp_groupadd.html  已设置 20210601
@@ -88,25 +88,25 @@ var permissionData = [{
 	    value: "1207", //emailpp_group.html  已设置 20210601
 		text: "查看群组邮件列表"
 	}, {
-	    value: "1208",
+	    value: "1208", //emailpp_group.html  已设置 20210620
 		text: "删除群组邮件列表"
 	}, {
-	    value: "1209",
+	    value: "1209", //emailpp_account.html  已设置 20210620
 		text: "新增邮箱设置"
 	}, {
-	    value: "1210",
+	    value: "1210", //emailpp_account.html  已设置 20210620
 		text: "修改邮箱设置"
 	}, {
-	    value: "1211",
+	    value: "1211", //emailpp_account.html  已设置 20210620
 		text: "删除邮箱设置"
 	}, {
-	    value: "1212",
+	    value: "1212", //emailpp_template.html  已设置 20210620
 		text: "新增邮件内容"
 	}, {
-	    value: "1213",
+	    value: "1213", //emailpp_template.html  已设置 20210620
 		text: "修改邮件内容"
 	}, {
-	    value: "1214",
+	    value: "1214", //emailpp_template.html  已设置 20210620
 		text: "删除邮件内容"
 	}, {
 	    value: "1215", //emailpp_template.html  已设置 20210601
@@ -124,10 +124,10 @@ var permissionData = [{
 	    value: "1219", //emailpp_queue.html  已设置 20210601
 		text: "查看邮件发送列表"
 	}, {
-	    value: "1220",
+	    value: "1220", //emailpp_queue.html  已设置 20210620
 		text: "启动邮件发送列表"
 	}, {
-	    value: "1221",
+	    value: "1221", //emailpp_queue.html  已设置 20210620
 		text: "重新发送邮件列表"
 	}]
 }, {

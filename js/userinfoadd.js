@@ -311,7 +311,7 @@ $(function(){
 		        common.ajax_req('POST', true, dataUrl, 'userinfo.ashx?action=modify', parm, function (data) {
 		            if (data.State == 1) {
 		                comModel("设置成功")
-		                location.href = 'userinfo.html';
+		                //location.href = 'userinfo.html';
 		            } else {
 		                comModel("设置失败")
 		            }

@@ -24,7 +24,7 @@ $(document).ready(function() {
 	//	location.href = 'emailpp_listadd.html?action=add';
     //});
 
-	$("#addFun").click(_init);
+//	$("#addFun").click(_init);
 	$("#btnSave").click(_addFun);
 	$("#btnEdit").click(_editSaveFun);
 
@@ -76,10 +76,14 @@ function initTable() {
                    // $(td).html("<a href='javascript:void(0);' onclick='_editFun(" + rowData.mt_id + ",\"" + rowData.mt_mailtitle + "\",\"" + rowData.mt_mailcontent + "\")'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                    //     .append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
                     $(td).html(function(n){  //让.HTML使用函数 20190831 by daniel
+                        var _perDel="";
+                        if(isPermission('1214')==1){
+                            _perDel="<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        }
                         var _thisHtml='<div class="btn-group"><a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_editFun(\''+rowData.mt_id+'\')"> ' + get_lan('edit') + '</a>'
                         +"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                         +"<ul class='dropdown-menu dropdown-azure'>"
-                        +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+                        +_perDel
                         +"</ul></div>"                        
 
                         return (_thisHtml);
@@ -117,7 +121,13 @@ function initTable() {
 			//    "sSortAscending": ": 以升序排列此列",
 			//    "sSortDescending": ": 以降序排列此列"
 			//}
-		}
+		},
+        "fnInitComplete": function (oSettings, json) {
+            if (isPermission('1212') == 1) {
+                $('<a href="#myModal" id="addFun" class="label label-primary tooltip-darkorange" data-toggle="modal"><i class="fa fa-plus-circle"></i></a>').appendTo($('.header-buttons'));
+            }
+            $("#addFun").click(_init);
+        }
 	});
 
 	return table;
@@ -186,7 +196,12 @@ function _editFun(id) {
 	    $("#inputEmailppSentTitle").val(_data.mt_mailtitle);
 	    $("#summernote").summernote("code", _data.mt_mailcontent);
 	    $("#objectId").val(id);
-	    $("#myModal").modal("show");
+	    if(isPermission('1213')==1){
+	        $("#myModal").modal("show");
+	    }else{        
+	        alert("权限获取出现错误，请咨询管理员！")
+	        $("#myModal").modal("hide");
+	    }
 	    $("#btnSave").hide();
 	    $("#btnEdit").show();
 	    $("#mySmallModalLabel").text('修改邮件内容模板');
