@@ -18,7 +18,8 @@ var en2 = {
 
 var oTable;
 var typeId;
-$(document).ready(function() {
+$(document).ready(function () {
+    hasPermission('1618'); //权限控制
 //	initModal();
 	this.title = get_lan('nav_2_3')
 	$('.navli2').addClass("active open")

@@ -13,6 +13,9 @@ var en2 = {
 
 $(document).ready(function() {
     hasPermission('1721'); //权限控制
+    if (isPermission('1722') != 1) {
+        $('#printDetail').hide()
+    }
 //	initModal();
     this.title = get_lan('nav_3_8')
 	$('.navli3').addClass("active open")
@@ -20,6 +23,22 @@ $(document).ready(function() {
 	$('#title1').text(get_lan('nav_3_8'))
 	$('#title2').text(get_lan('nav_3_8'))
 
+	$("#printDetail").click(function () {
+	    var content = $("#printArea").html()
+	    $("#printArea").print({
+	        globalStyles: true,//是否包含父文档的样式，默认为true
+	        mediaPrint: false,//是否包含media='print'的链接标签。会被globalStyles选项覆盖，默认为false
+	        stylesheet: null,//外部样式表的URL地址，默认为null
+	        noPrintSelector: ".no-print",//不想打印的元素的jQuery选择器，默认为".no-print"
+	        iframe: false,//是否使用一个iframe来替代打印表单的弹出窗口，true为在本页面进行打印，false就是说新开一个页面打印，默认为true
+	        append: null,//将内容添加到打印内容的后面
+	        prepend: null,//将内容添加到打印内容的前面，可以用来作为要打印内容
+	        deferred: $.Deferred((function () { //回调函数
+	            console.log('Printing done');
+
+	        }))
+	    });
+	})
 
 	$('#send').on('click', function () {
 

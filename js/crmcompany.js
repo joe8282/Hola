@@ -152,7 +152,11 @@ function initTable() {
 // 						.append("<a href='crmcompanycontactadd.html?action=add&companyId="+rowData.comp_customerId +"'>" + get_lan('addcontact') + "</a><br/>")
 // //						.append("<a href='bookingadd.html?action=add&crmId="+cellData +"&fromId=1'>" + get_lan('addbooking') + "</a><br/>")
 // 						.append("<a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a>");
-	    		"createdCell": function(td, cellData, rowData, row, col) {
+				"createdCell": function (td, cellData, rowData, row, col) {
+				    var perSend = ""
+				    if (isPermission('1605') == 1) {
+				        perSend = "<li><a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a></li>"
+				    }
 	    			$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='crmcompanydetail.html?Id="+rowData.comp_id +"'> " + get_lan('follow') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
@@ -160,7 +164,7 @@ function initTable() {
 	                    //+"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'>" + get_lan('follow') + "</a></li>"
 	                    + "<li><a href='crmcompanycontactadd.html?action=add&userCompanyId=" + rowData.comp_customerId + "'>" + get_lan('addcontact') + "</a></li>"
 	                    + "<li><a href='contactsheetadd.html?action=add&crmId=" + cellData + "'>" + get_lan('addbooking') + "</a></li>"
-	                    +"<li><a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a></li>"
+	                    + perSend
 	                    +"<li class='divider'></li>"
 	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + ((rowData.book_state==1)?get_lan('delete'):"") + "</a></li>"
 	                    +"</ul></div>")

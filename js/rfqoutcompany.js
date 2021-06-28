@@ -173,33 +173,64 @@ function initTable() {
     	            $(td).html(function (n) {  //让.HTML使用函数 20190831 by daniel
     	                var _thisHtml_head = '', _thisHtml_middle = '';
     	                if (rowData.rfq_state == 1) {
+    	                    var perSend = perGet = perClose = ""
+    	                    if (isPermission('1507') == 1) {
+    	                        perSend = '<a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_sureFun(' + rowData.rfq_id + ')">分配询盘</a>'
+    	                    }
+    	                    if (isPermission('1508') == 1) {
+    	                        perGet = '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a></li>'
+    	                    }
+    	                    if (isPermission('1509') == 1) {
+    	                        perClose = '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',3)">关闭询盘</a></li>'
+    	                    }
     	                    if (type == 'in') {
-    	                        _thisHtml_head = '<div class="btn-group" style="z-index:auto; width:90px;"><a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_sureFun(' + rowData.rfq_id + ')">分配询盘</a>';
+    	                        _thisHtml_head = '<div class="btn-group" style="z-index:auto; width:90px;">' + perSend;
     	                        _thisHtml_middle = "<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                                 + "<ul class='dropdown-menu dropdown-azure' style='right: 0; left: auto; text-align: right; min-width: 120px;'>"
-                                + '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a></li>'
-                                + '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',3)">关闭询盘</a></li>'
+                                + perGet
+                                + perClose
     	                    }
 
     	                } else if (rowData.rfq_state == 2) {
     	                    if (type == 'in') {
-    	                        _thisHtml_head = '<div class="btn-group" style="z-index:auto; width:90px;"><a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a>';
+    	                        var perSend = perGet = perClose = ""
+    	                        if (isPermission('1507') == 1) {
+    	                            perSend = '<a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a>'
+    	                        }
+    	                        if (isPermission('1509') == 1) {
+    	                            perClose = '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',3)">关闭询盘</a></li>'
+    	                        }
+    	                        _thisHtml_head = '<div class="btn-group" style="z-index:auto; width:90px;">' + perSend;
     	                        _thisHtml_middle = "<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                                 + "<ul class='dropdown-menu dropdown-azure' style='right: 0; left: auto; text-align: right; min-width: 120px;'>"
-                                + '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',3)">关闭询盘</a></li>'
+                                + perClose
     	                    } else if (type == 'out') {
+    	                        var perSend = perGet = perClose = ""
+    	                        if (isPermission('1507') == 1) {
+    	                            perSend = '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a></li>'
+    	                        }
     	                        _thisHtml_head = '<div class="btn-group" style="z-index:auto; width:90px;"><a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',4)">转化客户</a>';
     	                        _thisHtml_middle = "<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                                 + "<ul class='dropdown-menu dropdown-azure' style='right: 0; left: auto; text-align: right; min-width: 120px;'>"
-                                + '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a></li>'
+                                + perSend
     	                    }
     	                } else if (rowData.rfq_state == 3) {
     	                    if (type == 'my') {
-    	                        _thisHtml_head = '<div class="btn-group" style="z-index:auto; width:90px;"><a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_sureFun(' + rowData.rfq_id + ')">分配询盘</a>';
+    	                        var perSend = perGet = perClose = ""
+    	                        if (isPermission('1507') == 1) {
+    	                            perSend = '<a class="btn btn-blue btn-sm" href="javascript:void(0);" onclick="_sureFun(' + rowData.rfq_id + ')">分配询盘</a>'
+    	                        }
+    	                        if (isPermission('1508') == 1) {
+    	                            perGet = '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a></li>'
+    	                        }
+    	                        if (isPermission('1509') == 1) {
+    	                            perClose = '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',3)">关闭询盘</a></li>'
+    	                        }
+    	                        _thisHtml_head = '<div class="btn-group" style="z-index:auto; width:90px;">' + perSend;
     	                        _thisHtml_middle = "<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                                 + "<ul class='dropdown-menu dropdown-azure' style='right: 0; left: auto; text-align: right; min-width: 120px;'>"
-                                + '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',1)">回收询盘</a></li>'
-                                + '<li><a href="javascript:void(0);" onclick="_changeFun(' + rowData.rfq_id + ',3)">关闭询盘</a></li>'
+                                + perGet
+                                + perClose
     	                    }
     	                }
 

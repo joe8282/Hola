@@ -197,6 +197,18 @@ Purchase: http://wrapbootstrap.com
                         </ul>
                     </div>
                     <div class="header-buttons">
+                        <a class="sidebar-toggler" href="#">
+                            <i class="fa fa-arrows-h"></i>
+                        </a>
+                        <a class="refresh" id="refresh-toggler" href="">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                        </a>
+                        <a class="fullscreen" id="fullscreen-toggler" href="#">
+                            <i class="glyphicon glyphicon-fullscreen"></i>
+                        </a>
+                        <a class="label label-primary tooltip-darkorange" id="printDetail">
+                            <i class="glyphicon glyphicon-print"></i>
+                        </a>
                     </div>
                 </div>
                 <!-- /Page Breadcrumb -->
@@ -276,7 +288,7 @@ Purchase: http://wrapbootstrap.com
                             <div>&nbsp;</div>
                         </div>
                     </div>
-                    <div class="widget">
+                    <div class="widget" id="printArea">
                         <div class="widget-body">
                             <div style="text-align: center; line-height: 180%; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #ccc">
                                 <div class="companyName" style="font-size: 18px; font-weight: bold; margin-bottom: 10px;"></div>
@@ -309,6 +321,9 @@ Purchase: http://wrapbootstrap.com
 
     <!--Beyond Scripts-->
     <script src="assets/js/beyond.min.js"></script>
+
+    <script src="assets/js/jquery-ui-1.10.4.custom.js"></script>
+    <script src="assets/js/jQuery.print.min.js"></script>
 
     <!--Page Related Scripts-->
     <script src="assets/js/datatable/jquery.dataTables.min.js"></script>

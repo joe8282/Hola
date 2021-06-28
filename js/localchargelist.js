@@ -78,13 +78,17 @@ function initTable() {
 			{
 				"mDataProp": "loch_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
+				    var perDel = ""
+				    if (isPermission('1410') == 1) {
+				        perDel = "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+				    }
 					// $(td).html("<a href='localchargeadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 					// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
 	    			$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-blue btn-sm' href='localchargeview.html?action=view&Id="+cellData +"'> " + get_lan('review') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='localchargeadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a></li>"
-	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+	                    + perDel
 	                    +"</ul></div>")
 				}
 			},

@@ -367,12 +367,19 @@ function initTable(fromId) {
 					var pol=rowData.book_port1;
 					var pod=rowData.book_port2;
 					var allContainer = rowData.book_movementType + " / " +rowData.book_allContainer
-					if(rowData.book_state == 1) {
+					if (rowData.book_state == 1) {
+					    var perSure = perCancel = ""
+					    if (isPermission('1714') == 1) {
+					        perSure = "<a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_sellId + ",\"" + pol + "\",\"" + pod + "\")'>" + get_lan('con_top_5') + "</a>"
+					    }
+					    if (isPermission('1715') == 1) {
+					        perCancel = "<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'> " + get_lan('cancel') + "</a></li>"
+					    }
 						$(td).parent().find("td").css("background-color","#fdfdbf");
-						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_sureFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_sellId + ",\"" + pol + "\",\"" + pod + "\")'>" + get_lan('con_top_5') + "</a>"
+						$(td).html("<div class='btn-group' style='z-index:auto; width:90px;'>" + perSure
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    + "<li><a href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'> " + get_lan('cancel') + "</a></li>"
+	                    + perCancel
 	                    //+"<li><a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a></li>"
 	                    +"<li class='divider'></li>"
 	                    //+"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
@@ -381,8 +388,12 @@ function initTable(fromId) {
 						// 	.append("<a href='javascript:void(0);' onclick='_cancelFun(" + cellData + ")'> " + get_lan('cancel') + "</a><br/>")
 						// 	.append("<a href='bookingadd.html?action=modify&Id=" + cellData +"&crmId=" + rowData.book_crmCompanyId + "&fromId=1'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 						// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")
-					} else if(rowData.book_state == 2) {
-					    $(td).html("<div class='btn-group' style='z-index:auto; width:90px;'><a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'>" + get_lan('cancel') + "</a>"
+					} else if (rowData.book_state == 2) {
+					    var perCancel = ""
+					    if (isPermission('1715') == 1) {
+					        perCancel = "<a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'>" + get_lan('cancel') + "</a>"
+					    }
+					    $(td).html("<div class='btn-group' style='z-index:auto; width:90px;'>" + perCancel
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li></li>"

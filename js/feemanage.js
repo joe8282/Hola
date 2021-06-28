@@ -15,6 +15,9 @@ var _feeItemArr = new Array();
 
 $(function(){
     hasPermission('1310'); //权限控制：查看费用管理
+    hasPermission('1315');
+    hasPermission('1318');
+    hasPermission('1320');
 	$('.navli5').addClass("active open")
 	$('.financial7').addClass("active")
 
@@ -754,11 +757,24 @@ $(function(){
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
-                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            var perDetail = perDel = perSend = perGet = ""
+                            if (isPermission('1311') == 1) {
+                                perDetail = "<a href='javascript:void(0);' onclick='_detailBillFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                            if (isPermission('1312') == 1) {
+                                perDel = "<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                            if (isPermission('1313') == 1) {
+                                perSend = "<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                            if (isPermission('1314') == 1) {
+                                perGet = "<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                            $(nTd).html(perDetail)
+                                .append(perDel)
+                                .append(perSend)
                                 .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append(perGet)
                                 .append("<a href='#'>发票</a>")
                         } else {
                             //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -802,15 +818,22 @@ $(function(){
                     "mDataProp": "invo_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.invo_state == 1) {
-                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailInvoiceFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteInvoiceFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            var perDetail = perDel = ""
+                            if (isPermission('1316') == 1) {
+                                perDetail = "<a href='javascript:void(0);' onclick='_detailInvoiceFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                            if (isPermission('1317') == 1) {
+                                perDel = "<a href='javascript:void(0);' onclick='_deleteInvoiceFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
+                            $(nTd).html(perDetail)
+                                .append(perDel)
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
-                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailInvoiceFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteInvoiceFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            $(nTd).html(perDetail)
+                                .append(perDel)
                         }
 
                     }
@@ -849,15 +872,19 @@ $(function(){
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
+                            var perDel = ""
+                            if (isPermission('1319') == 1) {
+                                perDel = "<a href='javascript:void(0);' onclick='_deleteBillPayFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillPayFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteBillPayFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append(perDel)
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillPayFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteBillPayFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append(perDel)
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
                             //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
                         }
@@ -898,15 +925,19 @@ $(function(){
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
+                            var perDel = ""
+                            if (isPermission('1321') == 1) {
+                                perDel = "<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append(perDel)
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append(perDel)
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
                             //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
                         }

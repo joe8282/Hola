@@ -217,10 +217,17 @@ function initTable(fromId,port1,port2,usetime) {
 			{
 				"mDataProp": "rate_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-	    			$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><button class='btn btn-blue btn-sm copyOcf' id='Ocf_"+cellData +"' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+				    var perCopy = perDel = ""
+				    if (isPermission('1406') == 1) {
+				        perCopy = "<button class='btn btn-blue btn-sm copyOcf' id='Ocf_" + cellData + "' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+				    }
+				    if (isPermission('1404') == 1) {
+				        perDel = "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+				    }
+				    $(td).html("<div class='btn-group' style='z-index:auto; width:70px;'>"+perCopy
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+	                    + perDel
 	                    +"<li><a href='bookingadd.html?action=add&Id=" + cellData + "'>生成报价单</a><li>"
 	                    +"</ul></div>")		
 					//$(td).html("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")										
@@ -282,10 +289,16 @@ function initTable(fromId,port1,port2,usetime) {
 			{
 				"mDataProp": "rate_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-	    			$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><button class='btn btn-blue btn-sm copyOcf' id='Ocf_"+cellData +"' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+				    if (isPermission('1406') == 1) {
+				        perCopy = "<button class='btn btn-blue btn-sm copyOcf' id='Ocf_" + cellData + "' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+				    }
+				    if (isPermission('1404') == 1) {
+				        perDel = "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+				    }
+				    $(td).html("<div class='btn-group' style='z-index:auto; width:70px;'>" + perCopy
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+	                    + perDel
 	                    +"<li><a href='bookingadd.html?action=add&Id=" + cellData + "'>生成报价单</a><li>"
 	                    +"</ul></div>")		
 					//$(td).html("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")										
@@ -365,10 +378,16 @@ function initTable(fromId,port1,port2,usetime) {
 			{
 				"mDataProp": "rate_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-	    			$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><button class='btn btn-blue btn-sm copyOcf' id='Ocf_"+cellData +"' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+				    if (isPermission('1406') == 1) {
+				        perCopy = "<button class='btn btn-blue btn-sm copyOcf' id='Ocf_" + cellData + "' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+				    }
+				    if (isPermission('1404') == 1) {
+				        perDel = "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+				    }
+				    $(td).html("<div class='btn-group' style='z-index:auto; width:70px;'>" + perCopy
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+	                    + perDel
 	                    +"<li><a href='bookingadd.html?action=add&Id=" + cellData + "'>生成报价单</a><li>"
 	                    +"</ul></div>")		
 					//$(td).html("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a>")										

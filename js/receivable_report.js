@@ -15,7 +15,10 @@ $(document).ready(function() {
     //	initModal();
     var type = GetQueryString('type')
     if (type == 'debit') {
-		hasPermission('1322'); //权限控制：查看应收报表
+        hasPermission('1322'); //权限控制：查看应收报表
+        if (isPermission('1323') != 1) {
+            $('#printDetail').hide()
+        }
         this.title = get_lan('nav_5_8')
         $('.navli5').addClass("active open")
         $('.financial8').addClass("active")
@@ -23,7 +26,10 @@ $(document).ready(function() {
         $('#title2').text(get_lan('nav_5_8'))
         $('#typeTitle').text('客户应收统计表')
     } else {
-		hasPermission('1324'); //权限控制：查看应付报表
+        hasPermission('1324'); //权限控制：查看应付报表
+        if (isPermission('1325') != 1) {
+            $('#printDetail').hide()
+        }
         this.title = get_lan('nav_5_9')
         $('.navli5').addClass("active open")
         $('.financial9').addClass("active")
@@ -33,7 +39,22 @@ $(document).ready(function() {
     }
 
 
+    $("#printDetail").click(function () {
+        var content = $("#printArea").html()
+        $("#printArea").print({
+            globalStyles: true,//是否包含父文档的样式，默认为true
+            mediaPrint: false,//是否包含media='print'的链接标签。会被globalStyles选项覆盖，默认为false
+            stylesheet: null,//外部样式表的URL地址，默认为null
+            noPrintSelector: ".no-print",//不想打印的元素的jQuery选择器，默认为".no-print"
+            iframe: false,//是否使用一个iframe来替代打印表单的弹出窗口，true为在本页面进行打印，false就是说新开一个页面打印，默认为true
+            append: null,//将内容添加到打印内容的后面
+            prepend: null,//将内容添加到打印内容的前面，可以用来作为要打印内容
+            deferred: $.Deferred((function () { //回调函数
+                console.log('Printing done');
 
+            }))
+        });
+    })
 	
 
     $('#send').on('click', function () {

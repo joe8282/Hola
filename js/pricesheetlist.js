@@ -81,12 +81,16 @@ function initTable() {
 				"createdCell": function (td, cellData, rowData, row, col) {
 				 //    $(td).html("<a href='pricesheetdetail.html?Id="+cellData +"' target='_blank'>预览</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 					// 	.append("<a href='pricesheetadd.html?action=modify&Id=" + cellData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-					// .append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
+				    // .append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
+				    var _perDel = "";
+				    if (isPermission('1304') == 1) {
+				        _perDel = "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+				    }
 	    			$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='pricesheetdetail.html?Id="+cellData +"' target='_blank'> " + get_lan('review') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='pricesheetadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a></li>"
-	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+	                    + "<li><a href='pricesheetadd.html?action=modify&Id=" + cellData + "'> " + get_lan('edit') + "</a></li>"
+	                    + _perDel
 	                    +"</ul></div>");
 				}
 			},

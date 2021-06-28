@@ -158,14 +158,24 @@ function initTable() {
 			},			
 			{
 			    "mDataProp": "trch_id",
-				"createdCell": function (td, cellData, rowData, row, col) {
+			    "createdCell": function (td, cellData, rowData, row, col) {
+			        var perCopy = perEdit = perDel = ""
+			        if (isPermission('1419') == 1) {
+			            perCopy = "<button class='btn btn-blue btn-sm copyTruckfee' id='tckchr_" + cellData + "' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+			        }
+			        if (isPermission('1417') == 1) {
+			            perEdit = "<li><a href='truckingchargeadd.html?action=modify&Id=" + cellData + "'> " + get_lan('edit') + "</a></li>"
+			        }
+			        if (isPermission('1418') == 1) {
+			            perDel = "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+			        }
 					// $(td).html("<a href='localchargeadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 					// 	.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>");
-	    			$(td).html("<div class='btn-group'><button class='btn btn-blue btn-sm copyTruckfee' id='tckchr_"+cellData +"' data-clipboard-target='#copyFeeAll'> " + get_lan('copyitem') + "</button>"
+			        $(td).html("<div class='btn-group'>" + perCopy
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='truckingchargeadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a></li>"
-	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
+	                    + perEdit
+	                    + perDel
 	                    +"</ul></div>")
 				}
 			},

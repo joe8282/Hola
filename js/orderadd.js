@@ -24,7 +24,27 @@ $(function(){
 //		crmCompanyId=GetQueryString('crmId')
 //		_selectSupplier(crmCompanyId)
 //		_selectBill(crmCompanyId)
-//	}
+    //	}
+
+	if (isPermission('1705') != 1) {
+	    $('#lock_per').hide()
+	}
+	if (isPermission('1706') != 1) {
+	    $('#lock_per').hide()
+	}
+	if (isPermission('1707') != 1) {
+	    $('#copyFun').hide()
+	}
+	if (isPermission('1708') != 1) {
+	    $('#pringType').hide()
+	}
+	if (isPermission('1709') != 1) {
+	    $('#file_add').hide()
+	}
+	if (isPermission('1712') != 1) {
+	    $('.billnew').hide()
+	}
+
 	var crmCompanyId = '0';
 	var action = GetQueryString('action');	
 	var Id = GetQueryString('Id');
@@ -194,8 +214,15 @@ $(function(){
                 {
                     "mDataProp": "file_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        $(nTd).html("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                            .append("<a href='" + dataUrl + "uppic/orderPic/" + oData.file_url + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                        var perView = perDel = ""
+                        if (isPermission('1710') == 1) {
+                            perView = "<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                        }
+                        if (isPermission('1711') == 1) {
+                            perDel = "<a href='" + dataUrl + "uppic/orderPic/" + oData.file_url + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                        }
+                        $(nTd).html(perView)
+                            .append(perDel)
                         //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>发票</a>")

@@ -143,7 +143,7 @@ var permissionData = [{
 	    value: "1303", //pricesheetadd.html  已设置 20210601
 		text: "修改费用清单"
 	}, {
-	    value: "1304",
+	    value: "1304",//pricesheetlist.html  已设置 JOE
 		text: "删除费用清单"
 	}, {
 	    value: "1305", //pricesheetdetail.html  已设置 20210601
@@ -152,67 +152,67 @@ var permissionData = [{
 	    value: "1306", //exchangerate.html  已设置 20210601
 		text: "查看汇率"
 	}, {
-	    value: "1307",
+	    value: "1307", //exchangerate.html  JOE
 		text: "新增汇率"
 	}, {
-	    value: "1308",
+	    value: "1308", //exchangerate.html  JOE
 		text: "修改汇率"
 	}, {
-	    value: "1309",
+	    value: "1309", //exchangerate.html  JOE
 		text: "删除汇率"
 	}, {
 	    value: "1310", //feemanage.html  已设置 20210601，下面的功能全部没有设置权限
 		text: "查看费用管理-账单列表"
 	}, {
-	    value: "1311",
+	    value: "1311", //feemanage.html  JOE
 		text: "查看费用管理-账单详情"
 	}, {
-	    value: "1312",
+	    value: "1312", //feemanage.html  JOE
 		text: "查看费用管理-删除账单"
 	}, {
-	    value: "1313",
+	    value: "1313", //feemanage.html  JOE
 		text: "查看费用管理-发送账单"
 	}, {
-	    value: "1314",
+	    value: "1314", //feemanage.html  JOE
 		text: "查看费用管理-账单收款"
 	}, {
-	    value: "1315",
+	    value: "1315",  //feemanage.html  JOE
 		text: "查看费用管理-发票列表"
 	}, {
-	    value: "1316",
+	    value: "1316",  //feemanage.html  JOE
 		text: "查看费用管理-发票详情"
 	}, {
-	    value: "1317",
+	    value: "1317",  //feemanage.html  JOE
 		text: "查看费用管理-删除发票"
 	}, {
-	    value: "1318",
+	    value: "1318",  //feemanage.html  JOE
 		text: "查看费用管理-付款列表"
 	}, {
-	    value: "1319",
+	    value: "1319",  //feemanage.html  JOE
 		text: "查看费用管理-删除付款"
 	}, {
-	    value: "1320",
+	    value: "1320",  //feemanage.html  JOE
 		text: "查看费用管理-收款列表"
 	}, {
-	    value: "1321",
+	    value: "1321",  //feemanage.html  JOE
 		text: "查看费用管理-删除收款"
 	}, {
 	    value: "1322", //receivable_report.html  已设置 20210601
 		text: "查看应收报表"
 	}, {
-	    value: "1323",
+	    value: "1323", //receivable_report.html  JOE
 		text: "打印应收报表"
 	}, {
 	    value: "1324", //receivable_report.html  已设置 20210601
 		text: "查看应付报表"
 	}, {
-	    value: "1325",
+	    value: "1325", //receivable_report.html  JOE
 		text: "打印应付报表"
 	}, {
 	    value: "1326", //financial_statement.html  已设置 20210601
 		text: "查看对账通知单"
 	}, {
-	    value: "1327",
+	    value: "1327", //financial_statement.html  JOE
 		text: "打印对账通知单"
 	}]
 }, {
@@ -228,10 +228,10 @@ var permissionData = [{
 	    value: "1403", //fileinput.html  已设置 20210601
 		text: "上传运价列表"
 	}, {
-	    value: "1404",
+	    value: "1404", //ratelist.html  JOE
 		text: "删除运价"
 	}, {
-	    value: "1406",
+	    value: "1406",//ratelist.html  JOE
 		text: "复制运价"
 	}, {
 	    value: "1407", //localchargelist.html  已设置 20210601
@@ -243,7 +243,7 @@ var permissionData = [{
 	    value: "1409", //fileinput.html  已设置 20210601
 		text: "上传当地费用列表"
 	}, {
-	    value: "1410",
+	    value: "1410", //localchargelist.html  JOE
 		text: "删除当地费用"
 	}, {
 	    value: "1411", //localchargeview.html  已设置 20210601
@@ -252,7 +252,7 @@ var permissionData = [{
 	    value: "1412", //localchargeadd.html  已设置 20210601
 		text: "修改当地费用详情"
 	}, {
-	    value: "1413",
+	    value: "1413",//localchargeview.html  JOE
 		text: "复制当地费用详情"
 	}, {
 	    value: "1414", //truckingchargelist.html  已设置 20210601
@@ -264,13 +264,13 @@ var permissionData = [{
 	    value: "1416", //fileinput.html  已设置 20210601
 		text: "上传拖箱费用"
 	}, {
-	    value: "1417", //truckingchargeadd.html  已设置 20210601
+	    value: "1417", //truckingchargelist.html   JOE
 		text: "修改拖箱费用"
 	}, {
-	    value: "1418",
+	    value: "1418", //truckingchargelist.html   JOE
 		text: "删除拖箱费用"
 	}, {
-	    value: "1419",
+	    value: "1419",  //truckingchargelist.html   JOE
 		text: "复制拖箱费用"
 	}]
 }, {
@@ -283,25 +283,25 @@ var permissionData = [{
 	    value: "1502", //rfqincompany.html  已设置 20210601
 		text: "查看内部询盘"
 	}, {
-	    value: "1503",
+	    value: "1503", //rfqincompany.html   JOE
 		text: "内部询盘-分配"
 	}, {
-	    value: "1504",
+	    value: "1504", //rfqincompany.html   JOE
 		text: "内部询盘-回收"
 	}, {
-	    value: "1505",
+	    value: "1505", //rfqincompany.html   JOE
 		text: "内部询盘-关闭"
 	}, {
-	    value: "1506", //rfqoutcompany.html  已设置 20210601
+	    value: "1506", //rfqoutcompany.html  JOE
 		text: "查看外部询盘"
 	}, {
-	    value: "1507",
+	    value: "1507", //rfqoutcompany.html  JOE
 		text: "外部询盘-分配"
 	}, {
-	    value: "1508",
+	    value: "1508", //rfqoutcompany.html  JOE
 		text: "外部询盘-回收"
 	}, {
-	    value: "1509",
+	    value: "1509", //rfqoutcompany.html  JOE
 		text: "外部询盘-关闭"
 	}]
 }, {
@@ -311,7 +311,7 @@ var permissionData = [{
 		value: "1601", //crmcompany.html  已设置 20210601
 		text: "查看我的客户列表"
 	}, {
-	    value: "1618",
+	    value: "1618", //crmcompanyrole.html  JOE
 		text: "查看公司客户列表"
 	}, {
 	    value: "1602", //crmcompanyadd.html  已设置 20210601
@@ -323,43 +323,43 @@ var permissionData = [{
 	    value: "1604", //crmcompanycontactadd.html  已设置 20210601
 		text: "新增联系人"
 	}, {
-	    value: "1605",
+	    value: "1605", //crmcompany.html  JOE
 		text: "发送账号邮件"
 	}, {
 	    value: "1606", //crmcompanydetail.html  已设置 20210601
 		text: "查看客户详情"
 	}, {
-	    value: "1607",
+	    value: "1607", //crmcompanydetail.html  JOE
 		text: "新增客户跟进"
 	}, {
-	    value: "1608",
+	    value: "1608", //crmcompanydetail.html  JOE
 		text: "修改客户跟进"
 	}, {
-	    value: "1609",
+	    value: "1609", //crmcompanydetail.html  JOE
 		text: "删除客户跟进"
 	}, {
-	    value: "1610",
+	    value: "1610", //crmcompanydetail.html  JOE
 		text: "新增客户需求"
 	}, {
-	    value: "1611",
+	    value: "1611", //crmcompanydetail.html  JOE
 		text: "修改客户需求"
 	}, {
-	    value: "1612",
+	    value: "1612",//crmcompanydetail.html  JOE
 		text: "删除客户需求"
 	}, {
-	    value: "1613",
+	    value: "1613", //crmcompanydetail.html  JOE
 		text: "新增提单信息"
 	}, {
-	    value: "1614",
+	    value: "1614",//crmcompanydetail.html  JOE
 		text: "修改提单信息"
 	}, {
-	    value: "1615",
+	    value: "1615",//crmcompanydetail.html  JOE
 		text: "删除提单信息"
 	}, {
-	    value: "1616",
+	    value: "1616", //crmcompanydetail.html  JOE
 		text: "新增联系公司"
 	}, {
-	    value: "1617",
+	    value: "1617",//crmcompanydetail.html  JOE
 		text: "设置主要联系人"
 	}]
 }, {
@@ -378,37 +378,37 @@ var permissionData = [{
 	    value: "1704", //orderadd.html  已设置 20210601，这个与订单详情不一样，在于是否能修改
 		text: "修改订单"
 	}, {
-	    value: "1705",
+	    value: "1705",//orderadd.html  JOE
 		text: "锁定订单"
 	}, {
-	    value: "1706",
+	    value: "1706",//orderadd.html  JOE
 		text: "解锁订单"
 	}, {
-	    value: "1707",
+	    value: "1707",//orderadd.html  JOE
 		text: "复制订单"
 	}, {
-	    value: "1708",
+	    value: "1708",//orderadd.html  JOE
 		text: "打印订单"
 	}, {
-	    value: "1709",
+	    value: "1709",//orderadd.html  JOE
 		text: "上传订单文件"
 	}, {
-	    value: "1710",
+	    value: "1710",//orderadd.html  JOE
 		text: "查看订单文件"
 	}, {
-	    value: "1711",
+	    value: "1711",//orderadd.html  JOE
 		text: "删除订单文件"
 	}, {
-	    value: "1712",
+	    value: "1712",//orderadd.html  JOE
 		text: "新增货代单"
 	}, {
 	    value: "1713", //booking.html  已设置 20210601
 		text: "查看订舱列表"
 	}, {
-	    value: "1714",
+	    value: "1714",//orderadd.html  JOE
 		text: "确认订舱"
 	}, {
-	    value: "1715",
+	    value: "1715",//orderadd.html  JOE
 		text: "取消订舱"
 	}, {
 	    value: "1716", //contactsheetadd.html  已设置 20210601
@@ -423,13 +423,13 @@ var permissionData = [{
 	    value: "1719", //printemplateadd.html  已设置 20210601
 		text: "修改打印模板"
 	}, {
-	    value: "1720",
+	    value: "1720",//printemplatelist.html  JOE
 		text: "删除打印模板"
 	}, {
 	    value: "1721", //profit_report.html  已设置 20210601
 		text: "查看利润报表"
 	}, {
-	    value: "1722",
+	    value: "1722", //profit_report.html  JOE
 		text: "打印利润报表"
 	}]
 }]

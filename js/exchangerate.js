@@ -14,6 +14,9 @@ var oTable;
 
 $(document).ready(function() {
     hasPermission('1306'); //权限控制：查看汇率	
+    if (isPermission('1307') != 1) {
+        $('#addFun').hide()
+    }
 	this.title = get_lan('nav_5_6')
 	$('.navli5').addClass("active open")
 	$('.financial6').addClass("active")	
@@ -106,10 +109,15 @@ function initTable() {
 			{
 				"mDataProp": "rate_id",
 				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-					if(oData.rate_companyId == companyID || companyID == 0) {
-						$(nTd).html("<a href='javascript:void(0);' " +
-								"onclick='_editFun(\"" + oData.rate_id + "\",\"" + oData.rate_timeFrom + "\",\"" + oData.rate_timeEnd + "\",\"" + oData.rate_oldCurrency + "\",\"" + oData.rate_newCurrency + "\",\"" + oData.rate_symbol + "\",\"" + oData.rate_exchangeRate + "\")'>" + get_lan('edit') + "</a> | ")
-							.append("<a href='javascript:void(0);' onclick='_deleteFun(\"" + sData + "\")'>" + get_lan('delete') + "</a>");
+				    if (oData.rate_companyId == companyID || companyID == 0) {
+				        var perEdit = perDel = ""
+				        if (isPermission('1308') == 1) {
+				            perEdit = "<a href='javascript:void(0);' " + "onclick='_editFun(\"" + oData.rate_id + "\",\"" + oData.rate_timeFrom + "\",\"" + oData.rate_timeEnd + "\",\"" + oData.rate_oldCurrency + "\",\"" + oData.rate_newCurrency + "\",\"" + oData.rate_symbol + "\",\"" + oData.rate_exchangeRate + "\")'>" + get_lan('edit') + "</a> | "
+				        }
+				        if (isPermission('1309') == 1) {
+				            perDel = "<a href='javascript:void(0);' onclick='_deleteFun(\"" + sData + "\")'>" + get_lan('delete') + "</a>"
+				        }
+				        $(nTd).html(perEdit).append(perDel);
 					} else {
 						$(nTd).html('')
 					}

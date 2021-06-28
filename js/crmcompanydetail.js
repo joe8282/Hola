@@ -19,7 +19,18 @@ var userCompanyId;
 $(document).ready(function() {
 //	initModal();
 	hasPermission('1606'); //权限控制
-	
+	if (isPermission('1607') != 1) {
+	    $('#follow_add').hide()
+	}
+	if (isPermission('1610') != 1) {
+	    $('#Demand_add').hide()
+	}
+	if (isPermission('1613') != 1) {
+	    $('#Bill_add').hide()
+	}
+	if (isPermission('1616') != 1) {
+	    $('#relatedComPanel_add').hide()
+	}
 	this.title = get_lan('nav_2_1')
 	$('.navli2').addClass("active open")
 	$('.crm2').addClass("active")	
@@ -183,8 +194,10 @@ function GetContact2() {
 				_data[i].coco_qq?(_htmlQq='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_qq+'</i></div>'):_htmlQq="";
 				if(_data[i].coco_first==1){
 					_htmlFirstStyle='background-image: linear-gradient(to right,#f9f499,#fff)';
-				}else{
-					_htmlFirst='<a href="javascript:void(0);" onclick="_primaryFun(' + _data[i].coco_id + ')"><i class="glyphicon glyphicon-thumbs-up green" style="float:right; margin-right:10px;"></i></a>';
+				} else {
+				    if (isPermission('1617') != 1) {
+				        _htmlFirst = '<a href="javascript:void(0);" onclick="_primaryFun(' + _data[i].coco_id + ')"><i class="glyphicon glyphicon-thumbs-up green" style="float:right; margin-right:10px;"></i></a>';
+				    }
 				};
 				var contactlist='<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">'+
                                     '<div class="databox radius-bordered databox-shadowed databox-graded" style="margin-bottom: 10px; height: auto;'+_htmlFirstStyle+'">'+
@@ -291,10 +304,16 @@ function GetFollow() {
 			},					
 			{
 				"mDataProp": "cofo_id",
-				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-					$(nTd).html("<a href='javascript:void(0);' " +
-								"onclick='_editFollowFun(\"" + oData.cofo_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						.append("<a href='javascript:void(0);' onclick='_deleteFollowFun(" + sData + ")'>" + get_lan('delete') + "</a>")
+				"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+				    var perEdit = perDel = ""
+				    if (isPermission('1608') == 1) {
+				        perEdit = "<a href='javascript:void(0);' " +  "onclick='_editFollowFun(\"" + oData.cofo_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+				    }
+				    if (isPermission('1609') == 1) {
+				        perDel = "<a href='javascript:void(0);' onclick='_deleteFollowFun(" + sData + ")'>" + get_lan('delete') + "</a>"
+				    }
+				    $(nTd).html(perEdit)
+						.append(perDel)
 
 				}
 			},
@@ -481,10 +500,16 @@ function GetDemand() {
 			{ "mDataProp": "dema_product" },							
 			{
 				"mDataProp": "dema_id",
-				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-					$(nTd).html("<a href='javascript:void(0);' " +
-								"onclick='_editDemandFun(\"" + oData.dema_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						.append("<a href='javascript:void(0);' onclick='_deleteDemandFun(" + sData + ")'>" + get_lan('delete') + "</a>")
+				"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+				    var perEdit = perDel = ""
+				    if (isPermission('1611') == 1) {
+				        perEdit = "<a href='javascript:void(0);' " + "onclick='_editDemandFun(\"" + oData.dema_id + "\")'>" + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+				    }
+				    if (isPermission('1612') == 1) {
+				        perDel = "<a href='javascript:void(0);' onclick='_deleteDemandFun(" + sData + ")'>" + get_lan('delete') + "</a>"
+				    }
+				    $(nTd).html(perEdit)
+						.append(perDel)
 
 				}
 			},
@@ -710,10 +735,16 @@ function GetBill() {
 			},					
 			{
 				"mDataProp": "cobi_id",
-				"fnCreatedCell": function(nTd, sData, oData, iRow, iCol) {
-					$(nTd).html("<a href='javascript:void(0);' " +
-								"onclick='_editBillFun(\"" + oData.cobi_id + "\")'>"+get_lan('edit')+"</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-						.append("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>")
+				"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+				    var perEdit = perDel = ""
+				    if (isPermission('1614') == 1) {
+				        perEdit = "<a href='javascript:void(0);' " + "onclick='_editBillFun(\"" + oData.cobi_id + "\")'>" + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+				    }
+				    if (isPermission('1615') == 1) {
+				        perDel = "<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>"
+				    }
+				    $(nTd).html(perEdit)
+						.append(perDel)
 
 				}
 			},

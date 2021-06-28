@@ -404,7 +404,7 @@ Purchase: http://wrapbootstrap.com
                 							</tr>
                 						</thead>
                 					</table>
-                					<div class="widget-body" style="margin-top: 20px;">              						
+                					<div class="widget-body" style="margin-top: 20px;" id="follow_add">              						
                 						<div id="alerts"></div>
                 						<div class="btn-toolbar wysiwyg-toolbar" data-role="editor-toolbar" data-target="#editor">
                 							<div class="btn-group">
@@ -533,28 +533,26 @@ Purchase: http://wrapbootstrap.com
                 								<th>产品</th>
                 								<th>操作</th>
                 							</tr>
-                							<tr>
-                								<th>
-                									<select id="e1" style="width:100%;">
-                										<option value=""></option>
-                									</select>
-                								</th>
-                								<th>
-                									<select id="e2" style="width:100%;">  
-                									</select>
-                								</th>
-                								<th>
-                									<select id="e3" style="width: 100%;;">
-                									</select>
-                								</th>
-                								<th>
-                									<select id="e4" style="width: 100%;;">
-                										<option value=""></option>
-                									</select>                									
-                								</th>
-                								<th><input type="email" class="form-control" id="inputProduct" value="FAK" placeholder="FAK"></th>
-                								<th><button type="submit" id="send0"  class="btn btn-blue">新增</button><button type="submit" id="send00"  class="btn btn-blue">保存</button></th>
-                							</tr>                							
+                                            <tr id="Demand_add">
+                                                <th>
+                                                    <select id="e1" style="width:100%;">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </th>
+                                                <th>
+                                                    <select id="e2" style="width:100%;"></select>
+                                                </th>
+                                                <th>
+                                                    <select id="e3" style="width: 100%;;"></select>
+                                                </th>
+                                                <th>
+                                                    <select id="e4" style="width: 100%;;">
+                                                        <option value=""></option>
+                                                    </select>
+                                                </th>
+                                                <th><input type="email" class="form-control" id="inputProduct" value="FAK" placeholder="FAK"></th>
+                                                <th><button type="submit" id="send0" class="btn btn-blue">新增</button><button type="submit" id="send00" class="btn btn-blue">保存</button></th>
+                                            </tr>                							
                 						</thead>
                 					</table>
                 				</div>
@@ -569,24 +567,24 @@ Purchase: http://wrapbootstrap.com
                 								<th style="width: 15%;">添加时间</th>
                 								<th style="width: 10%;">操作</th>
                 							</tr>
-                							<tr>
-                								<!--<th>
-                									<input type="email" style="width:100%;" class="form-control" id="inputBillName" placeholder="货代公司名称">
-                								</th>-->
-                								<th>
-                									<select id="e11" style="width:100%;">
-                										<option value="1">SHIPPER</option>
-                										<option value="2">CONSIGNEE</option>
-                										<option value="3">NOTIFY PARTY</option>
-                									</select>
-                								</th>
-                								<th>
-                									<textarea class="form-control" style="width:100%;" rows="5" id="inputBillContent" placeholder="提单信息内容" maxlength="200" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
-                								</th>
-                								<th>
-                								</th>
-                								<th><button type="submit" id="send11" class="btn btn-blue">新增</button><button type="submit" id="send22" class="btn btn-blue">保存</button></th>
-                							</tr>
+                                            <tr id="Bill_add">
+                                                <!--<th>
+            <input type="email" style="width:100%;" class="form-control" id="inputBillName" placeholder="货代公司名称">
+        </th>-->
+                                                <th>
+                                                    <select id="e11" style="width:100%;">
+                                                        <option value="1">SHIPPER</option>
+                                                        <option value="2">CONSIGNEE</option>
+                                                        <option value="3">NOTIFY PARTY</option>
+                                                    </select>
+                                                </th>
+                                                <th>
+                                                    <textarea class="form-control" style="width:100%;" rows="5" id="inputBillContent" placeholder="提单信息内容" maxlength="200" onchange="this.value=this.value.substring(0, 200)" onkeydown="this.value=this.value.substring(0, 200)" onkeyup="this.value=this.value.substring(0, 200)"></textarea>
+                                                </th>
+                                                <th>
+                                                </th>
+                                                <th><button type="submit" id="send11" class="btn btn-blue">新增</button><button type="submit" id="send22" class="btn btn-blue">保存</button></th>
+                                            </tr>
                 						</thead>
                 					</table>
                 				</div>
@@ -626,7 +624,7 @@ Purchase: http://wrapbootstrap.com
                                                 <th>添加时间</th>
                                                 <th>操作</th>
                                             </tr>
-                                            <tr>
+                                            <tr id="relatedComPanel_add">
                                                 <th>
                                                     <input type="email" class="form-control input-xs" id="companyNameRelated" placeholder="公司名称">
                                                 </th>
@@ -640,7 +638,7 @@ Purchase: http://wrapbootstrap.com
                                                     <input type="email" class="form-control input-xs" id="emailRelated" placeholder="邮箱">
                                                 </th>
                                                 <th>
-                                                    
+
                                                 </th>
                                                 <th><button type="submit" id="sendRelatedCom" class="btn btn-blue">新增</button></th>
                                             </tr>

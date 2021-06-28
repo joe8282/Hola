@@ -11,6 +11,9 @@ var en2 = {
 
 $(function(){
     hasPermission('1411'); //权限控制：查看当地费用详细
+    if (isPermission('1413') != 1) {
+        $('#copyFeeall').hide()
+    }
 	this.title = get_lan('nav_4_2') 	
 	$('.navli4').addClass("active open")
 	$('.rate2').addClass("active")	
