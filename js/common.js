@@ -356,7 +356,7 @@ function getHead(){
 }
 
 
-var leixing, level
+var leixing, level, userPermissionArr
 //获取用户信息
 function getUserInfo() {
 	function getPsuc(data) {
@@ -368,7 +368,7 @@ function getUserInfo() {
 		companyId = data.Data.usin_companyId
 		userPermission = data.Data.usin_permission
 		
-		var userPermissionArr = userPermission.split(',')
+		userPermissionArr = userPermission.split(',')
 		if (GetQueryString('permission')!=null) {
 		    if ($.inArray(GetQueryString('permission'), userPermissionArr) == -1) {
 		        alert("没有权限，请联系管理员！")
@@ -429,18 +429,21 @@ function hasPermission(permission, back) {
 
 function isPermission(permission) {
     var back = 1;
-    function getPsuc(data) {
-        var userPermissionArr = data.Data.usin_permission.split(',')
-        if ($.inArray(permission, userPermissionArr) == -1) {
-            back = 2
-        }
+    if ($.inArray(permission, userPermissionArr) == -1) {
+        back = 2
     }
-    function getPerr(err) {
-        console.log(err)
-    }
-    common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=readbyid', {
-        Id: userID
-    }, getPsuc, getPerr, 5000)
+    //function getPsuc(data) {
+    //    var userPermissionArr = data.Data.usin_permission.split(',')
+    //    if ($.inArray(permission, userPermissionArr) == -1) {
+    //        back = 2
+    //    }
+    //}
+    //function getPerr(err) {
+    //    console.log(err)
+    //}
+    //common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=readbyid', {
+    //    Id: userID
+    //}, getPsuc, getPerr, 5000)
     return back
 }
 

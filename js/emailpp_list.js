@@ -151,7 +151,7 @@ function initTable() {
 //				'<a href="#" class="btn btn-primary" id="editFun">修改</a> ' + '&nbsp;' +
 //				'<a href="#" class="btn btn-danger" id="deleteFun">'+get_lan('delete')+'</a>' + '&nbsp;')
 
-			$("#deleteFun").click(_deleteList);
+			//$("#deleteFun").click(_deleteList());
 //			$("#editFun").click(_value);
 			$("#addFun").click(_init);
 		}
