@@ -10,6 +10,7 @@ var en2 = {
         };
 
 var _feeItemArr = new Array();
+var _tomail = ''
 
 $(function(){
 	$('.navli3').addClass("active open")
@@ -129,6 +130,33 @@ $(function(){
 	}, 5000)
 
 
+	$('.glyphicon-envelope').on('click', function () {
+	    bootbox.confirm("确认要把内容发送邮件给客户吗?", function (result) {
+	        if (result) {
+	            $.ajax({
+	                url: dataUrl + 'ajax/booking.ashx?action=sendemail',
+	                data: {
+	                    "email": _tomail,
+	                    "title": "Invoice/费用清单",
+	                    "content_html": $('#page-body').html()
+	                },
+	                dataType: "json",
+	                type: "post",
+	                success: function (backdata) {
+	                    if (backdata.State == 1) {
+	                        comModel('Email Send Sueecss')
+	                        oTable.fnReloadAjax(oTable.fnSettings());
+	                    } else {
+	                        alert("Email Send Failed！");
+	                    }
+	                },
+	                error: function (error) {
+	                    console.log(error);
+	                }
+	            });
+	        }
+	    });
+	})
 
 })
 
@@ -192,6 +220,7 @@ function getToCompany(o){
 	    $('.toCompany').text(_data.comp_name)
 	    $('.toCompanyContact').text(_data.comp_contactName+' / '+_data.comp_contactPhone+' / '+_data.comp_contactEmail)
 	    //alert(_data.comp_name)
+	    _tomail = _data.comp_contactEmail
 
 	}, function (err) {
 	    console.log(err)
@@ -303,3 +332,4 @@ function printContent(){
 	    }))
 	});  
 }
+
