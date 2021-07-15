@@ -1572,6 +1572,7 @@ $(function(){
 					'toAddress': toAddress,
 					'okTime': okTime,
 					'okTrailerTime': okTrailerTime,
+					'okPortTime2': '',
 					'okBillTime': okBillTime,
 					'okPortTime': okPortTime,
 					'truePortTime': '',

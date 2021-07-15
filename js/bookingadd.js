@@ -1173,6 +1173,7 @@ $(function(){
 						'okTrailerTime': '',
 						'okBillTime': '',
 						'okPortTime': '',
+						'okPortTime2': '',
 						'truePortTime': '',
 						'truePortTime2': '',
 						'package': package,
