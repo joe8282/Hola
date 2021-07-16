@@ -1558,7 +1558,7 @@ $(function(){
 					'typeId': 0,
 					'isTemplate': isTemplate,
 					'companyId': companyID,
-					'crmCompanyId': crmCompanyId,
+					'crmCompanyId': crmContactListId,
 					'crmContactId': crmContactId,
 					'userId': userID,
 					'userName': userName,
