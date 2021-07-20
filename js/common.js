@@ -100,6 +100,7 @@ function getCompanyID() {
 var companyID = getCompanyID();
 
 var userName = '', userPosition = '', userCode = '', userRole = ''
+var leixing, level, userPermissionArr
 //加载左边导航
 getNav()
 
@@ -356,7 +357,7 @@ function getHead(){
 }
 
 
-var leixing, level, userPermissionArr
+
 //获取用户信息
 function getUserInfo() {
 	function getPsuc(data) {
@@ -399,7 +400,7 @@ function getUserInfo() {
 	function getPerr(err) {
 		console.log(err)
 	}
-	common.ajax_req('GET', true, dataUrl, 'userinfo.ashx?action=readbyid', {
+	common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=readbyid', {
 		Id: userID
 	}, getPsuc, getPerr, 5000)
 }	
@@ -429,6 +430,7 @@ function hasPermission(permission, back) {
 
 function isPermission(permission) {
     var back = 1;
+    console.log(userPermissionArr)
     if ($.inArray(permission, userPermissionArr) == -1) {
         back = 2
     }

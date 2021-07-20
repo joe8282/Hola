@@ -16,6 +16,7 @@ $(document).ready(function() {
     var type = GetQueryString('type')
     if (type == 'debit') {
         hasPermission('1322'); //权限控制：查看应收报表
+        console.log(isPermission('1323'))
         if (isPermission('1323') != 1) {
             $('#printDetail').hide()
         }
