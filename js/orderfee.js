@@ -32,7 +32,7 @@ $(function(){
 
 	var Id = GetQueryString('Id');
     var _toCompany='',_feeItem='',_feeUnit='',_numUnit='', _remaItem='';
-    
+    var allprofit=0
     var _toCompanySettleArr=new Array();
     var _htmlCompanySettle='';
     var _CompanySettle='';
@@ -50,7 +50,7 @@ $(function(){
         location.href = 'orderadd.html?action=modify&Id='+Id;
     })
 
-    common.ajax_req("get", true, dataUrl, "weiinfo.ashx?action=read", {
+    common.ajax_req("get", false, dataUrl, "weiinfo.ashx?action=read", {
         "companyId": companyID
     }, function(data) {
         //console.log(data.Data)
@@ -563,7 +563,7 @@ $(function(){
             _debits=debit[j].split(" ");
             var _debitAmount=0;
             if(_debits[0]==localCurrency){
-                _debitAmount=_debits[1];
+                _debitAmount = _debits[1];
             }else{
                 for(var z=0;z<_arrExchangeRate.length;z++){
                     var _timeFrom=new Date((_arrExchangeRate[z].rate_timeFrom).split('T')[0]);
@@ -628,7 +628,8 @@ $(function(){
         }
 
 
-
+        console.log(_debitJudge)
+        allprofit = (_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2)
         //$("#profit").text(localCurrency+(_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2)+" "+()+" "+())
         $("#profit").html(localCurrency+(_debitRateInProfit*1-_creditRateInProfit*1).toFixed(2)+(_currencyJudge==1?" <i class='fa fa-question-circle tooltip-info blue' data-toggle='tooltip' data-placement='top' data-original-title='The profit should not right because there is no right exchange rate for some currency.'></i>":""))
         $('[data-toggle="tooltip"]').tooltip();
@@ -1543,7 +1544,8 @@ $(function(){
 			'bookingId': Id,
 			'userId': userID,
 			'userName': userName,
-			'feeData': feeData
+			'feeData': feeData,
+			'allprofit': allprofit
 		}
 		console.log(parm)
 		common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfee', parm, function(data) {

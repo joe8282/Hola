@@ -55,7 +55,12 @@ function initTable() {
 	    //    "visible": false
         //}],
 		 "aoColumns": [
-		 	{ "mDataProp": "cg_name" },
+		 	{
+		 	    "mDataProp": "cg_name",
+		 	    "createdCell": function (td, cellData, rowData, row, col) {
+		 	        $(td).html("<a href='crmcompanygroupdetail.html?Id=" + rowData.cg_id + "'>" + rowData.cg_name + "</a>");
+		 	    }
+		 	},
 		 	{ "mDataProp": "cg_crmIdsCount" },
 		 	{ "mDataProp": "cg_addTime",
 	    		"createdCell": function(td, cellData, rowData, row, col) {

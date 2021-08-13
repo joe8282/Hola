@@ -553,25 +553,44 @@ $(document).ready(function () {
 	        prepend: null,//将内容添加到打印内容的前面，可以用来作为要打印内容
 	        deferred: $.Deferred((function () { //回调函数
 	            console.log('Printing done');
-	            var parm = {
-	                'companyId': companyID,
-	                'userId': userID,
-	                'aboutId': aboutId,
-	                'templateId': PrintTpId,
-	                'content': content,
-	                'typeId': typeId,
-	            }
+	            //生成图片并保存文件记录，JOE新增
+	            html2canvas(document.getElementById("printArea"), {
+	                onrendered: function (canvas) {
+	                    var url = canvas.toDataURL('image/jpeg', 1.0);
+	                    //console.log(url)
+	                    // ajax 上传图片  
+	                    //$.post(dataUrl + "ajax/uploadPic.ashx", { image: url, action: 'print' }, function (ret) {
+	                    //    if (ret.State == '100') {
 
-	            common.ajax_req('POST', false, dataUrl, 'printrecord.ashx?action=new', parm, function (data) {
-	                if (data.State == 1) {
-	                    comModel("已生成打印记录")
-	                    //location.href = 'booking.html';
-	                } else {
-	                    comModel("生成打印记录失败")
-	                }
-	            }, function (error) {
-	                console.log(parm)
-	            }, 10000)
+	                    //    } else {
+	                    //        alert('上传失败');
+	                    //    }
+	                    //}, 'json');
+	                    var parm = {
+	                        'companyId': companyID,
+	                        'userId': userID,
+	                        'aboutId': aboutId,
+	                        'templateId': PrintTpId,
+	                        'content': content,
+	                        'typeId': typeId
+	                    }
+
+	                    common.ajax_req('POST', false, dataUrl, 'printrecord.ashx?action=new', parm, function (data) {
+	                        if (data.State == 1) {
+	                            comModel("已生成打印记录")
+	                            //location.href = 'booking.html';
+	                        } else {
+	                            comModel("生成打印记录失败")
+	                        }
+	                    }, function (error) {
+	                        console.log(parm)
+	                    }, 10000)
+	                },
+	                //背景设为白色（默认为黑色）
+	                background: "#FBFBFB"
+	            })
+
+
 
 	        }))
 	    });

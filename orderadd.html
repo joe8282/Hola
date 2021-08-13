@@ -184,6 +184,9 @@ Purchase: http://wrapbootstrap.com
                         <a class="label label-primary tooltip-darkorange" id="copyFun">
                             <i class="fa fa-plus-circle"></i>
                         </a>
+                        <a class="label label-primary tooltip-darkorange" id="sendEmail">
+                            <i class="glyphicon glyphicon-envelope"></i>
+                        </a>
                         <a class="label label-primary tooltip-darkorange dropdown-toggle" data-toggle="dropdown" id="printDetail">
                             <i class="glyphicon glyphicon-print"></i>
                         </a>
@@ -1595,6 +1598,35 @@ Purchase: http://wrapbootstrap.com
         <!-- /.modal-dialog -->
     </div>
     <!--End Large Modal Templates-->
+
+        <!--LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-sm" id="myModal_sendemail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none; z-index: 12000;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">发送邮件</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 10px 40px;">
+                        <form class="form-horizontal" id="resForm">
+                            <div class="form-group" id="cancel_code">
+                                <input type="file" class="file" id="emailfile" accept="file/*">
+                                <button class="btn" id="btnUpload">上传</button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="btnEmailSave" set-lan="html:submit">确定</button>
+                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates-->
 
     <!--Basic Scripts-->
     <script src="assets/js/jquery-2.0.3.min.js"></script>

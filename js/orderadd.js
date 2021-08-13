@@ -88,6 +88,10 @@ $(function(){
 	    location.href = "printdetail.html?action=add&typeId=2&aboutId=" + Id
 	});
 
+    //发送邮件
+	$('#sendEmail').click(function () {
+	    $("#myModal_sendemail").modal("show");
+	});
 
 
     //复制订单
@@ -295,6 +299,63 @@ $(function(){
 	    } // reader onload end  
 	})
 	
+    // 上传附件 
+	$("#btnUpload").click(function (evt) {
+	    var fileUpload = $("#emailfile").get(0);
+	    var files = fileUpload.files;
+
+	    var data = new FormData();
+	    for (var i = 0; i < files.length; i++) {
+	        data.append(files[i].name, files[i]);
+	    }
+
+	    $.ajax({
+	        url: dataUrl + "ajax/uploadFile.ashx",
+	        type: "POST",
+	        data: data,
+	        contentType: false,
+	        processData: false,
+	        success: function (result) { alert(result); },
+	        error: function (err) {
+	            alert(err.statusText)
+	        }
+	    });
+
+	    evt.preventDefault();
+	});
+	//$("#emailfile").on("change", function () {
+	//    var file = event.target.files[0];
+
+	//    var data = new FormData();
+	//    data.append(file.name, file);
+
+	//    //var file = event.target.files[0];
+	//    //// 判断是否文件 
+	//    //if (!file) {
+	//    //    return;
+	//    //}
+
+	//    //// 判断图片格式  
+	//    //if (!(/\.(?:pdf|doc|docx|xls|xlsx)$/.test(file.name))) {
+	//    //    alert('上传文件只能是pdf,doc,docx,xls,xlsx');
+	//    //    return;
+	//    //}
+
+	//    //var reader = new FileReader();
+	//    //reader.readAsDataURL(file);
+
+	//    reader.onload = function (e) { // reader onload start  
+	//        // ajax 上传文件
+	//        $.post(dataUrl + "ajax/uploadFile.ashx", { data: data}, function (ret) {
+	//            if (ret.State == '100') {
+	//                //alert(ret.Picurl);
+	//            } else {
+	//                alert('上传失败');
+	//            }
+	//        }, 'json');
+	//    } // reader onload end  
+	//})
+
 //	var coding = "";
 //	for(var i = 0; i < 8; i++) {
 //		coding += Math.floor(Math.random() * 10);
