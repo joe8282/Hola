@@ -22,12 +22,14 @@ $(document).ready(function () {
     var typeId = GetQueryString('typeId');
     var aboutId = GetQueryString('aboutId');
     var PrintTpId = 0;
+    var bookingId = 0;
 
     //加载信息
-    var mblData
+    var mblData,hblData
     if (typeId == 1 || typeId == 2) {
+        bookingId = aboutId
         common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
-            "Id": aboutId
+            "Id": bookingId
         }, function (data) {
             console.log(data.Data)
             //初始化信息
@@ -42,13 +44,23 @@ $(document).ready(function () {
         }, function (data) {
             console.log(data.Data)
             //初始化信息
-            mblData = data.Data
+            hblData = data.Data
+            bookingId = hblData["bobi_bookingId"]
+            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+                "Id": bookingId
+            }, function (data) {
+                console.log(data.Data)
+                //初始化信息
+                mblData = data.Data
 
+            }, function (err) {
+                console.log(err)
+            }, 1000)
         }, function (err) {
             console.log(err)
         }, 1000)
-    }
 
+    }
 
 
     //加载所有模板列表
@@ -91,7 +103,7 @@ $(document).ready(function () {
                             }, 2000)
                         } else if ($(this).attr("itemrelation") == 'bookingTrailer') {  //拖车信息数据集
                             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
-                                "bookingId": aboutId
+                                "bookingId": bookingId
                             }, function (data) {
                                 //console.log(data.Data)
                                 if (data.State == 1) {
@@ -112,7 +124,7 @@ $(document).ready(function () {
                         } else if ($(this).attr("itemrelation") == 'bookingContainer') {  //集装箱信息数据集
                             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
                                 "whichId": 1,
-                                "bookingId": aboutId
+                                "bookingId": bookingId
                             }, function (data) {
                                 //console.log(data.Data)
                                 if (data.State == 1) {
@@ -129,7 +141,7 @@ $(document).ready(function () {
                             }, 2000)
                         } else if ($(this).attr("itemrelation") == 'bookingVGM') {  //集装箱VGM信息
                             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readvgmbyid", {
-                                "bookingId": aboutId
+                                "bookingId": bookingId
                             }, function (data) {
                                 //console.log(data.Data)
                                 if (data.State == 1) {
@@ -148,7 +160,7 @@ $(document).ready(function () {
                             var _html = ''
                             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
                                 "whichId": 2,
-                                "bookingId": aboutId
+                                "bookingId": bookingId
                             }, function (data) {
                                 //console.log(data.Data)
                                 if (data.State == 1) {
@@ -164,14 +176,30 @@ $(document).ready(function () {
                                 console.log(err)
                             }, 2000)
                         } else {
+                            console.log($(this).attr("itemrelation"))
                             //console.log(mblData[$(this).attr("itemrelation")])
-                            if ($(this).attr("itemrelation").indexOf('Time') > 0 && (mblData[$(this).attr("itemrelation")] != null || mblData[$(this).attr("itemrelation")] != '')) {
-                                var value = mblData[$(this).attr("itemrelation")].substring(0, 10)
-                                $(this).find("p").html(value);
+                            //if ($(this).attr("itemrelation").indexOf('Time') > 0 && (mblData[$(this).attr("itemrelation")] != null || mblData[$(this).attr("itemrelation")] != '')) {
+                            //    var value = mblData[$(this).attr("itemrelation")].substring(0, 10)
+                            //    $(this).find("p").html(value);
+                            //} else {
+                            //    var value = mblData[$(this).attr("itemrelation")]
+                            //    $(this).find("p").html(value);
+                            //}
+                            var value = ''
+                            if ($(this).attr("itemrelation").indexOf("Time") >= 0) {
+                                if ($(this).attr("itemrelation").indexOf("book_") >= 0 && (mblData[$(this).attr("itemrelation")] != null || mblData[$(this).attr("itemrelation")] != '')) {
+                                    value = mblData[$(this).attr("itemrelation")].substring(0, 10)
+                                } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0 && (hblData[$(this).attr("itemrelation")] != null || hblData[$(this).attr("itemrelation")] != '')) {
+                                    value = hblData[$(this).attr("itemrelation")].substring(0, 10)
+                                }
                             } else {
-                                var value = mblData[$(this).attr("itemrelation")]
-                                $(this).find("p").html(value);
+                                if ($(this).attr("itemrelation").indexOf("book_") >= 0) {
+                                    value = mblData[$(this).attr("itemrelation")]
+                                } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0) {
+                                    value = hblData[$(this).attr("itemrelation")]
+                                }
                             }
+                            $(this).find("p").html(value);
 
                         }
                     }
@@ -351,7 +379,7 @@ $(document).ready(function () {
 		        }, 2000)
 		    } else if ($(this).val() == 'bookingTrailer') {  //拖车信息数据集
 		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
-		            "bookingId": aboutId
+		            "bookingId": bookingId
 		        }, function (data) {
 		            //console.log(data.Data)
 		            if (data.State == 1) {
@@ -371,7 +399,7 @@ $(document).ready(function () {
 		    } else if ($(this).val() == 'bookingContainer') {  //集装箱信息数据集
 		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
 		            "whichId": 1,
-		            "bookingId": aboutId
+		            "bookingId": bookingId
 		        }, function (data) {
 		            //console.log(data.Data)
 		            if (data.State == 1) {
@@ -388,7 +416,7 @@ $(document).ready(function () {
 		        }, 2000)
 		    } else if ($(this).val() == 'bookingVGM') {  //集装箱VGM信息
 		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readvgmbyid", {
-		            "bookingId": aboutId
+		            "bookingId": bookingId
 		        }, function (data) {
 		            //console.log(data.Data)
 		            if (data.State == 1) {
@@ -406,13 +434,21 @@ $(document).ready(function () {
 		    } else {
 		        //var value = mblData[$(this).val()]
 		        //$("#" + $("#itemId").val() + " p").html(value);
-		        if ($(this).val().indexOf("Time") >= 0 && (mblData[$(this).val()] != null || mblData[$(this).val()] != '')) {
-		            var value = mblData[$(this).val()].substring(0, 10)
-		            $("#" + $("#itemId").val() + " p").html(value);
+		        var value = ''
+		        if ($(this).val().indexOf("Time") >= 0) {
+		            if ($(this).val().indexOf("book_") && (mblData[$(this).val()] != null || mblData[$(this).val()] != '')) {
+		                value = mblData[$(this).val()].substring(0, 10)
+		            } else if ($(this).val().indexOf("bobi_") && (hblData[$(this).val()] != null || hblData[$(this).val()] != '')) {
+		                value = hblData[$(this).val()].substring(0, 10)
+		            }
 		        } else {
-		            var value = mblData[$(this).val()]
-		            $("#" + $("#itemId").val() + " p").html(value);
+		            if ($(this).val().indexOf("book_")) {
+		                value = mblData[$(this).val()]
+		            } else if ($(this).val().indexOf("bobi_")) {
+		                value = hblData[$(this).val()]
+		            }
 		        }
+		        $("#" + $("#itemId").val() + " p").html(value);
 		    }
 		    
 		}
