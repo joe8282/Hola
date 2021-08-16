@@ -801,7 +801,8 @@ $(function(){
     //}, 2000)
 	$("#forwarder").select2({
 	    ajax: {
-	        url: dataUrl + "ajax/crmcompany.ashx?action=readforwarder&isSupplier=1&companyId=" + companyID,
+	        //url: dataUrl + "ajax/crmcompany.ashx?action=readforwarder&isSupplier=1&companyId=" + companyID,
+	        url: dataUrl + "ajax/crmcompany.ashx?action=readforwarder&companyId=" + companyID,
 	        dataType: 'json',
 	        delay: 250,
 	        data: function (params) {

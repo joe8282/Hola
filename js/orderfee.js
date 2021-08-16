@@ -800,7 +800,7 @@ $(function(){
     var baseinfo_id = GetQueryString('Id');
     if(baseinfo_id){        
         //加载基本信息
-        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbyid", {
             "Id": Id
         }, function(data) {
             console.log(data.Data)
