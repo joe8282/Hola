@@ -82,7 +82,7 @@ $(document).ready(function() {
 	    }
 	    userIds = unique(sellIds.concat(luruIds).concat(kefuIds).concat(caozuoIds))
 	    console.log(userIds.toString())
-	    GetStatement($("input[name='radio2']:checked").val(), $("input[name='radio1']:checked").val(), userIds.toString(), crmIds.toString())
+	    GetStatement($("input[name='radio2']:checked").val(), $("input[name='radio1']:checked").val(), sellIds.toString(), luruIds.toString(), kefuIds.toString(), caozuoIds.toString(), crmIds.toString())
 	})
 
 	common.ajax_req("get", true, dataUrl, "usercompany.ashx?action=readbyid", {
@@ -116,7 +116,7 @@ $(document).ready(function() {
 	                if (data.State == 1) {
 	                    exchangeRate = data.Data.rate_exchangeRate
 
-	                    GetStatement(1, 1, null, null)
+	                    GetStatement(1, 1, null, null, null, null, null)
 	                }
 	            })
 	        }
@@ -374,7 +374,7 @@ $(document).ready(function() {
 	    } // 函数用于呈现当前的选择
 	});
 
-	function GetStatement(timeType, timeWhich, userIds, crmIds)
+	function GetStatement(timeType, timeWhich, sellIds, luruIds, kefuIds, caozuoIds, crmIds)
 	{
 	    $('#timePrint').text(getDate())
 	    if (timeType == 1) {
@@ -403,7 +403,10 @@ $(document).ready(function() {
 	        'time0': $('#month').val(),
 	        'time1': $('#date1').val(),
 	        'time2': $('#date2').val(),
-	        'userIds': userIds,
+	        'sellIds': sellIds,
+	        'luruIds': luruIds,
+	        'kefuIds': kefuIds,
+	        'caozuoIds': caozuoIds,
 	        'crmIds': crmIds,
 	    }, function (data) {
 	        //console.log(data)
