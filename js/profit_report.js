@@ -61,7 +61,7 @@ $(document).ready(function() {
 	    }
 	    userIds = unique(sellIds.concat(luruIds).concat(kefuIds).concat(caozuoIds))
 	    console.log(userIds.toString())
-	    GetStatement($("input[name='radio2']:checked").val(), $("input[name='radio1']:checked").val(), userIds.toString())
+	    GetStatement($("input[name='radio2']:checked").val(), $("input[name='radio1']:checked").val(), sellIds.toString(), luruIds.toString(), kefuIds.toString(), caozuoIds.toString())
 	})
 
 	common.ajax_req("get", true, dataUrl, "usercompany.ashx?action=readbyid", {
@@ -78,7 +78,7 @@ $(document).ready(function() {
 	    console.log(err)
 	}, 2000)
 
-	GetStatement(1, 1, null)
+	GetStatement(1, 1, null, null, null, null)
 
 	$("#sellId").select2({
 	    ajax: {
@@ -280,7 +280,7 @@ $(document).ready(function() {
 	    } // 函数用于呈现当前的选择
 	});
 
-	function GetStatement(timeType,timeWhich,userIds)
+	function GetStatement(timeType,timeWhich,sellIds, luruIds, kefuIds, caozuoIds)
 	{
 	    $('#timePrint').text(getDate())
 	    if (timeType==1) {
@@ -302,13 +302,17 @@ $(document).ready(function() {
 	    $('#allBili').empty()
 
 	    common.ajax_req('GET', false, dataUrl, 'booking.ashx?action=read', {
+	        'fromId': 2,
 	        'companyId': companyID,
 	        'timeType': timeType,
 	        'timeWhich': timeWhich,
 	        'time0': $('#month').val(),
 	        'time1': $('#date1').val(),
 	        'time2': $('#date2').val(),
-	        'userIds': userIds
+	        'sellIds': sellIds,
+	        'luruIds': luruIds,
+	        'kefuIds': kefuIds,
+	        'caozuoIds': caozuoIds,
 	    }, function (data) {
 
 	        if (data.data != null) {
