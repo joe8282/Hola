@@ -18,6 +18,7 @@ var en2 = {
 
 var oTable;
 var typeId;
+var _feeItemArr = new Array();
 
 $(document).ready(function() {
     //	initModal();
@@ -28,6 +29,18 @@ $(document).ready(function() {
     $('.financial11').addClass("active")
     $('#title1').text(get_lan('nav_5_11'))
     $('#title2').text(get_lan('nav_5_11'))
+
+    common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+        'typeId': 6,
+        'companyId': companyID
+    }, function (data) {
+        var _data = data.data;
+        console.log(_data)
+        for (var i = 0; i < _data.length; i++) {
+            _feeItemArr.push(_data[i].puda_id + ';' + _data[i].puda_name_cn + ' / ' + _data[i].puda_name_en)
+        }
+    }, function (error) {
+    }, 1000)
 
 	oTable = initTable();
 });
@@ -181,48 +194,10 @@ function initTable() {
 	return table;
 }
 
-//账单列表
-function GetBill(toCompany) {
-    var table = $("#zhangdan").dataTable({
-        //"iDisplayLength":10,
-        "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeIds=all&companyId=' + companyID + '&toCompany=' + toCompany,
-        'bPaginate': false,
-        "bInfo": false,
-        //		"bDestory": true,
-        //		"bRetrieve": true,
-        "bFilter": false,
-        "bSort": false,
-        "aaSorting": [[0, "desc"]],
-        //		"bProcessing": true,
-        "aoColumns": [
-                            {
-                                "mDataProp": "bill_typeId",
-                                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                                    if (oData.bill_typeId == 3) {
-                                        $(nTd).html("应付")
-                                    } else if (oData.bill_typeId == 4) {
-                                        $(nTd).html("应收")
-                                    }
-
-                                }
-                            },
-            { "mDataProp": "bill_payNumber" },
-            {
-                "mDataProp": "bill_addTime",
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                    $(nTd).html(oData.bill_addTime.substring(0, 10));
-                }
-            },
-            { "mDataProp": "bill_payPrice" },
-        ]
-    });
-    return table;
-}
-
 function _billFun(toCompany) {
     var bTable = $("#zhangdan").dataTable({
         //"iDisplayLength":10,
-        "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeIds=all&companyId=' + companyID + '&toCompany=' + toCompany,
+        "sAjaxSource": dataUrl + 'ajax/booking.ashx?action=readfee&which=table&companyId=' + companyID + '&tocompany=' + toCompany,
         'bPaginate': false,
         "bInfo": false,
         //		"bDestory": true,
@@ -233,28 +208,40 @@ function _billFun(toCompany) {
         //		"bProcessing": true,
         "aoColumns": [
                             {
-                                "mDataProp": "bill_typeId",
+                                "mDataProp": "bofe_feeType",
                                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                                    if (oData.bill_typeId == 3) {
-                                        $(nTd).html("应付")
-                                    } else if (oData.bill_typeId == 4) {
+                                    if (oData.bofe_feeType == 'debit') {
                                         $(nTd).html("应收")
+                                    } else if (oData.bofe_feeType == 'credit') {
+                                        $(nTd).html("应付")
                                     }
 
                                 }
                             },
-            { "mDataProp": "bill_payNumber" },
-            {
-                "mDataProp": "bill_addTime",
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                    $(nTd).html(oData.bill_addTime.substring(0, 10));
-                }
-            },
-            { "mDataProp": "bill_payPrice" },
+                            {
+                                "mDataProp": "bofe_feeItem",
+                                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                    $(nTd).html(_getFeeItemFun(oData.bofe_feeItem))
+                                }
+                            },
+            { "mDataProp": "bofe_feeUnit" },
+            { "mDataProp": "bofe_fee" },
         ]
     });
     bTable.fnClearTable()
     bTable.fnDestroy();
+}
+
+function _getFeeItemFun(o) {
+    var z = new Array();
+    var x;
+    for (var i = 0; i < _feeItemArr.length; i++) {
+        if (_feeItemArr[i].indexOf(o) >= 0) {
+            z = _feeItemArr[i].split(";");
+            x = z[1];
+        }
+    }
+    return x;
 }
 
 /**

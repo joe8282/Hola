@@ -13,6 +13,7 @@ var oTable;
 var typeId;
 var exchangeRate;
 var cancel_all_money = 0;
+var _feeItemArr = new Array();
 $(document).ready(function() {
 //	initModal();
     this.title = get_lan('nav_5_11')
@@ -26,6 +27,19 @@ $(document).ready(function() {
 	var Id = GetQueryString('Id');
 	$("#btnBackSave").hide();
 	$("#btnBackSave").click(_editSaveFun);
+
+
+	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+	    'typeId': 6,
+	    'companyId': companyID
+	}, function (data) {
+	    var _data = data.data;
+	    console.log(_data)
+	    for (var i = 0; i < _data.length; i++) {
+	        _feeItemArr.push(_data[i].puda_id + ';' + _data[i].puda_name_cn + ' / ' + _data[i].puda_name_en)
+	    }
+	}, function (error) {
+	}, 1000)
 
     //币种
 	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
@@ -213,14 +227,11 @@ $(document).ready(function() {
 	            $("input[name='checkList']:checked").each(function (i, o) {
 	                var value_one = 0
 	                var value = $(this).parents('tr').find("td:eq(4)").text()
-	                valueArg = value.split(",")
-	                for (var i = 0; i < valueArg.length; i++) {
-	                    valueArg0 = valueArg[i].split(" ")
-	                    if (valueArg0[0] == $("#unit").val()) {
-	                        value_one = value_one + valueArg0[1] * 1
-	                    } else {
-	                        value_one = value_one + valueArg0[1] * exchangeRate
-	                    }
+	                var value_unit = $(this).parents('tr').find("td:eq(3)").text()
+	                if (value_unit == $("#unit").val()) {
+	                    value_one = value_one + value * 1
+	                } else {
+	                    value_one = value_one + value * exchangeRate
 	                }
 	                $(this).parents('tr').find("td:eq(5)").text(value_one)
 	            });
@@ -244,7 +255,7 @@ function initTable(toCompany) {
     
     var table = $("#zhangdan").dataTable({
 		//"iDisplayLength":10,
-	    "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeIds=all&companyId=' + companyID + '&toCompany=' + toCompany,
+        "sAjaxSource": dataUrl + 'ajax/booking.ashx?action=readfee&which=table&companyId=' + companyID + '&tocompany=' + toCompany,
 	    'bPaginate': false,
 	    "bInfo": false,
 	    //		"bDestory": true,
@@ -255,32 +266,32 @@ function initTable(toCompany) {
 	    //		"bProcessing": true,
 	    "aoColumns": [
             				{
-            				    "mDataProp": "bill_id",
+            				    "mDataProp": "bofe_id",
             				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
             				        $(nTd).html("<input type='checkbox' name='checkList' onclick='_checkFun(this," + iRow + ")' value='" + sData + "'>");
             				    }
             				},
                             {
-                                "mDataProp": "bill_typeId",
+                                "mDataProp": "bofe_feeType",
                                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                                    if (oData.bill_typeId == 3) {
-                                        $(nTd).html("应付")
-                                    } else if (oData.bill_typeId == 4) {
+                                    if (oData.bofe_feeType == 'debit') {
                                         $(nTd).html("应收")
+                                    } else if (oData.bofe_feeType == 'credit') {
+                                        $(nTd).html("应付")
                                     }
 
                                 }
                             },
-            { "mDataProp": "bill_payNumber" },
-            {
-                "mDataProp": "bill_addTime",
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                    $(nTd).html(oData.bill_addTime.substring(0, 10));
-                }
-            },
-            { "mDataProp": "bill_payPrice" },
+                            {
+                                "mDataProp": "bofe_feeItem",
+                                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                    $(nTd).html(_getFeeItemFun(oData.bofe_feeItem))
+                                }
+                            },
+            { "mDataProp": "bofe_feeUnit" },
+            { "mDataProp": "bofe_fee" },
            {
-               "mDataProp": "bill_id",
+               "mDataProp": "bofe_id",
                "createdCell": function (td, cellData, rowData, row, col) {
                     $(td).html(function(n){
                         return ('');
@@ -417,6 +428,17 @@ function _deleteFun(id) {
     });
 }
 
+function _getFeeItemFun(o) {
+    var z = new Array();
+    var x;
+    for (var i = 0; i < _feeItemArr.length; i++) {
+        if (_feeItemArr[i].indexOf(o) >= 0) {
+            z = _feeItemArr[i].split(";");
+            x = z[1];
+        }
+    }
+    return x;
+}
 /**
  * 选择
  * @param id
@@ -432,14 +454,11 @@ function _checkFun(obj, iRow) {
         //console.log(iRow)
         var value_one = 0
         var value = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(4)").text()
-        valueArg = value.split(",")
-        for (var i = 0; i < valueArg.length; i++) {
-            valueArg0 = valueArg[i].split(" ")
-            if (valueArg0[0] == $("#unit").val()) {
-                value_one = value_one + valueArg0[1] * 1
-            } else {
-                value_one = value_one + valueArg0[1] * exchangeRate
-            }
+        var value_unit = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(3)").text()
+        if (value_unit == $("#unit").val()) {
+            value_one = value_one + value * 1
+        } else {
+            value_one = value_one + value * exchangeRate
         }
         
         if (obj.checked) {
