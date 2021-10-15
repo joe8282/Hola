@@ -106,16 +106,27 @@ $(document).ready(function() {
 	$('#example').delegate('#editEmail', 'click', function() {
 		var _td=$(this).parents('tr').find("td")//.eq(0).html()
 	    $("#inputEmailppname").val(_td.eq(1).html());
-	    $("#inputEmailppcompany").val(_td.eq(5).html());
-	    $("#inputEmailppaddress").val(_td.eq(2).html());
-	    $("#inputEmailpptel").val(_td.eq(3).html());
-	    $("#inputEmailppcountry").val(_td.eq(4).html());
-	    $("#inputEmailppsource").val(_td.eq(6).html());
+	    $("#inputEmailppcompany").val(_td.eq(6).html());
+	    $("#inputEmailppaddress").val(_td.eq(3).html());
+	    $("#inputEmailpptel").val(_td.eq(4).html());
+	    $("#inputEmailppcountry").val(_td.eq(5).html());
+	    $("#inputEmailppsource").val(_td.eq(7).html());
 	    $("#objectId").val($(this).attr("data-id"));
 	    $("#myModal").modal("show");
 	    $("#btnSave").hide();
 	    $("#btnEdit").show();
 	    $("#mySmallModalLabel").text('编辑邮件');
+	    // $("#inputEmailppname").val(_td.eq(1).html());
+	    // $("#inputEmailppcompany").val(_td.eq(5).html());
+	    // $("#inputEmailppaddress").val(_td.eq(2).html());
+	    // $("#inputEmailpptel").val(_td.eq(3).html());
+	    // $("#inputEmailppcountry").val(_td.eq(4).html());
+	    // $("#inputEmailppsource").val(_td.eq(6).html());
+	    // $("#objectId").val($(this).attr("data-id"));
+	    // $("#myModal").modal("show");
+	    // $("#btnSave").hide();
+	    // $("#btnEdit").show();
+	    // $("#mySmallModalLabel").text('编辑邮件');
 	})
 
 	$("#btnAddSave").on("click", function () {
@@ -204,7 +215,7 @@ $(document).ready(function() {
 	if (action == 'modify') {
 	    $('input,textarea').prop('disabled', true);
 	    $('select').prop('disabled', true);
-	    $("#btnBackSave").show();
+	    $('#btnAddSave').prop('disabled', true);
     	//hasPermission('1206'); //权限控制：修改群组邮件列表
 	    common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=readbyid", {
 	        "Id": Id
@@ -226,15 +237,34 @@ $(document).ready(function() {
 	            }
 	            $("input[name='checkList']:checked").each(function (i, o) {
 	                var value_one = 0
-	                var value = $(this).parents('tr').find("td:eq(4)").text()
-	                var value_unit = $(this).parents('tr').find("td:eq(3)").text()
+	                var value = $(this).parents('tr').find("td:eq(5)").text()
+	                var value_unit = $(this).parents('tr').find("td:eq(4)").text()
 	                if (value_unit == $("#unit").val()) {
 	                    value_one = value_one + value * 1
 	                } else {
 	                    value_one = value_one + value * exchangeRate
 	                }
-	                $(this).parents('tr').find("td:eq(5)").text(value_one)
+	                $(this).parents('tr').find("td:eq(6)").text(value_one)
 	            });
+	            // $("input[name='checkList']:checked").each(function (i, o) {
+	            //     var value_one = 0
+	            //     var value = $(this).parents('tr').find("td:eq(4)").text()
+	            //     var value_unit = $(this).parents('tr').find("td:eq(3)").text()
+	            //     if (value_unit == $("#unit").val()) {
+	            //         value_one = value_one + value * 1
+	            //     } else {
+	            //         value_one = value_one + value * exchangeRate
+	            //     }
+	            //     $(this).parents('tr').find("td:eq(5)").text(value_one)
+	            // });
+	            if(cancel_all_money<0){
+	    			$("#btnBackSave").show(); // 2021-10-15 DANIEL修改：计算完后才显示这个按钮
+	            	$('#btnBackSave').val("已返销");
+	            	$('#btnBackSave').text("已返销");
+	            	$('#btnBackSave').prop('disabled', true);
+	            } else {
+	    			$("#btnBackSave").show(); // 2021-10-15 DANIEL修改：计算完后才显示这个按钮
+	            }
 	        }, 2000)
 
 	    }, function (err) {
@@ -275,13 +305,14 @@ function initTable(toCompany) {
                                 "mDataProp": "bofe_feeType",
                                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                                     if (oData.bofe_feeType == 'debit') {
-                                        $(nTd).html("应收")
+                                        $(nTd).html("应收 "+oData.comp_name)
                                     } else if (oData.bofe_feeType == 'credit') {
-                                        $(nTd).html("应付")
+                                        $(nTd).html("应付 "+oData.comp_name)
                                     }
 
                                 }
                             },
+                            { "mDataProp": "book_orderCode" },
                             {
                                 "mDataProp": "bofe_feeItem",
                                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -289,7 +320,7 @@ function initTable(toCompany) {
                                 }
                             },
             { "mDataProp": "bofe_feeUnit" },
-            { "mDataProp": "bofe_fee" },
+            { "mDataProp": "bofe_allFee" },
            {
                "mDataProp": "bofe_id",
                "createdCell": function (td, cellData, rowData, row, col) {
@@ -299,6 +330,16 @@ function initTable(toCompany) {
                     })
                }
            },
+            { "mDataProp": "bofe_addTime" ,
+				"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+					if(oData.bofe_addTime!=null){
+						$(nTd).html(oData.bofe_addTime.substring(0, 10));
+					}else{
+						$(nTd).html("NULL");
+					}
+				}	
+        	},
+            { "mDataProp": "bofe_beizhu" },
 	    ],
 //		"bProcessing": true,
 //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
@@ -391,11 +432,13 @@ function _editFun(id, ml_name, ml_com, ml_email, ml_tel, ml_country, ml_source) 
  * @private
  */
 function _editSaveFun() {
+	$('#btnAddSave').prop('disabled', false);
     $("input[name='checkList']:checked").each(function (i, o) {
         //$(this).prop("checked", false) 
-        $(this).parents('tr').find("td:eq(5)").text(0)
+        $(this).parents('tr').find("td:eq(6)").text(0)
     });
     $("#cancel_money").val(0 - $("#cancel_money").val())
+	$('#btnBackSave').prop('disabled', true);
 }
 
 /**
@@ -453,8 +496,26 @@ function _checkFun(obj, iRow) {
         //console.log(obj.checked)
         //console.log(iRow)
         var value_one = 0
-        var value = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(4)").text()
-        var value_unit = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(3)").text()
+        // var value = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(4)").text()
+        // var value_unit = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(3)").text()
+        // if (value_unit == $("#unit").val()) {
+        //     value_one = value_one + value * 1
+        // } else {
+        //     value_one = value_one + value * exchangeRate
+        // }
+        
+        // if (obj.checked) {
+        //     $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(5)").text(value_one)
+        //     cancel_all_money = cancel_all_money + value_one
+        //     $("#cancel_money").val(cancel_all_money)
+        // } else {
+        //     $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(5)").text('')
+        //     cancel_all_money = cancel_all_money - value_one
+        //     $("#cancel_money").val(cancel_all_money)
+            
+        // }
+        var value = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(5)").text()
+        var value_unit = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(4)").text()
         if (value_unit == $("#unit").val()) {
             value_one = value_one + value * 1
         } else {
@@ -462,11 +523,11 @@ function _checkFun(obj, iRow) {
         }
         
         if (obj.checked) {
-            $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(5)").text(value_one)
+            $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(6)").text(value_one)
             cancel_all_money = cancel_all_money + value_one
             $("#cancel_money").val(cancel_all_money)
         } else {
-            $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(5)").text('')
+            $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(6)").text('')
             cancel_all_money = cancel_all_money - value_one
             $("#cancel_money").val(cancel_all_money)
             

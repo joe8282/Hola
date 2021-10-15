@@ -82,7 +82,7 @@ function initTable() {
 //				}
 				"render": function(data, type, row) {
 					if(row["comp_isSupplier"]=="1"){
-					    return "<span class='badge badge-primary'>" + row["comp_rank"] + "</span> <a href='cancel_account_add.html?action=add&toCompanyId=" + row["comp_id"] + "'>" + row["comp_name"] + "</a> [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i>"
+					    return "<span class='badge badge-primary'>" + row["comp_rank"] + "</span> <a href='cancel_account_add.html?action=add&toCompanyId=" + row["comp_id"] + "'>" + row["comp_name"] + "</a> [" + row["comp_code"] + "]"
 					}else{
 					    return "<span class='badge badge-primary'>" + row["comp_rank"] + "</span> <a href='cancel_account_add.html?action=add&toCompanyId=" + row["comp_id"] + "'> " + row["comp_name"] + "</a> [" + row["comp_code"] + "]"
 					}
@@ -218,6 +218,7 @@ function _billFun(toCompany) {
 
                                 }
                             },
+                            { "mDataProp": "book_orderCode" },
                             {
                                 "mDataProp": "bofe_feeItem",
                                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -225,7 +226,7 @@ function _billFun(toCompany) {
                                 }
                             },
             { "mDataProp": "bofe_feeUnit" },
-            { "mDataProp": "bofe_fee" },
+            { "mDataProp": "bofe_allFee" },
         ]
     });
     bTable.fnClearTable()
