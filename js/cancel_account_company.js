@@ -197,7 +197,7 @@ function initTable() {
 function _billFun(toCompany) {
     var bTable = $("#zhangdan").dataTable({
         //"iDisplayLength":10,
-        "sAjaxSource": dataUrl + 'ajax/booking.ashx?action=readfee&which=table&companyId=' + companyID + '&tocompany=' + toCompany,
+        "sAjaxSource": dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=1&companyId=' + companyID + '&tocompany=' + toCompany,
         'bPaginate': false,
         "bInfo": false,
         //		"bDestory": true,

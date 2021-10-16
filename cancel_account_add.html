@@ -256,8 +256,16 @@ Purchase: http://wrapbootstrap.com
                                             <input type="text" class="form-control" placeholder="实际销账金额" id="cancel_money" name="cancel_money" disabled />
                                         </div>
                                         <label class="col-sm-1 control-label no-padding-right">备注</label>
-                                        <div class="col-md-8">
+                                        <div class="col-md-3">
                                             <input type="text" class="form-control" placeholder="请填写备注" id="beizhu" name="beizhu" />
+                                        </div>
+                                        <label class="col-sm-1 control-label no-padding-right">上传图片</label>
+                                        <div class="col-md-3">
+                                            <input type="file" class="file form-control" id="img" accept="image/*">
+                                            <input type="hidden" id="Pname" />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <p style="margin-top:0px;"><img id="showimg" style="width:60px;"></p>
                                         </div>
                                     </div>
                                 </form>

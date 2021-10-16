@@ -96,7 +96,7 @@ $(document).ready(function() {
 	    console.log(err)
 	}, 2000)
 
-	oTable = initTable(toCompany);
+	oTable = initTable(toCompany, action);
 
 	$("#checkAll").on("click", function () {
 	    var xz = $(this).prop("checked");//判断全选按钮的选中状态
@@ -129,12 +129,49 @@ $(document).ready(function() {
 	    // $("#mySmallModalLabel").text('编辑邮件');
 	})
 
+    // 选择图片  
+	$("#img").on("change", function () {
+	    var img = event.target.files[0];
+	    // 判断是否图片  
+	    if (!img) {
+	        return;
+	    }
+
+	    // 判断图片格式  
+	    if (!(img.type.indexOf('image') == 0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name))) {
+	        alert('图片只能是jpg,gif,png');
+	        return;
+	    }
+
+	    var reader = new FileReader();
+	    reader.readAsDataURL(img);
+
+	    reader.onload = function (e) { // reader onload start  
+	        // ajax 上传图片  
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
+	            if (ret.State == '100') {
+	                //alert(ret.Picurl);
+	                $('#showimg').attr('src', ret.Picurl);
+	                $('#Pname').val(ret.Pname);
+	                //$('#showimg').html('<img src="' + ret.Data + '">');
+	            } else {
+	                alert('上传失败');
+	            }
+	        }, 'json');
+	    } // reader onload end  
+	})
+
 	$("#btnAddSave").on("click", function () {
 	    var str = '';
 	    $("input[name='checkList']:checked").each(function (i, o) {
 	        str += $(this).val();
 	        str += ",";
 	    });
+
+	    var iscancel = 0
+	    if (action == 'modify') {
+	        iscancel = 1
+	    }
 
 	    if ($("#unit").val() == '') {
 	        comModel("币种不能为空！")
@@ -157,6 +194,8 @@ $(document).ready(function() {
 	            'currency': $("#unit").val(),
 	            'typeId': $("#cancel_type").val(),
 	            'beizhu': $("#beizhu").val(),
+	            'file': $("#Pname").val(),
+	            'iscancel':iscancel,
 	            'bill': str
 	        };
 	        $.ajax({
@@ -281,11 +320,14 @@ $(document).ready(function() {
  * 表格初始化
  * @returns {*|jQuery}
  */
-function initTable(toCompany) {
-    
+function initTable(toCompany, action) {
+    var url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=1&companyId=' + companyID + '&tocompany=' + toCompany
+    if (action == 'modify') {
+        url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&companyId=' + companyID + '&tocompany=' + toCompany
+    }
     var table = $("#zhangdan").dataTable({
 		//"iDisplayLength":10,
-        "sAjaxSource": dataUrl + 'ajax/booking.ashx?action=readfee&which=table&companyId=' + companyID + '&tocompany=' + toCompany,
+        "sAjaxSource": url,
 	    'bPaginate': false,
 	    "bInfo": false,
 	    //		"bDestory": true,
