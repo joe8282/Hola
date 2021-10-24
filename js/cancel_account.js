@@ -64,7 +64,16 @@ function initTable() {
 			    }
 			},
             { "mDataProp": "caac_code" },
-            { "mDataProp": "caac_money" },
+                        {
+                            "mDataProp": "caac_money",
+                            "createdCell": function (td, cellData, rowData, row, col) {
+                                if (rowData.caac_file != "") {
+                                    $(td).html(rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/orderPic/" + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
+                                } else {
+                                    $(td).html(rowData.caac_money);
+                                }
+                            }
+                        },
             { "mDataProp": "caac_currency" },
             { "mDataProp": "caac_beizhu" },
             {

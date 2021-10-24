@@ -14,6 +14,7 @@ var typeId;
 var exchangeRate;
 var cancel_all_money = 0;
 var _feeItemArr = new Array();
+
 $(document).ready(function() {
 //	initModal();
     this.title = get_lan('nav_5_11')
@@ -25,9 +26,44 @@ $(document).ready(function() {
 	var action = GetQueryString('action');
 	var toCompany = GetQueryString('toCompanyId');
 	var Id = GetQueryString('Id');
+	var feeType = GetQueryString('feeType') == null ? '' : GetQueryString('feeType')
 	$("#btnBackSave").hide();
 	$("#btnBackSave").click(_editSaveFun);
 
+	var codeType;
+	if (feeType == 'credit') {
+	    $("#cancel_type").val(1).trigger("change")
+	    codeType = 'CP'
+	} else if (feeType == 'debit') {
+	    $("#cancel_type").val(2).trigger("change")
+	    codeType = 'CR'
+	} else {
+	    $("#cancel_type").val(0).trigger("change")
+	}
+
+	common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
+	    "companyId": companyID
+	}, function (data) {
+	    //console.log(data)
+	    if (data.State == 1) {
+	        $("#code").val(data.Data + codeType)
+	    }
+	})
+
+	oTable = initTable(toCompany, action, feeType);
+
+	$("#cancel_type").change(function () {
+	    if (action == 'add') {
+	        if ($("#cancel_type").val() == '1') {
+	            location.href = "cancel_account_add.html?action=add&toCompanyId=" + toCompany + "&feeType=credit"
+	        } else if ($("#cancel_type").val() == '2') {
+	            location.href = "cancel_account_add.html?action=add&toCompanyId=" + toCompany + "&feeType=debit"
+	        } else {
+	            location.href = "cancel_account_add.html?action=add&toCompanyId=" + toCompany
+	        }
+	    }
+
+	})
 
 	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
 	    'typeId': 6,
@@ -96,7 +132,7 @@ $(document).ready(function() {
 	    console.log(err)
 	}, 2000)
 
-	oTable = initTable(toCompany, action);
+	
 
 	$("#checkAll").on("click", function () {
 	    var xz = $(this).prop("checked");//判断全选按钮的选中状态
@@ -267,6 +303,9 @@ $(document).ready(function() {
 	        $("#unit").val(data.Data.caac_currency).trigger("change")
 	        $("#bank").val(data.Data.caac_bank).trigger("change")
 	        $("#beizhu").val(data.Data.caac_beizhu)
+	        if (data.Data.caac_file != "") {
+	            $('#showimg').attr('src', dataUrl+"uppic/orderPic/" + data.Data.caac_file);
+	        }
 	        cancel_all_money = data.Data.caac_money
 	        var maillist = data.Data.caac_bill.split(',')
 	        setTimeout(function () {
@@ -320,8 +359,8 @@ $(document).ready(function() {
  * 表格初始化
  * @returns {*|jQuery}
  */
-function initTable(toCompany, action) {
-    var url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=1&companyId=' + companyID + '&tocompany=' + toCompany
+function initTable(toCompany, action, feeType) {
+    var url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=1&companyId=' + companyID + '&tocompany=' + toCompany + '&feeType=' + feeType
     if (action == 'modify') {
         url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&companyId=' + companyID + '&tocompany=' + toCompany
     }
