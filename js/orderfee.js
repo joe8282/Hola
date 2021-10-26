@@ -14,7 +14,7 @@ var en2 = {
         };
 
 var _feeItemArr = new Array();
-
+var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -36,7 +36,7 @@ $(function(){
     var _toCompanySettleArr=new Array();
     var _htmlCompanySettle='';
     var _CompanySettle='';
-	var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
+
 	var orderCode;
 	var crmId;
     var forwarder_id;
@@ -360,7 +360,36 @@ $(function(){
     		$(".feeAll").empty()
     		var _data = data.Data;
     		for (var i = 0; i < _data.length; i++) {
-    		    if (_data[i].bofe_state == 1) {
+    		    var cancelTime = _data[i].bofe_cancelTime != null ? _data[i].bofe_cancelTime.substring(0, 10) : ""
+    		    var addTime = _data[i].bofe_addTime != null ? _data[i].bofe_addTime.substring(0, 10) : ""
+    		    var modifyTime = _data[i].bofe_modifyTime != null ? _data[i].bofe_modifyTime.substring(0, 10) : ""
+    		    if (_data[i].bofe_state == 2 || _data[i].bofe_receiptNumber != "0" || _data[i].bofe_invoiceNumber != "0") {
+    		        //var feilist = '<div style="margin: 5px 0px;">' + _data[i].bofe_feeType + ' ：' + _data[i].bofe_fee + ' * ' + _data[i].bofe_num + '(' + _data[i].bofe_numUnit + ') = ' + _data[i].bofe_feeUnit + _data[i].bofe_allFee + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteFee" artiid="' + _data[i].bofe_id + '">删除</a></div>'
+    		        var feilist = '<div class="col-sm-12 feeList"><span style="width:30px; float: left; text-align:center; font-size:20px; "><i class="fa fa-ban"></i></span>' +
+                        //'<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="' + _data[i].bofe_feeType + '">' + _data[i].bofe_feeType + '</option></select>' +
+                        '<select id="feeType" disabled class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>' +
+                        '<select id="toCompany' + i + '" disabled class="no-padding-left no-padding-right margin-right-5 toCompany" name="toCompany" style="width:200px; float: left;"></select>' +
+                        '<select id="feeItem' + i + '" disabled class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>' +
+                        '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit" disabled style="height:20px;"></select></span>' +
+                        '<input type="text" disabled class="form-control" id="feePrice" placeholder="" value="' + _data[i].bofe_fee + '"></div>' +
+                        '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" disabled class="form-control" id="feeNum" placeholder="" value="' + _data[i].bofe_num + '">' +
+                        '<span class="input-group-addon" style="padding:0;"><select id="numUnit" disabled style="height:20px;"></select></span></div>' +
+                        '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_feeUnit + ' ' + _data[i].bofe_allFee + '</label>' +
+                        '<input type="text" class="form-control margin-right-5" id="receiptRate" placeholder="" value="' + _data[i].bofe_receiptRate + '" style="width:60px; float: left;"  disabled="disabled">' +
+                        '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" style="height:20px;" disabled="disabled"></select></span>' +
+                        '<input type="text" class="form-control" id="receiptFee" placeholder="" value="' + _data[i].bofe_receiptFee + '" disabled="disabled"></div>' +
+                        '<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" disabled style="width:100px; float: left;">' +
+                        '<label for="inputPassword3" id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
+                        '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
+                        '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + cancelTime + '</label>' +
+                        '<label for="inputPassword3" id="cancelName" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].cancelName + '</label>' +
+                        '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_receiptNumber + '</label>' +
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_invoiceNumber + '</label>'+
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].addName + '</label>'+
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + addTime + '</label>' +
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].modifyName + '</label>'+
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + modifyTime + '</label>'
+    		    } else {
     		        //var feilist = '<div style="margin: 5px 0px;">' + _data[i].bofe_feeType + ' ：' + _data[i].bofe_fee + ' * ' + _data[i].bofe_num + '(' + _data[i].bofe_numUnit + ') = ' + _data[i].bofe_feeUnit + _data[i].bofe_allFee + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteFee" artiid="' + _data[i].bofe_id + '">删除</a></div>'
     		        var feilist = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>' +
                         //'<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="' + _data[i].bofe_feeType + '">' + _data[i].bofe_feeType + '</option></select>' +
@@ -378,30 +407,14 @@ $(function(){
                         '<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" style="width:100px; float: left;">' +
                         '<label for="inputPassword3" id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
                         '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
-                        '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_receiptNumber + '</label>' +
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_invoiceNumber + '</label>' +
-                        '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelTime + '</label>'
-    		    } else if (_data[i].bofe_state == 2) {
-    		        //var feilist = '<div style="margin: 5px 0px;">' + _data[i].bofe_feeType + ' ：' + _data[i].bofe_fee + ' * ' + _data[i].bofe_num + '(' + _data[i].bofe_numUnit + ') = ' + _data[i].bofe_feeUnit + _data[i].bofe_allFee + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteFee" artiid="' + _data[i].bofe_id + '">删除</a></div>'
-    		        var feilist = '<div class="col-sm-12 feeList"><div style="width:30px;float: left;"></div>' +
-                        //'<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="' + _data[i].bofe_feeType + '">' + _data[i].bofe_feeType + '</option></select>' +
-                        '<select id="feeType" disabled class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>' +
-                        '<select id="toCompany' + i + '" disabled class="no-padding-left no-padding-right margin-right-5 toCompany" name="toCompany" style="width:200px; float: left;"></select>' +
-                        '<select id="feeItem' + i + '" disabled class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>' +
-                        '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit" disabled style="height:20px;"></select></span>' +
-                        '<input type="text" disabled class="form-control" id="feePrice" placeholder="" value="' + _data[i].bofe_fee + '"></div>' +
-                        '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" disabled class="form-control" id="feeNum" placeholder="" value="' + _data[i].bofe_num + '">' +
-                        '<span class="input-group-addon" style="padding:0;"><select id="numUnit" disabled style="height:20px;"></select></span></div>' +
-                        '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_feeUnit + ' ' + _data[i].bofe_allFee + '</label>' +
-                        '<input type="text" class="form-control margin-right-5" id="receiptRate" placeholder="" value="' + _data[i].bofe_receiptRate + '" style="width:60px; float: left;"  disabled="disabled">' +
-                        '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" style="height:20px;" disabled="disabled"></select></span>' +
-                        '<input type="text" class="form-control" id="receiptFee" placeholder="" value="' + _data[i].bofe_receiptFee + '" disabled="disabled"></div>' +
-                        '<input type="text" class="form-control margin-right-5" id="feeBeizhu" value="' + _data[i].bofe_beizhu + '" placeholder="" disabled style="width:100px; float: left;">' +
-                        '<label for="inputPassword3" id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
-                        '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
-                        '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_receiptNumber + '</label>' +
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_invoiceNumber + '</label>' +
-                        '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].bofe_cancelTime + '</label>'
+                        '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + cancelTime + '</label>' +
+                        '<label for="inputPassword3" id="cancelName" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].cancelName + '</label>' +
+                        '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_receiptNumber + '</label>' +
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_invoiceNumber + '</label>'+
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].addName + '</label>' +
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + addTime + '</label>' +
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].modifyName + '</label>' +
+                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + modifyTime + '</label>'
     		    }
 
     
@@ -842,8 +855,8 @@ $(function(){
             orderCode = _data.book_orderCode
             $('#title3').html('订单号：' + _data.book_orderCode)/////有用
 
-            $('#payNumber').val('INV-'+_data.book_orderCode)
-            $('#payNumber4').val('AD-'+_data.book_orderCode)
+            $('#payNumber').val('INV'+_data.book_orderCode)
+            $('#payNumber4').val('AD'+_data.book_orderCode)
             $('#vesselName').val(_data.book_vessel)
             $('#voyage').val(_data.book_voyage)
             $('#port1').val(_data.book_port1)
@@ -1447,7 +1460,7 @@ $(function(){
         feeboxAll_len=$('.feeList').length+1;
 		var feeboxRow = '<div class="col-sm-12 feeList">'+
             '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
-            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付1</option></select>'+
+            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>'+
             '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
             '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+
@@ -1460,10 +1473,11 @@ $(function(){
             '<input type="text" class="form-control" id="receiptFee" value="0" placeholder="" disabled="disabled"></div>'+
             '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
             '<label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>' +
+            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
             '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'		
+            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'
+	
 		$('.feeAll').append(feeboxRow)
 		//feeboxRow = feeboxRow.clone()
 		//货代公司
@@ -1508,10 +1522,11 @@ $(function(){
             '<input type="text" class="form-control" id="receiptFee" value="0" placeholder=""></div>'+
             '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
             '<label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>' +
+            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
             '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
-            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'     
+            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'
+  
         $('.feeAll').append(feeboxRow)
         //feeboxRow = feeboxRow.clone()
         //货代公司
@@ -2409,6 +2424,66 @@ function _detailBillGetFun(Id) {
     }, function (err) {
         console.log(err)
     }, 1000)
+}
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteBillFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/bill.ashx?action=cancel',
+                data: {
+                    "Id": id
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        oTable.fnReloadAjax(oTable.fnSettings());
+                    } else {
+                        alert("Delete Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+}
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteInvoiceFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/invoice.ashx?action=cancel',
+                data: {
+                    "Id": id
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        oTable.fnReloadAjax(oTable.fnSettings());
+                    } else {
+                        alert("Delete Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
 }
 
 /*

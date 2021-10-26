@@ -30,7 +30,7 @@ $(document).ready(function() {
 	$("#btnBackSave").hide();
 	$("#btnBackSave").click(_editSaveFun);
 
-	var codeType;
+	var codeType='';
 	if (feeType == 'credit') {
 	    $("#cancel_type").val(1).trigger("change")
 	    codeType = 'CP'
@@ -42,11 +42,12 @@ $(document).ready(function() {
 	}
 
 	common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
-	    "companyId": companyID
+	    "companyId": companyID,
+        "type": codeType
 	}, function (data) {
 	    //console.log(data)
 	    if (data.State == 1) {
-	        $("#code").val(data.Data + codeType)
+	        $("#code").val(data.Data)
 	    }
 	})
 
