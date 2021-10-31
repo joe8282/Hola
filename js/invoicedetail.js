@@ -96,7 +96,7 @@ $(function(){
 	    $('.totalFee').text(_data.bill_payPrice);
 	    $('.InvNo').text(_data.bill_payNumber);
 	    $('#remark').text(_data.bill_beizhu);
-	    $('#bankInfo').text(_data.bill_bank);
+	    $('#bankInfo').text(_data.rema_content);
 
         var arrItem = _data.bill_feeItem.split(',');
 

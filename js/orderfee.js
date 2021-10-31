@@ -15,6 +15,7 @@ var en2 = {
 
 var _feeItemArr = new Array();
 var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
+var toYingFuUser = 0;
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -90,7 +91,8 @@ $(function(){
 		$('#ordercode').val(orderCode)
 		crmId = _data.book_crmCompanyId;
 		console.log(crmId)
-        containerType=_data.book_allContainer;
+		containerType = _data.book_allContainer;
+		forwarder_id = _data.book_forwarder;
 	}, function(err) {
 		console.log(err)
 	}, 1000)
@@ -446,6 +448,7 @@ $(function(){
                     $('.feeList').eq(i).find('#feeType').val("debit").trigger("change")
                 }else{
                     $('.feeList').eq(i).find('#feeType').val("credit").trigger("change")
+                    forwarder_id = toYingFuUser = _data[i].bofe_toCompany
                 }
     			$('.feeList').eq(i).find('#feeUnit').html(_feeUnit)
     			$('.feeList').eq(i).find('#feeUnit').val(_data[i].bofe_feeUnit).trigger("change")
@@ -474,7 +477,7 @@ $(function(){
     	console.log(err)
     }, 4000)
 
-
+    console.log(forwarder_id)
 
     //统计总利润，总应收，总应付
     function gatherDebitCredit(){
@@ -872,7 +875,6 @@ $(function(){
             $("#caozuoId").val(_data.book_caozuoId).trigger("change")/////有用
             $("#movementType").val(_data.book_movementType).trigger("change")/////有用
             $("#incoterm").val(_data.book_incoterm).trigger("change")/////有用
-            forwarder_id=_data.book_forwarder;
         }, function(err) {
             console.log(err)
         }, 1000)
@@ -1059,7 +1061,7 @@ $(function(){
             "aoColumns": [
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "bill_payNumber" },
-                { "mDataProp": "bill_bank" },
+                { "mDataProp": "rema_content" },
 			    {
 			        "mDataProp": "bill_addTime",
 			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -1965,15 +1967,61 @@ $(function(){
     $("#addFeeDebitLocal_btn").on("click",function(){
         $("#debitOrCredit").val("debit");
         $("#myModal").modal("show");
-        $('#toCompanyLocal').val($('#crmuser option:selected').attr("name")).trigger("change")
+        $('#toCompanyLocal').val($('#crmuser').val()).trigger("change")
     });
 
-    $("#addFeeCreditLocal_btn").on("click",function(){
-        $("#debitOrCredit").val("credit");
-        $("#myModal").modal("show");
-        $('#toCompanyLocal').val(forwarder_id).trigger("change")
+    $("#addFeeCreditLocal_btn").on("click", function () {
+        if (forwarder_id != 0 || toYingFuUser != 0) {
+            $("#debitOrCredit").val("credit");
+            $("#myModal").modal("show");
+            console.log(forwarder_id)
+            $('#toCompanyLocal').val(forwarder_id).trigger("change")
+        } else {
+            alert("先增加一条应付费用并保存再添加本地费用模板")
+        }
+
         //alert(containerType);
     });
+    $("#copyFee").on("click", function () {
+        $("#myModalFee").modal("show");
+    });
+
+    /*下一步*/
+    $('#btnSaveCopy').on('click', function () {
+        copy_code = $('#inputOrderCode').val()
+        var str = '';
+        $(".checkCopy:checked").each(function (i, o) {
+            str += $(this).val();
+            str += ",";
+        });
+
+
+        if (!copy_code) {
+            comModel("请输入复制的订单号")
+        } else if (str == '') {
+            comModel("请选择复制的类型")
+        } else {
+            var parm = {
+                'userId': userID,
+                'orderId': Id,
+                'copy_code': copy_code,
+                'copy_feetype': str.substring(0, str.length - 1)
+            }
+
+            common.ajax_req('Post', true, dataUrl, 'booking.ashx?action=copyfee', parm, function (data) {
+                if (data.State == 1) {
+                    comModel(data.Data)
+                    location.reload();
+                } else {
+                    comModel(data.Data)
+                }
+            }, function (error) {
+                console.log(parm)
+            }, 10000)
+        }
+
+    });
+
 
     $.fn.modal.Constructor.prototype.enforceFocus = function(){};
 
@@ -2209,7 +2257,7 @@ function _detailBillFun(Id) {
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
         $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
-        $(".bill_bank").text(_data.bill_bank)
+        $(".bill_bank").text(_data.rema_content)
         $(".bill_payNumber").text(_data.bill_payNumber)
         $(".bill_beizhu").text(_data.bill_beizhu)
 
@@ -2386,7 +2434,7 @@ function _detailBillGetFun(Id) {
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
         $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
-        $(".bill_bank").text(_data.bill_bank)
+        $(".bill_bank").text(_data.rema_content)
         $(".bill_payNumber").text(_data.bill_payNumber)
         $(".bill_payPrice").text(_data.bill_payPrice)
         $(".bill_beizhu").text(_data.bill_beizhu)

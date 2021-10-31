@@ -258,7 +258,7 @@ Purchase: http://wrapbootstrap.com
                         <!--div class="widget-header no-padding" id="STATELIST"-->
                             <!--<span class="col-sm-1 btn-blue widget-caption text-align-center bordered-1 bordered-gray">新订单</span>-->
                         <!--/div-->
-                        <div id="simplewizard" class="wizard" data-target="#simplewizard-steps">
+                        <div id="simplewizard" class="wizard" data-target="#simplewizard-steps" style="z-index:0">
                             <ul class="steps" id="STATELIST">
                             </ul>
                         </div>
@@ -296,8 +296,8 @@ Purchase: http://wrapbootstrap.com
                                                     <li><a id="addFeeCreditLocal_btn" href="#">添加应付本地费用</a></li>
                                                 </ul>
                                             </div>
-                                            <!--button type="submit" id="addFee2" class="btn">添加应付</button-->
-                                        </div>
+                                            <a class="btn btn-blue btn-sm" id="copyFee">复制费用</a>
+</div>
                                         <div style="margin: 10px 0 10px 0; margin-bottom: 1px solid #ccc; font-size: 16px;">
                                             <strong>利润：<span id="profit" style="margin-right: 20px;"></span></strong> | 应收：<span id="debitTotal" style="margin-right: 20px;"></span> | 应付：<span id="creditTotal" style="margin-right: 20px;"></span> 
                                         </div>
@@ -1194,6 +1194,35 @@ Purchase: http://wrapbootstrap.com
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates-->  
+
+        <!--复制费用 LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-sm" id="myModalFee" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="mySmallModalLabel">复制费用</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="输入订单号" id="inputOrderCode" name="order_code" />
+                        </div>
+                        <div class="form-group" style="margin-top:10px;">
+                            <label class="col-sm-6 control-label">应付&nbsp;&nbsp;<input type='checkbox' name='checkCopy' class="checkCopy" value='1'></label>
+                            <label class="col-sm-6 control-label">应收&nbsp;&nbsp;<input type='checkbox' name='checkCopy' class="checkCopy" value='2'></label>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="btnSaveCopy" set-lan="html:submit">确定</button>
+                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
                     </div>
                 </div>
                 <!-- /.modal-content -->
