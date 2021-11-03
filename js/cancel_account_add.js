@@ -185,7 +185,7 @@ $(document).ready(function() {
 
 	    reader.onload = function (e) { // reader onload start  
 	        // ajax 上传图片  
-	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'fee' }, function (ret) {
 	            if (ret.State == '100') {
 	                //alert(ret.Picurl);
 	                $('#showimg').attr('src', ret.Picurl);
@@ -305,7 +305,7 @@ $(document).ready(function() {
 	        $("#bank").val(data.Data.caac_bank).trigger("change")
 	        $("#beizhu").val(data.Data.caac_beizhu)
 	        if (data.Data.caac_file != "") {
-	            $('#showimg').attr('src', dataUrl+"uppic/orderPic/" + data.Data.caac_file);
+	            $('#showimg').attr('src', dataUrl+"uppic/feePic/" + data.Data.caac_file);
 	        }
 	        cancel_all_money = data.Data.caac_money
 	        var maillist = data.Data.caac_bill.split(',')

@@ -16,6 +16,8 @@ var en2 = {
 var _feeItemArr = new Array();
 var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
 var toYingFuUser = 0;
+var exchangeRate;
+var cancel_all_money = 0;
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -261,46 +263,74 @@ $(function(){
 
         /////计算收款销账里面的付款金额的总额。
     $('.fee55').delegate("input[name='feeli']", 'click', function () {
-        var fee55data = [];
-        var fee55dataTostring = [];
-        var _arrfee55Unit = [];
-        var z="0";
-        var fee55dataCurrency;
-        var _arrfee55dataAmount=[];
-        var _arrfee55dataGather=[];
-        $(".fee55 input[name='feeli']:checked").each(function (index, item) {
-            fee55data.push($(this).attr("getUnit")+" "+$(this).attr("getAllfee"));
-            if($.inArray($(this).attr("getUnit"), _arrfee55Unit)==-1){
-                _arrfee55Unit.push($(this).attr("getUnit"));
+        console.log($(this).prop('checked'))
+        if ($("#cancel_unit").val() == '') {
+            comModel("请选择币种")
+            $(this).prop("checked", false)
+            return
+        } else {
+            var value_one = 0
+            var value = $(this).attr("getAllfee");
+            var value_unit = $(this).attr("getUnit")
+            if (value_unit == $("#cancel_unit").val()) {
+                value_one = value_one + value * 1
+            } else {
+                value_one = value_one + value * exchangeRate
             }
-        });
+            if ($(this).prop('checked')) {
+                //console.log($(this).parent().parent().find("label:eq(8)").html())
+                $(this).parent().parent().find("label:eq(8)").text(value_one)
+                $(this).attr("getCancelfee", value_one)
+                cancel_all_money = cancel_all_money + value_one
+                $("#payPrice5").val(cancel_all_money)
+            } else {
+                $(this).parent().parent().find("label:eq(8)").text('0')
+                $(this).attr("getCancelfee", "0")
+                cancel_all_money = cancel_all_money - value_one
+                $("#payPrice5").val(cancel_all_money)
 
-        if(_arrfee55Unit.length>1){
-            _arrfee55dataGather=[];
-            for(var i = 0; i < _arrfee55Unit.length; i++) {
-
-                $(".fee55 input[name='feeli']:checked").each(function(){
-                    if($(this).attr("getUnit")==_arrfee55Unit[i]){
-                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
-                            z=+z*1+(+$(this).attr("getAllfee"))*1;
-                    }
-                })
-                _arrfee55dataAmount.push(z.toFixed(2));
-                fee55dataCurrency=fee55dataCurrency+_arrfee55Unit[i]+" "+(i>0?parseFloat(+_arrfee55dataAmount[i] - +_arrfee55dataAmount[i-1]).toFixed(2):parseFloat(_arrfee55dataAmount[i]).toFixed(2))+", ";
-                _arrfee55dataGather.push(_arrfee55Unit[i]+" "+(i>0?parseFloat(+_arrfee55dataAmount[i] - +_arrfee55dataAmount[i-1]).toFixed(2):parseFloat(_arrfee55dataAmount[i]).toFixed(2)));
             }
-            $("#payPrice5").val(_arrfee55dataGather.toString())
-        }else if(_arrfee55Unit.length==0){
-            $("#payPrice5").val("");
-        }else{
-            _arrfee55dataGather=[];
-            $(".fee55 input[name='feeli']:checked").each(function(){
-                        //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
-                z=+z*1+(+$(this).attr("getAllfee"))*1;
-            })
-            _arrfee55dataGather.push(_arrfee55Unit[0]+" "+z);
-            $("#payPrice5").val(_arrfee55dataGather.toString())
         }
+        //var fee55data = [];
+        //var fee55dataTostring = [];
+        //var _arrfee55Unit = [];
+        //var z="0";
+        //var fee55dataCurrency;
+        //var _arrfee55dataAmount=[];
+        //var _arrfee55dataGather=[];
+        //$(".fee55 input[name='feeli']:checked").each(function (index, item) {
+        //    fee55data.push($(this).attr("getUnit")+" "+$(this).attr("getAllfee"));
+        //    if($.inArray($(this).attr("getUnit"), _arrfee55Unit)==-1){
+        //        _arrfee55Unit.push($(this).attr("getUnit"));
+        //    }
+        //});
+
+        //if(_arrfee55Unit.length>1){
+        //    _arrfee55dataGather=[];
+        //    for(var i = 0; i < _arrfee55Unit.length; i++) {
+
+        //        $(".fee55 input[name='feeli']:checked").each(function(){
+        //            if($(this).attr("getUnit")==_arrfee55Unit[i]){
+        //                    //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+        //                    z=+z*1+(+$(this).attr("getAllfee"))*1;
+        //            }
+        //        })
+        //        _arrfee55dataAmount.push(z.toFixed(2));
+        //        fee55dataCurrency=fee55dataCurrency+_arrfee55Unit[i]+" "+(i>0?parseFloat(+_arrfee55dataAmount[i] - +_arrfee55dataAmount[i-1]).toFixed(2):parseFloat(_arrfee55dataAmount[i]).toFixed(2))+", ";
+        //        _arrfee55dataGather.push(_arrfee55Unit[i]+" "+(i>0?parseFloat(+_arrfee55dataAmount[i] - +_arrfee55dataAmount[i-1]).toFixed(2):parseFloat(_arrfee55dataAmount[i]).toFixed(2)));
+        //    }
+        //    $("#payPrice5").val(_arrfee55dataGather.toString())
+        //}else if(_arrfee55Unit.length==0){
+        //    $("#payPrice5").val("");
+        //}else{
+        //    _arrfee55dataGather=[];
+        //    $(".fee55 input[name='feeli']:checked").each(function(){
+        //                //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+        //        z=+z*1+(+$(this).attr("getAllfee"))*1;
+        //    })
+        //    _arrfee55dataGather.push(_arrfee55Unit[0]+" "+z);
+        //    $("#payPrice5").val(_arrfee55dataGather.toString())
+        //}
     })
 
 
@@ -879,6 +909,41 @@ $(function(){
             console.log(err)
         }, 1000)
     }
+
+    $("#cancel_type").change(function () {
+        if ($("#cancel_type").val() == 'debit') {
+            $("#payNumber5").val('PRECP' + orderCode)
+        } else if ($("#cancel_type").val() == 'credit') {
+            $("#payNumber5").val('PRECR' + orderCode)
+        }
+        _getFee5($('#toCompany_5').val(), $('#cancel_type').val());
+
+    })
+    $("#cancel_unit").change(function () {
+        var opt = $("#cancel_unit").val();
+        if (opt == 'USD') {
+            common.ajax_req("get", true, dataUrl, "exchangerate.ashx?action=readbyowner", {
+                "owner": opt,
+                "other": 'RMB'
+            }, function (data) {
+                if (data.State == 1) {
+                    exchangeRate = data.Data.rate_exchangeRate
+                }
+            })
+        } else if (opt == 'RMB') {
+            common.ajax_req("get", true, dataUrl, "exchangerate.ashx?action=readbyowner", {
+                "owner": opt,
+                "other": 'USD'
+            }, function (data) {
+                if (data.State == 1) {
+                    exchangeRate = data.Data.rate_exchangeRate
+                }
+            })
+        } else {
+            alert("暂时只支持美元、人名币");
+        }
+    })
+
     //账单列表
     function GetBill() {
         var table = $("#example").dataTable({
@@ -1045,7 +1110,7 @@ $(function(){
         return table;
     }
 
-    //收款销账列表
+    //销账申请列表
     function GetBillGet() {
         var table = $("#billGetList").dataTable({
             //"iDisplayLength":10,
@@ -1068,8 +1133,18 @@ $(function(){
 			            $(nTd).html(oData.bill_addTime.substring(0, 10));
 			        }
 			    },
+                { "mDataProp": "bill_currency" },
                 { "mDataProp": "bill_payPrice" },
-                { "mDataProp": "bill_state" },
+			    {
+			        "mDataProp": "bill_state",
+			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+			            if (oData.bill_state == 1) {
+			                $(nTd).html('未销账');
+			            } else {
+			                $(nTd).html(oData.bill_cancelCode);
+			            }
+			        }
+			    },
                 {
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -1094,7 +1169,7 @@ $(function(){
         return table;
     }
 
-    //收款销账列表
+    //供应商列表
     function GetGYSBill() {
         var table = $("#gysBillList").dataTable({
             //"iDisplayLength":10,
@@ -1264,7 +1339,7 @@ $(function(){
 
     $("#_billgetThisBkgId").on('change',function() {
         if($('#toCompany_5').val()!=""){
-            _getFee5($('#toCompany_5').val());
+            _getFee5($('#toCompany_5').val(), $('#cancel_type').val());
         }
     })
 
@@ -1367,6 +1442,8 @@ $(function(){
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
 
+        $('#cancel_unit').append(_feeUnit)
+
         // $('#toCompany_5').append(_toCompany)
         // $("#toCompany_5").change(function () {
         //     _getFee4($('#toCompany_5').val())
@@ -1419,7 +1496,7 @@ $(function(){
         _getFee4($('#toCompany_4').val())
     })
     $("#toCompany_5").change(function () {
-        _getFee5($('#toCompany_5').val())
+        _getFee5($('#toCompany_5').val(), $('#cancel_type').val())
     })
     $("#toCompany_6").change(function () {
         _getFee6($('#toCompany_6').val())
@@ -1736,18 +1813,22 @@ $(function(){
 	});
 
 
-    /*新增收款销账*/
+    /*新增销账申请*/
 	$('#send_bill_get').on('click', function () {
-	    var feedata = [];
+	    var feedata = [], cancelFee = [];
 	    $("input[name='feeli']:checked").each(function (index, item) {
 	        feedata.push($(this).val());
+	        cancelFee.push($(this).attr("getCancelfee"));
 	    });
+	    console.log(cancelFee.toString())
 	    var feeItem = "";
 	    if (feedata.toString() != '') {
 	        feeItem = feedata.toString()
 	    }
 	    if (feeItem == "") {
 	        comModel("请选择账单！")
+	    } if ($('#cancel_type').val() == "") {
+	        comModel("请选择销账类别！")
 	    } else {
 	        var parm = {
 	            'bookingId': Id,
@@ -1759,8 +1840,12 @@ $(function(){
 	            'bank': $('#bank5').val(),
 	            'payPrice': $('#payPrice5').val(),
 	            'beizhu': $('#beizhu5').val(),
+	            'payType': $('#cancel_type').val(),
+	            'currency': $('#cancel_unit').val(),
+	            'file': $("#Pname5").val(),
 	            'addtime': $('#id-date-picker-3').val(),
-	            'feeItem': feeItem
+	            'feeItem': feeItem,
+	            'cancelFee': cancelFee.toString()
 	        }
 	        console.log(parm)
 	        common.ajax_req('POST', false, dataUrl, 'bill.ashx?action=new', parm, function (data) {
@@ -1863,6 +1948,38 @@ $(function(){
 	                //alert(ret.Picurl);
 	                $('#showimg').attr('src', ret.Picurl);
 	                $('#Pname').val(ret.Pname);
+	                //$('#showimg').html('<img src="' + ret.Data + '">');
+	            } else {
+	                alert('上传失败');
+	            }
+	        }, 'json');
+	    } // reader onload end  
+	})
+
+    // 选择图片  
+	$("#img5").on("change", function () {
+	    var img = event.target.files[0];
+	    // 判断是否图片  
+	    if (!img) {
+	        return;
+	    }
+
+	    // 判断图片格式  
+	    if (!(img.type.indexOf('image') == 0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name))) {
+	        alert('图片只能是jpg,gif,png');
+	        return;
+	    }
+
+	    var reader = new FileReader();
+	    reader.readAsDataURL(img);
+
+	    reader.onload = function (e) { // reader onload start  
+	        // ajax 上传图片  
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'fee' }, function (ret) {
+	            if (ret.State == '100') {
+	                //alert(ret.Picurl);
+	                $('#showimg5').attr('src', ret.Picurl);
+	                $('#Pname5').val(ret.Pname);
 	                //$('#showimg').html('<img src="' + ret.Data + '">');
 	            } else {
 	                alert('上传失败');
@@ -2145,7 +2262,7 @@ function _toShouKuangFun(Id) {
     $(".tab-content div").removeClass('in active');
     $("#SHOUKUANG").addClass('in active');
     $("#toCompany_5").val(Id).trigger("change")
-    _getFee5(Id)
+    _getFee5(Id, $('#cancel_type').val())
 }
 function _toFaPiaoFun(Id) {
     $("#myTab li").removeClass('active');
@@ -2197,13 +2314,14 @@ function _getFee3(toCompany) {
 }
 
 //收款销账
-function _getFee5(toCompany) {
+function _getFee5(toCompany, feeType) {
     var _thisBkgId;
     $('#_billgetThisBkgId').is(':checked') ? _thisBkgId = Id : _thisBkgId = 0;
     common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
         "bookingId": _thisBkgId,
         "toCompany": toCompany,
-        "feeType": "debit" //0是debit & credit，1是debit，2是credit
+        "feeType": feeType, //0是debit & credit，1是debit，2是credit
+        "state":1
     }, function (data) {
         console.log(data)
         if (data.State == 1) {
@@ -2211,7 +2329,7 @@ function _getFee5(toCompany) {
             var _data = data.Data;
             for (var i = 0; i < _data.length; i++) {
                 var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" /></label>' +
+                                    '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" getCancelfee="0" /></label>' +
                                     '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                     '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                     '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
@@ -2422,7 +2540,7 @@ function _detailBillPayFun(Id) {
 }
 
 
-/*收款销账详情*/
+/*销账申请详情*/
 function _detailBillGetFun(Id) {
     $("#myModal4").modal("show");
     $(".fee_44").empty()
@@ -2437,7 +2555,12 @@ function _detailBillGetFun(Id) {
         $(".bill_bank").text(_data.rema_content)
         $(".bill_payNumber").text(_data.bill_payNumber)
         $(".bill_payPrice").text(_data.bill_payPrice)
+        $(".bill_currency").text(_data.bill_currency)
         $(".bill_beizhu").text(_data.bill_beizhu)
+        //$(".bill_file").text(_data.bill_currency)
+        if (_data.bill_file != "") {
+            $('#showimg55').attr('src', dataUrl + "uppic/feePic/" + _data.bill_file);
+        }
 
         var arrItem = _data.bill_feeItem.split(',')
         var xuhao = 0;

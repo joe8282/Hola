@@ -271,7 +271,7 @@ Purchase: http://wrapbootstrap.com
                                 <li class="tab-red"><a class="billtab" data-toggle="tab" href="#ZHANGDAN">账单制作</a></li>
                                 <li class="tab-red"><a class="invoicetab" data-toggle="tab" href="#FAPIAO">开具发票</a></li>
                                 <li class="tab-red"><a class="billpaytab" data-toggle="tab" href="#FUKUANG">付款申请</a></li>
-                                <li class="tab-red"><a class="billgettab" data-toggle="tab" href="#SHOUKUANG">收款销账</a></li>
+                                <li class="tab-red"><a class="billgettab" data-toggle="tab" href="#SHOUKUANG">销账申请</a></li>
                                 <li class="tab-red"><a class="gysbilltab" data-toggle="tab" href="#GONGYINGSHANG">承运商账单</a></li>
                                 <li class="tab-red"><a class="filetab" data-toggle="tab" href="#WENJIAN">相关文件</a></li>
                             </ul>
@@ -724,9 +724,10 @@ Purchase: http://wrapbootstrap.com
                                                     <tr class="tableTitle">
                                                         <!--<th>创建人</th>-->
                                                         <th>结算对象</th>
-                                                        <th>收款号码</th>
+                                                        <th>销账申请号码</th>
                                                         <th>银行</th>
                                                         <th>提交日期</th>
+                                                        <th>币种</th>
                                                         <th>总金额</th>
                                                         <th>状态</th>
                                                         <th>操作</th>
@@ -738,8 +739,8 @@ Purchase: http://wrapbootstrap.com
                                             <form class="form-horizontal" role="form">
                                                 <div class="form-group no-margin-bottom">
                                                     <label for="inputPassword3" class="col-sm-5">选择结算对象 <sup></sup><span style="float: right;"><input type="checkbox" id="_billgetThisBkgId"> 仅此票</span></label>
-                                                    <label for="inputPassword3" class="col-sm-3">银行 <sup></sup></label>
-                                                    <label for="inputPassword3" class="col-sm-3"> <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3">销账类别 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3">银行 <sup></sup></label> 
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-5">
@@ -748,18 +749,23 @@ Purchase: http://wrapbootstrap.com
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-3">
+                                                        <select id="cancel_type" style="width: 100%;">
+                                                            <option value="">请选择</option>
+                                                            <option value="debit">应付销账</option>
+                                                            <option value="credit">应收销账</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-3">
                                                         <!--input type="email" class="form-control" id="bank5" placeholder=""-->
                                                         <select id="bank5" style="width:230px; font-size: 14px;">
                                                         </select>
                                                     </div>
-                                                    <div class="col-sm-3">
-                                                        
-                                                    </div>
                                                 </div>
                                                 <div class="form-group no-margin-bottom">
                                                     <label for="inputPassword3" class="col-sm-3">提交日期 <sup></sup></label>
-                                                    <label for="inputPassword3" class="col-sm-2">收款号码 <sup></sup></label>
-                                                    <label for="inputPassword3" class="col-sm-6">总金额 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-2">销账申请号码 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3">币种 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3">总金额 <sup></sup></label>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-3">
@@ -771,22 +777,30 @@ Purchase: http://wrapbootstrap.com
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <input type="email" class="form-control" id="payNumber5" placeholder="">
+                                                        <input type="email" class="form-control" id="payNumber5" placeholder="" disabled>
                                                     </div>
-                                                    <!--<div class="col-sm-2">
-                                                        <select id="unit1" style="width: 100%;">
-                                                            <option value="币种">币种</option>
-                                                        </select>
-                                                    </div>-->
                                                     <div class="col-sm-3">
-                                                        <input type="email" class="form-control" id="payPrice5" placeholder="">
+                                                        <select id="cancel_unit" style="width: 100%;">
+                                                            <option value="">币种</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input type="email" class="form-control" id="payPrice5" placeholder="" disabled>
                                                     </div>
                                                 </div>
                                                 <div class="form-group no-margin-bottom">
-                                                    <label for="inputPassword3" class="col-sm-11">备注 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-6">备注 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-6">上传图片 <sup></sup></label>
                                                 </div>
                                                 <div class="form-group">
-                                                    <div class="col-sm-8"><textarea class="form-control" rows="3" id="beizhu5" placeholder="备注"></textarea></div>
+                                                    <div class="col-sm-6"><textarea class="form-control" rows="3" id="beizhu5" placeholder="备注"></textarea></div>
+                                                    <div class="col-sm-4">
+                                                        <input type="file" class="file" id="img5" accept="image/*">
+                                                        <input type="hidden" id="Pname5" />
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <p style="margin-top:0px;"><img id="showimg5" style="width:60px;"></p>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                 </div>
@@ -1163,16 +1177,18 @@ Purchase: http://wrapbootstrap.com
 
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="mySmallModalLabel">收款销账</h4>
+                        <h4 class="modal-title" id="mySmallModalLabel">销账申请</h4>
                     </div>
                     <div class="modal-body" style="padding: 20px;">
                         <div class="form-group">
                             <div class="col-sm-6">结算对象：<span class="bill_toCompany"></span></div>
                             <div class="col-sm-6">提交日期：<span class="bill_addTime"></span></div>
-                            <div class="col-sm-6">银行：<span class="bill_bank"></span></div>
+                            <div class="col-sm-6">币种：<span class="bill_currency"></span></div>
                             <div class="col-sm-6">总金额：<span class="bill_payPrice"></span></div>
-                            <div class="col-sm-6">收款号码：<span class="bill_payNumber"></span></div>
-                            <div class="col-sm-12">备注：<span class="bill_beizhu"></span></div>
+                            <div class="col-sm-6">销账申请号码：<span class="bill_payNumber"></span></div>
+                            <div class="col-sm-12">银行：<span class="bill_bank"></span></div>
+                            <div class="col-sm-6">备注：<span class="bill_beizhu"></span></div>
+                            <div class="col-sm-6">文件：<img id="showimg55" style="width:60px;" /></div>
                         </div>
                         <div style="clear:both;"></div>
                         <div class="form-group bordered-top-1 bordered-gray margin-top-20">
