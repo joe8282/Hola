@@ -108,7 +108,7 @@ $(function(){
 		var _data = data.data;
 		console.log(_data)
 		for(var i = 0; i < _data.length; i++) {
-			var _html = '<option value="' + _data[i].puda_id + '">' + _data[i].puda_name_cn + ' - '+_data[i].puda_name_en+'</option>';
+			var _html = '<option value="' + _data[i].puda_id + '">' + _data[i].puda_name_cn + ' / '+_data[i].puda_name_en+'</option>';
 			//$('#feeItem').append(_html)
 			_feeItem=_feeItem+_html
             _feeItemArr.push(_data[i].puda_id+';'+_data[i].puda_name_cn+' / '+_data[i].puda_name_en)
@@ -2083,6 +2083,7 @@ $(function(){
 
     $("#addFeeDebitLocal_btn").on("click",function(){
         $("#debitOrCredit").val("debit");
+        $("#localChargeDebitOrCredit").text("应收");
         $("#myModal").modal("show");
         $('#toCompanyLocal').val($('#crmuser').val()).trigger("change")
     });
@@ -2090,6 +2091,7 @@ $(function(){
     $("#addFeeCreditLocal_btn").on("click", function () {
         if (forwarder_id != 0 || toYingFuUser != 0) {
             $("#debitOrCredit").val("credit");
+            $("#localChargeDebitOrCredit").text("应付");
             $("#myModal").modal("show");
             console.log(forwarder_id)
             $('#toCompanyLocal').val(forwarder_id).trigger("change")
@@ -2143,10 +2145,12 @@ $(function(){
     $.fn.modal.Constructor.prototype.enforceFocus = function(){};
 
    // function _chooseLocalcharge(o){
-    $("#_chooseLocalcharge").on("click",function(){
+    $('#dataTableLocalCharge').delegate('#_chooseLocalcharge','click', function() {
+    //$("#_chooseLocalcharge").on("click",function(){
         var o=$(this).attr('name');
-        alert(o);
-        var feeboxAll_len="";
+        //alert(o);
+        //var feeboxAll_len="";
+        
             common.ajax_req("get", true, dataUrl, "localcharge.ashx?action=readbyid", {
                 "Id": o
             }, function(data) {
@@ -2155,16 +2159,18 @@ $(function(){
 
                 var feeItemAll = _data.loch_feeItem.split(';')
                 var containerTypeAll=containerType.split(';')
-
+                console.log(feeItemAll.length);
                 for (var i = 0; i < feeItemAll.length-1; i++) {
+                    feeboxAll_len=$('.feeList').length+1;
+                    console.log(i);
                     var feeItem0 = feeItemAll[i].split(',')
                     var _html ='<tr><td>'+feeItem0[0]+'</td><td>'+(feeItem0[2]!=0?(feeItem0[1]+feeItem0[2]):"")+'</td><td>'+(feeItem0[3]!=0?(feeItem0[1]+feeItem0[3]):"")+'</td><td>'+(feeItem0[4]!=0?(feeItem0[1]+feeItem0[4]):"")+'</td><td>'+(feeItem0[5]!=0?(feeItem0[1]+feeItem0[5]):"")+'</td><td>'+feeItem0[6]+'</td></tr>'
                     var _feeUnitLocal="";
                     var _feePriceLocal="";
 
-                    if(feeItem0[2]!=0){
+                    if(feeItem0[2]!=""){
 
-                        _feeUnitLocal="Bill of Loading";
+                        //_feeUnitLocal="Bill of Loading";
                         _feePriceLocal=feeItem0[2];
                         var feeboxRow = '<div class="col-sm-12 feeList">'+
                             '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
@@ -2180,62 +2186,108 @@ $(function(){
                             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" disabled="disabled"></select></span>'+
                             '<input type="text" class="form-control" id="receiptFee" value="'+_feePriceLocal+'" placeholder="" disabled="disabled"></div>'+
                             '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"></div>'  
-                            feeboxAll_len=$('.feeList').length+1;   
-                            $('.feeAll').append(feeboxRow)   
-                            $('.feeList:last').find('#numUnit').append(_numUnit)
-                            $('.feeList:last').find('#numUnit').val(_feeUnitLocal).trigger("change")
+                            //feeboxAll_len=$('.feeList').length+1;   
+                        $('.feeAll').append(feeboxRow)
+                        $('.feeList:last').find('#numUnit').append(_numUnit)
+                        $('.feeList:last').find('#numUnit').val("SET").trigger("change")
+                //      //费用类型
+                        $('.feeList:last').find('.feeItem').append(_feeItem)
+                        $('.feeList:last .feeItem option').filter(function(){return $(this).text()==feeItem0[0];}).attr("selected",true); //要再先插入数据后，SELECT2之前才生效
+                        $("#feeItem"+feeboxAll_len).select2({
+                            language: "zh-CN",
+                            minimumInputLength: 2
+                        });
+                        console.log(feeItem0[0])
+
+                //      //币种
+                        $('.feeList:last').find('#feeUnit').append(_feeUnit)
+                        $('.feeList:last').find('#feeUnit').val(feeItem0[1]).trigger("change")
+                //      币种
+                        $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
+                        $('.feeList:last').find('#receiptFeeUnit').val(feeItem0[1]).trigger("change")
+                //      //单位
 
                     }else{
+                        _feePriceLocal=0;
+                        var feeboxRow = '<div class="col-sm-12 feeList">'+
+                            '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
+                            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>'+
+                            '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
+                            '<select id="feeItem'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 feeItem" style="width:100px; float: left;"></select>'+
+                            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>'+
+                            '<input type="text" class="form-control" id="feePrice" placeholder="" value="'+_feePriceLocal+'" ></div>'+
+                            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="1" placeholder="">'+
+                            '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>'+
+                            '<label for="inputPassword3" id="allFee" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<input type="text" class="form-control margin-right-5" id="receiptRate" value="1" placeholder="" style="width:60px; float: left;" disabled="disabled">'+
+                            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" disabled="disabled"></select></span>'+
+                            '<input type="text" class="form-control" id="receiptFee" value="'+_feePriceLocal+'" placeholder="" disabled="disabled"></div>'+
+                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"></div>'  
+                            //feeboxAll_len=$('.feeList').length+1;   
+                        $('.feeAll').append(feeboxRow)
+                        $('.feeList:last').find('#numUnit').append(_numUnit)
+
                         for(var j=0; j<containerTypeAll.length-1; j++){
-                            var containerTypeAllNumType=containerTypeAll[j].split('x');
+                            var containerTypeAllNumType=containerTypeAll[j].split('×');
                             _feeUnitLocal=containerTypeAllNumType[1];
                             _feeNumLocal=containerTypeAllNumType[0];
                             if(_feeUnitLocal=="20'GP"){
-                                alert("20'gp")
+                                console.log("20'gp")
+                                $('.feeList:last').find('#numUnit').val("20'GP").trigger("change")
+                                $('.feeList:last').find('#feePrice').val(feeItem0[3])
                             }else if(_feeUnitLocal=="40'GP"){
-                                alert("40'gp")
+                                console.log("40'gp")
+                                $('.feeList:last').find('#numUnit').val("40'GP").trigger("change")
+                                $('.feeList:last').find('#feePrice').val(feeItem0[4])
                             }else if(_feeUnitLocal=="40'HQ"){
-                                alert("40'hq")
+                                console.log("40'hq")
+                                $('.feeList:last').find('#numUnit').val("40'HQ").trigger("change")
+                                $('.feeList:last').find('#feePrice').val(feeItem0[5])
                             }else{
-                                alert("else")
+                                console.log("else")
                             }
-                            //_feePriceLocal=feeItem0[2];
                         }
+                //      //费用类型
+                        $('.feeList:last').find('.feeItem').append(_feeItem)
+                        $('.feeList:last .feeItem option').filter(function(){return $(this).text()==feeItem0[0];}).attr("selected",true); //要再先插入数据后，SELECT2之前才生效
+                        $("#feeItem"+feeboxAll_len).select2({
+                            language: "zh-CN",
+                            minimumInputLength: 2
+                        });
+                        console.log(feeItem0[0])
+
+                //      //币种
+                        $('.feeList:last').find('#feeUnit').append(_feeUnit)
+                        $('.feeList:last').find('#feeUnit').val(feeItem0[1]).trigger("change")
+                //      币种
+                        $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
+                        $('.feeList:last').find('#receiptFeeUnit').val(feeItem0[1]).trigger("change")
+                //      //单位
+
                     }
 
+            //      //企业
                     $('.feeList:last').find('.toCompany').append(_toCompany)
-                    $("#toCompany"+feeboxAll_len).select2({
+                    //$("#toCompany"+feeboxAll_len).append(_toCompany)
+                    $('.feeList:last').find('.toCompany').select2({
                         language: "zh-CN",
                         minimumInputLength: 2
                     });
-                    $('.feeList:last').find('.toCompany').val($('#crmuser option:selected').attr("name")).trigger("change")
-            //      //费用类型
-                    $('.feeList:last').find('.feeItem').append(_feeItem)
-                    $("#feeItem"+feeboxAll_len).select2({
-                        language: "zh-CN",
-                        minimumInputLength: 2
-                    });
-            //      //币种
-                    $('.feeList:last').find('#feeUnit').append(_feeUnit)
-                    $('.feeList:last').find('#feeUnit').val(feeItem0[1]).trigger("change")
-            //      币种
-                    $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
-                    $('.feeList:last').find('#receiptFeeUnit').val(feeItem0[1]).trigger("change")
-            //      //单位
+                    $('.feeList:last').find('.toCompany').val($('#toCompanyLocal option:selected').attr("value")).trigger("change")
 
-                    $('.feeList:last').find('#feeType').val('debit').trigger("change")
-                    $('.feeList:last').css("background-color","#b0e0e6")
+                    if($("#debitOrCredit").val()=="debit"){
+                        $('.feeList:last').find('#feeType').val('debit').trigger("change")
+                        $('.feeList:last').css("background-color","#b0e0e6")
+                    }else if($("#debitOrCredit").val()=="credit"){   
+                        $('.feeList:last').find('#feeType').val('credit').trigger("change")
+                        $('.feeList:last').css("background-color","pink")
+                    }
 
                 }
 
             }, function(err) {
                 console.log(err)
             }, 5000)
-        if($("#debitOrCredit").val()=="debit"){
-            console.log("cc")  
-        }else if($("#debitOrCredit").val()=="credit"){   
-            console.log("dd")  
-        }
     })
 
     function OpenLocalChargeModal() {
