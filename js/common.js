@@ -250,6 +250,7 @@ function getNav(){
                         '<li class="financial10"><a href="financial_statement.html"><span class="menu-text" set-lan="html:nav_5_10">Payable Report</span></a></li>' +
                         '<li class="financial11"><a href="cancel_account_company.html"><span class="menu-text" set-lan="html:nav_5_11">Cancel Account</span></a></li>' +
                         '<li class="financial12"><a href="cancel_account.html"><span class="menu-text" set-lan="html:nav_5_12">Cancel Record</span></a></li>' +
+                        '<li class="financial13"><a href="cancel_apply.html"><span class="menu-text" set-lan="html:nav_5_13">Cancel Apply</span></a></li>' +
                         '</ul>' +
                     '</li>' +             
                     '<li class="navli6"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_6"> EMAIL PROMPT PLAN</span><i class="menu-expand"></i></a>' +

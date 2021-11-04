@@ -395,7 +395,7 @@ $(function(){
     		    var cancelTime = _data[i].bofe_cancelTime != null ? _data[i].bofe_cancelTime.substring(0, 10) : ""
     		    var addTime = _data[i].bofe_addTime != null ? _data[i].bofe_addTime.substring(0, 10) : ""
     		    var modifyTime = _data[i].bofe_modifyTime != null ? _data[i].bofe_modifyTime.substring(0, 10) : ""
-    		    if (_data[i].bofe_state == 2 || _data[i].bofe_receiptNumber != "0" || _data[i].bofe_invoiceNumber != "0") {
+    		    if (_data[i].bofe_state == 2 || _data[i].bofe_state == 3 || _data[i].bofe_receiptNumber != "0" || _data[i].bofe_invoiceNumber != "0") {
     		        //var feilist = '<div style="margin: 5px 0px;">' + _data[i].bofe_feeType + ' ：' + _data[i].bofe_fee + ' * ' + _data[i].bofe_num + '(' + _data[i].bofe_numUnit + ') = ' + _data[i].bofe_feeUnit + _data[i].bofe_allFee + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteFee" artiid="' + _data[i].bofe_id + '">删除</a></div>'
     		        var feilist = '<div class="col-sm-12 feeList"><span style="width:30px; float: left; text-align:center; font-size:20px; "><i class="fa fa-ban"></i></span>' +
                         //'<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="' + _data[i].bofe_feeType + '">' + _data[i].bofe_feeType + '</option></select>' +

@@ -41,15 +41,18 @@ $(document).ready(function() {
 	    $("#cancel_type").val(0).trigger("change")
 	}
 
-	common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
-	    "companyId": companyID,
-        "type": codeType
-	}, function (data) {
-	    //console.log(data)
-	    if (data.State == 1) {
-	        $("#code").val(data.Data)
-	    }
-	})
+	if (action == 'add') {
+	    common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
+	        "companyId": companyID,
+	        "type": codeType
+	    }, function (data) {
+	        //console.log(data)
+	        if (data.State == 1) {
+	            $("#code").val(data.Data)
+	        }
+	    })
+	}
+
 
 	oTable = initTable(toCompany, action, feeType);
 
@@ -205,9 +208,12 @@ $(document).ready(function() {
 	        str += ",";
 	    });
 
-	    var iscancel = 0
+	    var iscancel = 0,isapply=0
 	    if (action == 'modify') {
 	        iscancel = 1
+	    }
+	    if (action == 'apply') {
+	        isapply = Id
 	    }
 
 	    if ($("#unit").val() == '') {
@@ -232,7 +238,8 @@ $(document).ready(function() {
 	            'typeId': $("#cancel_type").val(),
 	            'beizhu': $("#beizhu").val(),
 	            'file': $("#Pname").val(),
-	            'iscancel':iscancel,
+	            'iscancel': iscancel,
+	            'isapply':isapply,
 	            'bill': str
 	        };
 	        $.ajax({
@@ -350,8 +357,65 @@ $(document).ready(function() {
 	        console.log(err)
 	    }, 5000)
 
-	} else {
-    	//hasPermission('1205'); //权限控制：新增群组邮件列表
+	} else if (action == 'apply') {
+	    $('input,textarea').prop('disabled', true);
+	    $('select').prop('disabled', true);
+	    common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbyid", {
+	        "Id": Id
+	    }, function (data) {
+	        //console.log(data.Data)
+	        //初始化信息
+	        if (data.Data.bill_payType == 'debit') { $("#cancel_type").val("1").trigger("change"); codeType = 'CR' }
+	        else if (data.Data.bill_payType == 'credit') { $("#cancel_type").val("2").trigger("change"); codeType = 'CP';}
+	        common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
+	            "companyId": companyID,
+	            "type": codeType
+	        }, function (data) {
+	            //console.log(data)
+	            if (data.State == 1) {
+	                $("#code").val(data.Data)
+	            }
+	        })
+
+	        $("#cancel_money").val(data.Data.bill_payPrice)
+	        $("#unit").val(data.Data.bill_currency).trigger("change")
+	        $("#bank").val(data.Data.bill_bank).trigger("change")
+	        $("#beizhu").val(data.Data.bill_beizhu)
+	        if (data.Data.bill_file != "") {
+	            $('#showimg').attr('src', dataUrl + "uppic/feePic/" + data.Data.bill_file);
+	        }
+	        cancel_all_money = data.Data.bill_payPrice
+	        var maillist = data.Data.bill_feeItem.split(',')
+	        setTimeout(function () {
+	            $('input,textarea').prop('disabled', true);
+	            $('#beizhu').removeAttr("disabled");
+	            for (var i = 0; i < maillist.length; i++) {
+	                $("input[name='checkList'][value='" + maillist[i] + "']").attr("checked", true)
+	            }
+	            //$("input[name='checkList']:checked").each(function (i, o) {
+	            //    var value_one = 0
+	            //    var value = $(this).parents('tr').find("td:eq(5)").text()
+	            //    var value_unit = $(this).parents('tr').find("td:eq(4)").text()
+	            //    if (value_unit == $("#unit").val()) {
+	            //        value_one = value_one + value * 1
+	            //    } else {
+	            //        value_one = value_one + value * exchangeRate
+	            //    }
+	            //    $(this).parents('tr').find("td:eq(6)").text(value_one)
+	            //});
+	            //if (cancel_all_money < 0) {
+	            //    $("#btnBackSave").show(); // 2021-10-15 DANIEL修改：计算完后才显示这个按钮
+	            //    $('#btnBackSave').val("已返销");
+	            //    $('#btnBackSave').text("已返销");
+	            //    $('#btnBackSave').prop('disabled', true);
+	            //} else {
+	            //    $("#btnBackSave").show(); // 2021-10-15 DANIEL修改：计算完后才显示这个按钮
+	            //}
+	        }, 2000)
+
+	    }, function (err) {
+	        console.log(err)
+	    }, 5000)
 	}
 
 });
@@ -364,6 +428,9 @@ function initTable(toCompany, action, feeType) {
     var url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=1&companyId=' + companyID + '&tocompany=' + toCompany + '&feeType=' + feeType
     if (action == 'modify') {
         url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&companyId=' + companyID + '&tocompany=' + toCompany
+    }
+    if (action == 'apply') {
+        url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=2&companyId=' + companyID + '&tocompany=' + toCompany
     }
     var table = $("#zhangdan").dataTable({
 		//"iDisplayLength":10,
@@ -403,15 +470,7 @@ function initTable(toCompany, action, feeType) {
                             },
             { "mDataProp": "bofe_feeUnit" },
             { "mDataProp": "bofe_allFee" },
-           {
-               "mDataProp": "bofe_id",
-               "createdCell": function (td, cellData, rowData, row, col) {
-                    $(td).html(function(n){
-                        return ('');
-
-                    })
-               }
-           },
+           {"mDataProp": "bofe_cancelMoney"},
             { "mDataProp": "bofe_addTime" ,
 				"fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 					if(oData.bofe_addTime!=null){

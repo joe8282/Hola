@@ -23,7 +23,7 @@ $(document).ready(function() {
     //	initModal();
 
     //hasPermission('1601'); //权限控制
-    this.title = get_lan('nav_5_11')
+    this.title = get_lan('nav_5_12')
     $('.navli5').addClass("active open")
     $('.financial12').addClass("active")
     $('#title1').text(get_lan('nav_5_12'))
