@@ -279,12 +279,12 @@ $(function(){
             }
             if ($(this).prop('checked')) {
                 //console.log($(this).parent().parent().find("label:eq(8)").html())
-                $(this).parent().parent().find("label:eq(8)").text(value_one)
+                $(this).parent().parent().find("label:eq(9)").text(value_one)
                 $(this).attr("getCancelfee", value_one)
                 cancel_all_money = cancel_all_money + value_one
                 $("#payPrice5").val(cancel_all_money)
             } else {
-                $(this).parent().parent().find("label:eq(8)").text('0')
+                $(this).parent().parent().find("label:eq(9)").text('0')
                 $(this).attr("getCancelfee", "0")
                 cancel_all_money = cancel_all_money - value_one
                 $("#payPrice5").val(cancel_all_money)
@@ -417,10 +417,10 @@ $(function(){
                         '<label for="inputPassword3" id="cancelName" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].cancelName + '</label>' +
                         '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_receiptNumber + '</label>' +
                         '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_invoiceNumber + '</label>'+
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].addName + '</label>'+
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + addTime + '</label>' +
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].modifyName + '</label>'+
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + modifyTime + '</label>'
+                        '<label for="inputPassword3" id="addName" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].addName + '</label>'+
+                        '<label for="inputPassword3" id="addTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + addTime + '</label>' +
+                        '<label for="inputPassword3" id="modifyName" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].modifyName + '</label>'+
+                        '<label for="inputPassword3" id="modifyTime" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + modifyTime + '</label>'
     		    } else {
     		        //var feilist = '<div style="margin: 5px 0px;">' + _data[i].bofe_feeType + ' ：' + _data[i].bofe_fee + ' * ' + _data[i].bofe_num + '(' + _data[i].bofe_numUnit + ') = ' + _data[i].bofe_feeUnit + _data[i].bofe_allFee + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteFee" artiid="' + _data[i].bofe_id + '">删除</a></div>'
     		        var feilist = '<div class="col-sm-12 feeList"><button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>' +
@@ -443,10 +443,10 @@ $(function(){
                         '<label for="inputPassword3" id="cancelName" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].cancelName + '</label>' +
                         '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_receiptNumber + '</label>' +
                         '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].bofe_invoiceNumber + '</label>'+
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].addName + '</label>' +
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + addTime + '</label>' +
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].modifyName + '</label>' +
-                        '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + modifyTime + '</label>'
+                        '<label for="inputPassword3" id="addName" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + _data[i].addName + '</label>' +
+                        '<label for="inputPassword3" id="addTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;">' + addTime + '</label>' +
+                        '<label for="inputPassword3" id="modifyName" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + _data[i].modifyName + '</label>' +
+                        '<label for="inputPassword3" id="modifyTime" class="margin-right-5" style="width:120px; line-height: 30px; float: left;">' + modifyTime + '</label>'
     		    }
 
     
@@ -887,9 +887,10 @@ $(function(){
             })
             orderCode = _data.book_orderCode
             $('#title3').html('订单号：' + _data.book_orderCode)/////有用
-
+            
+            var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
             $('#payNumber').val('INV'+_data.book_orderCode)
-            $('#payNumber4').val('AD'+_data.book_orderCode)
+            $('#payNumber4').val('AD'+_data.book_orderCode+tableTrNumPayNumber4)
             $('#vesselName').val(_data.book_vessel)
             $('#voyage').val(_data.book_voyage)
             $('#port1').val(_data.book_port1)
@@ -911,14 +912,16 @@ $(function(){
     }
 
     $("#cancel_type").change(function () {
+        var tableTrNum=getChar($("#billGetList tr").length-1);
         if ($("#cancel_type").val() == 'debit') {
-            $("#payNumber5").val('PRECP' + orderCode)
+            $("#payNumber5").val('PRECR' + orderCode+tableTrNum)
         } else if ($("#cancel_type").val() == 'credit') {
-            $("#payNumber5").val('PRECR' + orderCode)
+            $("#payNumber5").val('PRECP' + orderCode+tableTrNum)
         }
         _getFee5($('#toCompany_5').val(), $('#cancel_type').val());
 
     })
+
     $("#cancel_unit").change(function () {
         var opt = $("#cancel_unit").val();
         if (opt == 'USD') {
@@ -942,6 +945,8 @@ $(function(){
         } else {
             alert("暂时只支持美元、人名币");
         }
+        $("#payPrice5").val("");
+        $(".fee55 input:checkbox").prop("checked", false)
     })
 
     //账单列表
@@ -997,10 +1002,10 @@ $(function(){
                         if (oData.bill_state == 1) {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='invoicedetail.html?billid=" + oData.bill_id + "' target='_blank'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                //.append("<a href='invoicedetail.html?billid=" + oData.bill_id + "' target='_blank'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='invoicedetail.html?billid="+oData.bill_id+"' target='_blank'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_toShouKuangFun(" + oData.bill_toCompany + ")'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_toFaPiaoFun(" + oData.bill_toCompany + ")'>发票</a>")
+                                //.append("<a href='javascript:void(0);' onclick='_toShouKuangFun(" + oData.bill_toCompany + ")'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                //.append("<a href='javascript:void(0);' onclick='_toFaPiaoFun(" + oData.bill_toCompany + ")'>发票</a>")
                         } else {
                             //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
@@ -1051,7 +1056,8 @@ $(function(){
                             //    .append("<a href='#'>发票</a>")
                         } else {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailInvoiceFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteInvoiceFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("")
+                                //.append("<a href='javascript:void(0);' onclick='_deleteInvoiceFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         }
 
                     }
@@ -1126,7 +1132,7 @@ $(function(){
             "aoColumns": [
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "bill_payNumber" },
-                { "mDataProp": "rema_content" },
+                { "mDataProp": "bill_bank" },
 			    {
 			        "mDataProp": "bill_addTime",
 			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -1157,7 +1163,8 @@ $(function(){
                             //    .append("<a href='#'>发票</a>")
                         } else {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("")
+                                //.append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
                             //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
                         }
@@ -1265,20 +1272,24 @@ $(function(){
                 $(".fee00").empty()
                 var _data = data.Data;
                 for (var i = 0; i < _data.length; i++) {
-                    var feelist = '<p style="clear:both;"><div class="margin-left-40 margin-top-10">' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data[i].bofe_feeType + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
-                                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
-                                    '</div></p>'
+                    if (_data[i].bofe_receiptNumber=="0") {  //20211105 判断该挑费用是否已经有了账单号码
+                        var feelist = '<p style="clear:both;"><div class="margin-left-40 margin-top-10">' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="'+_data[i].bofe_feeUnit+'" getAllfee="'+_data[i].bofe_allFee+'" /></label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data[i].bofe_feeType + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
+                            '</div></p>'
+                    }else{
+                        var feelist=""
+                    }
                     $(".fee00").prepend(feelist)
                 }
             }else{
@@ -1487,12 +1498,16 @@ $(function(){
     })
 
     $("#toCompany_2").change(function () {
+        var tableTrNumPayNumber=getChar($("#example tr").length-1);
+        $('#payNumber').val('INV'+orderCode+tableTrNumPayNumber)
         _getFee($('#toCompany_2').val())
     })
     $("#toCompany_3").change(function () {
         _getFee3($('#toCompany_3').val())
     })
     $("#toCompany_4").change(function () {
+        var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
+        $('#payNumber4').val('AD'+orderCode+tableTrNumPayNumber4)
         _getFee4($('#toCompany_4').val())
     })
     $("#toCompany_5").change(function () {
@@ -1641,20 +1656,27 @@ $(function(){
 	$('#send_shoufu').on('click', function () {
 		var feeData=''
 		for(var i = 0; i < $('.feeList').length; i++) {
-			var toCompany = $('.feeList').eq(i).find('.toCompany').val()
-			var feeItem = $('.feeList').eq(i).find('.feeItem').val()
-			var feeUnit = $('.feeList').eq(i).find('#feeUnit').val()
-			var numUnit = $('.feeList').eq(i).find('#numUnit').val()
-			var feeType = $('.feeList').eq(i).find('#feeType').val()
-			var feeNum = $('.feeList').eq(i).find('#feeNum').val()
-			var feePrice = $('.feeList').eq(i).find('#feePrice').val()
-			var receiptRate = $('.feeList').eq(i).find('#receiptRate').val()
-			var receiptFeeUnit = $('.feeList').eq(i).find('#receiptFeeUnit').val()
-			var receiptFee = $('.feeList').eq(i).find('#receiptFee').val()
-			var feeBeizhu = $('.feeList').eq(i).find('#feeBeizhu').val()
-		
-			var feeoneData = feeType + ',' + toCompany + ',' + feeItem + ',' + feeUnit + ',' + feeNum + ',' + feePrice + ',' + numUnit + ',' + receiptRate + ',' + receiptFeeUnit + ',' + receiptFee + ',' + feeBeizhu + ';'
-			feeData = feeData + feeoneData
+            if($('.feeList').eq(i).find('#feePrice').val()!=0){
+                var toCompany = $('.feeList').eq(i).find('.toCompany').val()
+                var feeItem = $('.feeList').eq(i).find('.feeItem').val()
+                var feeUnit = $('.feeList').eq(i).find('#feeUnit').val()
+                var numUnit = $('.feeList').eq(i).find('#numUnit').val()
+                var feeType = $('.feeList').eq(i).find('#feeType').val()
+                var feeNum = $('.feeList').eq(i).find('#feeNum').val()
+                var feePrice = $('.feeList').eq(i).find('#feePrice').val()
+                var receiptRate = $('.feeList').eq(i).find('#receiptRate').val()
+                var receiptFeeUnit = $('.feeList').eq(i).find('#receiptFeeUnit').val()
+                var receiptFee = $('.feeList').eq(i).find('#receiptFee').val()
+                var feeBeizhu = $('.feeList').eq(i).find('#feeBeizhu').val()
+            
+                //if ($('.feeList').eq(i).find("#cancelMoney").text()!="0" || $('.feeList').eq(i).find("#receiptNumber").text()!="0" || $('.feeList').eq(i).find("#invoiceNumber").text()!="0") {
+                //if ($('.feeList').eq(i).find("#cancelMoney").text()=="0" || $('.feeList').eq(i).find("#cancelMoney").text()=="") {
+                //if ($('.feeList').eq(i).find("#receiptNumber").text()=="0" || $('.feeList').eq(i).find("#receiptNumber").text()=="") {
+                    //alert($('.feeList').eq(i).find("#cancelMoney").text())
+                    var feeoneData = feeType + ',' + toCompany + ',' + feeItem + ',' + feeUnit + ',' + feeNum + ',' + feePrice + ',' + numUnit + ',' + receiptRate + ',' + receiptFeeUnit + ',' + receiptFee + ',' + feeBeizhu + ';'
+                    feeData = feeData + feeoneData
+                //}
+            }
 		}
 		console.log(feeData)
 		
@@ -2282,6 +2304,7 @@ $(function(){
                         $('.feeList:last').find('#feeType').val('credit').trigger("change")
                         $('.feeList:last').css("background-color","pink")
                     }
+                    $("#myModal").modal("hide");
 
                 }
 
@@ -2306,104 +2329,114 @@ $(function(){
     }
 
 
+
+
+    function _toShouKuangFun(Id) {
+        $("#myTab li").removeClass('active');
+        $("#myTab li").eq(5).addClass('active');
+        $(".tab-content div").removeClass('in active');
+        $("#SHOUKUANG").addClass('in active');
+        $("#toCompany_5").val(Id).trigger("change")
+        _getFee5(Id, $('#cancel_type').val())
+    }
+    function _toFaPiaoFun(Id) {
+        $("#myTab li").removeClass('active');
+        $("#myTab li").eq(3).addClass('active');
+        $(".tab-content div").removeClass('in active');
+        $("#FAPIAO").addClass('in active');
+        $("#toCompany_3").val(Id).trigger("change")
+        _getFee3(Id)
+    }
+
+    //发票费用明细
+    function _getFee3(toCompany) {
+        var _thisBkgId;
+        $('#_invThisBkgId').is(':checked') ? _thisBkgId=Id:_thisBkgId=0;
+        //alert(Id);
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+            "bookingId": _thisBkgId,
+            "toCompany": toCompany,
+            "companyId": companyId,
+            "feeType": "debit" //0是debit & credit，1是debit，2是credit
+        }, function (data) {
+            //console.log(data)
+            if (data.State == 1) {
+                $(".fee33").empty()
+                var _data = data.Data;
+                for (var i = 0; i < _data.length; i++) {
+                    if (_data[i].bofe_invoiceNumber=="0") {  //20211105 判断该挑费用是否已经有了发票号码
+                        var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" /></label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
+                            '</div>'
+                        $(".fee33").prepend(feelist)
+                    }
+                }
+            } else {
+                $(".fee33").empty()
+            }
+
+        }, function (err) {
+            console.log(err)
+        }, 2000)
+    }
+
+    //收款销账
+    function _getFee5(toCompany, feeType) {
+        var _thisBkgId;
+        $('#_billgetThisBkgId').is(':checked') ? _thisBkgId = Id : _thisBkgId = 0;
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+            "bookingId": _thisBkgId,
+            "toCompany": toCompany,
+            "feeType": feeType, //0是debit & credit，1是debit，2是credit
+            "state":1
+        }, function (data) {
+            console.log(data)
+            if (data.State == 1) {
+                $(".fee55").empty()
+                var _data = data.Data;
+                for (var i = 0; i < _data.length; i++) {
+                    if (!_data[i].bofe_shasprecrcp || !_data[i].bofe_hascrcp) {  //20211105 判断该挑费用是否已经有了发票号码
+                        var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" getCancelfee="0" /></label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data[i].bofe_feeType + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
+                            '</div>'
+                        $(".fee55").prepend(feelist)
+                    }
+                }
+            } else {
+                $(".fee55").empty()
+            }
+
+        }, function (err) {
+            console.log(err)
+        }, 2000)
+    }
+
+
+
 })
 
-function _toShouKuangFun(Id) {
-    $("#myTab li").removeClass('active');
-    $("#myTab li").eq(5).addClass('active');
-    $(".tab-content div").removeClass('in active');
-    $("#SHOUKUANG").addClass('in active');
-    $("#toCompany_5").val(Id).trigger("change")
-    _getFee5(Id, $('#cancel_type').val())
-}
-function _toFaPiaoFun(Id) {
-    $("#myTab li").removeClass('active');
-    $("#myTab li").eq(3).addClass('active');
-    $(".tab-content div").removeClass('in active');
-    $("#FAPIAO").addClass('in active');
-    $("#toCompany_3").val(Id).trigger("change")
-    _getFee3(Id)
-}
-
-//账单费用明细
-function _getFee3(toCompany) {
-    var _thisBkgId;
-    $('#_invThisBkgId').is(':checked') ? _thisBkgId = Id : _thisBkgId = 0;
-    common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
-        "bookingId": _thisBkgId,
-        "toCompany": toCompany,
-        "companyId": companyId,
-        "feeType": "debit" //0是debit & credit，1是debit，2是credit
-    }, function (data) {
-        console.log(data)
-        if (data.State == 1) {
-            $(".fee33").empty()
-            var _data = data.Data;
-            for (var i = 0; i < _data.length; i++) {
-                var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" /></label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
-                                '</div>'
-                $(".fee33").prepend(feelist)
-            }
-        } else {
-            $(".fee33").empty()
-        }
-
-    }, function (err) {
-        console.log(err)
-    }, 2000)
-}
-
-//收款销账
-function _getFee5(toCompany, feeType) {
-    var _thisBkgId;
-    $('#_billgetThisBkgId').is(':checked') ? _thisBkgId = Id : _thisBkgId = 0;
-    common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
-        "bookingId": _thisBkgId,
-        "toCompany": toCompany,
-        "feeType": feeType, //0是debit & credit，1是debit，2是credit
-        "state":1
-    }, function (data) {
-        console.log(data)
-        if (data.State == 1) {
-            $(".fee55").empty()
-            var _data = data.Data;
-            for (var i = 0; i < _data.length; i++) {
-                var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" getCancelfee="0" /></label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_fee + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                    '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
-                                '</div>'
-                $(".fee55").prepend(feelist)
-            }
-        } else {
-            $(".fee55").empty()
-        }
-
-    }, function (err) {
-        console.log(err)
-    }, 2000)
-}
-
 function _getFeeItemFun(o) {
-    console.log("111111111111111111111111111111111111")
+    //console.log("111111111111111111111111111111111111")
     var z = new Array();
     var x;
     for (var i = 0; i < _feeItemArr.length; i++) {

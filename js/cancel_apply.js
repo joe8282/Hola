@@ -72,8 +72,8 @@ function initTable() {
             			    "mDataProp": "bill_payType",
             			    "createdCell": function (td, cellData, rowData, row, col) {
             			        var typeName = ''
-            			        if (rowData["bill_payType"] == "debit") { typeName = '应付销账' }
-            			        if (rowData["bill_payType"] == "credit") { typeName = '应收销账' }
+            			        if (rowData["bill_payType"] == "debit") { typeName = '应收销账' }
+            			        if (rowData["bill_payType"] == "credit") { typeName = '应付销账' }
             			        $(td).html(typeName);
             			    }
             			},

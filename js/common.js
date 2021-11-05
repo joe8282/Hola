@@ -579,6 +579,14 @@ function daysDistance(date1, date2) {
 
 }
 
+//根据转过来的数字转换成字母
+function getChar(i){
+    if(i >= 0 && i <= 26){
+        return String.fromCharCode(65 + i);
+    } else {
+        alert('Error: the number is over 26.');
+    }
+}
 
 ////下拉选择框
 //$('.ohead').click(function(e){
