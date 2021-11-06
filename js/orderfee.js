@@ -1821,6 +1821,13 @@ $(function(){
 	        }, 2000)
 	    }
         _getFee($('#toCompany_2').val())
+
+        if($("#example tbody td").hasClass("dataTables_empty")){
+            var tableTrNumPayNumber=getChar($("#example tr").length-2);
+        }else{
+            var tableTrNumPayNumber=getChar($("#example tr").length-1);
+        }        
+        $('#payNumber').val('INV'+orderCode+tableTrNumPayNumber)
 	});
 
     /*保存发票*/
@@ -2900,6 +2907,7 @@ function _deleteBillGetFun(id) {
         }
         $("#toCompany_5 option:first").prop("selected", 'selected');
         $(".fee55").empty();
+
     });
 }
 
