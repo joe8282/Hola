@@ -185,6 +185,38 @@ $(function(){
 			}
 		}
 	});
+
+	var arrCntrType=[["40'HQ","40HQ","40'HC","40HC"],["20'GP","20GP"],["40'GP","40GP"]];
+	var str="20gp1000KGs/68CBM/MRKU3982456/SLDJFLW0WE";
+	str=str.toUpperCase();
+	for(var j=0;j<arrCntrType.length;j++){
+		for(var i=0;i<arrCntrType[j].length;i++){
+			if(str.indexOf(arrCntrType[j][i]) != -1){
+				alert(arrCntrType[j][0])
+			}
+			str=str.replace(arrCntrType[j][i],'')
+		}
+	}
+	var arrWeightUnit=["KGS","LB"];
+	for(var j=0;j<arrWeightUnit.length;j++){
+		if(str.indexOf(arrWeightUnit[j]) != -1){
+			alert(arrWeightUnit[j])
+		}
+		str=str.replace(arrWeightUnit[j],'')
+	}
+	var arrVolumeUnit=["CBM","LIT"];
+	for(var j=0;j<arrWeightUnit.length;j++){
+		if(str.indexOf(arrVolumeUnit[j]) != -1){
+			alert(arrVolumeUnit[j])
+		}
+		str=str.replace(arrVolumeUnit[j],'')
+	}
+	var reg = /\d+/g;  //匹配数字的正则
+	var ms = str.match(reg);
+	alert(ms[0]);
+	alert(str)
+	// $.each(arr, function (index, item) {
+	// }
 	
 })
 
