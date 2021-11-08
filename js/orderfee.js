@@ -263,8 +263,9 @@ $(function(){
 
         /////计算收款销账里面的付款金额的总额。
     $('.fee55').delegate("input[name='feeli']", 'click', function () {
+        
         console.log($(this).prop('checked'))
-        if ($("#cancel_unit").val() == '') {
+        if ($("#cancel_unit").val() == '0') {
             comModel("请选择币种")
             $(this).prop("checked", false)
             return
@@ -917,7 +918,11 @@ $(function(){
     }
 
     $("#cancel_type").change(function () {
-        var tableTrNum=getChar($("#billGetList tr").length-1);
+        if($("#billGetList tbody td").hasClass("dataTables_empty")){
+            var tableTrNum=getChar($("#billGetList tr").length-2);
+        }else{
+            var tableTrNum=getChar($("#billGetList tr").length-1);
+        }
         if ($("#cancel_type").val() == 'debit') {
             $("#payNumber5").val('PRECR' + orderCode+tableTrNum)
         } else if ($("#cancel_type").val() == 'credit') {
@@ -950,8 +955,9 @@ $(function(){
         } else {
             alert("暂时只支持美元、人名币");
         }
-        $("#payPrice5").val("");
-        $(".fee55 input:checkbox").prop("checked", false)
+        $("#payPrice5").val(0);
+        $(".fee55 input:checkbox").prop("checked", false);
+        cancel_all_money = 0;
     })
 
     //账单列表
@@ -1305,6 +1311,7 @@ $(function(){
             console.log(err)
         }, 2000)
     }
+
     $("#_invThisBkgId").on('change',function() {
         if($('#toCompany_3').val()!=""){
             _getFee3($('#toCompany_3').val());
@@ -1463,6 +1470,7 @@ $(function(){
         $('#send_file').addClass('none')
 
         $('#cancel_unit').append(_feeUnit)
+        $("#payPrice5").val(0)
 
         // $('#toCompany_5').append(_toCompany)
         // $("#toCompany_5").change(function () {
@@ -1507,7 +1515,11 @@ $(function(){
     })
 
     $("#toCompany_2").change(function () {
-        var tableTrNumPayNumber=getChar($("#example tr").length-1);
+        if($("#example tbody td").hasClass("dataTables_empty")){
+            var tableTrNumPayNumber=getChar($("#example tr").length-2);
+        }else{
+            var tableTrNumPayNumber=getChar($("#example tr").length-1);
+        }
         $('#payNumber').val('INV'+orderCode+tableTrNumPayNumber)
         _getFee($('#toCompany_2').val())
     })
@@ -1515,11 +1527,21 @@ $(function(){
         _getFee3($('#toCompany_3').val())
     })
     $("#toCompany_4").change(function () {
-        var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
+        if($("#billPayList tbody td").hasClass("dataTables_empty")){
+            var tableTrNumPayNumber4=getChar($("#billPayList tr").length-2);
+        }else{
+            var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
+        }
+        //var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
         $('#payNumber4').val('AD'+orderCode+tableTrNumPayNumber4)
         _getFee4($('#toCompany_4').val())
     })
     $("#toCompany_5").change(function () {
+        if($("#billGetList tbody td").hasClass("dataTables_empty")){
+            var tableTrNum=getChar($("#billGetList tr").length-2);
+        }else{
+            var tableTrNum=getChar($("#billGetList tr").length-1);
+        }
         _getFee5($('#toCompany_5').val(), $('#cancel_type').val())
     })
     $("#toCompany_6").change(function () {
@@ -1798,6 +1820,14 @@ $(function(){
 	        }, function (error) {
 	        }, 2000)
 	    }
+        _getFee($('#toCompany_2').val())
+
+        if($("#example tbody td").hasClass("dataTables_empty")){
+            var tableTrNumPayNumber=getChar($("#example tr").length-2);
+        }else{
+            var tableTrNumPayNumber=getChar($("#example tr").length-1);
+        }        
+        $('#payNumber').val('INV'+orderCode+tableTrNumPayNumber)
 	});
 
     /*保存发票*/
@@ -1936,7 +1966,11 @@ $(function(){
 	            }
 	        }, function (error) {
 	        }, 2000)
-	    }
+	    }        
+        $("#cancel_type option:first").prop("selected", 'selected');
+        _getFee5($('#toCompany_5').val(), $('#cancel_type').val());
+        $("#payPrice5").val(0);
+        cancel_all_money = 0;
 	});
 
 
@@ -2159,7 +2193,7 @@ $(function(){
         return table;
     }
 
-
+    //添加本地应收费用模板按钮
     $("#addFeeDebitLocal_btn").on("click",function(){
         $("#debitOrCredit").val("debit");
         $("#localChargeDebitOrCredit").text("应收");
@@ -2167,6 +2201,7 @@ $(function(){
         $('#toCompanyLocal').val($('#crmuser').val()).trigger("change")
     });
 
+    //添加本地应付费用模板按钮
     $("#addFeeCreditLocal_btn").on("click", function () {
         if (forwarder_id != 0 || toYingFuUser != 0) {
             $("#debitOrCredit").val("credit");
@@ -2223,6 +2258,7 @@ $(function(){
 
     $.fn.modal.Constructor.prototype.enforceFocus = function(){};
 
+    //添加应收应付模板
    // function _chooseLocalcharge(o){
     $('#dataTableLocalCharge').delegate('#_chooseLocalcharge','click', function() {
     //$("#_chooseLocalcharge").on("click",function(){
@@ -2248,10 +2284,8 @@ $(function(){
                     var _feePriceLocal="";
 
                     if(feeItem0[2]!=""){
-
-                        //_feeUnitLocal="Bill of Loading";
                         _feePriceLocal=feeItem0[2];
-                        var feeboxRow = '<div class="col-sm-12 feeList">'+
+                        var feeboxRow = '<div class="col-sm-12 feeList"><input type="hidden" id="feeId" value="0"><input type="hidden" id="isLock" value="0">'+
                             '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
                             '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>'+
                             '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
@@ -2264,7 +2298,12 @@ $(function(){
                             '<input type="text" class="form-control margin-right-5" id="receiptRate" value="1" placeholder="" style="width:60px; float: left;" disabled="disabled">'+
                             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" disabled="disabled"></select></span>'+
                             '<input type="text" class="form-control" id="receiptFee" value="'+_feePriceLocal+'" placeholder="" disabled="disabled"></div>'+
-                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"></div>'  
+                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
+                            '<label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>' +
+                            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>'
                             //feeboxAll_len=$('.feeList').length+1;   
                         $('.feeAll').append(feeboxRow)
                         $('.feeList:last').find('#numUnit').append(_numUnit)
@@ -2288,7 +2327,7 @@ $(function(){
 
                     }else{
                         _feePriceLocal=0;
-                        var feeboxRow = '<div class="col-sm-12 feeList">'+
+                        var feeboxRow = '<div class="col-sm-12 feeList"><input type="hidden" id="feeId" value="0"><input type="hidden" id="isLock" value="0">'+
                             '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
                             '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>'+
                             '<select id="toCompany'+feeboxAll_len+'" class="no-padding-left no-padding-right margin-right-5 toCompany" style="width:200px; float: left;"></select>'+
@@ -2301,7 +2340,12 @@ $(function(){
                             '<input type="text" class="form-control margin-right-5" id="receiptRate" value="1" placeholder="" style="width:60px; float: left;" disabled="disabled">'+
                             '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="receiptFeeUnit" disabled="disabled"></select></span>'+
                             '<input type="text" class="form-control" id="receiptFee" value="'+_feePriceLocal+'" placeholder="" disabled="disabled"></div>'+
-                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;"></div>'  
+                            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:100px; float: left;">'+
+                            '<label id="rate" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<label for="inputPassword3" id="cancelMoney" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>' +
+                            '<label for="inputPassword3" id="cancelTime" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<label for="inputPassword3" id="receiptNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label>'+
+                            '<label for="inputPassword3" id="invoiceNumber" class="margin-right-5" style="width:100px; line-height: 30px; float: left;"></label></div>' 
                             //feeboxAll_len=$('.feeList').length+1;   
                         $('.feeAll').append(feeboxRow)
                         $('.feeList:last').find('#numUnit').append(_numUnit)
@@ -2361,6 +2405,38 @@ $(function(){
                         $('.feeList:last').find('#feeType').val('credit').trigger("change")
                         $('.feeList:last').css("background-color","pink")
                     }
+
+                    //新增保存一条
+                    var parm = {
+                        'bookingId': Id,
+                        'userId': userID,
+                        'userName': userName,
+                        'feeType': $('.feeList:last').find('#feeType').val(),
+                        'toCompany': $('.feeList:last').find('.toCompany').val(),
+                        'feeItem': $('.feeList:last').find('.feeItem').val(),
+                        'feeUnit': $('.feeList:last').find('#feeUnit').val(),
+                        'numUnit': $('.feeList:last').find('#numUnit').val(),
+                        'feeNum': $('.feeList:last').find('#feeNum').val(),
+                        'feePrice': $('.feeList:last').find('#feePrice').val(),
+                        'receiptRate': $('.feeList:last').find('#receiptRate').val(),
+                        'receiptFeeUnit': $('.feeList:last').find('#receiptFeeUnit').val(),
+                        'receiptFee': $('.feeList:last').find('#receiptFee').val(),
+                        'beizhu': $('.feeList:last').find('#feeBeizhu').val()
+                    }
+                    console.log(parm)
+                    common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfeeone', parm, function (data) {
+                        if (data.State == 1) {
+                            $('.feeList:last').find('#feeId').val(data.Data)
+                            comModel("新增成功")
+                        } else {
+                            $('.feeList:last').remove()
+                            comModel("新增失败")
+                        }
+                    }, function (error) {
+                        console.log(parm)
+                        $('.feeList:last').remove()
+                        comModel("新增失败")
+                    }, 2000)
                     $("#myModal").modal("hide");
 
                 }
@@ -2766,6 +2842,8 @@ function _deleteBillFun(id) {
                 }
             });
         }
+        $("#toCompany_2 option:first").prop("selected", 'selected');
+        $(".fee00").empty();
     });
 }
 
@@ -2796,6 +2874,7 @@ function _deleteBillPayFun(id) {
                 }
             });
         }
+
     });
 }
 
@@ -2826,6 +2905,9 @@ function _deleteBillGetFun(id) {
                 }
             });
         }
+        $("#toCompany_5 option:first").prop("selected", 'selected');
+        $(".fee55").empty();
+
     });
 }
 
