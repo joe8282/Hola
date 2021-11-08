@@ -190,7 +190,7 @@ $(function(){
 	            var _data = data.Data
 	            var data_permission = _data.usin_data_permission.split(',')
 	            for (var i = 0; i < data_permission.length - 1; i++) {
-	                $("#data_permission").find("input:checkbox[value='" + permission[i] + "']").prop('checked', true);
+	                $("#data_permission").find("input:checkbox[value='" + data_permission[i] + "']").prop('checked', true);
 	            }
 	        }, function (err) {
 	            console.log(err)

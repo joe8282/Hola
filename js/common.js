@@ -389,6 +389,7 @@ function getUserInfo() {
 		    console.log(err)
 		}
 		common.ajax_req('GET', false, dataUrl, 'userinfo.ashx?action=getChildIds', {
+		    'userId': data.Data.usin_id,
 		    'data_permission': data.Data.usin_data_permission
 		}, getPsuc0, getPerr0, 5000)
 
