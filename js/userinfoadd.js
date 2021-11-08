@@ -188,9 +188,9 @@ $(function(){
 	            //console.log(data.Data)
 	            //初始化信息
 	            var _data = data.Data
-	            var permission = _data.usin_permission.split(',')
-	            for (var i = 0; i < permission.length - 1; i++) {
-	                $("#permission").find("input:checkbox[value='" + permission[i] + "']").prop('checked', true);
+	            var data_permission = _data.usin_data_permission.split(',')
+	            for (var i = 0; i < data_permission.length - 1; i++) {
+	                $("#data_permission").find("input:checkbox[value='" + permission[i] + "']").prop('checked', true);
 	            }
 	        }, function (err) {
 	            console.log(err)
