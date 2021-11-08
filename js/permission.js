@@ -24,7 +24,10 @@ var permissionData = [{
 		text: "删除职员"
 	}, {
 		value: "1008", //userinfoadd.html  已设置 20210601
-		text: "职员权限"
+		text: "职员功能权限"
+	}, {
+	    value: "10088", //userinfoadd.html  已设置 20210601
+	    text: "职员数据权限"
 	}, {
 		value: "1009", //userinfoadd.html  已设置 20210601
 		text: "修改密码"

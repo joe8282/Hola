@@ -3,14 +3,16 @@ var cn2 = {
             "con_top_1" : "首页",
             "con_top_2" : "系统设置管理",   
             "admin": "密码",
-            "permission": "权限"
+            "permission": "功能权限",
+            "data_permission": "数据权限"
         };
 
 var en2 = {
             "con_top_1" : "Home",
             "con_top_2" : "System Management",
             "admin": "Password",
-            "permission": "Permission"
+            "permission": "Permission",
+            "data_permission": "Data Permission"
         };
 
 var oTable;
@@ -120,6 +122,7 @@ function initTable() {
                         + _li
                         + "<li><a href='userinfoadd.html?action=pw&Id=" + cellData + "'>" + get_lan('admin') + "</a></li>"
                         + "<li><a href='userinfoadd.html?action=permission&Id=" + cellData + "'>" + get_lan('permission') + "</a></li>"
+                        + "<li><a href='userinfoadd.html?action=data_permission&Id=" + cellData + "'>" + get_lan('data_permission') + "</a></li>"
                         +"</ul></div>"                        
                         return (_thisHtml);
 					})
