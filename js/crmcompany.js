@@ -66,7 +66,7 @@ function initTable() {
     if (GetQueryString('type')) {
         tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID
     } else {
-        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID
+        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds
     }
     
 	var table = $("#example").dataTable({

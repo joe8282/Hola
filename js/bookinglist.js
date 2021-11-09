@@ -34,7 +34,7 @@ $(document).ready(function() {
  */
 function initTable() {
     var ajaxUrl,columns    
-    ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&companyId=' + companyID + '&fromId=1&userId=' + childrenIds
+    ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&companyId=' + companyID + '&fromId=1&userId=' + childrenIds + '&userOtherId=' + userID
     columns = [{
     		"mDataProp": "book_code"
     	},
