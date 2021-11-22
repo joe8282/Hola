@@ -538,7 +538,7 @@ function initTable(fromId) {
 		"aaSorting": [[ 5, "desc" ]],
 //		"bProcessing": true,
 		initComplete: function(settings) {
-        	$('#example').colResizable({headerOnly:true,liveDrag:true, fixed:true, postbackSafe:true, resizeMode:flex});
+        	//$('#example').colResizable({headerOnly:true,liveDrag:true, fixed:true, postbackSafe:true, resizeMode:flex});
     	},
 		"aoColumns": columns,
 		 //createdRow: function ( row, data, index ) { //针对修改行的一些样式。
@@ -604,7 +604,7 @@ function initTable(fromId) {
  	}, function(err) {
  		console.log(err)
  	}, 2000)
- 	console.log(sellId)
+ 	console.log(crmId)
  	$("#sellId").val(sellId).trigger("change");
  	$("#crmuser").val(crmId).trigger("change");
  	$("#emailToBookingParty").val($("#crmuser").find("option:selected").attr("data-crmEmail")+",");
@@ -800,11 +800,11 @@ function initTable(fromId) {
  	}, function (data) {
  	    //console.log(data)
  	    var _data = data.data;
- 	    $('#crmuser').empty();
+ 	    $('#crmuser_cancel').empty();
  	    if (_data != null) {
  	        for (var i = 0; i < _data.length; i++) {
  	            var _html = '<option value="' + _data[i].comp_id + '" data-crmId="' + _data[i].comp_customerId + '" data-crmName="' + _data[i].comp_contactName + '" data-crmEmail="' + _data[i].comp_contactEmail + '">' + _data[i].comp_name + '</option>';
- 	            $('#crmuser').append(_html)
+ 	            $('#crmuser_cancel').append(_html)
  	        }
  	    }
  	}, function (err) {
@@ -827,16 +827,16 @@ function initTable(fromId) {
  	    console.log(err)
  	}, 2000)
 
- 	$("#crmuser").val(crmId).trigger("change");
- 	$("#crmName").find(':contains(' + $("#crmuser").find("option:selected").attr("data-crmName") + ')').attr('selected', true).trigger("change");
- 	$("#crmEmail").val($("#crmuser").find("option:selected").attr("data-crmEmail"));
- 	$('#cancel_summernote').summernote('code', "Dear " + $("#crmuser").find("option:selected").attr("data-crmName") + ", </br></br>订舱委托号（BOOKING NO.)：" + code + "</br>起运港（POL）：" + pol + "</br>目的港（POD）：" + pod + "</br>货量（CARGO）：" + allContainer.replace('_', '\'') + "</br>以上订舱由于 " + $("#beizhu").val() + " 原因，已在系统取消，如需重新订舱，请再次发起。");
+ 	$("#crmuser_cancel").val(crmId).trigger("change");
+ 	$("#crmName").find(':contains(' + $("#crmuser_cancel").find("option:selected").attr("data-crmName") + ')').attr('selected', true).trigger("change");
+ 	$("#crmEmail").val($("#crmuser_cancel").find("option:selected").attr("data-crmEmail"));
+ 	$('#cancel_summernote').summernote('code', "Dear " + $("#crmuser_cancel").find("option:selected").attr("data-crmName") + ", </br></br>订舱委托号（BOOKING NO.)：" + code + "</br>起运港（POL）：" + pol + "</br>目的港（POD）：" + pod + "</br>货量（CARGO）：" + allContainer.replace('_', '\'') + "</br>以上订舱由于 " + $("#beizhu").val() + " 原因，已在系统取消，如需重新订舱，请再次发起。");
  	emailTitle = code + " // " + pol + " " + pod + " " + allContainer.replace('_', '\'') + ", CANCEL"
  	emailContent = $('#cancel_summernote').summernote("code")
 
- 	$("#crmuser").change(function () {
+ 	$("#crmuser_cancel").change(function () {
  	    //获取委托人联系人
- 	    var companyId_Contact = $("#crmuser").val();
+ 	    var companyId_Contact = $("#crmuser_cancel").val();
  	    common.ajax_req("GET", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
  	        "companyId": companyId_Contact
  	    }, function (data) {
@@ -848,9 +848,9 @@ function initTable(fromId) {
  	                var _html = '<option value="' + _data[i].coco_id + '" data-Name="' + _data[i].coco_name + '" data-Email="' + _data[i].coco_email + '">' + _data[i].coco_name + '</option>';
  	                $('#crmName').append(_html)
  	            }
- 	            $("#crmName").find(':contains(' + $("#crmuser").find("option:selected").attr("data-crmName") + ')').attr('selected', true).trigger("change");
- 	            $('#cancel_summernote').summernote('code', "Dear " + $("#crmuser").find("option:selected").attr("data-crmName") + ", </br></br>订舱委托号（BOOKING NO.)：" + code + "</br>起运港（POL）：" + pol + "</br>目的港（POD）：" + pod + "</br>货量（CARGO）：" + allContainer.replace('_', '\'') + "</br>以上订舱由于 " + $("#beizhu").val() + " 原因，已在系统取消，如需重新订舱，请再次发起。");
- 	            $("#crmEmail").val($("#crmuser").find("option:selected").attr("data-crmEmail"));
+ 	            $("#crmName").find(':contains(' + $("#crmuser_cancel").find("option:selected").attr("data-crmName") + ')').attr('selected', true).trigger("change");
+ 	            $('#cancel_summernote').summernote('code', "Dear " + $("#crmuser_cancel").find("option:selected").attr("data-crmName") + ", </br></br>订舱委托号（BOOKING NO.)：" + code + "</br>起运港（POL）：" + pol + "</br>目的港（POD）：" + pod + "</br>货量（CARGO）：" + allContainer.replace('_', '\'') + "</br>以上订舱由于 " + $("#beizhu").val() + " 原因，已在系统取消，如需重新订舱，请再次发起。");
+ 	            $("#crmEmail").val($("#crmuser_cancel").find("option:selected").attr("data-crmEmail"));
  	            emailContent = $('#cancel_summernote').summernote("code")
 
  	        }

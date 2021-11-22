@@ -9,7 +9,7 @@ Purchase: http://wrapbootstrap.com
 <!-- Head -->
 <head>
     <meta charset="utf-8" />
-    <title>Dashboard</title>
+    <title>HoSystem</title>
 
     <meta name="description" content="Dashboard" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -535,7 +535,7 @@ Purchase: http://wrapbootstrap.com
                             <i class="fa fa-home"></i>
                             <a href="index.html" set-lan="html:con_top_1">Home</a>
                         </li>
-                        <li class="active">Dashboard</li>
+                        <li class="active">统计</li>
                     </ul>
                 </div>
                 <!-- /Page Breadcrumb -->
@@ -543,7 +543,7 @@ Purchase: http://wrapbootstrap.com
                 <div class="page-header position-relative">
                     <div class="header-title">
                         <h1>
-                            Dashboard
+                            统计
                         </h1>
                     </div>
                     <!--Header Buttons-->
@@ -568,53 +568,79 @@ Purchase: http://wrapbootstrap.com
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="databox radius-bordered databox-shadowed databox-graded">
-                                        <div class="databox-left bg-themesecondary">
-                                            <div class="databox-piechart">
-                                                <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="50" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">50%</span></div>
+                                        <a href="booking.html">
+                                            <div class="databox-left bg-themesecondary">
+                                                <div class="databox-piechart" style="padding-top:10px;">
+                                                    订单
+                                                    <!--<div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="50" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">50%</span></div>-->
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="databox-right">
-                                            <span class="databox-number themesecondary">14</span>
-                                            <div class="databox-text darkgray">NEW TASKS</div>
-                                            <div class="databox-stat themesecondary radius-bordered">
-                                                <i class="stat-icon icon-lg fa fa-tasks"></i>
+                                            <div class="databox-right">
+                                                <span class="databox-number themesecondary" id="orderCount"></span>
+                                                <div class="databox-text darkgray">新订单</div>
+                                                <div class="databox-stat themesecondary radius-bordered">
+                                                    <i class="stat-icon icon-lg fa fa-envelope-o"></i>
+                                                </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="databox radius-bordered databox-shadowed databox-graded">
-                                        <div class="databox-left bg-themethirdcolor">
-                                            <div class="databox-piechart">
-                                                <div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="15" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.2)"><span class="white font-90">15%</span></div>
+                                        <a href="booking.html?fromId=1">
+                                            <div class="databox-left bg-themethirdcolor">
+                                                <div class="databox-piechart" style="padding-top:10px;">
+                                                    舱单
+                                                    <!--<div data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="15" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.2)"><span class="white font-90">15%</span></div>-->
+                                                </div>
+                                            </div>
+                                            <div class="databox-right">
+                                                <span class="databox-number themethirdcolor" id="bookingCount"></span>
+                                                <div class="databox-text darkgray">新舱单</div>
+                                                <div class="databox-stat themethirdcolor radius-bordered">
+                                                    <i class="stat-icon  icon-lg fa fa-envelope-o"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="databox radius-bordered databox-shadowed databox-graded" id="crmTo">
+                                        <a href="crmcompany.html">
+                                            <div class="databox-left bg-themeprimary">
+                                                <div class="databox-piechart" style="padding-top:10px;">
+                                                    客户
+                                                    <!--<div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">76%</span></div>-->
+                                                </div>
+                                            </div>
+                                            <div class="databox-right">
+                                                <span class="databox-number themeprimary" id="crmCount"></span>
+                                                <div class="databox-text darkgray">新客户</div>
+                                                <div class="databox-stat themeprimary radius-bordered">
+                                                    <i class="stat-icon  icon-lg fa fa-envelope-o"></i>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                    <div class="databox radius-bordered databox-shadowed databox-graded">
+                                        <div class="databox-left bg-themefourthcolor">
+                                            <div class="databox-piechart" style="padding-top:10px;">
+                                                自己
+                                                <!--<div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">76%</span></div>-->
                                             </div>
                                         </div>
                                         <div class="databox-right">
-                                            <span class="databox-number themethirdcolor">1</span>
-                                            <div class="databox-text darkgray">NEW MESSAGE</div>
-                                            <div class="databox-stat themethirdcolor radius-bordered">
+                                            <span class="databox-number themefourthcolor"></span>
+                                            <div class="databox-text darkgray">我自己</div>
+                                            <div class="databox-stat themefourthcolor radius-bordered">
                                                 <i class="stat-icon  icon-lg fa fa-envelope-o"></i>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                                    <div class="databox radius-bordered databox-shadowed databox-graded">
-                                        <div class="databox-left bg-themeprimary">
-                                            <div class="databox-piechart">
-                                                <div id="users-pie" data-toggle="easypiechart" class="easyPieChart" data-barcolor="#fff" data-linecap="butt" data-percent="76" data-animate="500" data-linewidth="3" data-size="47" data-trackcolor="rgba(255,255,255,0.1)"><span class="white font-90">76%</span></div>
-                                            </div>
-                                        </div>
-                                        <div class="databox-right">
-                                            <span class="databox-number themeprimary">98</span>
-                                            <div class="databox-text darkgray">NEW USERS</div>
-                                            <div class="databox-state bg-themeprimary">
-                                                <i class="fa fa-check"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                <!--<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
                                     <div class="databox radius-bordered databox-shadowed databox-graded">
                                         <div class="databox-left no-padding bordered-left-2 bordered-palegreen">
                                             <img src="assets/img/avatars/John-Smith.jpg" style="width:65px; height:65px;">
@@ -627,7 +653,7 @@ Purchase: http://wrapbootstrap.com
                                             <div class="databox-text darkgray">TOP RESELLER</div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
                         </div>
                     </div>
