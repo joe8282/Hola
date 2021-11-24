@@ -1143,7 +1143,7 @@ $(function(){
             "aoColumns": [
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "bill_payNumber" },
-                { "mDataProp": "bill_bank" },
+                { "mDataProp": "rema_content" },
 			    {
 			        "mDataProp": "bill_addTime",
 			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {

@@ -365,8 +365,8 @@ $(document).ready(function() {
 	    }, function (data) {
 	        //console.log(data.Data)
 	        //初始化信息
-	        if (data.Data.bill_payType == 'debit') { $("#cancel_type").val("1").trigger("change"); codeType = 'CR' }
-	        else if (data.Data.bill_payType == 'credit') { $("#cancel_type").val("2").trigger("change"); codeType = 'CP';}
+	        if (data.Data.bill_payType == 'debit') { $("#cancel_type").val("2").trigger("change"); codeType = 'CR' }
+	        else if (data.Data.bill_payType == 'credit') { $("#cancel_type").val("1").trigger("change"); codeType = 'CP';}
 	        common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
 	            "companyId": companyID,
 	            "type": codeType
