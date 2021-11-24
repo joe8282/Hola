@@ -37,7 +37,7 @@ $(document).ready(function() {
 function initTable() {
 	var table = $("#example").dataTable({
 		//"iDisplayLength":10,
-	    "sAjaxSource": dataUrl + 'ajax/crmcompanygroup.ashx?action=readcrmCompanyGroup&companyId=' + companyID,
+	    "sAjaxSource": dataUrl + 'ajax/crmcompanygroup.ashx?action=readcrmCompanyGroup&companyId=' + companyID + '&userId=' + childrenIds,
 	    "bLengthChange": false,
         "aaSorting": [[2, 'desc']],
         //"aoColumnDefs":[//设置列的属性，此处设置第一列不排序

@@ -53,7 +53,17 @@ function initTable() {
 		"aoColumns": [
 			{ "mDataProp": "usin_code"},
 			{ "mDataProp": "usin_name"},
-			{ "mDataProp": "code_name"},			
+            			{
+            			    "mDataProp": "code_name",
+            			    "createdCell": function (td, cellData, rowData, row, col) {
+            			        if (rowData.up_code_name != null) {
+            			            $(td).html(rowData.up_code_name + '-' + rowData.code_name);
+            			        } else {
+            			            $(td).html(rowData.code_name);
+            			        }
+            			        
+            			    }
+            			},
 			{ "mDataProp": "usin_tel" },
 			{ "mDataProp": "usin_phone" },
 			{ "mDataProp": "usin_email" },

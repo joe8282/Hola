@@ -46,7 +46,17 @@ function initTable() {
 //		"bProcessing": true,
 		"aoColumns": [
 			{ "mDataProp": "code_code"},
-			{ "mDataProp": "code_name"},
+            			{
+            			    "mDataProp": "code_name",
+            			    "createdCell": function (td, cellData, rowData, row, col) {
+            			        if (rowData.up_code_name != null) {
+            			            $(td).html(rowData.up_code_name + '-' + rowData.code_name);
+            			        } else {
+            			            $(td).html(rowData.code_name);
+            			        }
+
+            			    }
+            			},
 			{ "mDataProp": "code_head"},			
 			{ "mDataProp": "code_number" },
 			{

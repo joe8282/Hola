@@ -1143,7 +1143,7 @@ $(function(){
             "aoColumns": [
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "bill_payNumber" },
-                { "mDataProp": "rema_content" },
+                { "mDataProp": "rema_type" },
 			    {
 			        "mDataProp": "bill_addTime",
 			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -2593,7 +2593,7 @@ function _detailBillFun(Id) {
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
         $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
-        $(".bill_bank").text(_data.rema_content)
+        $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
         $(".bill_payNumber").text(_data.bill_payNumber)
         $(".bill_beizhu").text(_data.bill_beizhu)
 
@@ -2770,7 +2770,7 @@ function _detailBillGetFun(Id) {
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
         $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
-        $(".bill_bank").text(_data.rema_content)
+        $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
         $(".bill_payNumber").text(_data.bill_payNumber)
         $(".bill_payPrice").text(_data.bill_payPrice)
         $(".bill_currency").text(_data.bill_currency)

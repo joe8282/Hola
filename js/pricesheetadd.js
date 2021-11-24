@@ -1509,7 +1509,12 @@ function initTable() {
             				    }
             				},
            { "mDataProp": "rema_type" },
-           { "mDataProp": "rema_content" },
+            			{
+            			    "mDataProp": "rema_content",
+            			    "createdCell": function (td, cellData, rowData, row, col) {
+            			        $(td).html(rowData.rema_content.replace(/\n/g, '<br/>'));
+            			    }
+            			},
             {
                 "mDataProp": "rema_time",
                 "createdCell": function (td, cellData, rowData, row, col) {

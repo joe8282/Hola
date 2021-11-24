@@ -42,7 +42,12 @@ function initTable() {
 		"aoColumns": [
 			{ "mDataProp": "rema_typeCode" },
             { "mDataProp": "rema_type" },
-            { "mDataProp": "rema_content" },
+            			{
+            			    "mDataProp": "rema_content",
+            			    "createdCell": function (td, cellData, rowData, row, col) {
+            			        $(td).html(rowData.rema_content.replace(/\n/g,'<br/>'));
+            			    }
+            			},
 			{
 			    "mDataProp": "rema_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
