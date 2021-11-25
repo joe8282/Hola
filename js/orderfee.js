@@ -1254,7 +1254,7 @@ $(function(){
                     "mDataProp": "file_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         $(nTd).html("<a href='javascript:void(0);' onclick='_deleteFileFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                        //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                         .append("<a href='" + dataUrl + "uppic/orderPic/" + oData.file_url + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>发票</a>")
@@ -2056,7 +2056,7 @@ $(function(){
 
 	    reader.onload = function (e) { // reader onload start  
 	        // ajax 上传图片  
-	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'fee' }, function (ret) {
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
 	            if (ret.State == '100') {
 	                //alert(ret.Picurl);
 	                $('#showimg').attr('src', ret.Picurl);
@@ -2088,7 +2088,7 @@ $(function(){
 
 	    reader.onload = function (e) { // reader onload start  
 	        // ajax 上传图片  
-	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'fee' }, function (ret) {
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
 	            if (ret.State == '100') {
 	                //alert(ret.Picurl);
 	                $('#showimg5').attr('src', ret.Picurl);
