@@ -383,7 +383,12 @@ function getUserInfo() {
 	    //下级所有用户id
 		function getPsuc0(data) {
 		    console.log(data.Data)
-		    childrenIds = data.Data
+		    if (data.State == 1) {
+		        childrenIds = data.Data
+		    } else {
+		        childrenIds = "0"
+		    }
+		    
 		}
 		function getPerr0(err) {
 		    console.log(err)

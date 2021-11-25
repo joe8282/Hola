@@ -297,7 +297,7 @@ function initTable(fromId) {
     var ajaxUrl,tableTitle,columns    
     if(fromId=='1'){
 		hasPermission('1701'); //权限控制
-    	ajaxUrl=dataUrl+'ajax/booking.ashx?action=read&crmId='+companyID+'&fromId='+fromId
+		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&crmId=' + companyID + '&fromId=' + fromId + '&userId=' + childrenIds + '&userOtherId=' + userID
     	tableTitle='<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>订舱时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
     	columns = [
