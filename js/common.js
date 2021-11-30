@@ -1,7 +1,7 @@
 
 //var dataUrl = 'http://localhost:48349/'
-var dataUrl = 'http://120.76.75.83:8088/'
-var imgUrl = 'http://120.76.75.83:8082/'
+var dataUrl = 'http://47.97.188.85:8088/'
+var imgUrl = 'http://47.97.188.85:8082/'
 
 var common = {
 
