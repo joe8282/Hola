@@ -2158,8 +2158,10 @@ a:active {
  height:45px
 }
 .navbar .navbar-brand small img {
- height:40px;
- width:177px
+ height:30px;
+ width:110px;
+ margin:5px;
+
 }
 .navbar .sidebar-collapse {
  text-align:center;
