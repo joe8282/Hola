@@ -16,7 +16,7 @@ var en2 = {
         };
 
 $(function(){
-	hasPermission('1001'); //权限控制
+	//hasPermission('1001'); //权限控制
 	
 	var action = GetQueryString('action');	
 	if(action=='add'){
