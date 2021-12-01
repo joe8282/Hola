@@ -452,9 +452,9 @@ $(document).ready(function () {
 		                value = hblData[$(this).val()].substring(0, 10)
 		            }
 		        } else {
-		            if ($(this).val().indexOf("book_")) {
+		            if ($(this).val().indexOf("book_") >= 0) {
 		                value = mblData[$(this).val()]
-		            } else if ($(this).val().indexOf("bobi_")) {
+		            } else if ($(this).val().indexOf("bobi_") >= 0) {
 		                value = hblData[$(this).val()]
 		            }
 		        }
