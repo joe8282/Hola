@@ -86,8 +86,10 @@ $(document).ready(function () {
 		DraggableResizableToNominate("label"+_divLength);
 	})
 	$("#addData").click(function () {
-	    var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Data Content</p></div>';
+	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
+	    var _divLastId = $('#printArea').children('div').last().attr('id')
+	    var _divLength = parseInt(_divLastId.substring(4)) + 1
+	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p></p></div>';
 	    $("#printArea").append(Data);
 	    $("#relation").show();
 	    $("#name").hide();
