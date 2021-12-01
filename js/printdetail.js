@@ -195,9 +195,10 @@ $(document).ready(function () {
                             } else {
                                 if ($(this).attr("itemrelation").indexOf("book_") >= 0) {
                                     value = mblData[$(this).attr("itemrelation")]
-                                    console.log(value)
                                 } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0) {
-                                    value = hblData[$(this).attr("itemrelation")]
+                                    if (hblData[$(this).attr("itemrelation")] != null) {
+                                        value = hblData[$(this).attr("itemrelation")]
+                                    }   
                                 }
                             }
                             $(this).find("p").html(value);
