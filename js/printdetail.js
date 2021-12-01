@@ -196,7 +196,7 @@ $(document).ready(function () {
                                 if ($(this).attr("itemrelation").indexOf("book_") >= 0) {
                                     value = mblData[$(this).attr("itemrelation")]
                                 } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0) {
-                                    if (hblData.hasOwnProperty($(this).attr("itemrelation"))) {
+                                    if (typeId==3) {
                                         value = hblData[$(this).attr("itemrelation")]
                                     }   
                                 }
