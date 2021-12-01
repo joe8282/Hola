@@ -457,7 +457,10 @@ $(document).ready(function () {
 		            if ($(this).val().indexOf("book_") >= 0) {
 		                value = mblData[$(this).val()]
 		            } else if ($(this).val().indexOf("bobi_") >= 0) {
-		                value = hblData[$(this).val()]
+		                if (typeId == 3) {
+		                    value = hblData[$(this).val()]
+		                }
+		                
 		            }
 		        }
 		        $("#" + $("#itemId").val() + " p").html(value);
