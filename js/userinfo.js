@@ -119,7 +119,7 @@ function initTable() {
                             _li = "<li><a href='javascript:void(0);' onclick='_startFun(" + cellData + ")'>" + get_lan('start') + "</a></li>"
                         }
 
-                        if(isPermission('1007')==1){
+                        if (isPermission('1007') == 1 && rowData.usin_level == 2) {
                         	_perDel="<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a></li>"
                         } else {
                         	_perDel=""

@@ -74,7 +74,10 @@ $(function(){
 				$('#inputCompanyPosition').val(_data.usin_position)
 				$('#inputCompanyTel').val(_data.usin_tel)
 				$('#inputCompanyPhone').val(_data.usin_phone)
-				$('#inputCompanyEmail').val(_data.usin_email)	
+				$('#inputCompanyEmail').val(_data.usin_email)
+				if (_data.usin_level==1) {
+				    $('#inputCompanyEmail').attr("disabled", "disabled")
+				}
 				$('#inputCompanySalary').val(_data.usin_salary)
 				$('#inputCompanyWelfare').val(_data.usin_welfare)				
 				$("#e1").val(_data.usin_departmentId).trigger("change")
