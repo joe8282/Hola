@@ -409,7 +409,7 @@ function getUserInfo() {
 		
 		//菜单控制
 		if(leixing==1) {  //管理员
-		    $('.navli90,.navli0,.navli2,.navli3,.navli4,.navli5,.navli6').hide()
+		    $('.navli90,.navli0,.navli2,.navli3,.navli4,.navli5,.navli6,.navli7').hide()
 		} else if (leixing == 2) { //VIP用户
 		    $('.navli90,.navli').hide()
 		}else{ //普通用户
