@@ -83,8 +83,13 @@ function initTable() {
         ],
 //		"bProcessing": true,
 		"aoColumns": [
-			{ "mDataProp": "usin_name",
-				"sWidth":"100px"},
+            			{
+            			    "mDataProp": "usin_name",
+            			    "sWidth": "180px",
+            			    "createdCell": function (td, cellData, rowData, row, col) {
+            			        $(td).html(rowData.usin_name + " // " + rowData.sellName);
+            			    }
+            			},
 			{
 //				"mDataProp": "comp_name",
 //				"createdCell": function (td, cellData, rowData, row, col) {

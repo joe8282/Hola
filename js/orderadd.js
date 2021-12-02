@@ -716,7 +716,7 @@ $(function(){
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-				var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
+			    var _html = '<option value="' + _data[i].comp_id + '" data-adminId=' + _data[i].comp_adminId + '>' + _data[i].comp_name + '</option>';
 				$('#crmuser').append(_html)
 			}
 		}	
@@ -730,6 +730,9 @@ $(function(){
 		_selectBill(crmCompanyId)
 		crmCompanyName = $("#crmuser").find("option:selected").text();
 		_selectPackingCom(crmCompanyId, crmCompanyName) //获取装箱公司
+
+		var adminId = $("#crmuser").find("option:selected").attr("data-adminId")
+		$("#sellId").val(adminId).trigger("change")
 	})
 	
 	function _selectSupplier(crmId){
