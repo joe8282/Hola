@@ -118,6 +118,9 @@ $(document).ready(function () {
                                     $("#" + id + "").find("p").html(_html);
                                     console.log($(this).attr("itemrelation"))
                                 }
+                                else {
+                                    $("#" + id + "").find("p").html("");
+                                }
                             }, function (err) {
                                 console.log(err)
                             }, 2000)
@@ -136,6 +139,9 @@ $(document).ready(function () {
                                     }
                                     $("#" + id + "").find("p").html(_html);
                                 }
+                                else {
+                                    $("#" + id + "").find("p").html("");
+                                }
                             }, function (err) {
                                 console.log(err)
                             }, 2000)
@@ -152,6 +158,9 @@ $(document).ready(function () {
                                     _html = _html + trailerlist
                                     _html = _html + '</table>'
                                     $("#" + id + "").find("p").html(_html);
+                                }
+                                else {
+                                    $("#" + id + "").find("p").html("");
                                 }
                             }, function (err) {
                                 console.log(err)
@@ -171,6 +180,9 @@ $(document).ready(function () {
                                         _html = _html + trailerlist
                                     }
                                     $("#" + id + "").find("p").html(_html);
+                                }
+                                else {
+                                    $("#" + id + "").find("p").html("");
                                 }
                             }, function (err) {
                                 console.log(err)
@@ -405,6 +417,9 @@ $(document).ready(function () {
 		                _html = _html + '</table>'
 		                $("#" + $("#itemId").val() + " p").html(_html);
 		            }
+		            else {
+		                $("#" + $("#itemId").val() + " p").html("");
+		            }
 		        }, function (err) {
 		            console.log(err)
 		        }, 2000)
@@ -423,6 +438,9 @@ $(document).ready(function () {
 		                }
 		                $("#" + $("#itemId").val() + " p").html(_html);
 		            }
+		            else {
+		                $("#" + $("#itemId").val() + " p").html("");
+		            }
 		        }, function (err) {
 		            console.log(err)
 		        }, 2000)
@@ -439,6 +457,9 @@ $(document).ready(function () {
 		                _html = _html + trailerlist
 		                _html = _html + '</table>'
 		                $("#" + $("#itemId").val() + " p").html(_html);
+		            }
+		            else {
+		                $("#" + $("#itemId").val() + " p").html("");
 		            }
 		        }, function (err) {
 		            console.log(err)
