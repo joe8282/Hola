@@ -241,8 +241,8 @@ function getNav(){
                     '<li class="navli5"><a href="#" class="menu-dropdown"><i class="menu-icon fa fa-desktop"></i><span class="menu-text" set-lan="html:nav_5"> FINANCIAL MANAGEMENT</span><i class="menu-expand"></i></a>' +
 	                    '<ul class="submenu">' +
                         '<li class="financial3"><a href="pricesheetlist.html"><span class="menu-text" set-lan="html:nav_5_3">Price Sheet</span></a></li>' +
-                        '<li class="financial4"><a href="billadd.html?typeId=1"><span class="menu-text" set-lan="html:nav_5_4">Payment Request</span></a></li>' +
-	                    '<li class="financial5"><a href="billadd.html?typeId=2"><span class="menu-text" set-lan="html:nav_5_5">Receivables</span></a></li>' +
+                        //'<li class="financial4"><a href="billadd.html?typeId=1"><span class="menu-text" set-lan="html:nav_5_4">Payment Request</span></a></li>' +
+	                    //'<li class="financial5"><a href="billadd.html?typeId=2"><span class="menu-text" set-lan="html:nav_5_5">Receivables</span></a></li>' +
 	                    '<li class="financial6"><a href="exchangerate.html"><span class="menu-text" set-lan="html:nav_5_6">Set Exchangerate</span></a></li>' +
                         '<li class="financial7"><a href="feemanage.html"><span class="menu-text" set-lan="html:nav_5_7">Fee Management</span></a></li>' +
                         '<li class="financial8"><a href="receivable_report.html?type=debit"><span class="menu-text" set-lan="html:nav_5_8">Receivable Report</span></a></li>' +

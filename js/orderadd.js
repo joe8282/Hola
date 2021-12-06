@@ -81,11 +81,10 @@ $(function(){
     	hasPermission('1703'); //权限控制
 	}
 	$('#printMBL').click(function () {
-	    //location.href = "printdetail.html?action=add&typeId=1&aboutId=" + Id
 	    window.open("printdetail.html?action=add&typeId=1&aboutId=" + Id,"_blank");
 	});
 	$('#printContainer').click(function () {
-	    location.href = "printdetail.html?action=add&typeId=2&aboutId=" + Id
+	    window.open("printdetail.html?action=add&typeId=2&aboutId=" + Id, "_blank");
 	});
 
     //发送邮件
@@ -2279,7 +2278,8 @@ $(function(){
     				}
 
     				$('.printHBL').click(function (e) {
-    				    location.href = "printdetail.html?action=add&typeId=3&aboutId=" + e.target.dataset.billid
+    				    window.open("printdetail.html?action=add&typeId=3&aboutId=" + e.target.dataset.billid, "_blank");
+
     				});
     			}
     			/*编辑HBL*/
