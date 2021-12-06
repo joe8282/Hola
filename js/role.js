@@ -15,7 +15,7 @@ $(document).ready(function() {
 //	initModal();
 	this.title = get_lan('nav_0_5')
 	$('.navli0').addClass("active open")
-	$('.sys2').addClass("active")	
+	$('.sys5').addClass("active")	
 	$('#title1').text(get_lan('nav_0_5'))
 	$('#title2').text(get_lan('nav_0_5'))
 

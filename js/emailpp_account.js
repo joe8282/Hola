@@ -13,11 +13,11 @@ var oTable;
 var typeId;
 $(document).ready(function() {
 //	initModal();
-	this.title = get_lan('nav_6_1')
+	this.title = get_lan('nav_6_3')
 	$('.navli6').addClass("active open")
 	$('.emailprompt3').addClass("active")	
-	$('#title1').text(get_lan('nav_6_1'))
-	$('#title2').text(get_lan('nav_6_1'))
+	$('#title1').text(get_lan('nav_6_3'))
+	$('#title2').text(get_lan('nav_6_3'))
 
 
 //	$("#addFun").click(_init);

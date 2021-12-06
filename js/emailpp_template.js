@@ -14,11 +14,11 @@ var typeId;
 $(document).ready(function() {
     hasPermission('1215'); //权限控制：新增群组邮件列表
 //	initModal();
-	this.title = get_lan('nav_6_1')
+	this.title = get_lan('nav_6_4')
 	$('.navli6').addClass("active open")
 	$('.emailprompt4').addClass("active")	
-	$('#title1').text(get_lan('nav_6_1'))
-	$('#title2').text(get_lan('nav_6_1'))
+	$('#title1').text(get_lan('nav_6_4'))
+	$('#title2').text(get_lan('nav_6_4'))
 
 	//$('.btn-blue').on('click', function() {
 	//	location.href = 'emailpp_listadd.html?action=add';

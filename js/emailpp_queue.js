@@ -16,11 +16,11 @@ var typeId;
 $(document).ready(function() {
     hasPermission('1219'); //权限控制：新增群组邮件列表
 //	initModal();
-	this.title = get_lan('nav_6_1')
+	this.title = get_lan('nav_6_6')
 	$('.navli6').addClass("active open")
 	$('.emailprompt6').addClass("active")	
-	$('#title1').text(get_lan('nav_6_1'))
-	$('#title2').text(get_lan('nav_6_1'))
+	$('#title1').text(get_lan('nav_6_6'))
+	$('#title2').text(get_lan('nav_6_6'))
 
 	var Id = GetQueryString('Id');
 	if (Id == null) { $('#addFun').addClass('none'); }

@@ -12,6 +12,8 @@ var en2 = {
 var _url = document.referrer;
 
 $(function () {
+    $('.navli100').addClass("active")
+
     //订单统计
     common.ajax_req("get", true, dataUrl, "booking.ashx?action=read", {
         "companyId": companyID,
