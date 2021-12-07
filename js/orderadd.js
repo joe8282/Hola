@@ -2304,6 +2304,7 @@ $(function(){
     					//初始化信息
     					var _data = data.Data
     					$(".HBLNav").text('HBL订单信息 ' + _data.bobi_billCode)
+    					$('#billCode3').val(_data.bobi_billCode)
     					$('#packageMarks3').html(HtmlDecode(_data.bobi_packageMarks))
     					$('#goodAbout3').html(HtmlDecode(_data.bobi_goodAbout))
     					var package0 = _data.bobi_package.split(' ')

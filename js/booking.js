@@ -420,7 +420,7 @@ function initTable(fromId) {
     }else{
 		hasPermission('1713'); //权限控制
 		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&userOtherId=' + userID
-    	tableTitle = '<th>销售</th><th>订单号</th><th>订舱号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
+    	tableTitle = '<th>销售</th><th>单号</th><th>订舱号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
     	columns = [
     		{
@@ -430,7 +430,28 @@ function initTable(fromId) {
 				}	
     		},
     		{
-    			"mDataProp": "book_orderCode"
+    		    "mDataProp": "book_orderCode",
+    		    "createdCell": function (td, cellData, rowData, row, col) {
+    		        var _str = 'MBL NO.: ' + rowData.book_orderCode
+    		        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbill", {
+    		            "bookingId": rowData.book_id
+    		        }, function (data) {
+    		            if (data.State == 1) {
+    		                var _data = data.Data;
+    		                if (_data.length > 0) {
+    		                    _str = _str + '<br/>HBL NO.: <br/>'
+    		                    for (var i = 0; i < _data.length; i++) {
+    		                        _str = _str + _data[i].bobi_billCode + '<br/>'
+    		                    }
+    		                }
+
+    		            }
+    		        }, function (err) {
+    		            console.log(err)
+    		        }, 2000)
+
+    		        $(td).html(_str)
+    		    }
     		},
             {
                 "mDataProp": "book_code",
