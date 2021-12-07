@@ -1,19 +1,21 @@
 //语言包
 var cn2 = {
             "con_top_1" : "首页",
-            "con_top_2" : "客户管理中心",   
+            "con_top_2": "客户管理中心",
+            "con_top_3": "新增联系人",
         };
 
 var en2 = {
             "con_top_1" : "Home",
-            "con_top_2" : "CRM Home",        
+            "con_top_2": "CRM Home",
+            "con_top_3": "Add Contact",
         };
 $(function(){
-	this.title = get_lan('nav_2_2') 	
+    this.title = get_lan('con_top_3')
 	$('.navli2').addClass("active open")
 	$('.crm2').addClass("active")	
-	$('#title1').text(get_lan('nav_2_2'))
-	$('#title2').text(get_lan('nav_2_2')) 
+	$('#title1').text(get_lan('con_top_3'))
+	$('#title2').text(get_lan('con_top_3'))
 	
 	var action = GetQueryString('action');	
 	var back = GetQueryString('back');
