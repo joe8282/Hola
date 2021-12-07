@@ -165,40 +165,40 @@ var permissionData = [{
 		text: "删除汇率"
 	}, {
 	    value: "1310", //feemanage.html  已设置 20210601，下面的功能全部没有设置权限
-		text: "查看费用管理-账单列表"
+	    text: "查看财务管理-账单管理"
 	}, {
 	    value: "1311", //feemanage.html  JOE
-		text: "查看费用管理-账单详情"
+	    text: "查看财务管理-账单详情"
 	}, {
 	    value: "1312", //feemanage.html  JOE
-		text: "查看费用管理-删除账单"
+	    text: "查看财务管理-删除账单"
 	}, {
 	    value: "1313", //feemanage.html  JOE
 		text: "查看费用管理-发送账单"
 	}, {
 	    value: "1314", //feemanage.html  JOE
-		text: "查看费用管理-账单收款"
+	    text: "查看财务管理-账单收款"
 	}, {
 	    value: "1315",  //feemanage.html  JOE
-		text: "查看费用管理-发票列表"
+	    text: "查看财务管理-发票申请管理"
 	}, {
 	    value: "1316",  //feemanage.html  JOE
-		text: "查看费用管理-发票详情"
+	    text: "查看财务管理-发票详情"
 	}, {
 	    value: "1317",  //feemanage.html  JOE
-		text: "查看费用管理-删除发票"
+	    text: "查看财务管理-删除发票"
 	}, {
 	    value: "1318",  //feemanage.html  JOE
-		text: "查看费用管理-付款列表"
+	    text: "查看财务管理-付款列表"
 	}, {
 	    value: "1319",  //feemanage.html  JOE
-		text: "查看费用管理-删除付款"
+	    text: "查看财务管理-删除付款"
 	}, {
 	    value: "1320",  //feemanage.html  JOE
-		text: "查看费用管理-收款列表"
+	    text: "查看财务管理-收款列表"
 	}, {
 	    value: "1321",  //feemanage.html  JOE
-		text: "查看费用管理-删除收款"
+	    text: "查看财务管理-删除收款"
 	}, {
 	    value: "1322", //receivable_report.html  已设置 20210601
 		text: "查看应收报表"

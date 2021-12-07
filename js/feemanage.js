@@ -2,7 +2,7 @@
 var cn2 = {
             "con_top_1" : "首页",
             "con_top_2" : "财务管理中心",   
-            "con_top_3" : "费用管理", 
+            "con_top_3" : "财务管理", 
         };
 
 var en2 = {
@@ -717,7 +717,7 @@ $(function(){
     //    }, 1000)
     //}
 
-    //账单列表
+    //账单管理
     function GetBill() {
         var table = $("#example").dataTable({
             //"iDisplayLength":10,
@@ -789,7 +789,7 @@ $(function(){
         return table;
     }
 
-    //发票列表
+    //发票申请管理
     function GetInvoice() {
         var table = $("#InvoiceList").dataTable({
             //"iDisplayLength":10,
@@ -946,6 +946,128 @@ $(function(){
                 },
             ]
         });
+        return table;
+    }
+
+    //销账申请管理
+    function GetCancelApply() {
+        var table = $("#cancelapplyList").dataTable({
+            //"iDisplayLength":10,
+            "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId=4&companyId=' + companyID,
+            'bPaginate': true,
+            "bInfo": false,
+            //		"bDestory": true,
+            //		"bRetrieve": true,
+            "bFilter": false,
+            "bSort": false,
+            //"aaSorting": [[ 6, "desc" ]],
+            //"aoColumnDefs":[//设置列的属性，此处设置第一列不排序
+            //    {"bSortable": false, "aTargets": [0,3,4,5,7]}
+            //],
+            //		"bProcessing": true,
+            "aoColumns": [
+                            {
+                                "mDataProp": "bill_payType",
+                                "createdCell": function (td, cellData, rowData, row, col) {
+                                    var typeName = ''
+                                    if (rowData["bill_payType"] == "debit") { typeName = '应收销账' }
+                                    if (rowData["bill_payType"] == "credit") { typeName = '应付销账' }
+                                    $(td).html(typeName);
+                                }
+                            },
+                { "mDataProp": "comp_name" },
+                    { "mDataProp": "bill_payNumber" },
+                            {
+                                "mDataProp": "rema_content",
+                                "createdCell": function (td, cellData, rowData, row, col) {
+                                    $(td).html(rowData.rema_content.replace(/\n/g, '<br/>'));
+                                }
+                            },
+                    {
+                        "mDataProp": "bill_addTime",
+                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).html(oData.bill_addTime.substring(0, 10));
+                        }
+                    },
+                    { "mDataProp": "bill_currency" },
+                            {
+                                "mDataProp": "bill_payPrice",
+                                "createdCell": function (td, cellData, rowData, row, col) {
+                                    if (rowData.bill_file != "") {
+                                        $(td).html(rowData.bill_payPrice + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/feePic/" + rowData.bill_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
+                                    } else {
+                                        $(td).html(rowData.bill_payPrice);
+                                    }
+                                }
+                            },
+                    {
+                        "mDataProp": "bill_state",
+                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                            if (oData.bill_state == 1) {
+                                $(nTd).html('未销账');
+                            } else {
+                                $(nTd).html(oData.bill_cancelCode);
+                            }
+                        }
+                    },
+                {
+                    "mDataProp": "bill_id",
+                    // 				"createdCell": function (td, cellData, rowData, row, col) {
+                    // 					$(td).html("<a href='crmcompanyadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                    // 						.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>")
+                    // 						//.append("<a href='crmcompanyadd.html?action=modify&Id="+sData +"'>" + get_lan('follow') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                    // 						.append("<a href='crmcompanycontactadd.html?action=add&companyId="+rowData.comp_customerId +"'>" + get_lan('addcontact') + "</a><br/>")
+                    // //						.append("<a href='bookingadd.html?action=add&crmId="+cellData +"&fromId=1'>" + get_lan('addbooking') + "</a><br/>")
+                    // 						.append("<a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a>");
+                    "createdCell": function (td, cellData, rowData, row, col) {
+                        $(td).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + cellData + ")'>" + get_lan('detail') + "</a><br/>")
+                            .append("<a href='cancel_account_add.html?action=apply&Id=" + cellData + "&toCompanyId=" + rowData.bill_toCompany + "'>销账处理</a>")
+                    }
+                },
+            ],
+            //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+            //		"sPaginationType": "bootstrap",
+            "oLanguage": {
+                //			"sUrl": "js/zh-CN.txt"
+                //			"sSearch": "快速过滤："
+                "sProcessing": "正在加载数据，请稍后...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": get_lan('nodata'),
+                "sEmptyTable": "表中无数据存在！",
+                "sInfo": get_lan('page'),
+                "sInfoEmpty": "显示0到0条记录",
+                "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+                //"sInfoPostFix": "",
+                "sSearch": get_lan('search'),
+                //"sUrl": "",
+                //"sLoadingRecords": "载入中...",
+                //"sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": get_lan('first'),
+                    "sPrevious": get_lan('previous'),
+                    "sNext": get_lan('next'),
+                    "sLast": get_lan('last'),
+                }
+                //"oAria": {
+                //    "sSortAscending": ": 以升序排列此列",
+                //    "sSortDescending": ": 以降序排列此列"
+                //}
+            },
+            "drawCallback": function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        });
+
+        // Apply the search
+        table.api().columns().eq(0).each(function (colIdx) {
+            $('input', table.api().column(colIdx).footer()).on('keyup change', function () {
+                table.api()
+                    .column(colIdx)
+                    .search(this.value)
+                    .draw();
+            });
+        });
+
         return table;
     }
 
@@ -1232,9 +1354,10 @@ $(function(){
 
 
     oTable = GetBill();
-    billPayTable = GetBillPay()
-    billGetTable = GetBillGet()
+    //billPayTable = GetBillPay()
+    //billGetTable = GetBillGet()
     invoiceTable = GetInvoice()
+    cancelApplyTable = GetCancelApply()
     //gysBillTable = GetGYSBill()
     //filesTable = GetFiles()
 
