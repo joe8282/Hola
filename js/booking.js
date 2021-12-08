@@ -432,7 +432,9 @@ function initTable(fromId) {
     		{
     		    "mDataProp": "book_orderCode",
     		    "createdCell": function (td, cellData, rowData, row, col) {
-    		        var _str = rowData.book_orderCode + '<br/>MBL NO.: ' + rowData.book_billCode
+                    mblNo = ""
+                    if (rowData.book_billCode != null) { mblNo = rowData.book_billCode }
+                    var _str = rowData.book_orderCode + '<br/>MBL NO.: ' + mblNo
     		        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbill", {
     		            "bookingId": rowData.book_id
     		        }, function (data) {
