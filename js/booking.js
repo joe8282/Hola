@@ -441,7 +441,7 @@ function initTable(fromId) {
     		            if (data.State == 1) {
     		                var _data = data.Data;
     		                if (_data.length > 0) {
-    		                    _str = _str + '<br/>HBL NO.: <br/>'
+    		                    _str = _str + '<br/>HBL NO.: '
     		                    for (var i = 0; i < _data.length; i++) {
     		                        _str = _str + _data[i].bobi_billCode + '<br/>'
     		                    }
