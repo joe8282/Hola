@@ -141,7 +141,7 @@ $(document).ready(function () {
 
 	    reader.onload = function (e) { // reader onload start  
 	        // ajax 上传图片  
-	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'print' }, function (ret) {
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, companyId: companyID }, function (ret) {
 	            if (ret.State == '100') {
 	                //alert(ret.Picurl);
 	                var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数

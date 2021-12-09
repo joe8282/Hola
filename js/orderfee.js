@@ -1254,7 +1254,7 @@ $(function(){
                     "mDataProp": "file_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         $(nTd).html("<a href='javascript:void(0);' onclick='_deleteFileFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                         .append("<a href='" + dataUrl + "uppic/orderPic/" + oData.file_url + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                         .append("<a href='" + dataUrl + oData.file_nav + oData.file_url + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                         //    .append("<a href='#'>发票</a>")
@@ -1951,7 +1951,7 @@ $(function(){
 	            'beizhu': $('#beizhu5').val(),
 	            'payType': $('#cancel_type').val(),
 	            'currency': $('#cancel_unit').val(),
-	            'file': $("#Pname5").val(),
+	            'file': $("#Nav5").val()+$("#Pname5").val(),
 	            'addtime': $('#id-date-picker-3').val(),
 	            'feeItem': feeItem,
 	            'cancelFee': cancelFee.toString()
@@ -2022,12 +2022,16 @@ $(function(){
 	            'userId': userID,
 	            'typeId': 1,
 	            'name': $('#filename').val(),
+	            'nav': $('#Nav').val(),
 	            "url": $("#Pname").val()
 	        }
 	        console.log(parm)
 	        common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
 	            if (data.State == 1) {
 	                comModel("新增成功")
+	                $('#filename').val("")
+	                $('#Nav').val(""),
+                    $("#Pname").val("")
 	                filesTable.fnReloadAjax(filesTable.fnSettings());
 	            } else {
 	                comModel("新增失败")
@@ -2039,34 +2043,67 @@ $(function(){
 
     // 选择图片  
 	$("#img").on("change", function () {
-	    var img = event.target.files[0];
-	    // 判断是否图片  
-	    if (!img) {
-	        return;
+	    var fileUpload = $("#img").get(0);
+	    var files = fileUpload.files;
+
+	    var data = new FormData();
+	    for (var i = 0; i < files.length; i++) {
+	        data.append(files[i].name, files[i]);
+	        data.append("companyId", companyID);
 	    }
 
-	    // 判断图片格式  
-	    if (!(img.type.indexOf('image') == 0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name))) {
-	        alert('图片只能是jpg,gif,png');
-	        return;
-	    }
-
-	    var reader = new FileReader();
-	    reader.readAsDataURL(img);
-
-	    reader.onload = function (e) { // reader onload start  
-	        // ajax 上传图片  
-	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
-	            if (ret.State == '100') {
-	                //alert(ret.Picurl);
-	                $('#showimg').attr('src', ret.Picurl);
-	                $('#Pname').val(ret.Pname);
-	                //$('#showimg').html('<img src="' + ret.Data + '">');
+	    $.ajax({
+	        url: dataUrl + "ajax/uploadFile.ashx",
+	        type: "POST",
+	        data: data,
+	        contentType: false,
+	        processData: false,
+	        success: function (result) {
+	            res = JSON.parse(result)
+	            if (res.State == '100') {
+	                $('#showimg').text(res.Picurl);
+	                $('#toShow').attr("href", res.Picurl);
+	                $('#Pname').val(res.Pname);
+	                $('#Nav').val(res.Nav);
+	            } else if (res.State == '101') {
+	                $('#showimg').text("上传文件格式不对");
 	            } else {
-	                alert('上传失败');
+	                $('#showimg').text("上传失败");
 	            }
-	        }, 'json');
-	    } // reader onload end  
+
+	        },
+	        error: function (err) {
+	            alert(err.statusText)
+	        }
+	    });
+	    //var img = event.target.files[0];
+	    //// 判断是否图片  
+	    //if (!img) {
+	    //    return;
+	    //}
+
+	    //// 判断图片格式  
+	    //if (!(img.type.indexOf('image') == 0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name))) {
+	    //    alert('图片只能是jpg,gif,png');
+	    //    return;
+	    //}
+
+	    //var reader = new FileReader();
+	    //reader.readAsDataURL(img);
+
+	    //reader.onload = function (e) { // reader onload start  
+	    //    // ajax 上传图片  
+	    //    $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
+	    //        if (ret.State == '100') {
+	    //            //alert(ret.Picurl);
+	    //            $('#showimg').attr('src', ret.Picurl);
+	    //            $('#Pname').val(ret.Pname);
+	    //            //$('#showimg').html('<img src="' + ret.Data + '">');
+	    //        } else {
+	    //            alert('上传失败');
+	    //        }
+	    //    }, 'json');
+	    //} // reader onload end  
 	})
 
     // 选择图片  
@@ -2088,10 +2125,11 @@ $(function(){
 
 	    reader.onload = function (e) { // reader onload start  
 	        // ajax 上传图片  
-	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'order' }, function (ret) {
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, companyId: companyID }, function (ret) {
 	            if (ret.State == '100') {
 	                //alert(ret.Picurl);
 	                $('#showimg5').attr('src', ret.Picurl);
+	                $('#Nav5').val(ret.Nav);
 	                $('#Pname5').val(ret.Pname);
 	                //$('#showimg').html('<img src="' + ret.Data + '">');
 	            } else {
@@ -2777,7 +2815,7 @@ function _detailBillGetFun(Id) {
         $(".bill_beizhu").text(_data.bill_beizhu)
         //$(".bill_file").text(_data.bill_currency)
         if (_data.bill_file != "") {
-            $('#showimg55').attr('src', dataUrl + "uppic/feePic/" + _data.bill_file);
+            $('#showimg55').attr('src', dataUrl + _data.bill_file);
         }
 
         var arrItem = _data.bill_feeItem.split(',')
