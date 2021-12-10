@@ -301,8 +301,9 @@ function printContent(){
                         var url = canvas.toDataURL('image/jpeg', 1.0);
                         //console.log(url)
                         // ajax 上传图片  
-                        $.post(dataUrl + "ajax/uploadPic.ashx", { image: url, action: 'order' }, function (ret) {
+                        $.post(dataUrl + "ajax/uploadPic.ashx", { image: url, companyId: companyID }, function (ret) {
                             if (ret.State == '100') {
+                                //$('#Nav').val(ret.Nav);
                                 $('#Pname').val(ret.Pname);
                                 var parm = {
                                     'bookingId': 149, //按实际修改
@@ -310,7 +311,9 @@ function printContent(){
                                     'userId': userID,
                                     'typeId': 1,
                                     'name': '打印保存图片', //按实际修改
-                                    "url": ret.Pname
+                                    'nav': ret.Nav,
+                                    "url": ret.Pname,
+
                                 }
                                 console.log(parm)
                                 common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {

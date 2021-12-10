@@ -188,10 +188,11 @@ $(document).ready(function() {
 
 	    reader.onload = function (e) { // reader onload start  
 	        // ajax 上传图片  
-	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, action: 'fee' }, function (ret) {
+	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, companyId: companyID }, function (ret) {
 	            if (ret.State == '100') {
 	                //alert(ret.Picurl);
 	                $('#showimg').attr('src', ret.Picurl);
+	                $('#Nav').val(ret.Nav);
 	                $('#Pname').val(ret.Pname);
 	                //$('#showimg').html('<img src="' + ret.Data + '">');
 	            } else {
@@ -237,7 +238,7 @@ $(document).ready(function() {
 	            'currency': $("#unit").val(),
 	            'typeId': $("#cancel_type").val(),
 	            'beizhu': $("#beizhu").val(),
-	            'file': $("#Pname").val(),
+	            'file': $("#Nav").val() + $("#Pname").val(),
 	            'iscancel': iscancel,
 	            'isapply':isapply,
 	            'bill': str

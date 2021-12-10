@@ -337,13 +337,14 @@ $(function(){
 	})
 	
     // 上传附件 
-	$("#btnUpload").click(function (evt) {
+	$("#emailfile").on("change", function () {
 	    var fileUpload = $("#emailfile").get(0);
 	    var files = fileUpload.files;
 
 	    var data = new FormData();
 	    for (var i = 0; i < files.length; i++) {
 	        data.append(files[i].name, files[i]);
+	        data.append("companyId", companyID);
 	    }
 
 	    $.ajax({
@@ -352,14 +353,48 @@ $(function(){
 	        data: data,
 	        contentType: false,
 	        processData: false,
-	        success: function (result) { alert(result); },
+	        success: function (result) {
+	            res = JSON.parse(result)
+	            if (res.State == '100') {
+	                $('#showimg5').text(res.Picurl);
+	                $('#toShow5').attr("href", res.Picurl);
+	                $('#Pname5').val(res.Pname);
+	                $('#Nav5').val(res.Nav);
+	            } else if (res.State == '101') {
+	                $('#showimg5').text("上传文件格式不对");
+	            } else {
+	                $('#showimg5').text("上传失败");
+	            }
+
+	        },
 	        error: function (err) {
 	            alert(err.statusText)
 	        }
 	    });
+	})
+	//$("#btnUpload").click(function (evt) {
+	//    var fileUpload = $("#emailfile").get(0);
+	//    var files = fileUpload.files;
 
-	    evt.preventDefault();
-	});
+	//    var data = new FormData();
+	//    for (var i = 0; i < files.length; i++) {
+	//        data.append(files[i].name, files[i]);
+	//    }
+
+	//    $.ajax({
+	//        url: dataUrl + "ajax/uploadFile.ashx",
+	//        type: "POST",
+	//        data: data,
+	//        contentType: false,
+	//        processData: false,
+	//        success: function (result) { alert(result); },
+	//        error: function (err) {
+	//            alert(err.statusText)
+	//        }
+	//    });
+
+	//    evt.preventDefault();
+	//});
 	//$("#emailfile").on("change", function () {
 	//    var file = event.target.files[0];
 
