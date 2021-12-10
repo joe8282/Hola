@@ -806,6 +806,72 @@ $(function(){
 
 		var adminId = $("#crmuser").find("option:selected").attr("data-adminId")
 		$("#sellId").val(adminId).trigger("change")
+
+	    //判断委托人是否有订单
+		if (action == "add") { 
+		    common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
+		        "companyId": companyID,
+		        "crmId": crmCompanyId
+		    }, function (data) {
+		        //console.log(data)
+		        var _data = data.data;
+		        if (_data != null) {
+		            $("#has_copy_orderCode").val(_data[0].book_orderCode);
+		            $("#myModal_has_copy").modal("show");
+		        }
+		    }, function (err) {
+		        console.log(err)
+		    }, 2000)
+
+		    $('#btnHasCopySave').click(function () {
+		        //是否复制费用
+		        var isCopyFee = 0;
+		        if ($("#has_copy_orderFee").is(":checked")) {
+		            isCopyFee = 1
+		        } else {
+		            isCopyFee = 0
+		        }
+		        //是否复制仓库
+		        var isCopyWarehouse = 0;
+		        if ($("#has_copy_orderWarehouse").is(":checked")) {
+		            isCopyWarehouse = 1
+		        } else {
+		            isCopyWarehouse = 0
+		        }
+		        //是否复制拖车
+		        var isCopyTrailer = 0;
+		        if ($("#has_copy_orderTrailer").is(":checked")) {
+		            isCopyTrailer = 1
+		        } else {
+		            isCopyTrailer = 0
+		        }
+
+		        if ($('#has_copy_orderCode').val() == "") {
+		            comModel("订单号不能为空！")
+		        } else {
+		            var parm = {
+		                'ordercode': $('#has_copy_orderCode').val(),
+		                'companyId': companyID,
+		                'userId': userID,
+		                'isCopyFee': isCopyFee,
+		                'isCopyWarehouse': isCopyWarehouse,
+		                'isCopyTrailer': isCopyTrailer
+		            }
+		            console.log(parm)
+		            common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=copyorder', parm, function (data) {
+		                if (data.State == 1) {
+		                    comModel("订单复制成功")
+		                    location.href = "orderadd.html?action=modify&Id=" + data.Data
+		                } else {
+		                    comModel("订单复制失败")
+		                }
+		                $("#myModal_has_copy").modal("hide");
+		            }, function (error) {
+		            }, 2000)
+		        }
+
+		    });
+		}
 	})
 	
 	function _selectSupplier(crmId){

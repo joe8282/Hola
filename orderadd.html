@@ -1612,6 +1612,37 @@ Purchase: http://wrapbootstrap.com
     </div>
     <!--End Large Modal Templates-->
 
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-sm" id="myModal_has_copy" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none; z-index: 12000;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">是否复制该委托人上一票订单详情？</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal" id="resForm">
+                        <div class="form-group" id="cancel_code">
+                            <p>订单号：<input type="text" id="has_copy_orderCode" style="width: 90%;" placeholder="填写订单号" disabled></p>
+                            <p>是否复制费用：<input type="checkbox" class="inverted" id="has_copy_orderFee"></p>
+                            <p>是否复制仓库：<input type="checkbox" class="inverted" id="has_copy_orderWarehouse"></p>
+                            <p>是否复制拖车：<input type="checkbox" class="inverted" id="has_copy_orderTrailer"></p>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnHasCopySave" set-lan="html:submit">确定复制</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+
         <!--LArge Modal Templates-->
         <div class="modal fade bs-example-modal-sm" id="myModal_sendemail" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none; z-index: 12000;">
             <div class="modal-dialog">
