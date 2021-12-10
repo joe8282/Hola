@@ -14,6 +14,7 @@ var en2 = {
         };
         
 var oTable;
+var filesTable;
 
 $(function(){
 	$('.navli3').addClass("active open")
@@ -63,8 +64,6 @@ $(function(){
 	var bookingId,billId;
 	var _toCompany = '', _feeItem = '', _feeUnit = '', _numUnit = '';
 	var isLock = 0;
-
-	var filesTable
 
 	if (Id) {
 	    filesTable = GetFiles()
@@ -219,7 +218,7 @@ $(function(){
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         var perView = perDel = ""
                         if (isPermission('1710') == 1) {
-                            perView = "<a href='javascript:void(0);' onclick='_deleteBillFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            perView = "<a href='javascript:void(0);' onclick='_deleteFileFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
                         }
                         if (isPermission('1711') == 1) {
                             perDel = "<a href='" + dataUrl + oData.file_nav + oData.file_url + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;"
@@ -243,6 +242,8 @@ $(function(){
 	        comModel("请填写文件名称！")
 	    } else if ($("#Pname").val() == "") {
 	        comModel("请选择上传的文件！")
+	    } else if (Id == null) {
+	        comModel("请保存订单之后新增文件！")
 	    } else {
 	        var parm = {
 	            'bookingId': Id,
@@ -3475,6 +3476,35 @@ function getVolume2() {
     $('#volumeShow2').val(volumeNum2 + ' ' + volume2)
 }
 
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteFileFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/files.ashx?action=cancel',
+                data: {
+                    "Id": id
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        filesTable.fnReloadAjax(filesTable.fnSettings());
+                    } else {
+                        alert("Delete Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+}
 
 /*
 	add this plug in
