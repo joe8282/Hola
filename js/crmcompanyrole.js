@@ -136,7 +136,23 @@ function initTable() {
 			// 	"createdCell": function (td, cellData, rowData, row, col) {
 			// 		$(td).html(rowData.comp_updateTime.substring(0, 10));
 			// 	}			
-			// },				
+			// },		
+            			{
+            			    "mDataProp": "comp_state",
+            			    "createdCell": function (td, cellData, rowData, row, col) {
+            			        var _stateText = ""
+            			        if (rowData.comp_state == 1) {
+            			            _stateText = "待审核"
+            			        } else if (rowData.comp_state == 2) {
+            			            _stateText = "正常"
+            			        } else if (rowData.comp_state == 3) {
+            			            _stateText = "已停用"
+            			        } else if (rowData.comp_state == 4) {
+            			            _stateText = "审核不通过"
+            			        }
+            			        $(td).html(_stateText);
+            			    }
+            			},
 			{
 				"mDataProp": "comp_id",
 // 				"createdCell": function (td, cellData, rowData, row, col) {

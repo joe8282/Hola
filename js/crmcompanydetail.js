@@ -11,7 +11,7 @@ var en2 = {
             "primary" : "set primary",            
         };
         
-var oTable, oblTable, oFollow, oDemand, ogetOrderSum, relatedComTable;
+var oTable, oblTable, oFollow, oDemand, ogetOrderSum, relatedComTable, filesTable;
 var typeId;
 var Id = GetQueryString('Id');
 var userCompanyId;
@@ -106,6 +106,8 @@ function GetDetail()
 			oFollow = GetFollow();
 			oDemand = GetDemand();
 			oTable2 = GetContact2();
+
+			filesTable = GetFiles()
 			//getOrderSum();
 	}, function(err) {
 		console.log(err)
@@ -1422,6 +1424,139 @@ $('#sendRelatedCom').on('click', function () {
     })
 
 });
+
+
+function GetFiles() {
+    var table = $("#crmFile").dataTable({
+        //"iDisplayLength":10,
+        "sAjaxSource": dataUrl + 'ajax/crmcompanyfile.ashx?action=read&&actionId=' + companyID + '&companyId=' + userCompanyId,
+        'bPaginate': false,
+        "bInfo": false,
+        //		"bDestory": true,
+        //		"bRetrieve": true,
+        "bFilter": false,
+        "bSort": false,
+        "aaSorting": [[0, "desc"]],
+        //		"bProcessing": true,
+        "aoColumns": [
+            { "mDataProp": "cofi_name" },
+            {
+                "mDataProp": "cofi_updateTime",
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    $(nTd).html(oData.cofi_updateTime.substring(0, 10));
+                }
+            },
+            { "mDataProp": "usin_name" },
+            {
+                "mDataProp": "cofi_id",
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    $(nTd).html("<a href='javascript:void(0);' onclick='_deleteFileFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                     .append("<a href='" + dataUrl + oData.cofi_navUrl + oData.cofi_fileUrl + "' target='_blank'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                    //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                    //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                    //    .append("<a href='#'>发票</a>")
+
+                }
+            },
+        ]
+    });
+    return table;
+}
+
+
+/*新增文件*/
+$('#send_file').on('click', function () {
+    if ($('#filename').val() == "") {
+        comModel("请填写文件名称！")
+    } else if ($("#Pname5").val() == "") {
+        comModel("请选择上传的文件！")
+    } else {
+        var parm = {
+            'companyId': userCompanyId,
+            'actionId': companyID,
+            'userId': userID,
+            'name': $('#filename5').val(),
+            'navUrl': $('#Nav5').val(),
+            "fileUrl": $("#Pname5").val()
+        }
+        console.log(parm)
+        common.ajax_req('POST', false, dataUrl, 'crmcompanyfile.ashx?action=new', parm, function (data) {
+            if (data.State == 1) {
+                comModel("新增成功")
+                $('#filename5').val("")
+                $('#Nav5').val(""),
+                $("#Pname5").val("")
+                filesTable.fnReloadAjax(filesTable.fnSettings());
+            } else {
+                comModel("新增失败")
+            }
+        }, function (error) {
+        }, 2000)
+    }
+});
+
+// 选择图片  
+$("#img5").on("change", function () {
+    var img = event.target.files[0];
+    // 判断是否图片  
+    if (!img) {
+        return;
+    }
+
+    // 判断图片格式  
+    if (!(img.type.indexOf('image') == 0 && img.type && /\.(?:jpg|png|gif)$/.test(img.name))) {
+        alert('图片只能是jpg,gif,png');
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.readAsDataURL(img);
+
+    reader.onload = function (e) { // reader onload start  
+        // ajax 上传图片  
+        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, companyId: companyID }, function (ret) {
+            if (ret.State == '100') {
+                //alert(ret.Picurl);
+                $('#showimg5').attr('src', ret.Picurl);
+                $('#Nav5').val(ret.Nav);
+                $('#Pname5').val(ret.Pname);
+                //$('#showimg').html('<img src="' + ret.Data + '">');
+            } else {
+                alert('上传失败');
+            }
+        }, 'json');
+    } // reader onload end  
+})
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteFileFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/crmcompanyfile.ashx?action=cancel',
+                data: {
+                    "Id": id
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        filesTable.fnReloadAjax(filesTable.fnSettings());
+                    } else {
+                        alert("Delete Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+}
 
 //获取订单的数量，暂时还获取不了。 by daniel 20191028
 //function getOrderSum(){

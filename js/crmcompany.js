@@ -149,6 +149,22 @@ function initTable() {
 			// 	}			
 			// },				
 			{
+			    "mDataProp": "comp_state",
+			    "createdCell": function (td, cellData, rowData, row, col) {
+			        var _stateText = ""
+			        if (rowData.comp_state == 1) {
+			            _stateText = "待审核"
+			        } else if (rowData.comp_state == 2) {
+			            _stateText = "正常"
+			        } else if (rowData.comp_state == 3) {
+			            _stateText = "已停用"
+			        } else if (rowData.comp_state == 4) {
+			            _stateText = "审核不通过"
+			        }
+			        $(td).html(_stateText);
+			    }
+			},
+			{
 				"mDataProp": "comp_id",
 // 				"createdCell": function (td, cellData, rowData, row, col) {
 // 					$(td).html("<a href='crmcompanyadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -162,6 +178,17 @@ function initTable() {
 				    if (isPermission('1605') == 1) {
 				        perSend = "<li><a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a></li>"
 				    }
+				    var stateString = ""
+				    if (GetQueryString('type') == null) {
+				        if (rowData.comp_state == 1) {
+				            stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",2," + '"确认审核通过？"' + ")'>" + get_lan('check_pass') + "</a></li><li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",4," + '"确认审核不通过？"' + ")'>" + get_lan('check_no_pass') + "</a></li>"
+				        } else if (rowData.comp_state == 2) {
+				            stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",3," + '"确认停用？"' + ")'>" + get_lan('stop') + "</a></li>"
+				        } else if (rowData.comp_state == 3) {
+				            stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",2," + '"确认启动？"' + ")'>" + get_lan('start') + "</a></li>"
+				        }
+				        
+				    }
 	    			$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='crmcompanydetail.html?Id="+rowData.comp_id +"'> " + get_lan('follow') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
@@ -171,7 +198,8 @@ function initTable() {
 	                    + "<li><a href='contactsheetadd.html?action=add&crmId=" + cellData + "'>" + get_lan('addbooking') + "</a></li>"
 	                    + perSend
 	                    +"<li class='divider'></li>"
-	                    +"<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + ((rowData.book_state==1)?get_lan('delete'):"") + "</a></li>"
+	                    + "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + ((rowData.comp_state == 1) ? get_lan('delete') : "") + "</a></li>"
+                        + stateString
 	                    +"</ul></div>")
 	                    // 这里修改了列表的操作样式 by daniel 20190803
 				}
@@ -282,6 +310,37 @@ function _deleteFun(id) {
 			});
 		}
 	});
+}
+
+/**
+ * 更新状态
+ * @param id
+ * @private
+ */
+function _stateFun(id, state, stateText) {
+    bootbox.confirm(stateText, function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/crmcompany.ashx?action=editState',
+                data: {
+                    "Id": id,
+                    "state": state
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        oTable.fnReloadAjax(oTable.fnSettings());
+                    } else {
+                        alert("Update Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
 }
 
 /*

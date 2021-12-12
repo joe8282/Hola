@@ -387,6 +387,11 @@ Purchase: http://wrapbootstrap.com
                                         供应商/指定联系公司
                                     </a>
                                 </li>
+                                <li class="tab-relatshipments">
+                                    <a data-toggle="tab" href="#profile6">
+                                        证件上传管理
+                                    </a>
+                                </li>
                 			</ul>
                 		
                 			<div class="tab-content">
@@ -642,6 +647,46 @@ Purchase: http://wrapbootstrap.com
                                             </tr>
                                         </thead>                   
                                     </table>
+                                </div>
+
+                                <div id="profile6" class="tab-pane">
+                                    <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%" id="crmFile">
+                                        <thead>
+                                            <tr class="tableTitle">
+                                                <th>证件名称</th>
+                                                <th>上传人</th>
+                                                <th>上传时间</th>
+                                                <th>操作</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <div class="widget-body" style="margin-top: 20px;" id="crmFile_add">
+                                        <div id="horizontal-form">
+                                            <div class="form-horizontal" role="form">
+                                                <div class="form-group"></div>
+                                                <div class="form-group no-margin-bottom">
+                                                    <label for="inputPassword3" class="col-sm-3" style="text-align:left;">文件名称 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3" style="text-align:left;">选择文件 <sup></sup></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-3">
+                                                        <input type="email" class="form-control" id="filename5" placeholder="">
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input type="file" class="file" id="img5" accept="image/*">
+                                                        <input type="hidden" id="Nav5" />
+                                                        <input type="hidden" id="Pname5" />
+                                                        <p style="margin-top:0px;"><img id="showimg5" style="width:60px;"></p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <button type="submit" id="send_file" class="btn btn-darkorange col-sm-12">确认提交</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                 			</div>
                 		</div>

@@ -98,7 +98,10 @@ var cn1 = {
             "next" : "下一页",  
             "last" : "末页",   
             "onemore_booking" : "再定一次",   
-            "invoiceDetail" : "费用清单",             
+            "invoiceDetail": "费用清单",
+            "status": "状态",
+            "check_pass": "审核通过",
+            "check_no_pass": "审核不通过",
         };
 
 var en1 = {
@@ -198,7 +201,10 @@ var en1 = {
             "previous" : "Previous",  
             "next" : "Next",  
             "last" : "Last", 
-            "invoiceDetail" : "Invoice",                    
+            "invoiceDetail": "Invoice",
+            "status": "status",
+            "check_pass": "Check Pass",
+            "check_no_pass": "Check No Pass",
         };
         
 var cn = eval('('+(JSON.stringify(cn1)+JSON.stringify(cn2)).replace(/}{/,',')+')');
