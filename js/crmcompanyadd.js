@@ -50,6 +50,7 @@ $(function(){
 				var _html = '<option value="' + _data[i].usin_id + '">' + _data[i].usin_name + '</option>';
 				$('#sellId').append(_html)
 			}
+		    $("#sellId").val(userID).trigger("change")
 		}
 	}, function(error) {
 		console.log(parm)
@@ -176,6 +177,8 @@ $(function(){
 			    comModel("联系人邮箱格式不正确")
 			} else if(!ContactPhone) {
 				comModel("请输入联系人手机")
+			} else if (!sellId) {
+			    comModel("请选择跟进业务员")
 			} else {
 				var parm = {
 					'upId': 0,
@@ -240,7 +243,9 @@ $(function(){
 				comModel("请输入国家")
 			} else if(!CompanyTel) {
 				comModel("请输入公司电话")
-			}else{
+			} else if (!sellId) {
+			    comModel("请选择跟进业务员")
+			} else {
 				var parm = {
 					'Id': Id,
 					'companyId': companyID,
