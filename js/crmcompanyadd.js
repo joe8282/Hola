@@ -99,11 +99,12 @@ $(function(){
 				    })
 			    }
 			    if (_data.comp_badges != '') {
-			        CompanyBadges = _data.comp_badges
-			        var _badges = _data.comp_badges.split(',')
-			        for (var i = 0; i < _badges.length; i++) {
-			            $('#Badges').append('<span class="label label-success" style="margin-right: 5px; ">' + _badges[i] + '</span> ');
-			        }
+			        //CompanyBadges = _data.comp_badges
+			        //var _badges = _data.comp_badges.split(',')
+			        //for (var i = 0; i < _badges.length; i++) {
+			        //    $('#Badges').append('<span class="label label-success" style="margin-right: 5px; ">' + _badges[i] + '</span> ');
+			        //}
+			        $('#inputBadges').val(_data.comp_badges)
 			    }
 				//$("input[name='radio2'][value='" + _data.comp_type + "']").attr("checked", true),
 				$('#inputCompanyAddress').val(_data.comp_address),
@@ -158,6 +159,7 @@ $(function(){
 			ContactQq = $('#inputContactQq').val()
 //			AccountName = $('#inputAccountName').val(),
 //			AccountPw = $('#inputAccountPw').val();
+	    CompanyBadges = $('#inputBadges').val().replace("；", ";")
 
 	    if (action == 'add') {
 	        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //邮箱正则表达式

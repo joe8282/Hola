@@ -432,16 +432,16 @@ function initTable(fromId) {
     		{
     		    "mDataProp": "book_orderCode",
     		    "createdCell": function (td, cellData, rowData, row, col) {
-                    mblNo = ""
-                    if (rowData.book_billCode != null) { mblNo = rowData.book_billCode }
-                    var _str = rowData.book_orderCode + '<br/>MBL NO.: ' + mblNo
+    		        var mblNo = ""
+    		        if (rowData.book_billCode != "") { mblNo = "<br/><span style='color:#999;'>MBL NO.:</span><br/>" + rowData.book_billCode }
+                    var _str = rowData.book_orderCode + mblNo
     		        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbill", {
     		            "bookingId": rowData.book_id
     		        }, function (data) {
     		            if (data.State == 1) {
     		                var _data = data.Data;
     		                if (_data.length > 0) {
-    		                    _str = _str + '<br/>HBL NO.: '
+    		                    _str = _str + "<br/><span style='color:#999;'>HBL NO.:</span><br/>"
     		                    for (var i = 0; i < _data.length; i++) {
     		                        _str = _str + _data[i].bobi_billCode + '<br/>'
     		                    }
