@@ -239,7 +239,11 @@ $(document).ready(function () {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
-	        _divLastId = $('#printArea').children('div').last().attr('id')
+	        if ($('#printArea').children('div').children('img').length > 0) {
+	            _divLastId = $('#printArea').children('div').children('img').last().attr('id')
+	        } else {
+	            _divLastId = $('#printArea').children('div').last().attr('id')
+	        }
 	    }
 	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
 		var HLine = '<div name="hline" id="hline' + _divLength + '" itemrelation="" itemtype="hline" style="border-top:1px solid black; height:10px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; position:absolute;"></div>';
@@ -260,9 +264,13 @@ $(document).ready(function () {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
-	        _divLastId = $('#printArea').children('div').last().attr('id')
+	        if ($('#printArea').children('div').children('img').length > 0) {
+	            _divLastId = $('#printArea').children('div').children('img').last().attr('id')
+	        } else {
+	            _divLastId = $('#printArea').children('div').last().attr('id')
+	        }
 	    }
-	    var _divLength = parseInt(_divLastId.substring(4)) + 1
+	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
 		var VLine = '<div name="vline" id="vline' + _divLength + '" itemrelation="" itemtype="vline" style="border-left:1px solid black; height:100px; width:10px; left:10px; top:10px; font-size:12px; font-weight:400; position:absolute;"></div>';
 		$("#printArea").append(VLine);
 		$("#relation").hide();
@@ -281,9 +289,13 @@ $(document).ready(function () {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
-	        _divLastId = $('#printArea').children('div').last().attr('id')
+	        if ($('#printArea').children('div').children('img').length > 0) {
+	            _divLastId = $('#printArea').children('div').children('img').last().attr('id')
+	        } else {
+	            _divLastId = $('#printArea').children('div').last().attr('id')
+	        }
 	    }
-	    var _divLength = parseInt(_divLastId.substring(4)) + 1
+	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
 		var Square = '<div name="square" id="square' + _divLength + '" itemrelation="" itemtype="square" style="border:1px solid black; height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; position:absolute;"></div>';
 		$("#printArea").append(Square);
 		$("#relation").hide();
@@ -302,9 +314,13 @@ $(document).ready(function () {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
-	        _divLastId = $('#printArea').children('div').last().attr('id')
+	        if ($('#printArea').children('div').children('img').length > 0) {
+	            _divLastId = $('#printArea').children('div').children('img').last().attr('id')
+	        } else {
+	            _divLastId = $('#printArea').children('div').last().attr('id')
+	        }
 	    }
-	    var _divLength = parseInt(_divLastId.substring(4)) + 1
+	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
 		var Label = '<div name="label" id="label' + _divLength + '" itemrelation="" itemtype="label" style="height:50px; width:120px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Label and Text Area</p></div>';
 		$("#printArea").append(Label);
 		$("#relation").hide();
@@ -324,9 +340,13 @@ $(document).ready(function () {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
-	        _divLastId = $('#printArea').children('div').last().attr('id')
+	        if ($('#printArea').children('div').children('img').length > 0) {
+	            _divLastId = $('#printArea').children('div').children('img').last().attr('id')
+	        } else {
+	            _divLastId = $('#printArea').children('div').last().attr('id')
+	        }
 	    }
-	    var _divLength = parseInt(_divLastId.substring(4)) + 1
+	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
 	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute; word-wrap: break-all;"><p>Data Content</p></div>';
 	    $("#printArea").append(Data);
 	    $("#relation").show();
@@ -377,8 +397,13 @@ $(document).ready(function () {
 	                //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	                var _divLastId = "0"
 	                if ($('#printArea').children('div').length > 0) {
-	                    _divLastId = $('#printArea').children('div').last().attr('id')
+	                    if ($('#printArea').children('div').children('img').length > 0) {
+	                        _divLastId = $('#printArea').children('div').children('img').last().attr('id')
+	                    } else {
+	                        _divLastId = $('#printArea').children('div').last().attr('id')
+	                    }
 	                }
+	                var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
 	                //console.log(_divLength)
 	                //var Label = '<div name="img" id="img' + _divLength + '" itemrelation="" itemtype="img" style="left:0px; top:0px; position:absolute;"><img src="' + ret.Picurl + '" width="100%"></div>';
 	                if (ret.PicWidth > 1200) {
@@ -386,12 +411,12 @@ $(document).ready(function () {
 	                    ret.PicWidth = 1200;
 	                    ret.PicHeight = ret.PicHeight * bili
 	                }
-	                var Image = '<img src="' + ret.Picurl + '" name="img" id="img' + _divLastId + '" itemrelation="" itemtype="img" style="height:' + ret.PicHeight + 'px; width:' + ret.PicWidth + 'px; left:0px; top:0px; position:absolute;">';
+	                var Image = '<img src="' + ret.Picurl + '" name="img" id="img' + _divLength + '" itemrelation="" itemtype="img" style="height:' + ret.PicHeight + 'px; width:' + ret.PicWidth + 'px; left:0px; top:0px; position:absolute;">';
 	                $("#printArea").append(Image);
-	                $("#item-Id").text("img" + _divLastId);
-	                $("#itemId").val("img" + _divLastId);
+	                $("#item-Id").text("img" + _divLength);
+	                $("#itemId").val("img" + _divLength);
 	                $("#itemType").val("img");
-	                DraggableResizableToImg("img" + _divLastId);
+	                DraggableResizableToImg("img" + _divLength);
 	                $("#imgfile").val('')
 	                $("#myModal_img").modal("hide");
 
