@@ -1,21 +1,21 @@
 //语言包
 var cn2 = {
-            "con_top_1" : "首页",
-            "con_top_2" : "财务管理中心",   
-        };
+    "con_top_1": "首页",
+    "con_top_2": "运价管理中心",
+};
 
 var en2 = {
-            "con_top_1" : "Home",
-            "con_top_2" : "Financial MANAGEMENT",        
-        };
+    "con_top_1": "Home",
+    "con_top_2": "Rates MANAGEMENT",
+};
 
 $(function(){
     hasPermission('1304'); //权限控制：查看费用详细清单	
-	this.title = get_lan('nav_5_3') 	
-	$('.navli5').addClass("active open")
+    this.title = get_lan('nav_4_5')
+	$('.navli4').addClass("active open")
 	$('.financial3').addClass("active")	
-	$('#title1').text(get_lan('nav_5_3'))
-	$('#title2').text(get_lan('nav_5_3')) 
+	$('#title1').text(get_lan('nav_4_5'))
+	$('#title2').text(get_lan('nav_4_5'))
 	
 	var Id = GetQueryString('Id');
 
@@ -27,6 +27,7 @@ $(function(){
 	    //初始化信息
 	    var _data = data.Data
 	    var _data2 = data.Data2
+	    $('.code').text(_data.prsh_code)
 	    $('.companyName').text(_data2.comp_name)
 	    $('.companyNameEn').text(_data2.comp_name_en)
 	    $('.companyTel').text(_data2.comp_tel)
@@ -52,8 +53,8 @@ $(function(){
 		$('.shipments_containers').text(p20gp+p40gp+p40hq);
 		$('.shipments_datas').text(pCbm+pKgs+pCtns);
 
-
-		if(feeItem0!=""){
+		
+		if (_data.prsh_feeItem != "") {
 		    var feeItemAll0 = _data.prsh_feeItem.split('||')
 		    for (var i = 0; i < feeItemAll0.length - 1; i++) {
 		        var feeItem0 = feeItemAll0[i].split(';')
@@ -74,7 +75,8 @@ $(function(){
 		}else{
 			$("#freight_div").hide();
 		}
-	    if(feeItemAll!=""){
+
+		if (_data.prsh_localChargeItem != "") {
 		    var feeItemAll = _data.prsh_localChargeItem.split('||')
 		    for (var i = 0; i < feeItemAll.length - 1; i++) {
 		        var feeItem = feeItemAll[i].split(';')
@@ -95,7 +97,7 @@ $(function(){
 			$("#localcharge_div").hide();
 		}
 
-		if(feeItemAll2!=""){
+		if (_data.prsh_truckingChargeItem != "") {
 		    var feeItemAll2 = _data.prsh_truckingChargeItem.split('||')
 		    for (var i = 0; i < feeItemAll2.length - 1; i++) {
 		        var feeItem2 = feeItemAll2[i].split(';')

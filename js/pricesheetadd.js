@@ -1,21 +1,21 @@
 //语言包
 var cn2 = {
-            "con_top_1" : "首页",
-            "con_top_2" : "财务管理中心",   
-        };
+    "con_top_1": "首页",
+    "con_top_2": "运价管理中心",
+};
 
 var en2 = {
-            "con_top_1" : "Home",
-            "con_top_2" : "Financial MANAGEMENT",        
+    "con_top_1": "Home",
+    "con_top_2": "Rates MANAGEMENT",
 };
 
 var oTable;
 $(function(){
-	this.title = get_lan('nav_5_3') 	
-	$('.navli5').addClass("active open")
-	$('.financial3').addClass("active")	
-	$('#title1').text(get_lan('nav_5_3'))
-	$('#title2').text(get_lan('nav_5_3')) 
+    this.title = get_lan('nav_4_6')
+	$('.navli4').addClass("active open")
+	$('.rate5').addClass("active")
+	$('#title1').text(get_lan('nav_4_6'))
+	$('#title2').text(get_lan('nav_4_6'))
 	
 	var action = GetQueryString('action');	
 	var Id = GetQueryString('Id');

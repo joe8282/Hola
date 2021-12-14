@@ -46,6 +46,7 @@ function initTable() {
         ],
 //		"bProcessing": true,
 		"aoColumns": [
+            { "mDataProp": "prsh_code" },
 			{ "mDataProp": "comp_name" },
 			{ "mDataProp": "prsh_port1" },
 			{ "mDataProp": "prsh_port2" },
