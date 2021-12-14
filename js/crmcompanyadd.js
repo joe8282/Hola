@@ -162,7 +162,7 @@ $(function(){
 	    CompanyBadges = $('#inputBadges').val().replace("；", ";")
 
 	    if (action == 'add') {
-	        var reg = new RegExp("^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$"); //邮箱正则表达式
+	        var reg = new RegExp("^(.+)@(.+)$"); //邮箱正则表达式
 			if(!CompanyName) {
 				comModel("请输入公司名称")
 			} else if(!CompanyContent) {
