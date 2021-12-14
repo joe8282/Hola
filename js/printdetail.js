@@ -199,9 +199,9 @@ $(document).ready(function () {
                             //}
                             var value = ''
                             if ($(this).attr("itemrelation").indexOf("Time") >= 0) {
-                                if ($(this).attr("itemrelation").indexOf("book_") >= 0 && (mblData[$(this).attr("itemrelation")] != null || mblData[$(this).attr("itemrelation")] != '')) {
+                                if ($(this).attr("itemrelation").indexOf("book_") >= 0 && mblData[$(this).attr("itemrelation")] != null) {
                                     value = mblData[$(this).attr("itemrelation")].substring(0, 10)
-                                } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0 && (hblData[$(this).attr("itemrelation")] != null || hblData[$(this).attr("itemrelation")] != '')) {
+                                } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0 && hblData[$(this).attr("itemrelation")] != null) {
                                     value = hblData[$(this).attr("itemrelation")].substring(0, 10)
                                 }
                             } else {
