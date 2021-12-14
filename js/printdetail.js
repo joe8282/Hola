@@ -213,6 +213,7 @@ $(document).ready(function () {
                                     }   
                                 }
                             }
+                            if (value == null) { value = '' }
                             $(this).find("p").html(value);
 
                         }
@@ -539,6 +540,7 @@ $(document).ready(function () {
 		                
 		            }
 		        }
+		        if (value == null) { value = '' }
 		        $("#" + $("#itemId").val() + " p").html(value);
 		    }
 		    
