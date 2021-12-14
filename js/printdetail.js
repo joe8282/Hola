@@ -525,9 +525,9 @@ $(document).ready(function () {
 		        //$("#" + $("#itemId").val() + " p").html(value);
 		        var value = ''
 		        if ($(this).val().indexOf("Time") >= 0) {
-		            if ($(this).val().indexOf("book_") && (mblData[$(this).val()] != null || mblData[$(this).val()] != '')) {
+		            if ($(this).val().indexOf("book_") && mblData[$(this).val()] != null) {
 		                value = mblData[$(this).val()].substring(0, 10)
-		            } else if ($(this).val().indexOf("bobi_") && (hblData[$(this).val()] != null || hblData[$(this).val()] != '')) {
+		            } else if ($(this).val().indexOf("bobi_") && hblData[$(this).val()] != null) {
 		                value = hblData[$(this).val()].substring(0, 10)
 		            }
 		        } else {
