@@ -22,7 +22,7 @@ $(document).ready(function () {
 
 	$("#addHLine").click(function () {  
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	    var _divLastId = 0
+	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
 	        _divLastId = $('#printArea').children('div').last().attr('id')
 	    }
@@ -44,7 +44,7 @@ $(document).ready(function () {
 	})
 	$("#addVLine").click(function() {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	    var _divLastId = 0
+	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
 	        _divLastId = $('#printArea').children('div').last().attr('id')
 	    }
@@ -65,7 +65,7 @@ $(document).ready(function () {
 	})
 	$("#addSquare").click(function() {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	    var _divLastId = 0
+	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
 	        _divLastId = $('#printArea').children('div').last().attr('id')
 	    }
@@ -86,7 +86,7 @@ $(document).ready(function () {
 	})
 	$("#addLabel").click(function() {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	    var _divLastId = 0
+	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
 	        _divLastId = $('#printArea').children('div').last().attr('id')
 	    }
@@ -108,7 +108,7 @@ $(document).ready(function () {
 	})
 	$("#addData").click(function () {
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	    var _divLastId = 0
+	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
 	        _divLastId = $('#printArea').children('div').last().attr('id')
 	    }
@@ -160,20 +160,23 @@ $(document).ready(function () {
 	        $.post(dataUrl + "ajax/uploadPic.ashx", { image: e.target.result, companyId: companyID }, function (ret) {
 	            if (ret.State == '100') {
 	                //alert(ret.Picurl);
-	                var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
-	                console.log(_divLength)
+	                //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
+	                var _divLastId = "0"
+	                if ($('#printArea').children('div').length > 0) {
+	                    _divLastId = $('#printArea').children('div').last().attr('id')
+	                }
 	                //var Label = '<div name="img" id="img' + _divLength + '" itemrelation="" itemtype="img" style="left:0px; top:0px; position:absolute;"><img src="' + ret.Picurl + '" width="100%"></div>';
 	                if (ret.PicWidth > 1200) {
 	                    var bili = 1200 / ret.PicWidth
 	                    ret.PicWidth = 1200;
 	                    ret.PicHeight = ret.PicHeight * bili
 	                }
-	                var Image = '<img src="' + ret.Picurl + '" name="img" id="img' + _divLength + '" itemrelation="" itemtype="img" style="height:' + ret.PicHeight + 'px; width:' + ret.PicWidth + 'px; left:0px; top:0px; position:absolute;">';
+	                var Image = '<img src="' + ret.Picurl + '" name="img" id="img' + _divLastId + '" itemrelation="" itemtype="img" style="height:' + ret.PicHeight + 'px; width:' + ret.PicWidth + 'px; left:0px; top:0px; position:absolute;">';
 	                $("#printArea").append(Image);
-	                $("#item-Id").text("img" + _divLength);
-	                $("#itemId").val("img" + _divLength);
+	                $("#item-Id").text("img" + _divLastId);
+	                $("#itemId").val("img" + _divLastId);
 	                $("#itemType").val("img");
-	                DraggableResizableToImg("img" + _divLength);
+	                DraggableResizableToImg("img" + _divLastId);
 	                $("#imgfile").val('')
 	                $("#myModal_img").modal("hide");
 
