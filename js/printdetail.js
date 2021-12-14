@@ -235,7 +235,8 @@ $(document).ready(function () {
 
 
 
-	$("#addHLine").click(function () {  
+    $("#addHLine").click(function () {
+        var topHeight = $(document).scrollTop() + 10 + "px";
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
@@ -246,7 +247,7 @@ $(document).ready(function () {
 	        }
 	    }
 	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
-		var HLine = '<div name="hline" id="hline' + _divLength + '" itemrelation="" itemtype="hline" style="border-top:1px solid black; height:10px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; position:absolute;"></div>';
+	    var HLine = '<div name="hline" id="hline' + _divLength + '" itemrelation="" itemtype="hline" style="border-top:1px solid black; height:10px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; position:absolute;"></div>';
 		$("#printArea").append(HLine);
 		$("#relation").hide();
 		$("#name").hide();
@@ -260,7 +261,8 @@ $(document).ready(function () {
 		$("#itemType").val("hline");
 		DraggableResizableToNominate("hline"+_divLength);
 	})
-	$("#addVLine").click(function() {
+    $("#addVLine").click(function () {
+        var topHeight = $(document).scrollTop() + 10 + "px";
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
@@ -271,7 +273,7 @@ $(document).ready(function () {
 	        }
 	    }
 	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
-		var VLine = '<div name="vline" id="vline' + _divLength + '" itemrelation="" itemtype="vline" style="border-left:1px solid black; height:100px; width:10px; left:10px; top:10px; font-size:12px; font-weight:400; position:absolute;"></div>';
+	    var VLine = '<div name="vline" id="vline' + _divLength + '" itemrelation="" itemtype="vline" style="border-left:1px solid black; height:100px; width:10px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; position:absolute;"></div>';
 		$("#printArea").append(VLine);
 		$("#relation").hide();
 		$("#name").hide();
@@ -285,7 +287,8 @@ $(document).ready(function () {
         $("#itemType").val("vline");
 		DraggableResizableToNominate("vline"+_divLength);
 	})
-	$("#addSquare").click(function() {
+    $("#addSquare").click(function () {
+        var topHeight = $(document).scrollTop() + 10 + "px";
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
@@ -296,7 +299,7 @@ $(document).ready(function () {
 	        }
 	    }
 	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
-		var Square = '<div name="square" id="square' + _divLength + '" itemrelation="" itemtype="square" style="border:1px solid black; height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; position:absolute;"></div>';
+	    var Square = '<div name="square" id="square' + _divLength + '" itemrelation="" itemtype="square" style="border:1px solid black; height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; position:absolute;"></div>';
 		$("#printArea").append(Square);
 		$("#relation").hide();
 		$("#name").hide();
@@ -310,7 +313,8 @@ $(document).ready(function () {
 		$("#itemType").val("square");
 		DraggableResizableToNominate("square"+_divLength);
 	})
-	$("#addLabel").click(function() {
+    $("#addLabel").click(function () {
+        var topHeight = $(document).scrollTop() + 10 + "px";
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
@@ -321,7 +325,7 @@ $(document).ready(function () {
 	        }
 	    }
 	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
-		var Label = '<div name="label" id="label' + _divLength + '" itemrelation="" itemtype="label" style="height:50px; width:120px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Label and Text Area</p></div>';
+	    var Label = '<div name="label" id="label' + _divLength + '" itemrelation="" itemtype="label" style="height:50px; width:120px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Label and Text Area</p></div>';
 		$("#printArea").append(Label);
 		$("#relation").hide();
 		$("#name").show();
@@ -336,7 +340,8 @@ $(document).ready(function () {
 		$("#itemType").val("label");
 		DraggableResizableToNominate("label"+_divLength);
 	})
-	$("#addData").click(function () {
+    $("#addData").click(function () {
+        var topHeight = $(document).scrollTop() + 10 + "px";
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数
 	    var _divLastId = "0"
 	    if ($('#printArea').children('div').length > 0) {
@@ -347,7 +352,7 @@ $(document).ready(function () {
 	        }
 	    }
 	    var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
-	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:10px; font-size:12px; font-weight:400; z-index:99; position:absolute; word-wrap: break-all;"><p>Data Content</p></div>';
+	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute; word-wrap: break-all;"><p>Data Content</p></div>';
 	    $("#printArea").append(Data);
 	    $("#relation").show();
 	    $("#name").hide();
