@@ -101,6 +101,40 @@ $(document).ready(function () {
                             }, function (err) {
                                 console.log(err)
                             }, 2000)
+                        } else if ($(this).attr("itemrelation") == 'book_sellId' || $(this).attr("itemrelation") == 'book_luruId' || $(this).attr("itemrelation") == 'book_caozuoId' || $(this).attr("itemrelation") == 'book_kefuId') {
+                            var value = mblData[$(this).attr("itemrelation")]
+                            common.ajax_req("get", true, dataUrl, "userinfo.ashx?action=readbyid", {
+                                "Id": value
+                            }, function (data) {
+                                var _data = data.Data;
+                                $("#" + id + "").find("p").html(_data.usin_name);
+                            }, function (err) {
+                                console.log(err)
+                            }, 2000)
+                        } else if ($(this).attr("itemrelation") == 'bookingSupplier') {  // 供应商/指定联系公司信息
+                            common.ajax_req("get", true, dataUrl, "booking.ashx?action=readsupplier", {
+                                "bookingId": bookingId
+                            }, function (data) {
+                                //console.log(data.Data)
+                                if (data.State == 1) {
+                                    var _html = '<table class="table table-striped table-hover table-bordered supplierAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                                        '<tr><td>公司名称</td><td>联系人</td><td>联系电话</td><td>邮箱</td></tr>'
+                                    var _data = data.Data;
+                                    for (var i = 0; i < _data.length; i++) {
+                                        var supplierlist = '<tr><td> ' + _data[i].comp_name + '</td><td> ' + _data[i].comp_head + '</td><td>' + _data[i].comp_phone + '</td><td>' + _data[i].comp_email + '</td></tr>'
+                                        _html = _html + supplierlist
+                                    }
+                                    _html = _html + '</table>'
+                                    $("#" + id + "").find("p").html(_html);
+                                    //console.log($(this).attr("itemrelation"))
+                                }
+                                else {
+                                    $("#" + id + "").find("p").html("");
+                                }
+                            }, function (err) {
+                                console.log(err)
+                            }, 2000)
+
                         } else if ($(this).attr("itemrelation") == 'bookingTrailer') {  //拖车信息数据集
                             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
                                 "bookingId": bookingId
@@ -457,6 +491,16 @@ $(document).ready(function () {
 		        }, function (err) {
 		            console.log(err)
 		        }, 2000)
+		    } else if ($(this).val() == 'book_sellId' || $(this).val() == 'book_luruId' || $(this).val() == 'book_caozuoId' || $(this).val() == 'book_kefuId') {
+		        var value = mblData[$(this).val()]
+		        common.ajax_req("get", true, dataUrl, "userinfo.ashx?action=readbyid", {
+		            "Id": value
+		        }, function (data) {
+		            var _data = data.Data;
+		            $("#" + $("#itemId").val() + " p").html(_data.usin_name);
+		        }, function (err) {
+		            console.log(err)
+		        }, 2000)
 		    } else if ($(this).val() == 'bookingTrailer') {  //拖车信息数据集
 		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
 		            "bookingId": bookingId
@@ -479,6 +523,30 @@ $(document).ready(function () {
 		        }, function (err) {
 		            console.log(err)
 		        }, 2000)
+		    } else if ($(this).val() == 'bookingSupplier') {  // 供应商/指定联系公司信息
+		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readsupplier", {
+		            "bookingId": bookingId
+		        }, function (data) {
+		            //console.log(data.Data)
+		            if (data.State == 1) {
+		                var _html = '<table class="table table-striped table-hover table-bordered supplierAll" cellspacing="0" width="100%" id="exampleTrailer">' +
+                            '<tr><td>公司名称</td><td>联系人</td><td>联系电话</td><td>邮箱</td></tr>'
+		                var _data = data.Data;
+		                for (var i = 0; i < _data.length; i++) {
+		                    var supplierlist = '<tr><td> ' + _data[i].comp_name + '</td><td> ' + _data[i].comp_head + '</td><td>' + _data[i].comp_phone + '</td><td>' + _data[i].comp_email + '</td></tr>'
+		                    _html = _html + supplierlist
+		                }
+		                _html = _html + '</table>'
+		                $("#" + $("#itemId").val() + " p").html(_html);
+		                //console.log($(this).attr("itemrelation"))
+		            }
+		            else {
+		                $("#" + $("#itemId").val() + " p").html("");
+		            }
+		        }, function (err) {
+		            console.log(err)
+		        }, 2000)
+
 		    } else if ($(this).val() == 'bookingContainer') {  //集装箱信息数据集
 		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
 		            "whichId": 1,
