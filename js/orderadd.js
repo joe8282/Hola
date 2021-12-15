@@ -3334,6 +3334,7 @@ $(function(){
 					'Id': Id,
 					'userId': userID,
 					'userName': userName,
+					'crmCompanyId': crmCompanyId,
 					'crmContactId': 0,
 					'code': code,
 					'outCode': outCode,
