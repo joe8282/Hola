@@ -96,8 +96,13 @@ $(document).ready(function () {
                             common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
                                 "Id": value
                             }, function (data) {
-                                var _data = data.Data;
-                                $("#" + id + "").find("p").html(_data.comp_name);
+                                if (data.State == 1) {
+                                    var _data = data.Data;
+                                    $("#" + id + "").find("p").html(_data.comp_name);
+                                } else {
+                                    $("#" + id + "").find("p").html("");
+                                }
+
                             }, function (err) {
                                 console.log(err)
                             }, 2000)
@@ -106,8 +111,12 @@ $(document).ready(function () {
                             common.ajax_req("get", true, dataUrl, "userinfo.ashx?action=readbyid", {
                                 "Id": value
                             }, function (data) {
-                                var _data = data.Data;
-                                $("#" + id + "").find("p").html(_data.usin_name);
+                                if (data.State == 1) {
+                                    var _data = data.Data;
+                                    $("#" + id + "").find("p").html(_data.usin_name);
+                                } else {
+                                    $("#" + id + "").find("p").html("");
+                                }
                             }, function (err) {
                                 console.log(err)
                             }, 2000)
