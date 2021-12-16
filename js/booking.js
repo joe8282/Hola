@@ -555,6 +555,7 @@ function initTable(fromId) {
 			{
 				"mDataProp": "book_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
+                    //perCancel = "<a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'>" + get_lan('cancel') + "</a>"
 					$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
 	    			+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
                     + "<ul class='dropdown-menu dropdown-azure'>"
