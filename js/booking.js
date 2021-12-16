@@ -549,19 +549,39 @@ function initTable(fromId) {
     		//		$(td).html("NULL"); //这里是财务状况，还没有任何的数添加到这里来，到时候这里估计要体现从其他函数过来的数。
     		//	}    			
     		//},    		
+    		//{
+    		//	"mDataProp": "orderstate_name_cn"
+    		//},
     		{
-    			"mDataProp": "orderstate_name_cn"
-    		},
+    		    "mDataProp": "orderstate_name_cn",
+    		    "createdCell": function (td, cellData, rowData, row, col) {
+    		        if (rowData.book_state != 3) {
+    		            $(td).html(rowData.orderstate_name_cn);
+    		        } else {
+    		            $(td).html("<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + "," + rowData.book_beizhu + ")'>已取消</a>");
+    		        }
+    				
+    			}    			
+    		},   
 			{
 				"mDataProp": "book_id",
 				"createdCell": function (td, cellData, rowData, row, col) {
-                    //perCancel = "<a class='btn btn-blue btn-sm' href='javascript:void(0);' onclick='_cancelFun(" + cellData + "," + rowData.book_userId + "," + rowData.book_state + ",\"" + rowData.book_code + "\",\"" + allContainer.replace('\'', '_') + "\",\"" + pol + "\",\"" + pod + "\",\"" + rowData.book_carrierSupplierEmail + "\")'>" + get_lan('cancel') + "</a>"
-					$(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
-	    			+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
-                    + "<ul class='dropdown-menu dropdown-azure'>"
-                    + "<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
-                    +"<li><a href='printrecord.html?aboutId=" + cellData + "'>" + get_lan('con_top_7') + "</a></li>"
-                    +"</ul></div>")
+				    var perCancel = ""
+				    if (rowData.book_orderState == 12 && rowData.book_state != 3) {
+				        perCancel = "<li><a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + "," + rowData.book_beizhu + ")'>" + get_lan('cancel') + "</a></li>"
+				    }
+				    if (rowData.book_state != 3) {
+				        $(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
+                        + "<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
+                        + "<ul class='dropdown-menu dropdown-azure'>"
+                        + "<li><a href='orderfee.html?Id=" + cellData + "'>" + get_lan('con_top_6') + "</a></li>"
+                        + "<li><a href='printrecord.html?aboutId=" + cellData + "'>" + get_lan('con_top_7') + "</a></li>"
+                        + perCancel
+                        + "</ul></div>")
+				    } else {
+				        $(td).html("")
+				    }
+
 					if(rowData.book_orderState == 2) {
 						$(td).parent().find("td").css("background-color","#fdfdbf");
 					} 
@@ -939,6 +959,8 @@ function initTable(fromId) {
  		'Id': $('#bookId').val(),
  		'state': 3,
  		'beizhu': $('#beizhu').val(),
+ 		'userId': userID,
+ 		'userName': userName,
  		'isCancelSendeMail': isCancelSendeMail,
  		'isCancelSendeMail2': isCancelSendeMail2,
  		'emailContent': emailContent,
@@ -962,6 +984,65 @@ function initTable(fromId) {
  	}, 10000)
  });
  
+
+ /**
+  * 取消订单
+  */
+ function _cancelOrderFun(id, state, beizhu) {
+     $("#myOrderCancelModal").modal("show");
+     $('#orderId').val(id)
+     if (state == 1) {
+         $('#cancel_order1').show()
+         $('#cancel_order2').hide()
+         $('#btnOrderCancelSave').show()
+     } else if (state == 3) {
+         $('#cancel_order2').show()
+         $('#cancel_order1').hide()
+         $('#btnOrderCancelSave').hide()
+         $('#cancel_reason').html(beizhu)
+
+         common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfollow", {
+             "bookingId": id
+         }, function (data) {
+             //console.log(data.Data)
+             if (data.State == 1) {
+                 var _data = data.Data;
+                 var feilist = '<p><span>时间：' + _data[0].bofo_time.substring(0, 16).replace('T', ' ') + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>操作人：' + _data[0].bofo_userName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>操作：' + _data[0].bofo_state + '</span></p>'
+                 $("#cancel_time").append(feilist)
+             }
+
+         }, function (err) {
+             console.log(err)
+         }, 2000)
+     }
+
+ }
+ $('#btnOrderCancelSave').on('click', function () {
+
+     var parm = {
+         'Id': $('#orderId').val(),
+         'state': 3,
+         'beizhu': $('#order_beizhu').val(),
+         'userId': userID,
+         'userName': userName,
+
+     }
+     common.ajax_req('POST', true, dataUrl, 'booking.ashx?action=modify', parm, function (data) {
+         if (data.State == 1) {
+             $("#myOrderCancelModal").modal("hide");
+             comModel("取消成功")
+             oTable.fnReloadAjax(oTable.fnSettings());
+         } else {
+             $("#myOrderCancelModal").modal("hide");
+             comModel("取消失败")
+             oTable.fnReloadAjax(oTable.fnSettings());
+         }
+     }, function (error) {
+         console.log(parm)
+     }, 10000)
+ });
+
+
 /**
  * 删除
  * @param id
