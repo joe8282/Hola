@@ -20,6 +20,24 @@ $(document).ready(function () {
     var action = GetQueryString('action');
     var Id = GetQueryString('Id');
 
+    $("#addTime").click(function () {
+        var topHeight = $(document).scrollTop() + 10 + "px";
+        var _divLength = getCode()
+        var Label = '<div name="nowtime" id="nowtime' + _divLength + '" itemrelation="" itemtype="nowtime" style="height:50px; width:120px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Now Time</p></div>';
+        $("#printArea").append(Label);
+        $("#relation").hide();
+        $("#name").hide();
+        $("#size").hide();
+        $("#weight").hide();
+        $('#setForm').each(function (index) {
+            $('#setForm')[index].reset();
+        });
+        $("#item-Id").text("nowtime" + _divLength);
+        $("#itemId").val("nowtime" + _divLength);
+        $("#itemType").val("nowtime");
+        DraggableResizableToNominate("nowtime" + _divLength);
+    })
+
     $("#addHLine").click(function () {
         var topHeight = $(document).scrollTop()+10+"px";
 	    //var _divLength = $('#printArea').children('div').length; //统计#printArea下面的DIV个数

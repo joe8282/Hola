@@ -88,7 +88,12 @@ $(document).ready(function () {
                 DraggableResizable()
                 var divArr = $('#printArea div');
                 $.each(divArr, function (i, n) {
-                    if ($(this).attr("itemtype") == "data")
+                    if ($(this).attr("itemtype") == "nowtime") {
+                        var id = $(this).attr("id")
+                        var now = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ")
+                        $("#" + id + "").find("p").html(now);
+
+                    } else if ($(this).attr("itemtype") == "data")
                     {
                         var id = $(this).attr("id")
                         if ($(this).attr("itemrelation") == 'book_crmCompanyId' || $(this).attr("itemrelation") == 'book_warehouse' || $(this).attr("itemrelation") == 'book_forwarder') {
@@ -276,7 +281,23 @@ $(document).ready(function () {
     }, 2000)
 
 
-
+    $("#addTime").click(function () {
+        var topHeight = $(document).scrollTop() + 10 + "px";
+        var _divLength = getCode()
+        var Label = '<div name="nowtime" id="nowtime' + _divLength + '" itemrelation="" itemtype="nowtime" style="height:50px; width:120px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Now Time</p></div>';
+        $("#printArea").append(Label);
+        $("#relation").hide();
+        $("#name").hide();
+        $("#size").hide();
+        $("#weight").hide();
+        $('#setForm').each(function (index) {
+            $('#setForm')[index].reset();
+        });
+        $("#item-Id").text("nowtime" + _divLength);
+        $("#itemId").val("nowtime" + _divLength);
+        $("#itemType").val("nowtime");
+        DraggableResizableToNominate("nowtime" + _divLength);
+    })
 
 
     $("#addHLine").click(function () {
