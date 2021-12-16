@@ -303,9 +303,22 @@ function initTable(fromId) {
     	columns = [
     		{
     			"mDataProp": "book_sellId",
-				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html(getSellId(rowData.book_sellId))
-				}	
+    			"createdCell": function (td, cellData, rowData, row, col) {
+    			    var role_text = ""
+    			    if (rowData.book_sellId != 0) {
+    			        role_text += "销售：" + getSellId(rowData.book_sellId) + "<br/>"
+    			    }
+    			    if (rowData.book_caozuoId != 0) {
+    			        role_text += "操作：" + getSellId(rowData.book_caozuoId) + "<br/>"
+    			    }
+    			    if (rowData.book_luruId != 0) {
+    			        role_text += "录单：" + getSellId(rowData.book_luruId) + "<br/>"
+    			    }
+    			    if (rowData.book_kefuId != 0) {
+    			        role_text += "客服：" + getSellId(rowData.book_kefuId)
+    			    }
+    			    $(td).html(role_text)
+    			}
     		},
 			{ "mDataProp": "book_code",
 			"createdCell": function (td, cellData, rowData, row, col) {
@@ -420,13 +433,26 @@ function initTable(fromId) {
     }else{
 		hasPermission('1713'); //权限控制
 		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&userOtherId=' + userID
-    	tableTitle = '<th>销售</th><th>单号</th><th>订舱号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
+		tableTitle = '<th>人员</th><th>单号</th><th>订舱号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
     	columns = [
     		{
     			"mDataProp": "book_sellId",
-				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html(getSellId(rowData.book_sellId))
+    			"createdCell": function (td, cellData, rowData, row, col) {
+    			    var role_text = ""
+    			    if (rowData.book_sellId != 0) {
+    			        role_text += "销售：" + getSellId(rowData.book_sellId)+"<br/>"
+    			    }
+    			    if (rowData.book_caozuoId != 0) {
+    			        role_text += "操作：" + getSellId(rowData.book_caozuoId) + "<br/>"
+    			    }
+    			    if (rowData.book_luruId != 0) {
+    			        role_text += "录单：" + getSellId(rowData.book_luruId) + "<br/>"
+    			    }
+    			    if (rowData.book_kefuId != 0) {
+    			        role_text += "客服：" + getSellId(rowData.book_kefuId)
+    			    }
+    			    $(td).html(role_text)
 				}	
     		},
     		{
@@ -469,8 +495,12 @@ function initTable(fromId) {
     		// },
     		{
     			"mDataProp": "book_port1",
-	            "mRender" : function(data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
-	                      return (full.book_port1 +" <i class='fa fa-long-arrow-right'></i> "+ full.book_port2+"</br>"+full.book_movementType + " / " +full.book_allContainer)
+    			"mRender": function (data, type, full) { //修改pol和pod在同一个表格的td里面，并且使用mRender可以实现表格里面搜索，by daniel 20190803
+    			    var voyage = ""
+    			    if (full.book_vessel != "") {
+    			        voyage = "</br>船名/航次："+full.book_vessel + "-" + full.book_voyage
+    			    }
+    			    return (full.book_port1 + " <i class='fa fa-long-arrow-right'></i> " + full.book_port2 + "</br>" + full.book_movementType + " / " + full.book_allContainer + voyage)
 	                    }
     		},
     		// {
