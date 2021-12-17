@@ -87,7 +87,7 @@ function initTable() {
             			    "mDataProp": "usin_name",
             			    "sWidth": "180px",
             			    "createdCell": function (td, cellData, rowData, row, col) {
-            			        $(td).html(rowData.usin_name + " // " + rowData.sellName);
+            			        $(td).html("<span style='color:#999;'>建档：</span>" + rowData.usin_name + " <br/><span style='color:#999;'>业务：</span>" + rowData.sellName);
             			    }
             			},
 			{

@@ -441,16 +441,16 @@ function initTable(fromId) {
     			"createdCell": function (td, cellData, rowData, row, col) {
     			    var role_text = ""
     			    if (rowData.book_sellId != 0) {
-    			        role_text += "销售：" + getSellId(rowData.book_sellId)+"<br/>"
+    			        role_text += "<span style='color:#999;'>销售：</span>" + getSellId(rowData.book_sellId) + "<br/>"
     			    }
     			    if (rowData.book_caozuoId != 0) {
-    			        role_text += "操作：" + getSellId(rowData.book_caozuoId) + "<br/>"
+    			        role_text += "<span style='color:#999;'>操作：</span>" + getSellId(rowData.book_caozuoId) + "<br/>"
     			    }
     			    if (rowData.book_luruId != 0) {
-    			        role_text += "录单：" + getSellId(rowData.book_luruId) + "<br/>"
+    			        role_text += "<span style='color:#999;'>录单：</span>" + getSellId(rowData.book_luruId) + "<br/>"
     			    }
     			    if (rowData.book_kefuId != 0) {
-    			        role_text += "客服：" + getSellId(rowData.book_kefuId)
+    			        role_text += "<span style='color:#999;'>客服：</span>" + getSellId(rowData.book_kefuId)
     			    }
     			    $(td).html(role_text)
 				}	
@@ -1005,6 +1005,7 @@ function initTable(fromId) {
              "bookingId": id
          }, function (data) {
              //console.log(data.Data)
+             $("#cancel_time").empty()
              if (data.State == 1) {
                  var _data = data.Data;
                  var feilist = '<p><span>时间：' + _data[0].bofo_time.substring(0, 16).replace('T', ' ') + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>操作人：' + _data[0].bofo_userName + '</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>操作：' + _data[0].bofo_state + '</span></p>'
