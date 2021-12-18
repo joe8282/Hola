@@ -19,7 +19,8 @@ $(function(){
 	$('#title2').text(get_lan('con_top_3'))
 	$('.book4').addClass("active")
 
-	var crmCompanyId = '0',crmContactId = '0', crmContactListId='0';
+	var crmCompanyId = '0', crmContactId = '0', crmContactListId = '0';
+	var _toCompany = '', _feeItem = '', _feeUnit = '', _numUnit = '', _remaItem = '';
 	
 	var action = GetQueryString('action');	
 	var Id = GetQueryString('Id');
@@ -156,6 +157,9 @@ $(function(){
 		actionId = $("#crmuser").find("option:selected").attr("data-actionId");
 		_selectSupplier(crmCompanyId)
 		_selectBill(crmCompanyId)
+		crmCompanyName = $("#crmuser").find("option:selected").text();
+		_selectPackingCom(crmCompanyId, crmCompanyName) //获取装箱公司
+
 		//获取联系人列表
 		common.ajax_req("get", false, dataUrl, "crmcompanycontact.ashx?action=readtop", {
 		    "companyId": crmCompanyId,
@@ -203,6 +207,37 @@ $(function(){
 		}, 2000)
 	}
 
+
+	function _selectPackingCom(crmId, crmCompanyName) {
+	    //获取装箱公司
+	    $("#packingCompany").append('<option value="' + crmId + '" selected>' + crmCompanyName + '</option>')
+	    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+	        "Id": crmId
+	    }, function (data) {
+	        var _data = data.Data;
+	        $("#trailerAddress").val(_data.comp_address);
+	        $("#trailerContact").val(_data.comp_contactName);
+	        $("#trailerContactWay").val(_data.comp_contactPhone + '|' + _data.comp_contactEmail);
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+	    common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+	        "upId": crmId
+	    }, function (data) {
+	        //console.log(data)
+	        var _data = data.data;
+	        if (_data != null) {
+	            for (var i = 0; i < _data.length; i++) {
+	                //var crmlist = '<div class="margin-left-40"><input type="checkbox" name="crmli" value="' + _data[i].comp_customerId + '"> ' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].comp_contactName + '&nbsp;&nbsp;&nbsp;&nbsp;联系电话：' + _data[i].comp_contactPhone + '&nbsp;&nbsp;&nbsp;&nbsp;邮箱：' + _data[i].comp_contactEmail + '</div>'
+	                var crmlist = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>'
+	                $("#packingCompany").append(crmlist)
+	            }
+	        }
+
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+	}
 	
 	//自定货
 	//common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
@@ -669,6 +704,21 @@ $(function(){
 		});
 	}	
 
+    //结算公司
+	common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+	    "companyId": companyID
+	}, function (data) {
+	    var _data = data.data;
+	    console.log(_data)
+	    if (_data != null) {
+	        for (var i = 0; i < _data.length; i++) {
+	            var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
+	            _toCompany = _toCompany + _html
+	        }
+	    }
+	}, function (err) {
+	    console.log(err)
+	}, 2000)
 
 	//贸易条款
 	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
@@ -911,8 +961,9 @@ $(function(){
 	}, function(data) {
 		var _data = data.data;
 		for(var i = 0; i < _data.length; i++) {
-			var _html = '<option value="' + _data[i].puda_name_cn + '">' + _data[i].puda_name_cn + '</option>';
-			$('#feeItem').append(_html)
+		    var _html = '<option value="' + _data[i].puda_id + '">' + _data[i].puda_name_cn + ' / ' + _data[i].puda_name_en + '</option>';
+		    //$('#feeItem').append(_html)
+		    _feeItem = _feeItem + _html
 		}
 	}, function(error) {
 		console.log(parm)
@@ -925,22 +976,23 @@ $(function(){
 	}, function(data) {
 		var _data = data.data;
 		for(var i = 0; i < _data.length; i++) {
-			var _html = '<option selected="selected" value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
-			$('#feeUnit').append(_html)
+			var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+			//$('#feeUnit').append(_html)
+			_feeUnit = _feeUnit + _html
 		}
 	}, function(error) {
 		console.log(parm)
 	}, 1000)		
 	
 	//单位
-	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
-		'typeId': 18,
+	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readunit', {
 		'companyId': companyID
 	}, function(data) {
 		var _data = data.data;
 		for(var i = 0; i < _data.length; i++) {
-			var _html = '<option value="' + _data[i].puda_name_cn + '">' + _data[i].puda_name_cn + '</option>';
-			$('#numUnit').append(_html)
+		    var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+		    //$('#numUnit').append(_html)
+		    _numUnit = _numUnit + _html
 		}
 	}, function(error) {
 		console.log(parm)
@@ -996,6 +1048,8 @@ $(function(){
     	    //console.log(data)
     	    if (data.State == 1) {
     	        orderCode = data.Data
+    	        $('#warehouseInCode').val(orderCode + 'WH');
+    	        $('#warehouseOutCode').val(orderCode + 'WH');
     	    }
     	})
     }
@@ -1321,6 +1375,8 @@ $(function(){
 	$('#addTrailer').on('click', function () {
 	    var trailer = $('#trailer').val()
 	    var trailerName = $('#trailer').find("option:selected").text()
+	    var pckingCompanyId = $('#packingCompany').val()
+	    var pckingCompanyName = $('#packingCompany').find("option:selected").text()
 	    var trailerAddress = $('#trailerAddress').val()
 	    var trailerContact = $('#trailerContact').val()
 	    var trailerContactWay = $('#trailerContactWay').val()
@@ -1328,6 +1384,7 @@ $(function(){
 	    var trailerNumUnit = $('#trailerNumUnit').val()
 	    var trailerNum = $('#trailerNum').val()
 	    var newNumUnit = trailerNum + '*' + trailerNumUnit
+	    var trailerSo = $('#trailerSo').val()
 	    var trailerRemark = $('#trailerRemark').val()
 	    if (!trailer) {
 	        comModel("请选择车行")
@@ -1335,33 +1392,11 @@ $(function(){
 	        comModel("请输入地址")
 	    } else {
 	        //var trailerlist = '<div style="margin: 5px 0px;">' + trailerName + '&nbsp;&nbsp;&nbsp;&nbsp;地址：' + trailerAddress + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + trailerContact + '&nbsp;&nbsp;&nbsp;&nbsp;联系方式：' + trailerContactWay + '&nbsp;&nbsp;&nbsp;&nbsp;时间：' + trailerTime + '&nbsp;&nbsp;&nbsp;&nbsp;柜型：' + newNumUnit + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deletetrailer">删除</a></div>'
-	        var trailerlist = '<tr><td> ' + trailerName + '</td><td>联系人：' + trailerContact + '</td><td>联系方式：' + trailerContactWay + '</td><td>地址：' + trailerAddress + '</td><td>时间：' + trailerTime + '</td><td>柜型：' + newNumUnit + '</td><td>备注：' + trailerRemark + '</td><td><a class="deletetrailer">删除</a></td></tr>'
+	        var trailerlist = '<tr><td>' + trailerName + '</td><td> ' + pckingCompanyName + '</td><td>' + trailerAddress + '</td><td>' + trailerContact + '</td><td>' + trailerContactWay + '</td><td>' + trailerTime + '</td><td>' + newNumUnit + '</td><td> ' + trailerSo + '</td><td>' + trailerRemark + '</td><td><a class="deletetrailer">删除</a></td></tr>'
 	        $(".trailerAll").append(trailerlist)
 	        $('#addTrailer').text("继续添加")
-	        trailerData = trailerData + trailer + ',' + trailerAddress + ',' + trailerContact + ',' + trailerContactWay + ',' + trailerTime + ',' + newNumUnit + ',' + trailerRemark + ';'
+	        trailerData = trailerData + trailer + ',' + pckingCompanyId + ',' + trailerAddress + ',' + trailerContact + ',' + trailerContactWay + ',' + trailerTime + ',' + newNumUnit + ',' + trailerSo + ',' + trailerRemark + ';'
 	        //console.log(trailerData)
-	        if (action == 'modify') {
-	            common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newtrailer', {
-	                'bookingId': Id,
-	                'crmId': trailer,
-	                'address': trailerAddress,
-	                'contact': trailerContact,
-	                'contactWay': trailerContactWay,
-	                'time': trailerTime,
-	                'container': newNumUnit,
-	                'remark': trailerRemark
-	            }, function (data) {
-	                if (data.State == 1) {
-	                    //console.log(parm)
-	                    comModel("新增拖车成功")
-
-	                } else {
-	                    comModel("新增拖车失败")
-	                }
-	            }, function (error) {
-	                console.log(parm)
-	            }, 1000)
-	        }
 	    }
 
 	    /*删除*/
@@ -1369,6 +1404,41 @@ $(function(){
 	        $(this).parents('tr').remove()
 	        console.log(trailerData)
 	    })
+
+	});
+
+	$('#addTrailer0').click(function () {
+	    $("#myModal2").modal("show");
+	    $("#trailerList").empty()
+	    //加载拖车报关
+	    common.ajax_req("get", true, dataUrl, "booking.ashx?action=readtrailer", {
+	        "crmId": crmContactListId
+	    }, function (data) {
+	        //console.log(data.Data)
+	        if (data.State == 1) {
+	            var _data = data.Data;
+	            for (var i = 0; i < _data.length; i++) {
+	                //var trailerlist = '<div style="margin: 5px 0px;">' + _data[i].comp_name + '&nbsp;&nbsp;&nbsp;&nbsp;地址：' + _data[i].botr_address + '&nbsp;&nbsp;&nbsp;&nbsp;联系人：' + _data[i].botr_contact + '&nbsp;&nbsp;&nbsp;&nbsp;联系方式：' + _data[i].botr_contactWay + '&nbsp;&nbsp;&nbsp;&nbsp;时间：' + _data[i].botr_time + '&nbsp;&nbsp;&nbsp;&nbsp;柜型：' + _data[i].botr_container + '&nbsp;&nbsp;&nbsp;&nbsp;<a class="deleteTrailer" artiid="' + _data[i].botr_id + '">删除</a></div>'
+	                var trailerlist = '<tr><td> ' + _data[i].comp_name + '</td><td> ' + _data[i].packing_comp_name + '</td><td>' + _data[i].botr_address + '</td><td>' + _data[i].botr_contact + '</td><td>' + _data[i].botr_contactWay + '</td><td>' + _data[i].botr_container + '</td><td><a class="selectTrailer" artiid="' + _data[i].botr_id + '" contact="' + _data[i].botr_contact + '" contactWay="' + _data[i].botr_contactWay + '" container="' + _data[i].botr_container + '" address="' + _data[i].botr_address + '">选择</a></td></tr>'
+	                $("#trailerList").append(trailerlist)
+	            }
+	        }
+
+	        /*选择*/
+	        $('.selectTrailer').on('click', function () {
+	            console.log($(this).attr('artiid'))
+	            $("#myModal2").modal("hide");
+	            $("#trailerContact").val($(this).attr('contact'))
+	            $("#trailerContactWay").val($(this).attr('contactWay'))
+	            $("#trailerAddress").val($(this).attr('address'))
+	            var container = $(this).attr('container').split('*')
+	            $("#trailerNum").val(container[0])
+	            $("#trailerNumUnit").find("option:contains(" + container[1] + ")").attr("selected", true)
+	        })
+
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
 
 	});
 	
@@ -1420,40 +1490,140 @@ $(function(){
 
 	});
 	
-	$('.feeAll').delegate('.newFee', 'click', function () {
-	    //$(this).addClass('none')
-	    //$(this).siblings('.removeContainer').removeClass('none')
-	    //var feeboxRow = '<div class="col-sm-12 feeList" id="addfee"><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:6%; float: left;"><option value="应收">应收</option><option value="应付">应付</option></select><select id="toCompany0" class="no-padding-left no-padding-right margin-right-5" style="width:15%;float: left;"><option value="请选择">请选择</option></select><select id="feeItem0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><select id="feeUnit0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:10%;float: left;"><input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:5%;float: left;"><select id="numUnit0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:10%;float: left;"><button type="submit" class="newFee btn btn-blue margin-right-5" style="width:3%;float: left;">+</button><button type="submit" class="removeFee btn btn-blue" style="width:3%;float: left;">-</button></div>'
-	    var feeboxRow = $('#feeAll_add').html()
+    //添加应收应付
+	$('#addFee1').on('click', function () {
+	    feeboxAll_len = $('.feeList').length + 1;
+	    var feeboxRow = '<div class="col-sm-12 feeList"><input type="hidden" id="feeId" value="0"><input type="hidden" id="isLock" value="0">' +
+            '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>' +
+            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>' +
+            '<div style="float: left; width:210px; margin-right:5px;"><select id="toCompany' + feeboxAll_len + '" class="no-padding-left no-padding-right toCompany" style="width:100%; "></select></div>' +
+            '<div style="float: left; width:120px; margin-right:5px;"><select id="feeItem' + feeboxAll_len + '" class="no-padding-left no-padding-right feeItem" style="width:100%; "></select></div>' +
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>' +
+            '<input type="text" class="form-control" id="feePrice" placeholder="" value="0" ></div>' +
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="1" placeholder="">' +
+            '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>' +
+            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:200px; float: left;"></div>'
+
 	    $('.feeAll').append(feeboxRow)
 	    //feeboxRow = feeboxRow.clone()
-
 	    //货代公司
 	    //console.log($('.feeList:last').find('#toCompany0').append(_toCompany))
-	    //$('.feeList:last').find('#toCompany0').append(_toCompany)
-	    //		
+	    $('.feeList:last').find('.toCompany').append(_toCompany)
+	    $("#toCompany" + feeboxAll_len).select2({
+	        language: "zh-CN",
+	        minimumInputLength: 2
+	    });
+	    //$('.feeList:last').find('.toCompany').val($('#crmuser option:selected').attr("id")).trigger("change")
+	    $('.feeList:last').find('.toCompany').val($('#crmuser').val()).trigger("change")
 	    //		//费用类型
-	    //$('.feeList:last').find('#feeItem').append(_feeItem)
-	    //		
+	    $('.feeList:last').find('.feeItem').append(_feeItem)
+	    $("#feeItem" + feeboxAll_len).select2({
+	        language: "zh-CN",
+	        minimumInputLength: 2
+	    });
 	    //		//币种
-	    //$('.feeList:last').find('#feeUnit').append(_feeUnit)
-	    //		
+	    $('.feeList:last').find('#feeUnit').append(_feeUnit)
+	    //      币种
+	    $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
 	    //		//单位
-	   // $('.feeList:last').find('#numUnit').append(_numUnit)
+	    $('.feeList:last').find('#numUnit').append(_numUnit)
+	    $('.feeList:last').find('#feeType').val('debit').trigger("change")
+	    $('.feeList:last').css("background-color", "#b0e0e6")
 
-	    $(this).parents('.feeList').find("input").each(function () { ///当克隆到新的费用的时候，复制现在的数据过去的input, by daniel 20190730
-	        $('.feeList:last').find("input[id='" + ($(this).attr("id")) + "']").val($(this).val())
-	    })
-	    $(this).parents('.feeList').find("select").each(function () { ///当克隆到新的费用的时候，复制现在的数据过去的select, by daniel 20190730
-	        $('.feeList:last').find("select[id='" + ($(this).attr("id")) + "']").val($(this).val())
-	    })
+	})
+	$('#addFee2').on('click', function () {
+	    feeboxAll_len = $('.feeList').length + 1;
+	    var feeboxRow = '<div class="col-sm-12 feeList"><input type="hidden" id="feeId" value="0"><input type="hidden" id="isLock" value="0">' +
+            '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>' +
+            '<select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:100px; float: left;"><option value="debit">应收</option><option value="credit">应付</option></select>' +
+            '<div style="float: left; width:210px; margin-right:5px;"><select id="toCompany' + feeboxAll_len + '" class="no-padding-left no-padding-right toCompany" style="width:100%; "></select></div>' +
+            '<div style="float: left; width:120px; margin-right:5px;"><select id="feeItem' + feeboxAll_len + '" class="no-padding-left no-padding-right feeItem" style="width:100%; "></select></div>' +
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><span class="input-group-addon" style="padding:0;"><select id="feeUnit"></select></span>' +
+            '<input type="text" class="form-control" id="feePrice" placeholder="" value="0" ></div>' +
+            '<div class="input-group" style="float: left; width:150px; margin-right:5px;"><input type="text" class="form-control" id="feeNum" value="1" placeholder="">' +
+            '<span class="input-group-addon" style="padding:0;"><select id="numUnit"></select></span></div>' +
+            '<input type="text" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:200px; float: left;"></div>'
+
+	    $('.feeAll').append(feeboxRow)
+	    //feeboxRow = feeboxRow.clone()
+	    //货代公司
+	    //console.log($('.feeList:last').find('#toCompany0').append(_toCompany))
+	    $('.feeList:last').find('.toCompany').append(_toCompany)
+	    $("#toCompany" + feeboxAll_len).select2({
+	        language: "zh-CN",
+	        minimumInputLength: 2
+	    });
+	    //      //费用类型
+	    $('.feeList:last').find('.feeItem').append(_feeItem)
+	    $("#feeItem" + feeboxAll_len).select2({
+	        language: "zh-CN",
+	        minimumInputLength: 2
+	    });
+	    $('.feeList:last').find('.toCompany').val(forwarder_id).trigger("change")
+	    //      //币种
+	    $('.feeList:last').find('#feeUnit').append(_feeUnit)
+	    //      币种
+	    $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
+	    //      //单位
+	    $('.feeList:last').find('#numUnit').append(_numUnit)
+	    $('.feeList:last').find('#feeType').val('credit').trigger("change")
+	    $('.feeList:last').css("background-color", "pink")
 
 	})
 	$('.feeAll').delegate('.removeFee', 'click', function () {
-	    if ($('.removeFee').length > 1 && $(this).parents('.feeList').index() != 0) {
-	        $(this).parents('.feeList').remove()
-	    }
+	    var _this = $(this).parents('.feeList')
+	    _this.remove()
 	})
+
+	//$('.feeAll').delegate('.newFee', 'click', function () {
+	//    //$(this).addClass('none')
+	//    //$(this).siblings('.removeContainer').removeClass('none')
+	//    //var feeboxRow = '<div class="col-sm-12 feeList" id="addfee"><select id="feeType" class="no-padding-left no-padding-right margin-left-5 margin-right-5" style="width:6%; float: left;"><option value="应收">应收</option><option value="应付">应付</option></select><select id="toCompany0" class="no-padding-left no-padding-right margin-right-5" style="width:15%;float: left;"><option value="请选择">请选择</option></select><select id="feeItem0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><select id="feeUnit0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feePrice" placeholder="" style="width:10%;float: left;"><input type="email" class="form-control margin-right-5" id="feeNum" placeholder="" style="width:5%;float: left;"><select id="numUnit0" class="no-padding-left no-padding-right margin-right-5" style="width:10%;float: left;"><option value="请选择">请选择</option></select><input type="email" class="form-control margin-right-5" id="feeBeizhu" placeholder="" style="width:10%;float: left;"><button type="submit" class="newFee btn btn-blue margin-right-5" style="width:3%;float: left;">+</button><button type="submit" class="removeFee btn btn-blue" style="width:3%;float: left;">-</button></div>'
+	//    var feeboxRow = $('#feeAll_add').html()
+	//    $('.feeAll').append(feeboxRow)
+	//    //feeboxRow = feeboxRow.clone()
+
+	//    //货代公司
+	//    //console.log($('.feeList:last').find('#toCompany0').append(_toCompany))
+	//    //$('.feeList:last').find('#toCompany0').append(_toCompany)
+	//    //		
+	//    //		//费用类型
+	//    //$('.feeList:last').find('#feeItem').append(_feeItem)
+	//    //		
+	//    //		//币种
+	//    //$('.feeList:last').find('#feeUnit').append(_feeUnit)
+	//    //		
+	//    //		//单位
+	//    // $('.feeList:last').find('#numUnit').append(_numUnit)
+
+	//    common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
+	//        "companyId": companyID
+	//    }, function (data) {
+	//        var _data = data.data;
+	//        console.log(_data)
+	//        if (_data != null) {
+	//            for (var i = 0; i < _data.length; i++) {
+	//                var _html = '<option value="' + _data[i].comp_id + '">' + _data[i].comp_name + '</option>';
+	//                $(this).parents$('.toCompany:last').append(_html)
+	//            }
+	//        }
+	//    }, function (err) {
+	//        console.log(err)
+	//    }, 2000)
+
+	//    $(this).parents('.feeList').find("input").each(function () { ///当克隆到新的费用的时候，复制现在的数据过去的input, by daniel 20190730
+	//        $('.feeList:last').find("input[id='" + ($(this).attr("id")) + "']").val($(this).val())
+	//    })
+	//    $(this).parents('.feeList').find("select").each(function () { ///当克隆到新的费用的时候，复制现在的数据过去的select, by daniel 20190730
+	//        $('.feeList:last').find("select[id='" + ($(this).attr("id")) + "']").val($(this).val())
+	//    })
+
+	//})
+	//$('.feeAll').delegate('.removeFee', 'click', function () {
+	//    if ($('.removeFee').length > 1 && $(this).parents('.feeList').index() != 0) {
+	//        $(this).parents('.feeList').remove()
+	//    }
+	//})
 	
 	/*下一步*/
 	$('#send1,#send2,#send3').on('click', function() {   
@@ -1540,6 +1710,23 @@ $(function(){
 		if(crmdata.toString() != '') {
 			supplierData = crmdata.toString()
 		}
+
+		for (var i = 0; i < $('.feeList').length; i++) {
+		    if ($('.feeList').eq(i).find('#feePrice').val() != '0') {
+		        var toCompany = $('.feeList').eq(i).find('.toCompany').val()
+		        var feeItem = $('.feeList').eq(i).find('.feeItem').val()
+		        var feeUnit = $('.feeList').eq(i).find('#feeUnit').val()
+		        var numUnit = $('.feeList').eq(i).find('#numUnit').val()
+		        var feeType = $('.feeList').eq(i).find('#feeType').val()
+		        var feeNum = $('.feeList').eq(i).find('#feeNum').val()
+		        var feePrice = $('.feeList').eq(i).find('#feePrice').val()
+		        var feeBeizhu = $('.feeList').eq(i).find('#feeBeizhu').val()
+
+		        var feeoneData = feeType + ',' + toCompany + ',' + feeItem + ',' + feeUnit + ',' + feeNum + ',' + feePrice + ',' + numUnit + ',' + feeBeizhu + ';'
+		        feeData = feeData + feeoneData
+		    }
+		}
+		console.log(feeData)
 		
 		if(action == 'add') {
 			if(!port1) {
