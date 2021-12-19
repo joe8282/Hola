@@ -303,7 +303,7 @@ function initTable(fromId) {
     	columns = [
     		{
     			"mDataProp": "book_sellId",
-    			"createdCell": function (td, cellData, rowData, row, col) {
+    			"mRender": function (td, cellData, rowData, row, col) {
     			    var role_text = ""
     			    if (rowData.book_sellId != 0) {
     			        role_text += "销售：" + getSellId(rowData.book_sellId) + "<br/>"
@@ -317,12 +317,12 @@ function initTable(fromId) {
     			    if (rowData.book_kefuId != 0) {
     			        role_text += "客服：" + getSellId(rowData.book_kefuId)
     			    }
-    			    $(td).html(role_text)
+    			    return (role_text)
     			}
     		},
 			{ "mDataProp": "book_code",
-			"createdCell": function (td, cellData, rowData, row, col) {
-			    $(td).html("<a href='bookingpreview.html?code=" + rowData.book_code + "' target='_blank'>" + rowData.book_code + "</a><br/><a href='javascript:void(0);' onclick='_toOrderDetail(&quot;" + rowData.book_orderCode + "&quot;)'>[ " + rowData.book_orderCode + " ]</a>")
+			"mRender": function (td, cellData, rowData, row, col) {
+			    return ("<a href='bookingpreview.html?code=" + rowData.book_code + "' target='_blank'>" + rowData.book_code + "</a><br/><a href='javascript:void(0);' onclick='_toOrderDetail(&quot;" + rowData.book_orderCode + "&quot;)'>[ " + rowData.book_orderCode + " ]</a>")
 				}		
 			},
 //			{ "mDataProp": "type_name"},
@@ -354,21 +354,21 @@ function initTable(fromId) {
 // 			},
 			{
 				"mDataProp": "book_okTime",
-				"createdCell": function (td, cellData, rowData, row, col) {
+				"mRender": function (td, cellData, rowData, row, col) {
 					if(rowData.book_okTime!=null){
-						$(td).html(rowData.book_okTime.substring(0, 10));
+					    return (rowData.book_okTime.substring(0, 10));
 					}else{
-						$(td).html("NULL");
+					    return ("");
 					}
 				}			
 			},	
 			{
 				"mDataProp": "book_time",
-				"createdCell": function (td, cellData, rowData, row, col) {					
+				"mRender": function (td, cellData, rowData, row, col) {
 					if(rowData.book_time!=null){
-						$(td).html(rowData.book_time.substring(0, 10));
+					    return (rowData.book_time.substring(0, 10));
 					}else{
-						$(td).html("NULL");
+					    return ("");
 					}						
 				}			
 			},		
@@ -438,7 +438,7 @@ function initTable(fromId) {
     	columns = [
     		{
     			"mDataProp": "book_sellId",
-    			"createdCell": function (td, cellData, rowData, row, col) {
+    			"mRender": function (td, cellData, rowData, row, col) {
     			    var role_text = ""
     			    if (rowData.book_sellId != 0) {
     			        role_text += "<span style='color:#999;'>销售：</span>" + getSellId(rowData.book_sellId) + "<br/>"
@@ -452,12 +452,12 @@ function initTable(fromId) {
     			    if (rowData.book_kefuId != 0) {
     			        role_text += "<span style='color:#999;'>客服：</span>" + getSellId(rowData.book_kefuId)
     			    }
-    			    $(td).html(role_text)
+    			    return (role_text)
 				}	
     		},
     		{
     		    "mDataProp": "book_orderCode",
-    		    "createdCell": function (td, cellData, rowData, row, col) {
+    		    "mRender": function (td, cellData, rowData, row, col) {
     		        var mblNo = ""
     		        if (rowData.book_billCode != "") { mblNo = "<br/><span style='color:#999;'>MBL NO.:</span><br/>" + rowData.book_billCode }
                     var _str = rowData.book_orderCode + mblNo
@@ -478,13 +478,13 @@ function initTable(fromId) {
     		            console.log(err)
     		        }, 2000)
 
-    		        $(td).html(_str)
+    		        return (_str)
     		    }
     		},
             {
                 "mDataProp": "book_code",
-                "createdCell": function (td, cellData, rowData, row, col) {
-                    $(td).html(rowData.book_code.replaceAll(";", "<br/>"))
+                "mRender": function (td, cellData, rowData, row, col) {
+                    return (rowData.book_code.replaceAll(";", "<br/>"))
                 }
             },
     		{
@@ -525,21 +525,21 @@ function initTable(fromId) {
 //     		},
     		{
     			"mDataProp": "book_time",
-    			"createdCell": function(td, cellData, rowData, row, col) {
+    			"mRender": function (td, cellData, rowData, row, col) {
     				if(rowData.book_time != null) {
-    					$(td).html(rowData.book_time.substring(0, 10));
+    				    return (rowData.book_time.substring(0, 10));
     				} else {
-    					$(td).html("NULL");
+    				    return ("");
     				}
     			}
     		},    		
     		{
     			"mDataProp": "book_okPortTime",
-    			"createdCell": function(td, cellData, rowData, row, col) {
+    			"mRender": function (td, cellData, rowData, row, col) {
     				if(rowData.book_okPortTime != null) {
-    					$(td).html(rowData.book_okPortTime.substring(0, 10));
+    				    return (rowData.book_okPortTime.substring(0, 10));
     				} else {
-    					$(td).html("NULL");
+    				    return ("");
     				}
     			}
     		},
@@ -554,11 +554,11 @@ function initTable(fromId) {
     		//},
     		{
     		    "mDataProp": "orderstate_name_cn",
-    		    "createdCell": function (td, cellData, rowData, row, col) {
+    		    "mRender": function (td, cellData, rowData, row, col) {
     		        if (rowData.book_state != 3) {
-    		            $(td).html(rowData.orderstate_name_cn);
+    		            return (rowData.orderstate_name_cn);
     		        } else {
-    		            $(td).html("<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + "," + rowData.book_beizhu + ")'>已取消</a>");
+    		            return ("<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + "," + rowData.book_beizhu + ")'>已取消</a>");
     		        }
     				
     			}    			
