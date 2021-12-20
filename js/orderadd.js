@@ -2289,7 +2289,7 @@ $(function(){
     		$('#carrier').html('<option value="' + _data.book_carrier + '">' + _data.book_carrier + '</option>').trigger("change")
     		$('#fromAddress').val(_data.book_fromAddress)
     		$('#toAddress').val(_data.book_toAddress)
-    		$('#okTime').val(_data.book_okTime.substring(0, 10))
+    		$('#okTime').datepicker('setDate', _data.book_okTime ? _data.book_okTime.substring(0, 10) : '')
     		//$('#okTrailerTime').val(_data.book_okTrailerTime ? _data.book_okTrailerTime.substring(0, 10) : '')
     		$('#okTrailerTime').datepicker('setDate', _data.book_okTrailerTime ? _data.book_okTrailerTime.substring(0, 10) : '');
 	  		if(_data.book_okBillTime != null) {
