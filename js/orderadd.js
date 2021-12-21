@@ -27,6 +27,8 @@ $(function(){
 //		_selectBill(crmCompanyId)
     //	}
 
+	$('#upload_container').hide()
+
 	if (isPermission('1705') != 1) {
 	    $('#lock_per').hide()
 	}
@@ -143,7 +145,6 @@ $(function(){
 	    }
 
 	});
-
 
 	/**
 	 * 表格初始化
@@ -2221,6 +2222,17 @@ $(function(){
 		}, function(error) {
 			console.log(parm)
 		}, 1000)
+
+		$('#upload_container').show()
+        //上传集装箱列表
+		$('#uploadExcel').on('click', function () {
+		    location.href = 'fileinput.html?action=container&bookingId='+Id;
+		})
+        //下载集装箱列表模板
+		//$('#downloadExcel').on('click', function () {
+		//    location.href = 'fileinput.html?action=container&bookingId=' + Id;
+		//    window.open(dataUrl + "/UploadFiles/")
+		//})
 
     	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
     		"Id": Id

@@ -10,7 +10,14 @@ var en2 = {
         };
 
 $(function () {
+    var upload_url = ""
     var action = GetQueryString('action');
+    if (action == 'container') {
+        var bookingId = GetQueryString('bookingId');
+        upload_url = dataUrl + 'ajax/booking.ashx?action=uploadcontainer&bookingId=' + bookingId
+    } else {
+        upload_url = dataUrl + 'ajax/' + action + '.ashx?action=upload&companyId=' + companyID + '&userId=' + userID
+    }  
     if (action == 'truckcharge') {
         hasPermission('1416'); //权限控制：上传拖箱列表
         this.title = get_lan('con_top_2')
@@ -39,6 +46,13 @@ $(function () {
         $('#title1').text(get_lan('con_top_2'))
         $('.navli4').addClass("active open")
         $('.rate1').addClass("active")
+    } else if (action == 'container') {
+        //hasPermission(''); //权限控制：上传集装箱列表
+        this.title = get_lan('con_top_2')
+        $('#title0').text(get_lan('nav_3'))
+        $('#title1').text(get_lan('con_top_2'))
+        $('.navli3').addClass("active open")
+        $('.book5').addClass("active")
     }
 
 	InitExcelFile()
@@ -46,7 +60,7 @@ $(function () {
     //初始化Excel导入的文件
 	function InitExcelFile() {
 	    $("#excelFile").fileinput({
-	        uploadUrl: dataUrl + 'ajax/' + action + '.ashx?action=upload&companyId=' + companyID + '&userId=' + userID, //上传的地址
+	        uploadUrl: upload_url, //上传的地址
 	        uploadAsync: true,              //异步上传
 	        language: "zh",                 //设置语言
 	        showCaption: false,              //是否显示标题
@@ -82,9 +96,9 @@ $(function () {
                if (res.Fail != 0) {
                    var errortext = res.FailMes
                    errortext = errortext.substring(0, errortext.lastIndexOf(','));
-                   $("#info").text('成功导入' + res.Data + '条数据，失败' + res.Fail + '条，失败的是第 ' + errortext + " 行数据")
+                   $("#info").html('成功导入' + res.Data + '条数据，失败' + res.Fail + '条，失败的是第 ' + errortext + ' 行数据。<span style="color:#FF0000">请回到原来页面刷新查看。</span>')
                } else {
-                   $("#info").text('成功导入' + res.Data + '条数据')
+                   $("#info").html('成功导入' + res.Data + '条数据。<span style="color:#FF0000">请回到原来页面刷新查看。</span>')
                }
                //提示用户Excel格式是否正常，如果正常加载数据
                //$.ajax({
