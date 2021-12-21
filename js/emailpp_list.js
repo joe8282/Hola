@@ -21,7 +21,8 @@ $(document).ready(function() {
 	$('#title2').text(get_lan('nav_6_1'))
 
 	$('#uploadExcel').on('click', function () {
-	    location.href = 'fileinput.html?action=mail';
+	    //location.href = 'fileinput.html?action=mail';
+	    window.open('fileinput.html?action=mail')
 	})
 
 	//$("#addFun").click(_init);

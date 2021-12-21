@@ -24,7 +24,8 @@ $(document).ready(function() {
 		location.href = 'localchargeadd.html?action=add';
 	})
 	$('#uploadLocalchargeButton').on('click', function () {
-	    location.href = 'fileinput.html?action=localcharge';
+	    //location.href = 'fileinput.html?action=localcharge';
+	    window.open('fileinput.html?action=localcharge')
 	});
 	oTable = initTable();
 });

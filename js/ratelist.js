@@ -32,7 +32,19 @@ $(document).ready(function() {
 		location.href = 'rateadd.html';
 	})
 	$('#uploadRateButton').on('click', function () {
-	    location.href = 'fileinput.html?action=rate';
+	    //location.href = 'fileinput.html?action=rate';
+	    window.open('fileinput.html?action=rate')
+	});
+	$('#downRateButton').on('click', function () {
+	    //location.href = 'fileinput.html?action=rate';
+	    if (fromId == 'FCL') {
+	        window.open('/upload/FclRateUploadModel.xls')
+	    } else if (fromId == 'LCL') {
+	        window.open('/upload/LclRateUploadModel.xls')
+	    } else if (fromId == 'AIR') {
+	        window.open('/upload/AirRateUploadModel.xls')
+	    }
+	    
 	});
 	
 	// $('input.column_filter').on( 'keyup click', function () {
