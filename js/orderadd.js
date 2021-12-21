@@ -2020,14 +2020,16 @@ $(function(){
     	if(!bookingId && action == 'add') {
     		comModel("请先保存MBL订单信息")
     	} else {
-    	    var allPackageNum = 0, allWeightNum = 0, allVolumeNum = 0, allPackage, allWeight, allVolume
+    	    var allPackageNum = 0, allWeightNum = 0, allVolumeNum = 0, allVgmNum = 0, allPackage, allWeight, allVolume, allVgm
     	    for (var i = 0; i < $('.containerList').length; i++) {
     	        allPackageNum = parseInt(allPackageNum) + parseInt($('.containerList').eq(i).find('#packageNum0').val())
     	        allWeightNum = parseInt(allWeightNum) + parseInt($('.containerList').eq(i).find('#weightNum0').val())
     	        allVolumeNum = parseInt(allVolumeNum) + parseInt($('.containerList').eq(i).find('#volumeNum0').val())
+    	        allVgmNum = parseInt(allVgmNum) + parseInt($('.containerList').eq(i).find('#vgmNum0').val())
     	        allPackage = $('.containerList').eq(i).find('#package0').val()
     	        allWeight = $('.containerList').eq(i).find('#weight0').val()
     	        allVolume = $('.containerList').eq(i).find('#volume0').val()
+    	        allVgm = $('.containerList').eq(i).find('#vgm0').val()
     			var containerType = $('.containerList').eq(i).find('#containerType').val()
     			var number = $('.containerList').eq(i).find('#number').val()
     			var sealNumber = $('.containerList').eq(i).find('#sealNumber').val()
@@ -2061,6 +2063,7 @@ $(function(){
     			'allPackageNum': allPackageNum + ' ' + allPackage,
     			'allWeightNum': allWeightNum + ' ' + allWeight,
     			'allVolumeNum': allVolumeNum + ' ' + allVolume,
+    			'allVgmNum': allVgmNum + ' ' + allVgm,
     			'num': vgminfoNum,
     			'unit': vgminfoUnit,
     			'way': vgminfoWay,
@@ -2076,6 +2079,13 @@ $(function(){
     				$('#packageNum').val(allPackageNum)
     				$('#weightNum').val(allWeightNum)
     				$('#volumeNum').val(allVolumeNum)
+    				$('#package').val(allPackage).trigger("change")
+    				$('#weight').val(allWeight).trigger("change")
+    				$('#volume').val(allVolume).trigger("change")
+    				$('#vgm').val(allVgm).trigger("change")
+    				$('#vgmNum').val(allVgmNum)
+    				$('#weightShow').val(allWeightNum + ' ' + allWeight)
+    				$('#volumeShow').val(allVolumeNum + ' ' + allVolume)
     				comModel("保存成功")
     			} else {
     				containerData = ''
@@ -2226,13 +2236,9 @@ $(function(){
 		$('#upload_container').show()
         //上传集装箱列表
 		$('#uploadExcel').on('click', function () {
-		    location.href = 'fileinput.html?action=container&bookingId='+Id;
+		    //location.href = 'fileinput.html?action=container&bookingId=' + Id;
+		    window.open('fileinput.html?action=container&bookingId=' + Id)
 		})
-        //下载集装箱列表模板
-		//$('#downloadExcel').on('click', function () {
-		//    location.href = 'fileinput.html?action=container&bookingId=' + Id;
-		//    window.open(dataUrl + "/UploadFiles/")
-		//})
 
     	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
     		"Id": Id
