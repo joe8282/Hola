@@ -64,9 +64,9 @@ function initTable() {
 
     var tourl = ''
     if (GetQueryString('type')) {
-        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID
+        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID + '&state=0'
     } else {
-        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds
+        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&state=0'
     }
     
 	var table = $("#example").dataTable({
