@@ -216,7 +216,8 @@ $(document).ready(function () {
                         } else if ($(this).attr("itemrelation") == 'bobi_containerType') {  //HBL柜号
                             var _html = ''
                             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
-                                "ids": hblData["bobi_containerType"]
+                                "whichId": 2,
+                                "bookingId": aboutId
                             }, function (data) {
                                 //console.log(data.Data)
                                 if (data.State == 1) {
@@ -630,7 +631,8 @@ $(document).ready(function () {
 		    } else if ($(this).val() == 'bobi_containerType') {  //HBL柜号
 		        var _html = ''
 		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
-		            "ids": hblData["bobi_containerType"]
+		            "whichId": 2,
+		            "bookingId": aboutId
 		        }, function (data) {
 		            //console.log(data.Data)
 		            if (data.State == 1) {
