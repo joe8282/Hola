@@ -216,8 +216,7 @@ $(document).ready(function () {
                         } else if ($(this).attr("itemrelation") == 'bobi_containerType') {  //HBL柜号
                             var _html = ''
                             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
-                                "whichId": 2,
-                                "bookingId": bookingId
+                                "ids": hblData["bobi_containerType"]
                             }, function (data) {
                                 //console.log(data.Data)
                                 if (data.State == 1) {
@@ -620,6 +619,27 @@ $(document).ready(function () {
 		                var trailerlist = '<tr><td> ' + _data.vgm_num + _data.vgm_unit + '</td><td> ' + _data.vgm_way + '</td><td> ' + _data.vgm_weighingDate.substring(0, 10) + '</td><td>' + _data.vgm_responsibility + '</td><td>' + _data.vgm_authorize + '</td><td>' + _data.vgm_weighing + '</td><td>' + _data.vgm_beizhu + '</td></tr>'
 		                _html = _html + trailerlist
 		                _html = _html + '</table>'
+		                $("#" + $("#itemId").val() + " p").html(_html);
+		            }
+		            else {
+		                $("#" + $("#itemId").val() + " p").html("");
+		            }
+		        }, function (err) {
+		            console.log(err)
+		        }, 2000)
+		    } else if ($(this).val() == 'bobi_containerType') {  //HBL柜号
+		        var _html = ''
+		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readcontainer", {
+		            "ids": hblData["bobi_containerType"]
+		        }, function (data) {
+		            //console.log(data.Data)
+		            if (data.State == 1) {
+		                var _html = ''
+		                var _data = data.Data;
+		                for (var i = 0; i < _data.length; i++) {
+		                    var trailerlist = '<div>' + _data[i].boco_number + '/' + _data[i].boco_sealNumber + '/' + _data[i].boco_typeName + '/' + _data[i].boco_package + '/' + _data[i].boco_weight + '/' + _data[i].boco_volume + '</div>'
+		                    _html = _html + trailerlist
+		                }
 		                $("#" + $("#itemId").val() + " p").html(_html);
 		            }
 		            else {
