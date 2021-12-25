@@ -619,7 +619,8 @@ $(function(){
 		}, 2000)
 	}	
 	function loadContainer2(whichId,Id){
-		$(".containerlist3").empty()
+	    $(".containerlist3").empty()
+        var arrContainer = []
 		common.ajax_req("get", false, dataUrl, "booking.ashx?action=readcontainer", {
 			"whichId": whichId,
 			"bookingId": Id
@@ -627,7 +628,8 @@ $(function(){
 			console.log(data)
 			if(data.State == 1) {
 				var _data = data.Data;
-				for(var i = 0; i < _data.length; i++) {
+				for (var i = 0; i < _data.length; i++) {
+				    arrContainer.push(_data[i].boco_number + "/" + _data[i].boco_sealNumber + "/" + _data[i].boco_sealNumber + "/" + _data[i].boco_package + "/" + _data[i].boco_weight + "/" + _data[i].boco_volume + "/" + _data[i].boco_vgm + "/" + _data[i].boco_customsCode + "/" + _data[i].boco_goodsName)
 					var package0 = _data[i].boco_package.split(' ')
 					var weight0 = _data[i].boco_weight.split(' ')
 					var volume0 = _data[i].boco_volume.split(' ')
@@ -672,6 +674,65 @@ $(function(){
 		}, function(err) {
 			console.log(err)
 		}, 2000)
+
+		if (action == 'modify') {
+		    common.ajax_req("get", false, dataUrl, "booking.ashx?action=readcontainer", {
+		        "whichId": 1,
+		        "bookingId": GetQueryString('Id')
+		    }, function (data) {
+		        console.log(data)
+		        if (data.State == 1) {
+		            var _data = data.Data;
+		            for (var i = 0; i < _data.length; i++) {
+		                var _container = _data[i].boco_number + "/" + _data[i].boco_sealNumber + "/" + _data[i].boco_sealNumber + "/" + _data[i].boco_package + "/" + _data[i].boco_weight + "/" + _data[i].boco_volume + "/" + _data[i].boco_vgm + "/" + _data[i].boco_customsCode + "/" + _data[i].boco_goodsName
+		                if (arrContainer.indexOf(_container) == -1) {
+		                    var package0 = _data[i].boco_package.split(' ')
+		                    var weight0 = _data[i].boco_weight.split(' ')
+		                    var volume0 = _data[i].boco_volume.split(' ')
+		                    var vgm0 = _data[i].boco_vgm.split(' ')
+		                    var crmlist = '<div class="margin-left-40" style="clear: both;">' +
+                            '<label for="inputPassword3" class="margin-right-5 margin-top-5" style="width:2%; float: left;"><input type="checkbox" name="containerli" value="' + _data[i].boco_id + '"></label>' +
+                            '<select id="containerType30" class="no-padding-left no-padding-right margin-right-5" style="width:7%; float: left;">' +
+                            '</select>' +
+                            '<input type="text" class="form-control margin-right-5" id="number30" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
+                                '<input type="text" class="form-control margin-right-5" id="sealNumber30" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
+                                '<input type="text" class="form-control margin-right-5" id="packageNum30" value="' + package0[0] + '" style="width:4%;float: left;">' +
+                                '<select id="package30" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
+                                '</select>' +
+                                '<input type="text" class="form-control margin-right-5" id="weightNum30"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
+                                '<select id="weight30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+                                '</select>' +
+                                '<input type="text" class="form-control margin-right-5" id="volumeNum30"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
+                                '<select id="volume30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+                                '</select>' +
+                                '<input type="text" class="form-control margin-right-5" id="vgmNum30"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
+                                '<select id="vgm30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+                                '</select>' +
+                                '<input type="text" class="form-control margin-right-5" id="customsCode30" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
+                                '<input type="text" class="form-control margin-right-10" id="goodsName30" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
+
+		                    $(".containerlist3").prepend(crmlist)
+		                    $('#containerType30').html($('#trailerNumUnit').html())
+		                    $('#containerType30').val(_data[i].boco_typeName).trigger("change")
+		                    $('#package30').html($('#package').html())
+		                    $('#package30').val(package0[1]).trigger("change")
+		                    $('#volume30').html($('#volume').html())
+		                    $('#volume30').val(volume0[1]).trigger("change")
+		                    $('#weight30').html($('#weight').html())
+		                    $('#weight30').val(weight0[1]).trigger("change")
+		                    $('#vgm30').html($('#weight').html())
+		                    $('#vgm30').val(vgm0[1]).trigger("change")
+		                }
+
+
+
+		            }
+		        }
+
+		    }, function (err) {
+		        console.log(err)
+		    }, 2000)
+		}
 	}
 	
 	//订单状态
@@ -2452,8 +2513,8 @@ $(function(){
     				$("#containerlist3").removeClass('none')
     		
     				billId = $(this).attr('billId')
-    				if(action == 'modify') {
-    					loadContainer2(2, billId)
+    				if (action == 'modify') {
+    				    loadContainer2(2, billId)
     				}
     				common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbillbyid", {
     					"Id": billId
