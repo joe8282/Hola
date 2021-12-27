@@ -2357,10 +2357,15 @@ $(function(){
     		port2 = _data.book_port2
     		port3 = _data.book_port3
     		carrier = _data.book_carrier
-    		$('#title3').html('订单号：' + _data.book_orderCode)
+    		if (_data.book_code == '' || _data.book_code == null) {
+                $('#title3').html('订单号：' + _data.book_orderCode)
+    		} else {
+    		    $('#title3').html('订单号：' + _data.book_orderCode + ' （订舱单号：' + _data.book_code + '）')
+    		}
+    		
     		$('#outCode').val(_data.book_outCode)
     		$('#billCode').val(_data.book_billCode)
-    		$('#code').val(_data.book_code)
+    		$('#sono').val(_data.book_sono)
     		$('#outCode').val(_data.book_outCode)
     		$("#crmuser").val(_data.book_crmCompanyId).trigger("change")
     		//$("#crmcontact").val(_data.book_crmContactId).trigger("change")
@@ -3266,7 +3271,7 @@ $(function(){
 		bill1NotifyParty = HtmlEncode($('#inNotifyParty').val())
 		
 		billCode = $('#billCode').val()
-		code = $('#code').val()
+		sono = $('#sono').val()
 		alsoNotify = HtmlEncode($('#inAlsoNotify').val())
 		billBeizhu = HtmlEncode($('#inBillBeizhu').val())
 		bill2Beizhu = HtmlEncode($('#inBill2Beizhu').val())
@@ -3317,7 +3322,7 @@ $(function(){
 			        'whichId': 2, //1=联系单，2=订单，3=订舱单
 					'fromId': 0,
 					'orderCode': orderCode,
-					'code': code,
+					'sono': sono,
 					'outCode': outCode,
 					'typeId': 0,
 					'isTemplate': isTemplate,
@@ -3430,7 +3435,7 @@ $(function(){
 					'userName': userName,
 					'crmCompanyId': crmCompanyId,
 					'crmContactId': 0,
-					'code': code,
+					'sono': sono,
 					'outCode': outCode,
 					'movementType': movementType,
 					'incoterm': incoterm,
