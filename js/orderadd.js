@@ -2083,10 +2083,18 @@ $(function(){
     	} else {
     	    var allPackageNum = 0, allWeightNum = 0, allVolumeNum = 0, allVgmNum = 0, allPackage, allWeight, allVolume, allVgm
     	    for (var i = 0; i < $('.containerList').length; i++) {
-    	        allPackageNum = parseInt(allPackageNum) + parseInt($('.containerList').eq(i).find('#packageNum0').val())
-    	        allWeightNum = parseInt(allWeightNum) + parseInt($('.containerList').eq(i).find('#weightNum0').val())
-    	        allVolumeNum = parseInt(allVolumeNum) + parseInt($('.containerList').eq(i).find('#volumeNum0').val())
-    	        allVgmNum = parseInt(allVgmNum) + parseInt($('.containerList').eq(i).find('#vgmNum0').val())
+    	        if ($('.containerList').eq(i).find('#packageNum0').val() != '') {
+    	            allPackageNum = parseInt(allPackageNum) + parseInt($('.containerList').eq(i).find('#packageNum0').val())
+    	        }
+    	        if ($('.containerList').eq(i).find('#weightNum0').val() != '') {
+    	            allWeightNum = parseInt(allWeightNum) + parseInt($('.containerList').eq(i).find('#weightNum0').val())
+    	        }
+    	        if ($('.containerList').eq(i).find('#volumeNum0').val() != '') {
+    	            allVolumeNum = parseInt(allVolumeNum) + parseInt($('.containerList').eq(i).find('#volumeNum0').val())
+    	        }
+    	        if ($('.containerList').eq(i).find('#vgmNum0').val() != '') {
+    	            allVgmNum = parseInt(allVgmNum) + parseInt($('.containerList').eq(i).find('#vgmNum0').val())
+    	        }
     	        allPackage = $('.containerList').eq(i).find('#package0').val()
     	        allWeight = $('.containerList').eq(i).find('#weight0').val()
     	        allVolume = $('.containerList').eq(i).find('#volume0').val()
@@ -2116,45 +2124,52 @@ $(function(){
     			weighingDate = $('#weighingDate').val(),
     			vgmBeizhu = $('#inputVmgBeizhu').val()
     		console.log(weighingDate)
-    		common.ajax_req('get', false, dataUrl, 'booking.ashx?action=modifycontainer', {
-    		    'userId': userID,
-    		    'userName': userName, 
-    			'bookingId': Id,
-    			'containerData': containerData,
-    			'allPackageNum': allPackageNum + ' ' + allPackage,
-    			'allWeightNum': allWeightNum + ' ' + allWeight,
-    			'allVolumeNum': allVolumeNum + ' ' + allVolume,
-    			'allVgmNum': allVgmNum + ' ' + allVgm,
-    			'num': vgminfoNum,
-    			'unit': vgminfoUnit,
-    			'way': vgminfoWay,
-    			'responsibility': responsibility,
-    			'authorize': authorize,
-    			'weighing': weighing,
-    			'weighingDate': weighingDate,
-    			'beizhu': vgmBeizhu
-    		}, function(data) {
-    			if(data.State == 1) {
-    				containerData = ''
-    				$('#allContainer').val(data.Data)
-    				$('#packageNum').val(allPackageNum)
-    				$('#weightNum').val(allWeightNum)
-    				$('#volumeNum').val(allVolumeNum)
-    				$('#package').val(allPackage).trigger("change")
-    				$('#weight').val(allWeight).trigger("change")
-    				$('#volume').val(allVolume).trigger("change")
-    				$('#vgm').val(allVgm).trigger("change")
-    				$('#vgmNum').val(allVgmNum)
-    				$('#weightShow').val(allWeightNum + ' ' + allWeight)
-    				$('#volumeShow').val(allVolumeNum + ' ' + allVolume)
-    				comModel("保存成功")
-    			} else {
-    				containerData = ''
-    				comModel("保存失败")
-    			}
-    		}, function(error) {
-    			console.log(error)
-    		}, 1000)
+
+    		if (allPackageNum == 0 && allWeightNum == 0 && allVolumeNum == 0 && allVgmNum == 0) {
+    		    comModel("请检查完善信息再保存")
+    		} else {
+    		    common.ajax_req('get', false, dataUrl, 'booking.ashx?action=modifycontainer', {
+    		        'userId': userID,
+    		        'userName': userName,
+    		        'bookingId': Id,
+    		        'containerData': containerData,
+    		        'allPackageNum': allPackageNum + ' ' + allPackage,
+    		        'allWeightNum': allWeightNum + ' ' + allWeight,
+    		        'allVolumeNum': allVolumeNum + ' ' + allVolume,
+    		        'allVgmNum': allVgmNum + ' ' + allVgm,
+    		        'num': vgminfoNum,
+    		        'unit': vgminfoUnit,
+    		        'way': vgminfoWay,
+    		        'responsibility': responsibility,
+    		        'authorize': authorize,
+    		        'weighing': weighing,
+    		        'weighingDate': weighingDate,
+    		        'beizhu': vgmBeizhu
+    		    }, function (data) {
+    		        if (data.State == 1) {
+    		            containerData = ''
+    		            $('#allContainer').val(data.Data)
+    		            $('#packageNum').val(allPackageNum)
+    		            $('#weightNum').val(allWeightNum)
+    		            $('#volumeNum').val(allVolumeNum)
+    		            $('#package').val(allPackage).trigger("change")
+    		            $('#weight').val(allWeight).trigger("change")
+    		            $('#volume').val(allVolume).trigger("change")
+    		            $('#vgm').val(allVgm).trigger("change")
+    		            $('#vgmNum').val(allVgmNum)
+    		            $('#weightShow').val(allWeightNum + ' ' + allWeight)
+    		            $('#volumeShow').val(allVolumeNum + ' ' + allVolume)
+    		            comModel("保存成功")
+    		        } else {
+    		            containerData = ''
+    		            comModel("保存失败")
+    		        }
+    		    }, function (error) {
+    		        console.log(error)
+    		    }, 1000)
+    		}
+
+
     	}
     })
     
