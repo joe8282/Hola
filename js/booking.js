@@ -565,7 +565,7 @@ function initTable(fromId) {
     		        if (rowData.book_state != 3) {
     		            return (rowData.orderstate_name_cn);
     		        } else {
-    		            return ("<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + "," + rowData.book_beizhu + ")'>已取消</a>");
+    		            return ("<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>已取消</a>");
     		        }
     				
     			}    			
