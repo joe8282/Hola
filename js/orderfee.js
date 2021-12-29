@@ -1707,7 +1707,39 @@ $(function(){
 //      //单位
         $('.feeList:last').find('#numUnit').append(_numUnit)
         $('.feeList:last').find('#feeType').val('credit').trigger("change")
-        $('.feeList:last').css("background-color","pink")
+        $('.feeList:last').css("background-color", "pink")
+
+	    //新增保存一条
+        var parm = {
+            'bookingId': Id,
+            'userId': userID,
+            'userName': userName,
+            'feeType': $('.feeList:last').find('#feeType').val(),
+            'toCompany': $('.feeList:last').find('.toCompany').val(),
+            'feeItem': $('.feeList:last').find('.feeItem').val(),
+            'feeUnit': $('.feeList:last').find('#feeUnit').val(),
+            'numUnit': $('.feeList:last').find('#numUnit').val(),
+            'feeNum': $('.feeList:last').find('#feeNum').val(),
+            'feePrice': $('.feeList:last').find('#feePrice').val(),
+            'receiptRate': $('.feeList:last').find('#receiptRate').val(),
+            'receiptFeeUnit': $('.feeList:last').find('#receiptFeeUnit').val(),
+            'receiptFee': $('.feeList:last').find('#receiptFee').val(),
+            'beizhu': $('.feeList:last').find('#feeBeizhu').val()
+        }
+        console.log(parm)
+        common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfeeone', parm, function (data) {
+            if (data.State == 1) {
+                $('.feeList:last').find('#feeId').val(data.Data)
+                comModel("新增成功")
+            } else {
+                $('.feeList:last').remove()
+                comModel("新增失败")
+            }
+        }, function (error) {
+            console.log(parm)
+            $('.feeList:last').remove()
+            comModel("新增失败")
+        }, 2000)
 		
 	})	
 	$('.feeAll').delegate('.removeFee', 'click', function () {
@@ -1732,8 +1764,12 @@ $(function(){
 	
 	/*保存应收应付*/
 	$('#send_shoufu').on('click', function () {
-		var feeData=''
-		for(var i = 0; i < $('.feeList').length; i++) {
+	    var feeData = ''
+        var flat = false
+		for (var i = 0; i < $('.feeList').length; i++) {
+		    if ($('.feeList').eq(i).find('.toCompany').val() == null) {
+		        flat = true
+		    }
 		    if ($('.feeList').eq(i).find('#feePrice').val() != '0' && $('.feeList').eq(i).find('#isLock').val() == '0') {
 		        var feeId = $('.feeList').eq(i).find('#feeId').val()
                 var toCompany = $('.feeList').eq(i).find('.toCompany').val()
@@ -1758,6 +1794,10 @@ $(function(){
             }
 		}
 		console.log(feeData)
+		if (flat == true) {
+		    comModel("结算公司不能为空")
+            return
+		}
 		
 		var parm = {
 			'bookingId': Id,
