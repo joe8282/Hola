@@ -265,7 +265,7 @@ $(function(){
     $('.fee55').delegate("input[name='feeli']", 'click', function () {
         
         console.log($(this).prop('checked'))
-        if ($("#cancel_unit").val() == '0') {
+        if ($("#cancel_unit").val() == '') {
             comModel("请选择币种")
             $(this).prop("checked", false)
             return
