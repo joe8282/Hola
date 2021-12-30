@@ -18,6 +18,7 @@ var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
 var toYingFuUser = 0;
 var exchangeRate;
 var cancel_all_money = 0;
+var cancel_type = 4;
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -1129,9 +1130,11 @@ $(function(){
 
     //销账申请列表
     function GetBillGet() {
+        $("#billGetList").dataTable().fnClearTable(); //清空一下table
+        $("#billGetList").dataTable().fnDestroy(); //还原初始化了的dataTable
         var table = $("#billGetList").dataTable({
             //"iDisplayLength":10,
-            "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId=4&bookingId=' + Id,
+            "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId='+cancel_type+'&bookingId=' + Id,
             'bPaginate': false,
             "bInfo": false,
             //		"bDestory": true,
@@ -1407,7 +1410,7 @@ $(function(){
 
     oTable = GetBill();
     billPayTable = GetBillPay()
-    billGetTable = GetBillGet()
+    
     invoiceTable = GetInvoice()
     gysBillTable = GetGYSBill()
     filesTable = GetFiles()
@@ -1461,7 +1464,7 @@ $(function(){
         //     _getFee4($('#toCompany_4').val())
         // })
     })
-    $('.billgettab').on('click', function () {
+    $('.cancel_billgettab').on('click', function () {
         $('#send_bill_get').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
@@ -1471,6 +1474,48 @@ $(function(){
 
         $('#cancel_unit').append(_feeUnit)
         $("#payPrice5").val(0)
+
+        cancel_type = 4
+        $("#cancel_type").val("debit").trigger("change");
+
+        if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
+            var tableTrNum = getChar($("#billGetList tr").length - 2);
+        } else {
+            var tableTrNum = getChar($("#billGetList tr").length - 1);
+        }
+        $("#payNumber5").val('PRECR' + orderCode + tableTrNum)
+
+        billGetTable = GetBillGet()
+
+        //_getFee5($('#toCompany_5').val(), $('#cancel_type').val());
+
+        // $('#toCompany_5').append(_toCompany)
+        // $("#toCompany_5").change(function () {
+        //     _getFee4($('#toCompany_5').val())
+        // })
+    })
+    $('.cancel_billpaytab').on('click', function () {
+        $('#send_bill_get').removeClass('none')
+        $('#send_shoufu').addClass('none')
+        $('#send_bill').addClass('none')
+        $('#send_bill_pay').addClass('none')
+        $('#send_bill_gys').addClass('none')
+        $('#send_file').addClass('none')
+
+        $('#cancel_unit').append(_feeUnit)
+        $("#payPrice5").val(0)
+
+        cancel_type = 5
+        $("#cancel_type").val("credit").trigger("change");
+
+        if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
+            var tableTrNum = getChar($("#billGetList tr").length - 2);
+        } else {
+            var tableTrNum = getChar($("#billGetList tr").length - 1);
+        }
+        $("#payNumber5").val('PRECP' + orderCode + tableTrNum)
+
+        billGetTable = GetBillGet()
 
         // $('#toCompany_5').append(_toCompany)
         // $("#toCompany_5").change(function () {
@@ -1985,7 +2030,7 @@ $(function(){
 	            'userId': userID,
 	            'toCompany': $('#toCompany_5').val(),
 	            'payNumber': $('#payNumber5').val(),
-	            'typeId': 4,
+	            'typeId': cancel_type,
 	            'bank': $('#bank5').val(),
 	            'payPrice': $('#payPrice5').val(),
 	            'beizhu': $('#beizhu5').val(),
@@ -2007,7 +2052,7 @@ $(function(){
 	        }, function (error) {
 	        }, 2000)
 	    }        
-        $("#cancel_type option:first").prop("selected", 'selected');
+        //$("#cancel_type option:first").prop("selected", 'selected');
         _getFee5($('#toCompany_5').val(), $('#cancel_type').val());
         $("#payPrice5").val(0);
         cancel_all_money = 0;
@@ -2604,6 +2649,9 @@ $(function(){
 
     //收款销账
     function _getFee5(toCompany, feeType) {
+        if (toCompany == '') {
+            toCompany = -1
+        }
         var _thisBkgId;
         $('#_billgetThisBkgId').is(':checked') ? _thisBkgId = Id : _thisBkgId = 0;
         common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
@@ -2840,6 +2888,9 @@ function _detailBillPayFun(Id) {
 function _detailBillGetFun(Id) {
     $("#myModal4").modal("show");
     $(".fee_44").empty()
+    if (cancel_type == 4) { $("#mySmallModalLabel_Cancel").text("应收销账申请") }
+    else if (cancel_type == 5) { $("#mySmallModalLabel_Cancel").text("应付销账申请") }
+    
     common.ajax_req("get", true, dataUrl, "bill.ashx?action=readbyid", {
         "Id": Id
     }, function (data) {

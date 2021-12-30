@@ -12,7 +12,7 @@ var en2 = {
         };
 
 var _feeItemArr = new Array();
-
+var cancel_type = 4;
 $(function(){
     hasPermission('1310'); //权限控制：查看费用管理
     hasPermission('1315');
@@ -951,9 +951,11 @@ $(function(){
 
     //销账申请管理
     function GetCancelApply() {
+        $("#cancelapplyList").dataTable().fnClearTable(); //清空一下table
+        $("#cancelapplyList").dataTable().fnDestroy(); //还原初始化了的dataTable
         var table = $("#cancelapplyList").dataTable({
             //"iDisplayLength":10,
-            "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId=4&companyId=' + companyID,
+            "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId=' + cancel_type + '&companyId=' + companyID,
             'bPaginate': true,
             "bInfo": false,
             //		"bDestory": true,
@@ -966,15 +968,15 @@ $(function(){
             //],
             //		"bProcessing": true,
             "aoColumns": [
-                            {
-                                "mDataProp": "bill_payType",
-                                "createdCell": function (td, cellData, rowData, row, col) {
-                                    var typeName = ''
-                                    if (rowData["bill_payType"] == "debit") { typeName = '应收销账' }
-                                    if (rowData["bill_payType"] == "credit") { typeName = '应付销账' }
-                                    $(td).html(typeName);
-                                }
-                            },
+                            //{
+                            //    "mDataProp": "bill_payType",
+                            //    "createdCell": function (td, cellData, rowData, row, col) {
+                            //        var typeName = ''
+                            //        if (rowData["bill_payType"] == "debit") { typeName = '应收销账' }
+                            //        if (rowData["bill_payType"] == "credit") { typeName = '应付销账' }
+                            //        $(td).html(typeName);
+                            //    }
+                            //},
                 { "mDataProp": "comp_name" },
                     { "mDataProp": "bill_payNumber" },
                             {
@@ -1021,7 +1023,7 @@ $(function(){
                     // 						.append("<a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a>");
                     "createdCell": function (td, cellData, rowData, row, col) {
                         $(td).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + cellData + ")'>" + get_lan('detail') + "</a><br/>")
-                            .append("<a href='cancel_account_add.html?action=apply&Id=" + cellData + "&toCompanyId=" + rowData.bill_toCompany + "'>审核</a>")
+                            //.append("<a href='cancel_account_add.html?action=apply&Id=" + cellData + "&toCompanyId=" + rowData.bill_toCompany + "'>销账处理</a>")
                     }
                 },
             ],
@@ -1357,7 +1359,7 @@ $(function(){
     //billPayTable = GetBillPay()
     //billGetTable = GetBillGet()
     invoiceTable = GetInvoice()
-    cancelApplyTable = GetCancelApply()
+    //cancelApplyTable = GetCancelApply()
     //gysBillTable = GetGYSBill()
     //filesTable = GetFiles()
 
@@ -1409,14 +1411,29 @@ $(function(){
         //     _getFee4($('#toCompany_4').val())
         // })
     })
-    $('.billgettab').on('click', function () {
+    $('.cancelapplytab1').on('click', function () {
         $('#send_bill_get').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
         $('#send_bill_pay').addClass('none')
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
-
+        cancel_type = 4
+        cancelApplyTable = GetCancelApply()
+        // $('#toCompany_5').append(_toCompany)
+        // $("#toCompany_5").change(function () {
+        //     _getFee4($('#toCompany_5').val())
+        // })
+    })
+    $('.cancelapplytab2').on('click', function () {
+        $('#send_bill_get').removeClass('none')
+        $('#send_shoufu').addClass('none')
+        $('#send_bill').addClass('none')
+        $('#send_bill_pay').addClass('none')
+        $('#send_bill_gys').addClass('none')
+        $('#send_file').addClass('none')
+        cancel_type = 5
+        cancelApplyTable = GetCancelApply()
         // $('#toCompany_5').append(_toCompany)
         // $("#toCompany_5").change(function () {
         //     _getFee4($('#toCompany_5').val())

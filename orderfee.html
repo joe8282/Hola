@@ -271,7 +271,8 @@ Purchase: http://wrapbootstrap.com
                                 <li class="tab-red"><a class="billtab" data-toggle="tab" href="#ZHANGDAN">账单制作</a></li>
                                 <li class="tab-red"><a class="invoicetab" data-toggle="tab" href="#FAPIAO">开具发票</a></li>
                                 <li class="tab-red"><a class="billpaytab" data-toggle="tab" href="#FUKUANG">付款申请</a></li>
-                                <li class="tab-red"><a class="billgettab" data-toggle="tab" href="#SHOUKUANG">销账申请</a></li>
+                                <li class="tab-red"><a class="cancel_billgettab" data-toggle="tab" href="#SHOUKUANG">应收销账申请</a></li>
+                                <li class="tab-red"><a class="cancel_billpaytab" data-toggle="tab" href="#SHOUKUANG">应付销账申请</a></li>
                                 <li class="tab-red"><a class="gysbilltab" data-toggle="tab" href="#GONGYINGSHANG">承运商账单</a></li>
                                 <li class="tab-red"><a class="filetab" data-toggle="tab" href="#WENJIAN">相关文件</a></li>
                             </ul>
@@ -739,8 +740,8 @@ Purchase: http://wrapbootstrap.com
                                             <form class="form-horizontal" role="form">
                                                 <div class="form-group no-margin-bottom">
                                                     <label for="inputPassword3" class="col-sm-5">选择结算对象 <sup></sup><span style="float: right;"><input type="checkbox" id="_billgetThisBkgId"> 仅此票</span></label>
-                                                    <label for="inputPassword3" class="col-sm-3">销账类别 <sup></sup></label>
-                                                    <label for="inputPassword3" class="col-sm-3">银行 <sup></sup></label> 
+                                                    <label for="inputPassword3" class="col-sm-3" style="display:none;">销账类别 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3">银行 <sup></sup></label>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-5">
@@ -748,7 +749,7 @@ Purchase: http://wrapbootstrap.com
                                                             <option value="">请选择</option>
                                                         </select>
                                                     </div>
-                                                    <div class="col-sm-3">
+                                                    <div class="col-sm-3" style="display:none;">
                                                         <select id="cancel_type" style="width: 100%;">
                                                             <option value="">请选择</option>
                                                             <option value="debit">应收销账</option>
@@ -757,8 +758,7 @@ Purchase: http://wrapbootstrap.com
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <!--input type="email" class="form-control" id="bank5" placeholder=""-->
-                                                        <select id="bank5" style="width:230px; font-size: 14px;">
-                                                        </select>
+                                                        <select id="bank5" style="width:230px; font-size: 14px;"></select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group no-margin-bottom">
@@ -1174,13 +1174,13 @@ Purchase: http://wrapbootstrap.com
         <!--End Large Modal Templates-->  
 
         <!--收款销账详情 LArge Modal Templates-->
-        <div class="modal fade bs-example-modal-lg" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal fade bs-example-modal-lg" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel_Cancel" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
 
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="mySmallModalLabel">销账申请</h4>
+                        <h4 class="modal-title" id="mySmallModalLabel_Cancel">销账申请</h4>
                     </div>
                     <div class="modal-body" style="padding: 20px;">
                         <div class="form-group">
