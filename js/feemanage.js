@@ -2274,6 +2274,8 @@ function _detailBillPayFun(Id) {
 function _detailBillGetFun(Id) {
     $("#myModal4").modal("show");
     $(".fee_44").empty()
+    if (cancel_type == 4) { $("#mySmallModalLabel_Cancel").text("应收销账申请") }
+    else if (cancel_type == 5) { $("#mySmallModalLabel_Cancel").text("应付销账申请") }
     common.ajax_req("get", true, dataUrl, "bill.ashx?action=readbyid", {
         "Id": Id
     }, function (data) {
@@ -2282,7 +2284,7 @@ function _detailBillGetFun(Id) {
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
         $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
-        $(".bill_bank").text(_data.bill_bank)
+        $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
         $(".bill_payNumber").text(_data.bill_payNumber)
         $(".bill_payPrice").text(_data.bill_payPrice)
         $(".bill_beizhu").text(_data.bill_beizhu)
