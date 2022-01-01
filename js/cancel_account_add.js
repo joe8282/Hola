@@ -29,13 +29,13 @@ $(document).ready(function() {
 	var feeType = GetQueryString('feeType') == null ? '' : GetQueryString('feeType')
 	$("#btnBackSave").hide();
 	$("#btnBackSave").click(_editSaveFun);
-
+	$("#btnAddSave_apply").hide();
 	var codeType='';
 	if (feeType == 'credit') {
-	    $("#cancel_type").val(1).trigger("change")
+	    $("#cancel_type").val(2).trigger("change")
 	    codeType = 'CP'
 	} else if (feeType == 'debit') {
-	    $("#cancel_type").val(2).trigger("change")
+	    $("#cancel_type").val(1).trigger("change")
 	    codeType = 'CR'
 	} else {
 	    $("#cancel_type").val(0).trigger("change")
@@ -59,9 +59,9 @@ $(document).ready(function() {
 	$("#cancel_type").change(function () {
 	    if (action == 'add') {
 	        if ($("#cancel_type").val() == '1') {
-	            location.href = "cancel_account_add.html?action=add&toCompanyId=" + toCompany + "&feeType=credit"
-	        } else if ($("#cancel_type").val() == '2') {
 	            location.href = "cancel_account_add.html?action=add&toCompanyId=" + toCompany + "&feeType=debit"
+	        } else if ($("#cancel_type").val() == '2') {
+	            location.href = "cancel_account_add.html?action=add&toCompanyId=" + toCompany + "&feeType=credit"
 	        } else {
 	            location.href = "cancel_account_add.html?action=add&toCompanyId=" + toCompany
 	        }
@@ -209,13 +209,13 @@ $(document).ready(function() {
 	        str += ",";
 	    });
 
-	    var iscancel = 0,isapply=0
+	    var state = 3
 	    if (action == 'modify') {
-	        iscancel = 1
+	        state = 4
 	    }
-	    if (action == 'apply') {
-	        isapply = Id
-	    }
+	    //if (action == 'apply') {
+	    //    isapply = Id
+	    //}
 
 	    if ($("#unit").val() == '') {
 	        comModel("币种不能为空！")
@@ -229,6 +229,7 @@ $(document).ready(function() {
 	        comModel("请选择销账明细！")
 	    } else {
 	        var jsonData = {
+	            'state': state,
 	            'companyId': companyID,
 	            'toCompany': toCompany,
 	            'userId': userID,
@@ -239,9 +240,9 @@ $(document).ready(function() {
 	            'typeId': $("#cancel_type").val(),
 	            'beizhu': $("#beizhu").val(),
 	            'file': $("#Nav").val() + $("#Pname").val(),
-	            'iscancel': iscancel,
-	            'isapply':isapply,
-	            'bill': str
+	            //'iscancel': iscancel,
+	            //'isapply':isapply,
+	            'feeItem': str
 	        };
 	        $.ajax({
 	            url: dataUrl + 'ajax/cancelaccount.ashx?action=new',
@@ -294,7 +295,32 @@ $(document).ready(function() {
 	    }
 	});
 
-	
+	$("#btnAddSave_apply").on("click", function () {
+	    var jsonData = {
+	        'Id': Id,
+	        'state': 3,
+	        'code': $("#code").val(),
+	        'opetionUser':userID
+	    };
+	    $.ajax({
+	        url: dataUrl + 'ajax/cancelaccount.ashx?action=modify',
+	        data: jsonData,
+	        dataType: "json",
+	        type: "post",
+	        success: function (backdata) {
+	            if (backdata.State == 1) {
+	                comModel("提交成功！")
+	                location.href = 'cancel_account.html';
+	            } else {
+	                comModel("提交失败！")
+	                //location.href = 'emailpp_group.html';
+	            }
+	        },
+	        error: function (error) {
+	            console.log(error);
+	        }
+	    });
+	});
 
 	if (action == 'modify') {
 	    $('input,textarea').prop('disabled', true);
@@ -316,7 +342,7 @@ $(document).ready(function() {
 	            $('#showimg').attr('src', dataUrl+"uppic/feePic/" + data.Data.caac_file);
 	        }
 	        cancel_all_money = data.Data.caac_money
-	        var maillist = data.Data.caac_bill.split(',')
+	        var maillist = data.Data.caac_feeItem.split(',')
 	        setTimeout(function () {
 	            $('input,textarea').prop('disabled', true);
 	            for (var i = 0; i < maillist.length; i++) {
@@ -359,15 +385,18 @@ $(document).ready(function() {
 	    }, 5000)
 
 	} else if (action == 'apply') {
+	    $("#btnAddSave").hide();
+	    $("#btnAddSave_apply").show();
 	    $('input,textarea').prop('disabled', true);
 	    $('select').prop('disabled', true);
-	    common.ajax_req("get", false, dataUrl, "bill.ashx?action=readbyid", {
+	    common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=readbyid", {
 	        "Id": Id
 	    }, function (data) {
 	        //console.log(data.Data)
 	        //初始化信息
-	        if (data.Data.bill_payType == 'debit') { $("#cancel_type").val("2").trigger("change"); codeType = 'CR' }
-	        else if (data.Data.bill_payType == 'credit') { $("#cancel_type").val("1").trigger("change"); codeType = 'CP';}
+	        $("#cancel_type").val(data.Data.caac_typeId).trigger("change");
+	        if (data.Data.caac_typeId == 1) { codeType = 'CR' }
+	        else if (data.Data.caac_typeId == 2) { codeType = 'CP'; }
 	        common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
 	            "companyId": companyID,
 	            "type": codeType
@@ -378,15 +407,15 @@ $(document).ready(function() {
 	            }
 	        })
 
-	        $("#cancel_money").val(data.Data.bill_payPrice)
-	        $("#unit").val(data.Data.bill_currency).trigger("change")
-	        $("#bank").val(data.Data.bill_bank).trigger("change")
-	        $("#beizhu").val(data.Data.bill_beizhu)
-	        if (data.Data.bill_file != "") {
-	            $('#showimg').attr('src', dataUrl + "uppic/feePic/" + data.Data.bill_file);
+	        $("#cancel_money").val(data.Data.caac_money)
+	        $("#unit").val(data.Data.caac_currency).trigger("change")
+	        $("#bank").val(data.Data.caac_bank).trigger("change")
+	        $("#beizhu").val(data.Data.caac_beizhu)
+	        if (data.Data.caac_file != "") {
+	            $('#showimg').attr('src', dataUrl + _data.caac_file);
 	        }
-	        cancel_all_money = data.Data.bill_payPrice
-	        var maillist = data.Data.bill_feeItem.split(',')
+	        cancel_all_money = data.Data.caac_money
+	        var maillist = data.Data.caac_feeItem.split(',')
 	        setTimeout(function () {
 	            $('input,textarea').prop('disabled', true);
 	            $('#beizhu').removeAttr("disabled");

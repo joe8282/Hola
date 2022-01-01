@@ -1134,7 +1134,7 @@ $(function(){
         $("#billGetList").dataTable().fnDestroy(); //还原初始化了的dataTable
         var table = $("#billGetList").dataTable({
             //"iDisplayLength":10,
-            "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId='+cancel_type+'&bookingId=' + Id,
+            "sAjaxSource": dataUrl + 'ajax/cancelaccount.ashx?action=read&preCode=has&typeId=' + cancel_type + '&bookingId=' + Id,
             'bPaginate': false,
             "bInfo": false,
             //		"bDestory": true,
@@ -1145,30 +1145,30 @@ $(function(){
             //		"bProcessing": true,
             "aoColumns": [
                 { "mDataProp": "comp_name" },
-                { "mDataProp": "bill_payNumber" },
+                { "mDataProp": "caac_preCode" },
                 { "mDataProp": "rema_type" },
 			    {
-			        "mDataProp": "bill_addTime",
+			        "mDataProp": "caac_addTime",
 			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-			            $(nTd).html(oData.bill_addTime.substring(0, 10));
+			            $(nTd).html(oData.caac_addTime.substring(0, 10));
 			        }
 			    },
-                { "mDataProp": "bill_currency" },
-                { "mDataProp": "bill_payPrice" },
+                { "mDataProp": "caac_currency" },
+                { "mDataProp": "caac_money" },
 			    {
-			        "mDataProp": "bill_state",
+			        "mDataProp": "caac_state",
 			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-			            if (oData.bill_state == 1) {
+			            if (oData.caac_state == 1) {
 			                $(nTd).html('未销账');
 			            } else {
-			                $(nTd).html(oData.bill_cancelCode);
+			                $(nTd).html(oData.caac_code);
 			            }
 			        }
 			    },
                 {
-                    "mDataProp": "bill_id",
+                    "mDataProp": "caac_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        if (oData.bill_state == 1) {
+                        if (oData.caac_state == 1) {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -1475,7 +1475,7 @@ $(function(){
         $('#cancel_unit').append(_feeUnit)
         $("#payPrice5").val(0)
 
-        cancel_type = 4
+        cancel_type = 1
         $("#cancel_type").val("debit").trigger("change");
 
         if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
@@ -1505,7 +1505,7 @@ $(function(){
         $('#cancel_unit').append(_feeUnit)
         $("#payPrice5").val(0)
 
-        cancel_type = 5
+        cancel_type = 2
         $("#cancel_type").val("credit").trigger("change");
 
         if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
@@ -2025,14 +2025,17 @@ $(function(){
 	        comModel("请选择销账类别！")
 	    } else {
 	        var parm = {
+	            'state': 1,
 	            'bookingId': Id,
 	            'companyId': companyID,
 	            'userId': userID,
 	            'toCompany': $('#toCompany_5').val(),
-	            'payNumber': $('#payNumber5').val(),
+	            //'payNumber': $('#payNumber5').val(),
+	            'preCode': $('#payNumber5').val(),
 	            'typeId': cancel_type,
 	            'bank': $('#bank5').val(),
-	            'payPrice': $('#payPrice5').val(),
+	            //'payPrice': $('#payPrice5').val(),
+	            'money': $('#payPrice5').val(),
 	            'beizhu': $('#beizhu5').val(),
 	            'payType': $('#cancel_type').val(),
 	            'currency': $('#cancel_unit').val(),
@@ -2042,7 +2045,7 @@ $(function(){
 	            'cancelFee': cancelFee.toString()
 	        }
 	        console.log(parm)
-	        common.ajax_req('POST', false, dataUrl, 'bill.ashx?action=new', parm, function (data) {
+	        common.ajax_req('POST', false, dataUrl, 'cancelaccount.ashx?action=new', parm, function (data) {
 	            if (data.State == 1) {
 	                comModel("保存成功")
 	                billGetTable.fnReloadAjax(billGetTable.fnSettings());
@@ -2891,25 +2894,28 @@ function _detailBillGetFun(Id) {
     if (cancel_type == 4) { $("#mySmallModalLabel_Cancel").text("应收销账申请") }
     else if (cancel_type == 5) { $("#mySmallModalLabel_Cancel").text("应付销账申请") }
     
-    common.ajax_req("get", true, dataUrl, "bill.ashx?action=readbyid", {
+    common.ajax_req("get", true, dataUrl, "cancelaccount.ashx?action=readbyid", {
         "Id": Id
     }, function (data) {
         console.log(data.Data)
         //初始化信息
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
-        $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
+        $(".bill_addTime").text(_data.caac_addTime.substring(0, 10))
         $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
-        $(".bill_payNumber").text(_data.bill_payNumber)
-        $(".bill_payPrice").text(_data.bill_payPrice)
-        $(".bill_currency").text(_data.bill_currency)
-        $(".bill_beizhu").text(_data.bill_beizhu)
+        $(".bill_payNumber").text(_data.caac_preCode)
+        $(".bill_payPrice").text(_data.caac_money)
+        $(".bill_currency").text(_data.caac_currency)
+        $(".bill_beizhu").text(_data.caac_beizhu)
         //$(".bill_file").text(_data.bill_currency)
-        if (_data.bill_file != "") {
-            $('#showimg55').attr('src', dataUrl + _data.bill_file);
+        if (_data.caac_file != "") {
+            $('#showimg55').show()
+            $('#showimg55').attr('src', dataUrl + _data.caac_file);
+        } else {
+            $('#showimg55').hide()
         }
 
-        var arrItem = _data.bill_feeItem.split(',')
+        var arrItem = _data.caac_feeItem.split(',')
         var xuhao = 0;
         for (var i = 0; i < arrItem.length; i++) {
             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {

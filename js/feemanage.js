@@ -12,7 +12,8 @@ var en2 = {
         };
 
 var _feeItemArr = new Array();
-var cancel_type = 4;
+var cancel_type = 1;
+var cancelId = 0;
 $(function(){
     hasPermission('1310'); //权限控制：查看费用管理
     hasPermission('1315');
@@ -955,7 +956,7 @@ $(function(){
         $("#cancelapplyList").dataTable().fnDestroy(); //还原初始化了的dataTable
         var table = $("#cancelapplyList").dataTable({
             //"iDisplayLength":10,
-            "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId=' + cancel_type + '&companyId=' + companyID,
+            "sAjaxSource": dataUrl + 'ajax/cancelaccount.ashx?action=read&preCode=has&typeId=' + cancel_type + '&companyId=' + companyID,
             'bPaginate': true,
             "bInfo": false,
             //		"bDestory": true,
@@ -978,42 +979,44 @@ $(function(){
                             //    }
                             //},
                 { "mDataProp": "comp_name" },
-                    { "mDataProp": "bill_payNumber" },
-                            {
-                                "mDataProp": "rema_content",
-                                "createdCell": function (td, cellData, rowData, row, col) {
-                                    $(td).html(rowData.rema_content.replace(/\n/g, '<br/>'));
-                                }
-                            },
+                    { "mDataProp": "caac_preCode" },
+{ "mDataProp": "rema_type" },
                     {
-                        "mDataProp": "bill_addTime",
+                        "mDataProp": "caac_addTime",
                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            $(nTd).html(oData.bill_addTime.substring(0, 10));
+                            $(nTd).html(oData.caac_addTime.substring(0, 10));
                         }
                     },
-                    { "mDataProp": "bill_currency" },
+                    { "mDataProp": "caac_currency" },
                             {
-                                "mDataProp": "bill_payPrice",
+                                "mDataProp": "caac_money",
                                 "createdCell": function (td, cellData, rowData, row, col) {
-                                    if (rowData.bill_file != "") {
-                                        $(td).html(rowData.bill_payPrice + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/feePic/" + rowData.bill_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
+                                    if (rowData.caac_file != "") {
+                                        $(td).html(rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/feePic/" + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
                                     } else {
-                                        $(td).html(rowData.bill_payPrice);
+                                        $(td).html(rowData.caac_money);
                                     }
                                 }
                             },
                     {
-                        "mDataProp": "bill_state",
+                        "mDataProp": "caac_state",
+                        "sWidth":"15%",
                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            if (oData.bill_state == 1) {
-                                $(nTd).html('未销账');
-                            } else {
-                                $(nTd).html(oData.bill_cancelCode);
+                            if (oData.caac_state == 1) {
+                                $(nTd).html('待审核');
+                            } else if (oData.caac_state == 2) {
+                                $(nTd).html("已通过未销账<br/><br/>审核人：" + oData.usin_name + "<br/>审核时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
+                            } else if (oData.caac_state == 3) {
+                                $(nTd).html("已销账");
+                            } else if (oData.caac_state == 4) {
+                                $(nTd).html("已返销");
+                            } else if (oData.caac_state == 5) {
+                                $(nTd).html("已取消<br/><br/>取消人：" + oData.usin_name + "<br/>取消时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
                             }
                         }
                     },
                 {
-                    "mDataProp": "bill_id",
+                    "mDataProp": "caac_id",
                     // 				"createdCell": function (td, cellData, rowData, row, col) {
                     // 					$(td).html("<a href='crmcompanyadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                     // 						.append("<a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + get_lan('delete') + "</a><br/>")
@@ -1022,8 +1025,12 @@ $(function(){
                     // //						.append("<a href='bookingadd.html?action=add&crmId="+cellData +"&fromId=1'>" + get_lan('addbooking') + "</a><br/>")
                     // 						.append("<a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a>");
                     "createdCell": function (td, cellData, rowData, row, col) {
+                        var _cancelString = ""
+                        if (rowData.caac_state == 2) {
+                            _cancelString = "<a href='cancel_account_add.html?action=apply&Id=" + cellData + "&toCompanyId=" + rowData.caac_toCompany + "'>销账处理</a>"
+                        }
                         $(td).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + cellData + ")'>" + get_lan('detail') + "</a><br/>")
-                            //.append("<a href='cancel_account_add.html?action=apply&Id=" + cellData + "&toCompanyId=" + rowData.bill_toCompany + "'>销账处理</a>")
+                            .append(_cancelString)
                     }
                 },
             ],
@@ -1418,7 +1425,7 @@ $(function(){
         $('#send_bill_pay').addClass('none')
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
-        cancel_type = 4
+        cancel_type = 1
         cancelApplyTable = GetCancelApply()
         // $('#toCompany_5').append(_toCompany)
         // $("#toCompany_5").change(function () {
@@ -1432,7 +1439,7 @@ $(function(){
         $('#send_bill_pay').addClass('none')
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
-        cancel_type = 5
+        cancel_type = 2
         cancelApplyTable = GetCancelApply()
         // $('#toCompany_5').append(_toCompany)
         // $("#toCompany_5").change(function () {
@@ -2274,22 +2281,30 @@ function _detailBillPayFun(Id) {
 function _detailBillGetFun(Id) {
     $("#myModal4").modal("show");
     $(".fee_44").empty()
+    $("#opetionBeizhu").val('')
+    cancelId = Id
     if (cancel_type == 4) { $("#mySmallModalLabel_Cancel").text("应收销账申请") }
     else if (cancel_type == 5) { $("#mySmallModalLabel_Cancel").text("应付销账申请") }
-    common.ajax_req("get", true, dataUrl, "bill.ashx?action=readbyid", {
+    common.ajax_req("get", true, dataUrl, "cancelaccount.ashx?action=readbyid", {
         "Id": Id
     }, function (data) {
         console.log(data.Data)
         //初始化信息
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
-        $(".bill_addTime").text(_data.bill_addTime.substring(0, 10))
+        $(".bill_addTime").text(_data.caac_addTime.substring(0, 10))
         $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
-        $(".bill_payNumber").text(_data.bill_payNumber)
-        $(".bill_payPrice").text(_data.bill_payPrice)
-        $(".bill_beizhu").text(_data.bill_beizhu)
+        $(".bill_payNumber").text(_data.caac_preCode)
+        $(".bill_payPrice").text(_data.caac_money)
+        $(".bill_beizhu").text(_data.caac_beizhu)
+        if (_data.caac_file != "") {
+            $('#showimg55').show()
+            $('#showimg55').attr('src', dataUrl + _data.caac_file);
+        } else {
+            $('#showimg55').hide()
+        }
 
-        var arrItem = _data.bill_feeItem.split(',')
+        var arrItem = _data.caac_feeItem.split(',')
         var xuhao = 0;
         for (var i = 0; i < arrItem.length; i++) {
             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {
@@ -2324,4 +2339,62 @@ function _detailBillGetFun(Id) {
     }, 1000)
 }
 
+$('#passState').on('click', function () {
+    var jsonData = {
+        'Id': cancelId,
+        'state': 2,
+        'opetionUser': userID,
+        'opetionBeizhu': $("#opetionBeizhu").val()
+    };
+    $.ajax({
+        url: dataUrl + 'ajax/cancelaccount.ashx?action=modify',
+        data: jsonData,
+        dataType: "json",
+        type: "post",
+        success: function (backdata) {
+            if (backdata.State == 1) {
+                comModel("提交成功！")
+                $("#myModal4").modal("hide");
+                cancelApplyTable.fnReloadAjax(cancelApplyTable.fnSettings());
+            } else {
+                comModel("提交失败！")
+                //location.href = 'emailpp_group.html';
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+})
+
+
+$('#nopassState').on('click', function () {
+    var jsonData = {
+        'Id': cancelId,
+        'state': 5,
+        'opetionUser': userID,
+        'opetionBeizhu': $("#opetionBeizhu").val()
+    };
+    $.ajax({
+        url: dataUrl + 'ajax/cancelaccount.ashx?action=modify',
+        data: jsonData,
+        dataType: "json",
+        type: "post",
+        success: function (backdata) {
+            if (backdata.State == 1) {
+                comModel("提交成功！")
+                $("#myModal4").modal("hide");
+                cancelApplyTable.fnReloadAjax(cancelApplyTable.fnSettings());
+            } else {
+                comModel("提交失败！")
+                //location.href = 'emailpp_group.html';
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+})
 
