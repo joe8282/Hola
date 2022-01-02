@@ -461,7 +461,7 @@ function initTable(fromId) {
     		        var mblNo = ""
     		        if (rowData.book_billCode != "") { mblNo = "<br/><span style='color:#999;'>MBL NO.:</span><br/>" + rowData.book_billCode }
                     var _str = rowData.book_orderCode + mblNo
-    		        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbill", {
+    		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbill", {
     		            "bookingId": rowData.book_id
     		        }, function (data) {
     		            if (data.State == 1) {
