@@ -49,6 +49,7 @@ $(function(){
 	}
 
 	var crmCompanyId = '0';
+	var customerId = '0';
 	var action = GetQueryString('action');	
 	var Id = GetQueryString('Id');
 	var isTemplate,movementType, incoterm, port1, port2, port3, route, fromAddress, toAddress, okTime, okTrailerTime,okBillTime,okPortTime,packageNum=0, weightNum=0, volumeNum=0, package, weight, volume, GP20=0, GP40=0, HQ40=0, SGP20, SGP40, SHQ40, packageMarks, goodAbout, beizhu;
@@ -851,7 +852,7 @@ $(function(){
 		var _data = data.data;
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
-			    var _html = '<option value="' + _data[i].comp_id + '" data-adminId=' + _data[i].comp_adminId + '>' + _data[i].comp_name + '</option>';
+			    var _html = '<option value="' + _data[i].comp_id + '" data-adminId=' + _data[i].comp_adminId + ' data-customerId=' + _data[i].comp_customerId + '>' + _data[i].comp_name + '</option>';
 				$('#crmuser').append(_html)
 			}
 		}	
@@ -862,7 +863,8 @@ $(function(){
 	$("#crmuser").change(function() {
 		crmCompanyId = $("#crmuser").val();
 		_selectSupplier(crmCompanyId)
-		_selectBill(crmCompanyId)
+		customerId = $("#crmuser").find("option:selected").attr("data-customerId")
+		_selectBill(customerId)
 		crmCompanyName = $("#crmuser").find("option:selected").text();
 		_selectPackingCom(crmCompanyId, crmCompanyName) //获取装箱公司
 
@@ -1257,7 +1259,7 @@ $(function(){
 	//    $("#trailerContactWay").val($("#trailerContact").find("option:selected").attr("data-carrierContactEmail"));
 	//})
 
-	function _selectBill(crmId){
+	function _selectBill(customerId) {
 		//SHIPPER
 		$('#Shipper').empty()
 		$('#Shipper2').empty()
@@ -1265,7 +1267,7 @@ $(function(){
 		common.ajax_req('GET', false, dataUrl, 'crmCompanybill.ashx?action=read', {
 			'typeId': 1,
 			'actionId': companyID,
-			'companyId': crmId
+			'companyId': customerId
 		}, function(data) {
 			var _data = data.data;
 			if(_data != null) {
@@ -1291,7 +1293,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inShipper").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(1, 1,crmId)
+			    _addBillFun(1, 1, customerId)
 			}
 		})
 		$("#Shipper2").click(function() {
@@ -1299,7 +1301,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inShipper2").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(1, 2,crmId)
+			    _addBillFun(1, 2, customerId)
 			}
 		})
 		$("#Shipper3").click(function() {
@@ -1307,7 +1309,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inShipper3").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(1, 3,crmId)
+			    _addBillFun(1, 3, customerId)
 			}
 		})		
 		
@@ -1318,7 +1320,7 @@ $(function(){
 		common.ajax_req('GET', false, dataUrl, 'crmCompanybill.ashx?action=read', {
 			'typeId': 2,
 			'actionId': companyID,
-			'companyId': crmId
+			'companyId': customerId
 		}, function(data) {
 			var _data = data.data;
 			if(_data != null) {
@@ -1344,7 +1346,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inConsignee").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(2, 1,crmId)
+			    _addBillFun(2, 1, customerId)
 			}
 		})
 		$("#Consignee2").click(function() {
@@ -1352,7 +1354,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inConsignee2").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(2, 2,crmId)
+			    _addBillFun(2, 2, customerId)
 			}
 		})
 		$("#Consignee3").click(function() {
@@ -1360,7 +1362,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inConsignee3").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(2, 3,crmId)
+			    _addBillFun(2, 3, customerId)
 			}
 		})
 		
@@ -1374,7 +1376,7 @@ $(function(){
 		common.ajax_req('GET', false, dataUrl, 'crmCompanybill.ashx?action=read', {
 			'typeId': 3,
 			'actionId': companyID,
-			'companyId': crmId
+			'companyId': customerId
 		}, function(data) {
 			var _data = data.data;
 			if(_data != null) {
@@ -1409,7 +1411,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inNotifyParty").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(3, 1,crmId)
+			    _addBillFun(3, 1, customerId)
 			}
 		})
 		$("#NotifyParty2").click(function() {
@@ -1417,7 +1419,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inNotifyParty2").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(3, 2,crmId)
+			    _addBillFun(3, 2, customerId)
 			}
 		})
 		$("#NotifyParty3").click(function() {
@@ -1425,7 +1427,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inNotifyParty3").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(3, 3,crmId)
+			    _addBillFun(3, 3, customerId)
 			}
 		})		
 		$("#AlsoNotify").click(function() {
@@ -1433,7 +1435,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inAlsoNotify").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(3, 4,crmId)
+			    _addBillFun(3, 4, customerId)
 			}
 		})
 		$("#AlsoNotify2").click(function() {
@@ -1441,7 +1443,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inAlsoNotify2").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(3, 5,crmId)
+			    _addBillFun(3, 5, customerId)
 			}
 		})
 		$("#AlsoNotify3").click(function() {
@@ -1449,7 +1451,7 @@ $(function(){
 			if(opt != '0') {
 				$("#inAlsoNotify3").val(HtmlDecode(opt))
 			} else {
-				_addBillFun(3, 6,crmId)
+			    _addBillFun(3, 6, customerId)
 			}
 		})			
 	}
@@ -1478,7 +1480,7 @@ $(function(){
 							var parm = {
 								'userId': userID,
 								'actionId': companyID,
-								'companyId': crmId,
+								'companyId': customerId,
 								//'name': billName,
 								'content': billContent,
 								'typeId': billTypeId,
