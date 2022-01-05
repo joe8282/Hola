@@ -93,7 +93,7 @@ $(function(){
 	    getShpmInfo(_data.bill_bookingId);
 	    loadContainer(1,_data.bill_bookingId)
 	    $('.addTime').text(_data.bill_addTime.substring(0, 10));
-	    $('.totalFee').text(_data.bill_payPrice);
+	    $('.totalFee').html(_data.bill_payPrice.replace(',', '<br/>'));
 	    $('.InvNo').text(_data.bill_payNumber);
 	    $('#remark').text(_data.bill_beizhu);
 	    $('#bankInfo').html(_data.rema_content.replace(/\n/g, '<br/>'));
@@ -110,11 +110,11 @@ $(function(){
                     var _data2 = data.Data
 
                     var feelist = '<tr>' +
-                            '<td>'+_getFeeItemFun(_data2.bofe_feeItem)+'</td>'+
-                            '<td>'+ _data2.bofe_feeUnit +_data2.bofe_fee+'</td>'+
-                            '<td>' + _data2.bofe_num + '</td>'+
-                            '<td>' + _data2.bofe_numUnit + '</td>'+
-                            '<td>' + _data2.bofe_feeUnit+_data2.bofe_allFee + '</td>'+
+                            '<td style="padding:5px 8px">' + _getFeeItemFun(_data2.bofe_feeItem) + '</td>' +
+                            '<td style="padding:5px 8px">' + _data2.bofe_feeUnit + _data2.bofe_fee + '</td>' +
+                            '<td style="padding:5px 8px">' + _data2.bofe_num + '</td>' +
+                            '<td style="padding:5px 8px">' + _data2.bofe_numUnit + '</td>' +
+                            '<td style="padding:5px 8px">' + _data2.bofe_feeUnit + _data2.bofe_allFee + '</td>' +
                     '</tr>'
                     $(".feeItem").append(feelist)
                 }
