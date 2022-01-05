@@ -279,6 +279,11 @@ Purchase: http://wrapbootstrap.com
                                         供应商/指定联系公司
                                     </a>
                                 </li>
+                                <li class="tab-relatshipments">
+                                    <a data-toggle="tab" href="#profile7">
+                                        账期管理
+                                    </a>
+                                </li>
                 			</ul>
                 		
                 			<div class="tab-content">
@@ -379,6 +384,45 @@ Purchase: http://wrapbootstrap.com
                                                 <th><button type="submit" id="sendRelatedCom" class="btn btn-blue">新增</button></th>
                                             </tr>
                                         </thead>                   
+                                    </table>
+                                </div>
+
+                                <div id="profile7" class="tab-pane" style="padding-bottom: 100px;">
+                                    <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%" id="Period">
+                                        <thead>
+                                            <tr class="tableTitle">
+                                                <th>账期类型</th>
+                                                <th>账期天数</th>
+                                                <th>账期金额</th>
+                                                <th>账期方式</th>
+                                                <th>添加时间</th>
+                                                <th>状态</th>
+                                                <th>操作</th>
+                                            </tr>
+                                            <tr id="Period_add">
+                                                <th>
+                                                    <select id="acpe_type" style="width:100%;">
+                                                        <option value="应收账期">应收账期</option>
+                                                        <option value="应付账期">应付账期</option>
+                                                    </select>
+                                                </th>
+                                                <th><input type="email" class="form-control" id="acpe_dateNum" placeholder="账期天数"></th>
+                                                <th>
+                                                    <select id="acpe_currency" style="width:40%; float:left; margin-right:2%;"></select>
+                                                    <input type="email" class="form-control" id="acpe_money" placeholder="账期金额" style="width:50%;">
+                                                </th>
+                                                <th>
+                                                    <select id="acpe_way" style="width:100%;">
+                                                        <option value="整箱压单">整箱压单</option>
+                                                        <option value="非整箱压单">非整箱压单</option>
+                                                        <option value="不压单">不压单</option>
+                                                    </select>
+                                                </th>
+                                                <th></th>
+                                                <th></th>
+                                                <th><button type="submit" id="send7" class="btn btn-blue">新增</button><button type="submit" id="send77" class="btn btn-blue">保存</button></th>
+                                            </tr>
+                                        </thead>
                                     </table>
                                 </div>
                 			</div>

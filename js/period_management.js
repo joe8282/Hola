@@ -71,19 +71,23 @@ function initTable() {
             			    "mDataProp": "acpe_state",
             			    "createdCell": function (td, cellData, rowData, row, col) {
             			        if (rowData.acpe_state == 1) {
-            			            $(td).html("待审核");
+            			            $(td).html('待审核');
             			        } else if (rowData.acpe_state == 2) {
-            			            $(td).html("审核通过");
+            			            $(td).html("已通过<br/><br/>审核人：" + rowData.usin_name + "<br/>审核时间：" + rowData.acpe_opetionTime.substring(0, 10) + "<br/>备注：" + rowData.acpe_opetionBeizhu);
             			        } else if (rowData.acpe_state == 3) {
-            			            $(td).html("审核不通过");
+            			            $(td).html("未通过<br/><br/>审核人：" + rowData.usin_name + "<br/>审核时间：" + rowData.acpe_opetionTime.substring(0, 10) + "<br/>备注：" + rowData.acpe_opetionBeizhu);
             			        }
-
             			    }
             			},
 			{
 			    "mDataProp": "acpe_id",
 			    "createdCell": function (td, cellData, rowData, row, col) {
-			        $(td).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + cellData + ")'>审核处理</a><br/>")
+			        if (rowData.acpe_state == 1) {
+			            $(td).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + cellData + ")'>审核处理</a><br/>")
+			        } else {
+			            $(td).html("")
+			        }
+			        
 			    }
 			},
 		],
@@ -132,6 +136,73 @@ function initTable() {
     
 	return table;
 }
+
+var cancelId;
+function _detailBillGetFun(Id) {
+    $("#myModal4").modal("show");
+    $("#opetionBeizhu").val('')
+    cancelId = Id
+}
+
+$('#passState').on('click', function () {
+    var jsonData = {
+        'Id': cancelId,
+        'state': 2,
+        'opetionUser': userID,
+        'opetionBeizhu': $("#opetionBeizhu").val()
+    };
+    $.ajax({
+        url: dataUrl + 'ajax/crmcompanyperiod.ashx?action=modify',
+        data: jsonData,
+        dataType: "json",
+        type: "post",
+        success: function (backdata) {
+            if (backdata.State == 1) {
+                comModel("提交成功！")
+                $("#myModal4").modal("hide");
+                oTable.fnReloadAjax(oTable.fnSettings());
+            } else {
+                comModel("提交失败！")
+                //location.href = 'emailpp_group.html';
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+})
+
+
+$('#nopassState').on('click', function () {
+    var jsonData = {
+        'Id': cancelId,
+        'state': 5,
+        'opetionUser': userID,
+        'opetionBeizhu': $("#opetionBeizhu").val()
+    };
+    $.ajax({
+        url: dataUrl + 'ajax/crmcompanyperiod.ashx?action=modify',
+        data: jsonData,
+        dataType: "json",
+        type: "post",
+        success: function (backdata) {
+            if (backdata.State == 1) {
+                comModel("提交成功！")
+                $("#myModal4").modal("hide");
+                oTable.fnReloadAjax(oTable.fnSettings());
+            } else {
+                comModel("提交失败！")
+                //location.href = 'emailpp_group.html';
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+})
+
 
 
 /*

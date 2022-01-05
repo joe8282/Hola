@@ -1624,10 +1624,15 @@ function GetPeriod() {
 			        //if (isPermission('1612') == 1) {
 			            
 			        //}
-			        perEdit = "<a href='javascript:void(0);' " + "onclick='_editPeriodFun(\"" + oData.acpe_id + "\")'>" + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
-			        perDel = "<a href='javascript:void(0);' onclick='_deletePeriodFun(" + sData + ")'>" + get_lan('delete') + "</a>"
-			        $(nTd).html(perEdit)
-						.append(perDel)
+			        if (oData.acpe_state == 1) {
+			            perEdit = "<a href='javascript:void(0);' " + "onclick='_editPeriodFun(\"" + oData.acpe_id + "\")'>" + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+			            perDel = "<a href='javascript:void(0);' onclick='_deletePeriodFun(" + sData + ")'>" + get_lan('delete') + "</a>"
+			            $(nTd).html(perEdit)
+                            .append(perDel)
+			        } else {
+			            $(nTd).html("")
+			        }
+
 
 			    }
 			},

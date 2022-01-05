@@ -43,7 +43,7 @@ $(document).ready(function() {
 	
 	//oBill=GetBill();	
 	$('#send00').hide()
-	
+	$('#send77').hide()
 	
 });
 function GetDetail() 
@@ -56,6 +56,8 @@ function GetDetail()
 	    //userCompanyId = _data.comp_customerId;
 		oTable2 = GetContact2();
 		oDemand = GetDemand();
+		periodTable = GetPeriod();
+
 		relatedComTable=initRelateComListTable();
 		$('.companyName').text(_data.comp_name)
 		$('.companyContent').text(_data.comp_content)
@@ -855,3 +857,249 @@ $('#sendRelatedCom').on('click', function () {
 //	}, 1000)
 //}
 
+
+//账期管理
+function GetPeriod() {
+    var table1 = $("#Period").dataTable({
+        //"iDisplayLength":10,
+        "sAjaxSource": dataUrl + 'ajax/crmcompanyperiod.ashx?action=read&companyId='+Id,
+        //		'bPaginate': true,
+        //		"bDestory": true,
+        //		"bRetrieve": true,
+        //		"bFilter": false,
+        "bSort": false,
+        "bAutoWidth": false,
+        "aaSorting": [[0, "desc"]],
+        //		"bProcessing": true,
+        "aoColumns": [
+			{ "mDataProp": "acpe_type" },
+			{ "mDataProp": "acpe_dateNum" },
+			{
+			    "mDataProp": "acpe_money",
+			    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+			        $(nTd).html(oData.acpe_money + oData.acpe_currency)
+			    }
+			},
+			{ "mDataProp": "acpe_way" },
+			{
+			    "mDataProp": "acpe_updateTime",
+			    "createdCell": function (td, cellData, rowData, row, col) {
+			        $(td).html(rowData.acpe_updateTime.substring(0, 10));
+			    }
+			},
+            			{
+            			    "mDataProp": "acpe_state",
+            			    "createdCell": function (td, cellData, rowData, row, col) {
+            			        if (rowData.acpe_state == 1) {
+            			            $(td).html("待审核");
+            			        } else if (rowData.acpe_state == 2) {
+            			            $(td).html("审核通过");
+            			        } else if (rowData.acpe_state == 3) {
+            			            $(td).html("审核不通过");
+            			        }
+
+            			    }
+            			},
+			{
+			    "mDataProp": "acpe_id",
+			    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+			        var perEdit = perDel = ""
+			        //if (isPermission('1611') == 1) {
+
+			        //}
+			        //if (isPermission('1612') == 1) {
+
+			        //}
+			        if (oData.acpe_state == 1) {
+			            perEdit = "<a href='javascript:void(0);' " + "onclick='_editPeriodFun(\"" + oData.acpe_id + "\")'>" + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+			            perDel = "<a href='javascript:void(0);' onclick='_deletePeriodFun(" + sData + ")'>" + get_lan('delete') + "</a>"
+			            $(nTd).html(perEdit)
+                            .append(perDel)
+			        } else {
+			            $(nTd).html("")
+			        }
+
+			    }
+			},
+        ],
+        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+        //		"sPaginationType": "bootstrap",
+        "oLanguage": {
+            //			"sUrl": "js/zh-CN.txt"
+            //			"sSearch": "快速过滤："
+            "sProcessing": "正在加载数据，请稍后...",
+            "sLengthMenu": "每页显示 _MENU_ 条记录",
+            "sZeroRecords": get_lan('nodata'),
+            "sEmptyTable": "表中无数据存在！",
+            "sInfo": get_lan('page'),
+            "sInfoEmpty": "显示0到0条记录",
+            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+            //"sInfoPostFix": "",
+            "sSearch": get_lan('search'),
+            //"sUrl": "",
+            //"sLoadingRecords": "载入中...",
+            //"sInfoThousands": ",",
+            "oPaginate": {
+                "sFirst": get_lan('first'),
+                "sPrevious": get_lan('previous'),
+                "sNext": get_lan('next'),
+                "sLast": get_lan('last'),
+            }
+            //"oAria": {
+            //    "sSortAscending": ": 以升序排列此列",
+            //    "sSortDescending": ": 以降序排列此列"
+            //}
+        }
+    });
+    return table1;
+}
+
+common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+    'typeId': 13,
+    'companyId': companyID
+}, function (data) {
+    var _data = data.data;
+    for (var i = 0; i < _data.length; i++) {
+        var _html = '<option value="' + _data[i].puda_name_en + '">' + _data[i].puda_name_en + '</option>';
+        $('#acpe_currency').append(_html)
+    }
+}, function (error) {
+    console.log(parm)
+}, 1000)
+
+var periodId, acpe_type, acpe_dateNum, acpe_way, acpe_currency, acpe_money
+$('#send7').on('click', function () {
+    acpe_type = $("#acpe_type").val(),
+	acpe_dateNum = $("#acpe_dateNum").val(),
+	acpe_way = $("#acpe_way").val(),
+	acpe_currency = $("#acpe_currency").val(),
+	acpe_money = $("#acpe_money").val();
+
+    if (!acpe_dateNum) {
+        comModel("请输入账期天数")
+    } else if (!acpe_money) {
+        comModel("请输入账期金额")
+    } else {
+        var parm = {
+            'userId': userID,
+            'companyId': Id,
+            'actionId': Id,
+            'type': acpe_type,
+            'way': acpe_way,
+            'dateNum': acpe_dateNum,
+            'currency': acpe_currency,
+            'money': acpe_money
+        }
+
+        common.ajax_req('POST', true, dataUrl, 'crmcompanyperiod.ashx?action=new', parm, function (data) {
+            if (data.State == 1) {
+                comModel("新增账期成功")
+                $("#acpe_dateNum").val("")
+                $("#acpe_money").val("")
+                periodTable.fnReloadAjax(periodTable.fnSettings())
+                //location.href = 'crmcompanydetail.html?Id=' + Id;
+            } else {
+                comModel("新增账期失败")
+            }
+        }, function (error) {
+            console.log(parm)
+        }, 10000)
+    }
+});
+
+
+/**
+ * 编辑数据带出值
+ */
+function _editPeriodFun(fId) {
+    periodId = fId;
+    common.ajax_req("get", true, dataUrl, "crmcompanyperiod.ashx?action=readbyid", {
+        "Id": fId
+    }, function (data) {
+        //console.log(data.Data)
+        //初始化信息
+        var _data = data.Data
+        $("#acpe_dateNum").val(_data.acpe_dateNum);
+        $("#acpe_money").val(_data.acpe_money);
+        $("#acpe_type").val(_data.acpe_type).trigger("change")
+        $("#acpe_currency").val(_data.acpe_currency).trigger("change")
+        $("#acpe_way").val(_data.acpe_way).trigger("change")
+
+
+        $('#send77').show()
+        $('#send7').hide()
+
+    }, function (err) {
+        console.log(err)
+    }, 5000)
+}
+
+$('#send77').on('click', function () {
+    acpe_type = $("#acpe_type").val(),
+	acpe_dateNum = $("#acpe_dateNum").val(),
+	acpe_way = $("#acpe_way").val(),
+	acpe_currency = $("#acpe_currency").val(),
+	acpe_money = $("#acpe_money").val();
+
+    if (!acpe_dateNum) {
+        comModel("请输入账期天数")
+    } else if (!acpe_money) {
+        comModel("请输入账期金额")
+    } else {
+        var parm = {
+            'userId': userID,
+            'Id': periodId,
+            'type': acpe_type,
+            'way': acpe_way,
+            'dateNum': acpe_dateNum,
+            'currency': acpe_currency,
+            'money': acpe_money
+        }
+
+        common.ajax_req('POST', true, dataUrl, 'crmcompanyperiod.ashx?action=modify', parm, function (data) {
+            if (data.State == 1) {
+                comModel("修改账期成功")
+                $("#acpe_dateNum").val("")
+                $("#acpe_money").val("")
+                periodTable.fnReloadAjax(periodTable.fnSettings())
+                //location.href = 'crmcompanydetail.html?Id=' + Id;
+            } else {
+                comModel("修改账期失败")
+            }
+        }, function (error) {
+            console.log(parm)
+        }, 10000)
+    }
+});
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deletePeriodFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/crmcompanyperiod.ashx?action=cancel',
+                data: {
+                    "Id": id
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State) {
+                        comModel("删除成功")
+                        periodTable.fnReloadAjax(periodTable.fnSettings())
+                    } else {
+                        alert("Delete Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+
+}
