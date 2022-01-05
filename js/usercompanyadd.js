@@ -134,8 +134,13 @@ $(function(){
 			$('#inputCompanyEmail').val(_data.comp_email)
 			$('#inputCompanyAddress').val(_data.comp_address)
 			var arrPort = _data.comp_port.split(',')
-			$("#e2").val(arrPort).trigger("change")
-			//$('#e2').html('<option value="' + arrPort[0] + '">' + arrPort[0] + '</option>').trigger("change")
+		    //$("#e2").val(arrPort[0]).trigger("change")
+
+			for (var i = 0; i < arrPort.length; i++) {
+			    var option = new Option(arrPort[i], arrPort[i], true, true);
+			    $('#e2').append(option).trigger("change")
+			}
+			
 			//$('.adRemark1').html(HtmlDecode(_data.prin_beizhu))	
 		}, function(err) {
 			console.log(err)

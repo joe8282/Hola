@@ -2512,7 +2512,7 @@ $(function(){
     			console.log(_data)
     			if(data.State == 1) {
     				for(var i = 0; i < _data.length; i++) {
-    					var crmlist = '<li><a class="billmodiy" data-toggle="tab" href="#dropdown2" billId=' + _data[i].bobi_id + '>' + _data[i].bobi_billCode + '</a></li>'
+    				    var crmlist = '<li style="border:1px solid #ccc"><a class="billmodiy" data-toggle="tab" href="#dropdown2" billId=' + _data[i].bobi_id + '>' + _data[i].bobi_billCode + '</a><a class="billdelete" billId=' + _data[i].bobi_id + '>删除</a></li>'
     					$("#billList").append(crmlist)
     					var crmlist = '<li><span class="printHBL" data-billid="' + _data[i].bobi_id + '" style="cursor: pointer; padding-left: 20px; ">HBL打印(' + _data[i].bobi_billCode + ')</span></li>'
     					$("#pringType").append(crmlist)
@@ -2586,6 +2586,34 @@ $(function(){
     					console.log(err)
     				}, 1000)
     		
+    			})
+
+    		    /*删除HBL*/
+    			$('.billdelete').on('click', function () {
+    			    billId = $(this).attr('billId')
+    			    bootbox.confirm("Are you sure?", function (result) {
+    			        if (result) {
+    			            $.ajax({
+    			                url: dataUrl + 'ajax/booking.ashx?action=cancelbill',
+    			                data: {
+    			                    "Id": billId
+    			                },
+    			                dataType: "json",
+    			                type: "post",
+    			                success: function (backdata) {
+    			                    if (backdata.State == 1) {
+    			                        loadHBL()
+    			                    } else {
+    			                        alert("Delete Failed！");
+    			                    }
+    			                },
+    			                error: function (error) {
+    			                    console.log(error);
+    			                }
+    			            });
+    			        }
+    			    });
+
     			})
     		
     		}, function(err) {
