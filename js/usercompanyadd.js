@@ -132,6 +132,7 @@ $(function(){
 			$('#inputCompanyFax').val(_data.comp_fax)
 			$('#inputCompanyPhone').val(_data.comp_phone)
 			$('#inputCompanyEmail').val(_data.comp_email)
+			$('#inputCompanyAddress').val(_data.comp_address)
 			var arrPort = _data.comp_port.split(',')
 			//console.log(arrPort)				
 			$("#e2").val(arrPort).trigger("change")
@@ -177,6 +178,7 @@ $(function(){
 			CompanyFax = $('#inputCompanyFax').val(),
 			CompanyPhone = $('#inputCompanyPhone').val(),
 			CompanyEmail = $('#inputCompanyEmail').val(),
+            CompanyAddress = $('#inputCompanyAddress').val(),
 			port = $("#e2").val(),
 			AccountName = $('#inputAccountName').val(),
 			AccountPw = $('#inputAccountPw').val()
@@ -215,6 +217,7 @@ $(function(){
 					'fax': CompanyFax,
 					'phone': CompanyPhone,
 					'email': CompanyEmail,
+					'address': CompanyAddress,
 					'port': port,
 					'account': AccountName,
 					'pw': AccountPw
@@ -265,6 +268,7 @@ $(function(){
 					'fax': CompanyFax,
 					'phone': CompanyPhone,
 					'email': CompanyEmail,
+					'address': CompanyAddress,
 					'port': port
 				}
 				
