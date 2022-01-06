@@ -1103,7 +1103,16 @@ $(function(){
 			        }
 			    },
                 { "mDataProp": "bill_payPrice" },
-                { "mDataProp": "bill_state" },
+                {
+                    "mDataProp": "bill_state",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        if (oData.bill_state == 1) {
+                            $(nTd).html('待处理');
+                        } else {
+                            $(nTd).html("");
+                        }
+                    }
+                },
                 {
                     "mDataProp": "bill_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
