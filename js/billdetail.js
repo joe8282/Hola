@@ -99,8 +99,8 @@ $(function(){
 	    $('#remark').text(_data.bill_beizhu);
 	    //$('#bankInfo').html(_data.rema_content.replace(/\n/g, '<br/>'));
 
+	    var _orderCode = "";
         var arrItem = _data.bill_feeItem.split(',');
-
         for (var i = 0; i < arrItem.length; i++) {
             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {
                 "Id": arrItem[i]
@@ -118,13 +118,28 @@ $(function(){
                             '<td style="padding:5px 8px">' + _data2.bofe_feeUnit + _data2.bofe_allFee + '</td>' +
                     '</tr>'
                     $(".feeItem").append(feelist)
+
+                    common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+                        "Id": _data2.bofe_bookingId
+                    }, function (data) {
+                        var _data = data.Data
+                        _orderCode += _data.book_orderCode + ","
+                        $('.hblNo').text(_orderCode)//系统单号
+
+                    }, function (err) {
+                        console.log(err)
+                    }, 1000)
                 }
 
 
             }, function (err) {
                 console.log(err)
             }, 1000)
+
+
         }
+
+        
 
 	}, function (err) {
 	    console.log(err)
@@ -251,8 +266,8 @@ function getShpmInfo(o){
             }
         })
         //$('.RefNo').text(_data.book_outCode)//参考号码
-        $('.hblNo').text(_data.book_orderCode)//系统单号
-        $('.mblNo').text(_data.book_billCode)
+        //$('.hblNo').text(_data.book_orderCode)//系统单号
+        //$('.mblNo').text(_data.book_billCode)
         $('.qty').text(_data.book_movementType=="FCL"?"FCL":"LCL")
         //$('.cntrNo').text(_data.book_outCode)
 
