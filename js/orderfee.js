@@ -1582,13 +1582,12 @@ $(function(){
         _getFee3($('#toCompany_3').val())
     })
     $("#toCompany_4").change(function () {
-        if($("#billPayList tbody td").hasClass("dataTables_empty")){
-            var tableTrNumPayNumber4=getChar($("#billPayList tr").length-2);
-        }else{
-            var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
-        }
-        //var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
-        $('#payNumber4').val('AD'+orderCode+tableTrNumPayNumber4)
+        //if($("#billPayList tbody td").hasClass("dataTables_empty")){
+        //    var tableTrNumPayNumber4=getChar($("#billPayList tr").length-2);
+        //}else{
+        //    var tableTrNumPayNumber4=getChar($("#billPayList tr").length-1);
+        //}
+        //$('#payNumber4').val('AD'+orderCode+tableTrNumPayNumber4)
         _getFee4($('#toCompany_4').val())
     })
     $("#toCompany_5").change(function () {
@@ -1994,7 +1993,7 @@ $(function(){
 	            'companyId': companyID,
 	            'userId': userID,
 	            'toCompany': $('#toCompany_4').val(),
-	            'payNumber': $('#payNumber4').val(),
+	            //'payNumber': $('#payNumber4').val(),
 	            'typeId': 3,
 	            'invoiceNumber': $('#cninvoiceNumber4').val(),
 	            'payType': $('#payType').val(),
