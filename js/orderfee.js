@@ -1119,13 +1119,14 @@ $(function(){
                         if (oData.bill_state == 1) {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillPayFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='javascript:void(0);' onclick='_deleteBillPayFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='billdetail.html?billid=" + oData.bill_id + "' target='_blank'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillPayFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteBillPayFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            .append("<a href='billdetail.html?billid=" + oData.bill_id + "' target='_blank'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
                             //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
                         }
