@@ -433,7 +433,7 @@ function initTable(fromId) {
     }else{
 		hasPermission('1713'); //权限控制
 		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&userOtherId=' + userID
-		tableTitle = '<th>人员</th><th>单号</th><th>SO NO. / 订舱号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
+		tableTitle = '<th>人员</th><th>单号/订舱号</th><th>SO NO. / MBL NO.</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
     	columns = [
     		{
@@ -458,25 +458,13 @@ function initTable(fromId) {
     		{
     		    "mDataProp": "book_orderCode",
     		    "mRender": function (td, cellData, rowData, row, col) {
-    		        var mblNo = ""
-    		        if (rowData.book_billCode != "") { mblNo = "<br/><span style='color:#999;'>MBL NO.:</span><br/>" + rowData.book_billCode }
-                    var _str = rowData.book_orderCode + mblNo
-    		        common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbill", {
-    		            "bookingId": rowData.book_id
-    		        }, function (data) {
-    		            if (data.State == 1) {
-    		                var _data = data.Data;
-    		                if (_data.length > 0) {
-    		                    _str = _str + "<br/><span style='color:#999;'>HBL NO.:</span><br/>"
-    		                    for (var i = 0; i < _data.length; i++) {
-    		                        _str = _str + _data[i].bobi_billCode + '<br/>'
-    		                    }
-    		                }
-
-    		            }
-    		        }, function (err) {
-    		            console.log(err)
-    		        }, 2000)
+    		        var _str = ""
+    		        if (rowData.book_orderCode != '') {
+    		            _str = _str + "<span style='color:#999;'>单号：</span>" + rowData.book_orderCode
+    		        }
+    		        if (rowData.book_code != '') {
+    		            _str = _str + "<br/><span style='color:#999;'>订舱号：</span>" + rowData.book_code.replaceAll(";", "<br/>")
+    		        }
 
     		        return (_str)
     		    }
@@ -488,9 +476,28 @@ function initTable(fromId) {
                     if (rowData.book_sono != '') {
                         _str = _str + "<span style='color:#999;'>SO NO.：</span>" + rowData.book_sono
                     }
-                    if (rowData.book_code != '') {
-                        _str = _str + "<br/><span style='color:#999;'>订舱号：</span>" + rowData.book_code.replaceAll(";", "<br/>")
+                    if (rowData.book_billCode != "") {
+                        _str = _str + "<br/><span style='color:#999;'>MBL NO.:</span><br/>" + rowData.book_billCode
                     }
+                    if (rowData.book_allContainer != "") {
+                        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbill", {
+                            "bookingId": rowData.book_id
+                        }, function (data) {
+                            if (data.State == 1) {
+                                var _data = data.Data;
+                                if (_data.length > 0) {
+                                    _str = _str + "<br/><span style='color:#999;'>HBL NO.:</span><br/>"
+                                    for (var i = 0; i < _data.length; i++) {
+                                        _str = _str + _data[i].bobi_billCode + '<br/>'
+                                    }
+                                }
+
+                            }
+                        }, function (err) {
+                            console.log(err)
+                        }, 2000)
+                    }
+
                     return (_str)
                 }
             },
