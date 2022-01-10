@@ -99,7 +99,7 @@ $(function(){
 	    $('#remark').text(_data.bill_beizhu);
 	    //$('#bankInfo').html(_data.rema_content.replace(/\n/g, '<br/>'));
 
-	    var _orderCode = "";
+	    var _orderCode = [];
         var arrItem = _data.bill_feeItem.split(',');
         for (var i = 0; i < arrItem.length; i++) {
             common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfeebyid", {
@@ -110,21 +110,23 @@ $(function(){
                     //初始化信息
                     var _data2 = data.Data
 
-                    var feelist = '<tr>' +
-                            '<td style="padding:5px 8px">' + _getFeeItemFun(_data2.bofe_feeItem) + '</td>' +
-                            '<td style="padding:5px 8px">' + _data2.bofe_feeUnit + _data2.bofe_fee + '</td>' +
-                            '<td style="padding:5px 8px">' + _data2.bofe_num + '</td>' +
-                            '<td style="padding:5px 8px">' + _data2.bofe_numUnit + '</td>' +
-                            '<td style="padding:5px 8px">' + _data2.bofe_feeUnit + _data2.bofe_allFee + '</td>' +
-                    '</tr>'
-                    $(".feeItem").append(feelist)
-
                     common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
                         "Id": _data2.bofe_bookingId
                     }, function (data) {
                         var _data = data.Data
-                        _orderCode += _data.book_orderCode + ","
-                        $('.hblNo').text(_orderCode)//系统单号
+
+                        var feelist = '<tr>' +
+                                '<td style="padding:5px 8px">' + _getFeeItemFun(_data2.bofe_feeItem) + '</td>' +
+                                '<td style="padding:5px 8px">' + _data.book_orderCode + '</td>' +
+                                '<td style="padding:5px 8px">' + _data2.bofe_feeUnit + _data2.bofe_fee + '</td>' +
+                                '<td style="padding:5px 8px">' + _data2.bofe_num + '</td>' +
+                                '<td style="padding:5px 8px">' + _data2.bofe_numUnit + '</td>' +
+                                '<td style="padding:5px 8px">' + _data2.bofe_feeUnit + _data2.bofe_allFee + '</td>' +
+                             '</tr>'
+                        $(".feeItem").append(feelist)
+
+                        _orderCode.push(_data.book_orderCode)
+                        $('.hblNo').text($.unique(_orderCode).toString())//系统单号
 
                     }, function (err) {
                         console.log(err)
