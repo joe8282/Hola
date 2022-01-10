@@ -39,7 +39,7 @@ $(document).ready(function() {
 function initTable() {  
 	var table = $("#example").dataTable({
 		//"iDisplayLength":10,
-	    "sAjaxSource": dataUrl + 'ajax/cancelaccount.ashx?action=read&companyId=' + companyID,
+	    "sAjaxSource": dataUrl + 'ajax/cancelaccount.ashx?action=read&state=10&companyId=' + companyID,
 		'bPaginate': true,
 	    "bInfo": false,
 	    //		"bDestory": true,
