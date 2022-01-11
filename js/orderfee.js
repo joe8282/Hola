@@ -1181,13 +1181,14 @@ $(function(){
                         if (oData.caac_state == 1) {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 .append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='cancel_detail.html?cancel_id=" + oData.caac_id + "' target='_blank'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("")
+                                .append("<a href='cancel_detail.html?cancel_id=" + oData.caac_id + "' target='_blank'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                                 //.append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
                             //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
@@ -1488,12 +1489,12 @@ $(function(){
         cancel_type = 1
         $("#cancel_type").val("debit").trigger("change");
 
-        if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
-            var tableTrNum = getChar($("#billGetList tr").length - 2);
-        } else {
-            var tableTrNum = getChar($("#billGetList tr").length - 1);
-        }
-        $("#payNumber5").val('PRECR' + orderCode + tableTrNum)
+        //if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
+        //    var tableTrNum = getChar($("#billGetList tr").length - 2);
+        //} else {
+        //    var tableTrNum = getChar($("#billGetList tr").length - 1);
+        //}
+        //$("#payNumber5").val('PRECR' + orderCode + tableTrNum)
 
         billGetTable = GetBillGet()
 
@@ -1518,12 +1519,12 @@ $(function(){
         cancel_type = 2
         $("#cancel_type").val("credit").trigger("change");
 
-        if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
-            var tableTrNum = getChar($("#billGetList tr").length - 2);
-        } else {
-            var tableTrNum = getChar($("#billGetList tr").length - 1);
-        }
-        $("#payNumber5").val('PRECP' + orderCode + tableTrNum)
+        //if ($("#billGetList tbody td").hasClass("dataTables_empty")) {
+        //    var tableTrNum = getChar($("#billGetList tr").length - 2);
+        //} else {
+        //    var tableTrNum = getChar($("#billGetList tr").length - 1);
+        //}
+        //$("#payNumber5").val('PRECP' + orderCode + tableTrNum)
 
         billGetTable = GetBillGet()
 
