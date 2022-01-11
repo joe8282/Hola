@@ -435,8 +435,6 @@ $(document).ready(function() {
 	                return obj;
 	            }
 	            function trans2(obj1, key1) {
-	                console.log(obj1)
-	                console.log(key1)
 	                var obj = {};
 	                var arr = [];
 	                for (i in obj1) {
