@@ -1689,9 +1689,10 @@ $(function(){
 	});			
 	$("#port3").on('change',function() {
 		var opt = $("#port3").val();
-		//console.log(opt)
-		$('#port2,#port4').html('<option value="' + opt  + '">' + opt  + '</option>').trigger("change")
-
+	    //console.log(opt)
+		if (opt != '') {
+		    $('#port2,#port4').html('<option value="' + opt + '">' + opt + '</option>').trigger("change")
+		}
 	})		
 //	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readport', {
 //		'companyId': companyID
