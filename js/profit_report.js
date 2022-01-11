@@ -320,7 +320,7 @@ $(document).ready(function() {
 	                var obj = {};
 	                var arr = [];
 	                for (i in obj1) {
-	                    if (arr.indexOf(obj1[i][key1]) == -1) {
+	                    if (arr.indexOf(obj1[i][key1]) == "-1") {
 	                        arr.push(obj1[i][key1]);
 	                        console.log(i);
 	                    }

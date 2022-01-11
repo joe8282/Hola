@@ -435,10 +435,12 @@ $(document).ready(function() {
 	                return obj;
 	            }
 	            function trans2(obj1, key1) {
+	                console.log(obj1)
+	                console.log(key1)
 	                var obj = {};
 	                var arr = [];
 	                for (i in obj1) {
-	                    if (arr.indexOf(obj1[i][key1].replace(/-/g, '').substring(0, 6)) == -1) {
+	                    if (arr.indexOf(obj1[i][key1].replace(/-/g, '').substring(0, 6)) == "-1") {
 	                        arr.push(obj1[i][key1].replace(/-/g, '').substring(0, 6));
 	                        //console.log(i);
 	                    }
