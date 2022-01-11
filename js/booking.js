@@ -569,10 +569,56 @@ function initTable(fromId) {
     		{
     		    "mDataProp": "orderstate_name_cn",
     		    "mRender": function (td, cellData, rowData, row, col) {
+                    var shoufuText = ''
+    		        //common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+    		        //    "bookingId": rowData.book_id
+    		        //}, function (data) {
+    		        //    if (data.State == 1) {
+    		        //        var _data = data.Data;
+    		        //        if (_data.length > 0) {
+    		        //            var yingshouText = '无应收', yingfuText = '无应付'
+    		        //            var yingshou_num = 0, yingfu_num = 0, yingshou_num_finsh = 0, yingfu_num_finsh = 0
+    		        //            for (var i = 0; i < _data.length; i++) {
+    		        //                if (_data.bofe_feeType == 'debit') {
+    		        //                    yingshou_num += 1
+    		        //                    if (_data.bofe_state == 3) {
+    		        //                        yingshou_num_finsh += 1
+    		        //                    }
+    		        //                } else if (_data.bofe_feeType == 'credit') {
+    		        //                    yingfu_num += 1
+    		        //                    if (_data.bofe_state == 3) {
+    		        //                        yingfu_num_finsh += 1
+    		        //                    }
+    		        //                }
+    		        //            }
+    		        //            if (yingshou_num=0) {
+    		        //                yingshouText = '无应收'
+    		        //            } else if (yingshou_num > yingshou_num_finsh) {
+    		        //                yingshouText = '部分收款'
+    		        //            } else if (yingshou_num = yingshou_num_finsh) {
+    		        //                yingshouText = '已收款'
+    		        //            }
+    		        //            if (yingfu_num = 0) {
+    		        //                yingfuText = '无应付'
+    		        //            } else if (yingfu_num > yingfu_num_finsh) {
+    		        //                yingfuText = '部分付款'
+    		        //            } else if (yingfu_num = yingfu_num_finsh) {
+    		        //                yingfuText = '已付款'
+    		        //            }
+    		        //            shoufuText = yingfuText + '/' + yingfuText
+    		        //        } else {
+    		        //            shoufuText = '无应收/无应付'
+    		        //        }
+
+    		        //    }
+    		        //}, function (err) {
+    		        //    console.log(err)
+    		        //}, 2000)
+
     		        if (rowData.book_state != 3) {
-    		            return (rowData.orderstate_name_cn);
+    		            return (shoufuText +"<br/>"+rowData.orderstate_name_cn);
     		        } else {
-    		            return ("<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>已取消</a>");
+    		            return (shoufuText + "<br/>" + "<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>已取消</a>");
     		        }
     				
     			}    			

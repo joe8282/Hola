@@ -2318,7 +2318,7 @@ $(function(){
 		    window.open('fileinput.html?action=container&bookingId=' + Id)
 		})
 
-    	common.ajax_req("get", true, dataUrl, "booking.ashx?action=readbyid", {
+		common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbyid", {
     		"Id": Id
     	}, function(data) {
     	    console.log(data.Data)
