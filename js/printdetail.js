@@ -422,7 +422,7 @@ $(document).ready(function () {
 	    //}
         //var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
         var _divLength = getCode()
-	    var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute; word-wrap: break-all;"><p>Data Content</p></div>';
+        var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute; word-wrap: break-all;"><p style="line-height:120%;">Data Content</p></div>';
 	    $("#printArea").append(Data);
 	    $("#relation").show();
 	    $("#name").hide();
