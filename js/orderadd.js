@@ -579,22 +579,22 @@ $(function(){
 					var volume0 = _data[i].boco_volume.split(' ')
 					var vgm0 = _data[i].boco_vgm.split(' ')
 					var crmlist = '<div class="margin-left-40" style="clear: both;">'+
-					'<label for="inputPassword3" class="margin-right-5 margin-top-5" style="width:2%; float: left;"><input type="checkbox" name="containerli" value="' + _data[i].boco_id + '"></label>' + 
+					'<label for="inputPassword3" class="margin-right-5 margin-top-5" style="width:2%; float: left;"><input type="checkbox" name="containerli" value="' + _data[i].boco_id + '" checked></label>' + 
 					'<select id="containerType00" class="no-padding-left no-padding-right margin-right-5" style="width:7%; float: left;">' +
 					'</select>' +
 					'<input type="text" class="form-control margin-right-5" id="number00" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
 						'<input type="text" class="form-control margin-right-5" id="sealNumber00" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
 						'<input type="text" class="form-control margin-right-5" id="packageNum00" value="' + package0[0] + '" style="width:4%;float: left;">' +
-						'<select id="package00" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
+						'<select id="package00" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="weightNum00"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
-						'<select id="weight00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+						'<select id="weight00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="volumeNum00"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
-						'<select id="volume00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+						'<select id="volume00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="vgmNum00"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
-						'<select id="vgm00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+						'<select id="vgm00" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="customsCode00" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
 						'<input type="text" class="form-control margin-right-10" id="goodsName00" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
@@ -642,16 +642,16 @@ $(function(){
 					'<input type="text" class="form-control margin-right-5" id="number30" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
 						'<input type="text" class="form-control margin-right-5" id="sealNumber30" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
 						'<input type="text" class="form-control margin-right-5" id="packageNum30" value="' + package0[0] + '" style="width:4%;float: left;">' +
-						'<select id="package30" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
+						'<select id="package30" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="weightNum30"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
-						'<select id="weight30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+						'<select id="weight30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="volumeNum30"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
-						'<select id="volume30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+						'<select id="volume30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="vgmNum30"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
-						'<select id="vgm30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+						'<select id="vgm30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
 						'</select>' +
 						'<input type="text" class="form-control margin-right-5" id="customsCode30" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
 						'<input type="text" class="form-control margin-right-10" id="goodsName30" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
@@ -698,16 +698,16 @@ $(function(){
                             '<input type="text" class="form-control margin-right-5" id="number30" value="' + _data[i].boco_number + '" style="width:10%;float: left;">' +
                                 '<input type="text" class="form-control margin-right-5" id="sealNumber30" value="' + _data[i].boco_sealNumber + '" style="width:10%;float: left;">' +
                                 '<input type="text" class="form-control margin-right-5" id="packageNum30" value="' + package0[0] + '" style="width:4%;float: left;">' +
-                                '<select id="package30" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;">' +
+                                '<select id="package30" class="no-padding-left no-padding-right margin-right-5" style="width:8%;float: left;" disabled>' +
                                 '</select>' +
                                 '<input type="text" class="form-control margin-right-5" id="weightNum30"  value="' + weight0[0] + '" style="width:5%;float: left;">' +
-                                '<select id="weight30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+                                '<select id="weight30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
                                 '</select>' +
                                 '<input type="text" class="form-control margin-right-5" id="volumeNum30"  value="' + volume0[0] + '" style="width:5%;float: left;">' +
-                                '<select id="volume30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+                                '<select id="volume30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
                                 '</select>' +
                                 '<input type="text" class="form-control margin-right-5" id="vgmNum30"  value="' + vgm0[0] + '" style="width:5%;float: left;">' +
-                                '<select id="vgm30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;">' +
+                                '<select id="vgm30" class="no-padding-left no-padding-right margin-right-5" style="width:5%;float: left;" disabled>' +
                                 '</select>' +
                                 '<input type="text" class="form-control margin-right-5" id="customsCode30" value="' + _data[i].boco_customsCode + '" style="width:10%;float: left;">' +
                                 '<input type="text" class="form-control margin-right-10" id="goodsName30" value="' + _data[i].boco_goodsName + '" style="width:10%;float: left;"></div>'
@@ -3053,7 +3053,7 @@ $(function(){
 			containerType00 = containerdata.toString()
 		}
 		
-		var containerData00=''
+		var containerData00 = '', packageNum22 = 0, weightNum22 = 0, volumeNum22 = 0, vgmNum22=0
 		for(var i = 0; i < $('.containerlist00 div').length; i++) {			
     		var containerType = $('.containerlist00 div').eq(i).find('#containerType00').val()
     		var number = $('.containerlist00 div').eq(i).find('#number00').val()
@@ -3066,16 +3066,26 @@ $(function(){
     		var goodsName = $('.containerlist00 div').eq(i).find('#goodsName00').val()
 			var oneData = containerType + ',' + number + ',' + sealNumber + ',' + package0 + ',' + weight0 + ',' + volume0 + ',' + vgm0 + ',' + customsCode + ',' + goodsName + ';'
 			if($('.containerlist00 div').eq(i).find('input[name="containerli"]').is(":checked")){
-				containerData00 = containerData00 + oneData				
+			    containerData00 = containerData00 + oneData
+			    packageNum22 = packageNum22 + $('.containerlist00 div').eq(i).find('#packageNum00').val() * 1
+			    weightNum22 = weightNum22 + $('.containerlist00 div').eq(i).find('#weightNum00').val() * 1
+			    volumeNum22 = volumeNum22 + $('.containerlist00 div').eq(i).find('#volumeNum00').val() * 1
+			    vgmNum22 = vgmNum22 + $('.containerlist00 div').eq(i).find('#vgmNum00').val() * 1
 			}
     	}
 		
-		packageNum2= $('#packageNum2').val()
-		weightNum2 = $('#weightNum2').val()
-		volumeNum2 = $('#volumeNum2').val()
+		//packageNum2= $('#packageNum2').val()
+		//weightNum2 = $('#weightNum2').val()
+		//volumeNum2 = $('#volumeNum2').val()
+		//vgmNum2 = $('#vgmNum2').val()
+		packageNum2 = packageNum22
+		weightNum2 = weightNum22
+		volumeNum2 = volumeNum22
+		vgmNum2 = vgmNum22
 		package2 = packageNum2 + ' ' + $('#package2').val()
 		weight2 = weightNum2 + ' ' + $('#weight2').val()
 		volume2 = volumeNum2 + ' ' + $('#volume2').val()
+		vgm2 = vgmNum2 + ' ' + $('#vgm2').val()
 		packageMarks2 = HtmlEncode($('#packageMarks2').val())
 		goodAbout2 = HtmlEncode($('#goodAbout2').val())
 		bill2Type = $('#billType2').val()
@@ -3085,8 +3095,6 @@ $(function(){
 		alsoNotify2 = HtmlEncode($('#inAlsoNotify2').val())
 		billBeizhu2 = HtmlEncode($('#inBillBeizhu2').val())
 		bill2Beizhu2 = HtmlEncode($('#inBill2Beizhu2').val())
-		vgmNum2 = $('#vgmNum2').val()
-		vgm2 = vgmNum2 + ' ' + $('#vgm2').val()
 		//allContainer2 = $('#allContainer2').val()
 		shippingTerm2 = $('#shippingTerm2').val()
 		shippingFeeTerm2 = $('#shippingFeeTerm2').val()
@@ -3133,7 +3141,12 @@ $(function(){
 					//location.reload()
 //					var crmlist = '<li><a class="billmodiy" data-toggle="tab" href="#dropdown2" billId=' + data.Data + '>' + data.Data2 + '</a></li>'
 //  				$(".dropdown-menu").append(crmlist)
-    				$(".HBLNav").text('HBL订单信息 '+data.Data2)
+					$(".HBLNav").text('HBL订单信息 ' + data.Data2)
+
+					$('#packageNum2').val(packageNum2)
+					$('#weightNum2').val(weightNum2)
+					$('#volumeNum2').val(volumeNum2)
+					$('#vgmNum2').val(vgmNum2)
 					
 				} else {
 					comModel("新增HBL订单信息失败")
