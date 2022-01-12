@@ -25,7 +25,7 @@ $(document).ready(function() {
     //hasPermission('1601'); //权限控制
     this.title = get_lan('nav_5_14')
     $('.navli5').addClass("active open")
-    $('.financial12').addClass("active")
+    $('.financial14').addClass("active")
     $('#title1').text(get_lan('nav_5_14'))
     $('#title2').text(get_lan('nav_5_14'))
 

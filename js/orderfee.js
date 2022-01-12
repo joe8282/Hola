@@ -3035,7 +3035,7 @@ function _deleteBillGetFun(id) {
     bootbox.confirm("Are you sure?", function (result) {
         if (result) {
             $.ajax({
-                url: dataUrl + 'ajax/bill.ashx?action=cancel',
+                url: dataUrl + 'ajax/cancelaccount.ashx?action=cancel',
                 data: {
                     "Id": id
                 },
@@ -3043,7 +3043,7 @@ function _deleteBillGetFun(id) {
                 type: "post",
                 success: function (backdata) {
                     if (backdata.State == 1) {
-                        billGetTable.fnReloadAjax(oTable.fnSettings());
+                        billGetTable.fnReloadAjax(billGetTable.fnSettings());
                     } else {
                         alert("Delete Failed！");
                     }
