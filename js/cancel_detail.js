@@ -101,6 +101,10 @@ $(function(){
 	    }
 	    
 	    $('.addTime').text(_data.caac_addTime.substring(0, 10));
+	    var now = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 10)
+	    $('.nowTime').text(now);
+	    $('.addUser').text(_data.addUser);
+	    if (_data.usin_name != null) { $('.checkUser').text(_data.usin_name); }
 	    $('.totalFee').html(_data.caac_currency + " "+ _data.caac_money);
 	    $('.InvNo').text(_data.caac_preCode);
 	    //$('.RefNo').text(_data.bill_invoiceNumber)//发票号码

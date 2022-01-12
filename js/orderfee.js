@@ -1483,7 +1483,9 @@ $(function(){
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
 
+        $('#cancel_unit').empty()
         $('#cancel_unit').append(_feeUnit)
+
         $("#payPrice5").val(0)
 
         cancel_type = 1
@@ -1513,6 +1515,7 @@ $(function(){
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
 
+        $('#cancel_unit').empty()
         $('#cancel_unit').append(_feeUnit)
         $("#payPrice5").val(0)
 

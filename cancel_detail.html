@@ -173,7 +173,7 @@ Purchase: http://wrapbootstrap.com
                                 <p class="companyAdd"></p>
                                 <hr class="wide" style="margin-bottom: 0;">
                             </div>
-                            <h3 style="text-align: center;margin-bottom: 10px;"><strong><span class="debitOrCre">付款申请</span></strong><br><div style="font-size: 14px; padding: 5px;">Date: <span class="addTime"></span></div></h3>
+                            <h3 style="text-align: center;margin-bottom: 10px;"><strong><span class="debitOrCre">付款申请</span></strong><!--<br><div style="font-size: 14px; padding: 5px;">Date: <span class="addTime"></span></div>--></h3>
                             <div class="row invoice-container">
                                 <div class="col-xs-6" style="float:left; width:50%;">
                                     <div class="panel panel-default">
@@ -198,6 +198,8 @@ Purchase: http://wrapbootstrap.com
                                                 <li><strong>SHIPMENT NO./订单号: </strong> <span class="hblNo"></span></li>
                                                 <!--<li><strong>M/BL NO./承运人号: </strong> <span class="mblNo"></span></li>-->
                                                 <!--<li><strong>CTNR NO./柜号: </strong> <span class="cntrNo"></span></li>-->
+                                                <li><strong>申请日期: </strong> <span class="addTime"></span></li>
+                                                <li><strong>打印日期: </strong> <span class="nowTime"></span></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -246,6 +248,10 @@ Purchase: http://wrapbootstrap.com
                             <div class="invoice-notes">
                                 <h5>Notes & Information:</h5>
                                 <div id="remark"></div>
+                                <div style="float:left; width:100%; text-align:right; line-height:200%;">
+                                    <div style="float: right; width: 200px; margin-right:20px;">审核人：<span class="checkUser"></span></div>
+                                    <div style="float: right; width: 200px;">制单人：<span class="addUser"></span></div>
+                                </div>
                                 <hr class="wide">
                             </div>
                             <div class="invoice-signNature" style="text-align: right;">
