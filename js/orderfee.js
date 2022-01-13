@@ -1449,6 +1449,8 @@ $(function(){
         $('#send_bill_gys').addClass('none')
         $('#send_file').addClass('none')
         $('#send_invoice').addClass('none')
+
+        _getFee($('#toCompany_2').val())
     })
     $('.invoicetab').on('click', function () {
         $('#send_invoice').removeClass('none')
@@ -1602,7 +1604,7 @@ $(function(){
         }else{
             var tableTrNumPayNumber=getChar($("#example tr").length-1);
         }
-        $('#payNumber').val('INV'+orderCode+tableTrNumPayNumber)
+        $('#payNumber').val('INV' + orderCode + tableTrNumPayNumber)
         _getFee($('#toCompany_2').val())
     })
     $("#toCompany_3").change(function () {
