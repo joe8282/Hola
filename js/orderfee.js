@@ -18,7 +18,9 @@ var oTable, invoiceTable, billPayTable, billGetTable, gysBillTable, filesTable;
 var toYingFuUser = 0;
 var exchangeRate;
 var cancel_all_money = 0;
-var cancel_type = 4;
+var cancel_type = 1;
+var toCompany_yingfu = 0, toCompany_yingshou = 0
+
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -39,7 +41,7 @@ $(function(){
     var allprofit=0
     var _toCompanySettleArr=new Array();
     var _htmlCompanySettle='';
-    var _CompanySettle='';
+    var _CompanySettle = '';
 
 	var orderCode;
 	var crmId;
@@ -48,7 +50,9 @@ $(function(){
     var containerType;    
     var _arrExchangeRate= new Array();
     var _arrfee00dataGather_toString;
+
     initLocalchargeListTable();
+
     //转回到订单详情
     $('#orderDetail').on('click', function() {
         location.href = 'orderadd.html?action=modify&Id='+Id;
@@ -1499,6 +1503,14 @@ $(function(){
         //}
         //$("#payNumber5").val('PRECR' + orderCode + tableTrNum)
 
+        console.log(toCompany_yingshou)
+        console.log(toCompany_yingfu)
+        if (toCompany_yingshou != 0) {
+            $("#toCompany_5").val(toCompany_yingshou).trigger("change");
+        } else {
+            $("#toCompany_5").val('').trigger("change");
+        }
+
         billGetTable = GetBillGet()
 
         //_getFee5($('#toCompany_5').val(), $('#cancel_type').val());
@@ -1519,6 +1531,7 @@ $(function(){
         $('#cancel_unit').empty()
         $('#cancel_unit').append('<option value="">币种</option>')
         $('#cancel_unit').append(_feeUnit)
+
         $("#payPrice5").val(0)
 
         cancel_type = 2
@@ -1530,6 +1543,14 @@ $(function(){
         //    var tableTrNum = getChar($("#billGetList tr").length - 1);
         //}
         //$("#payNumber5").val('PRECP' + orderCode + tableTrNum)
+
+        console.log(toCompany_yingshou)
+        console.log(toCompany_yingfu)
+        if (toCompany_yingfu != 0) {
+            $("#toCompany_5").val(toCompany_yingfu).trigger("change");
+        } else {
+            $("#toCompany_5").val('').trigger("change");
+        }
 
         billGetTable = GetBillGet()
 
@@ -1602,7 +1623,12 @@ $(function(){
         }else{
             var tableTrNum=getChar($("#billGetList tr").length-1);
         }
+        console.log(cancel_type)
+        if (cancel_type == 1 && $('#toCompany_5').val()!='') { toCompany_yingshou = $('#toCompany_5').val(); }
+        else if (cancel_type == 2 && $('#toCompany_5').val() != '') { toCompany_yingfu = $('#toCompany_5').val(); }
         _getFee5($('#toCompany_5').val(), $('#cancel_type').val())
+        console.log(toCompany_yingshou)
+        console.log(toCompany_yingfu)
     })
     $("#toCompany_6").change(function () {
         _getFee6($('#toCompany_6').val())
