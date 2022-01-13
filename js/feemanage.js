@@ -727,7 +727,7 @@ $(function(){
             "bInfo": false,
             //		"bDestory": true,
             //		"bRetrieve": true,
-            "bFilter": false,
+            //"bFilter": false,
             "bSort": false,
             "aaSorting": [[0, "desc"]],
             //		"bProcessing": true,
@@ -736,16 +736,16 @@ $(function(){
                 { "mDataProp": "bill_payNumber" },
 			    {
 			        "mDataProp": "bill_addTime",
-			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-			            $(nTd).html(oData.bill_addTime.substring(0, 10));
+			        "mRender": function (nTd, sData, oData, iRow, iCol) {
+			            return (oData.bill_addTime.substring(0, 10));
 			        }
 			    },
                 { "mDataProp": "bill_payPrice" },
                 { "mDataProp": "bill_formatId" },
                 { "mDataProp": "bill_state",
-                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                    "mRender": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.bill_state == 1) {
-                            $(nTd).html("新增账单")
+                            return ("新增账单")
                         } else {
                             //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
@@ -799,18 +799,19 @@ $(function(){
             "bInfo": false,
             //		"bDestory": true,
             //		"bRetrieve": true,
-            "bFilter": false,
+            //"bFilter": false,
             "bSort": false,
             "aaSorting": [[0, "desc"]],
             //		"bProcessing": true,
             "aoColumns": [
                 { "mDataProp": "comp_name" },
+                { "mDataProp": "book_orderCode" },
                 { "mDataProp": "invo_number" },
                 { "mDataProp": "invo_format" },
 			    {
 			        "mDataProp": "invo_addTime",
-			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-			            $(nTd).html(oData.invo_addTime.substring(0, 10));
+			        "mRender": function (nTd, sData, oData, iRow, iCol) {
+			            return (oData.invo_addTime.substring(0, 10));
 			        }
 			    },
                 { "mDataProp": "invo_feeUnit" },
@@ -961,7 +962,6 @@ $(function(){
             "bInfo": false,
             //		"bDestory": true,
             //		"bRetrieve": true,
-            "bFilter": false,
             "bSort": false,
             //"aaSorting": [[ 6, "desc" ]],
             //"aoColumnDefs":[//设置列的属性，此处设置第一列不排序
@@ -983,35 +983,35 @@ $(function(){
 { "mDataProp": "rema_type" },
                     {
                         "mDataProp": "caac_addTime",
-                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            $(nTd).html(oData.caac_addTime.substring(0, 10));
+                        "mRender": function (nTd, sData, oData, iRow, iCol) {
+                            return (oData.caac_addTime.substring(0, 10));
                         }
                     },
                     { "mDataProp": "caac_currency" },
                             {
                                 "mDataProp": "caac_money",
-                                "createdCell": function (td, cellData, rowData, row, col) {
+                                "mRender": function (td, cellData, rowData, row, col) {
                                     if (rowData.caac_file != "") {
-                                        $(td).html(rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/feePic/" + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
+                                        return (rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/feePic/" + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
                                     } else {
-                                        $(td).html(rowData.caac_money);
+                                        return (rowData.caac_money);
                                     }
                                 }
                             },
                     {
                         "mDataProp": "caac_state",
                         "sWidth":"15%",
-                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        "mRender": function (nTd, sData, oData, iRow, iCol) {
                             if (oData.caac_state == 1) {
-                                $(nTd).html('待审核');
+                                return ('待审核');
                             } else if (oData.caac_state == 2) {
-                                $(nTd).html("已通过未销账<br/><br/>审核人：" + oData.usin_name + "<br/>审核时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
+                                return ("已通过未销账<br/><br/>审核人：" + oData.usin_name + "<br/>审核时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
                             } else if (oData.caac_state == 3) {
-                                $(nTd).html("已销账");
+                                return ("已销账");
                             } else if (oData.caac_state == 4) {
-                                $(nTd).html("已返销");
+                                return ("已返销");
                             } else if (oData.caac_state == 5) {
-                                $(nTd).html("已取消<br/><br/>取消人：" + oData.usin_name + "<br/>取消时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
+                                return ("已取消<br/><br/>取消人：" + oData.usin_name + "<br/>取消时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
                             }
                         }
                     },
@@ -1068,14 +1068,14 @@ $(function(){
         });
 
         // Apply the search
-        table.api().columns().eq(0).each(function (colIdx) {
-            $('input', table.api().column(colIdx).footer()).on('keyup change', function () {
-                table.api()
-                    .column(colIdx)
-                    .search(this.value)
-                    .draw();
-            });
-        });
+        //table.api().columns().eq(0).each(function (colIdx) {
+        //    $('input', table.api().column(colIdx).footer()).on('keyup change', function () {
+        //        table.api()
+        //            .column(colIdx)
+        //            .search(this.value)
+        //            .draw();
+        //    });
+        //});
 
         return table;
     }
@@ -2302,6 +2302,12 @@ function _detailBillGetFun(Id) {
             $('#showimg55').attr('src', dataUrl + _data.caac_file);
         } else {
             $('#showimg55').hide()
+        }
+
+        if (_data.caac_state != 1) {
+            $("#opetionBeizhu").val(_data.caac_opetionBeizhu)
+            $('#passState').hide()
+            $('#nopassState').hide()
         }
 
         var arrItem = _data.caac_feeItem.split(',')

@@ -52,6 +52,7 @@ function initTable() {
         //],
 //		"bProcessing": true,
 	    "aoColumns": [
+            { "mDataProp": "comp_name" },
 			{ "mDataProp": "acpe_type" },
 			{ "mDataProp": "acpe_dateNum" },
 			{

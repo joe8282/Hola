@@ -41,17 +41,19 @@ $(document).ready(function() {
 	    $("#cancel_type").val(0).trigger("change")
 	}
 
-	if (action == 'add') {
-	    common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
-	        "companyId": companyID,
-	        "type": codeType
-	    }, function (data) {
-	        //console.log(data)
-	        if (data.State == 1) {
-	            $("#code").val(data.Data)
-	        }
-	    })
-	}
+	$(".code").hide()
+
+	//if (action == 'add') {
+	//    common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
+	//        "companyId": companyID,
+	//        "type": codeType
+	//    }, function (data) {
+	//        //console.log(data)
+	//        if (data.State == 1) {
+	//            $("#code").val(data.Data)
+	//        }
+	//    })
+	//}
 
 
 	oTable = initTable(toCompany, action, feeType);
@@ -226,9 +228,6 @@ $(document).ready(function() {
 	    } else if ($("#cancel_money").val() == '') {
 	        comModel("实际销账金额不能为空！")
 	        return
-	    } else if ($("#code").val() == '') {
-	        comModel("编号不能为空！")
-	        return
 	    } else if (str.length == 0) {
 	        comModel("请选择销账明细！")
 	        return
@@ -329,6 +328,7 @@ $(document).ready(function() {
 	});
 
 	if (action == 'modify') {
+	    $(".code").show()
 	    $('input,textarea').prop('disabled', true);
 	    $('select').prop('disabled', true);
 	    $('#btnAddSave').prop('disabled', true);
@@ -402,17 +402,17 @@ $(document).ready(function() {
 	        //console.log(data.Data)
 	        //初始化信息
 	        $("#cancel_type").val(data.Data.caac_typeId).trigger("change");
-	        if (data.Data.caac_typeId == 1) { codeType = 'CR' }
-	        else if (data.Data.caac_typeId == 2) { codeType = 'CP'; }
-	        common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
-	            "companyId": companyID,
-	            "type": codeType
-	        }, function (data) {
-	            //console.log(data)
-	            if (data.State == 1) {
-	                $("#code").val(data.Data)
-	            }
-	        })
+	        //if (data.Data.caac_typeId == 1) { codeType = 'CR' }
+	        //else if (data.Data.caac_typeId == 2) { codeType = 'CP'; }
+	        //common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=getcancelcode", {
+	        //    "companyId": companyID,
+	        //    "type": codeType
+	        //}, function (data) {
+	        //    //console.log(data)
+	        //    if (data.State == 1) {
+	        //        $("#code").val(data.Data)
+	        //    }
+	        //})
 
 	        $("#cancel_money").val(data.Data.caac_money)
 	        $("#unit").val(data.Data.caac_currency).trigger("change")
