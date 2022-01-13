@@ -305,6 +305,7 @@ $(document).ready(function() {
 	        'Id': Id,
 	        'state': 3,
 	        'code': $("#code").val(),
+	        'bank': $("#bank").val(),
 	        'opetionUser':userID
 	    };
 	    $.ajax({
@@ -394,6 +395,7 @@ $(document).ready(function() {
 	    $("#btnAddSave_apply").show();
 	    $('input,textarea').prop('disabled', true);
 	    $('select').prop('disabled', true);
+	    $('#bank').prop('disabled', false);
 	    common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=readbyid", {
 	        "Id": Id
 	    }, function (data) {
