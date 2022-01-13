@@ -1484,6 +1484,7 @@ $(function(){
         $('#send_file').addClass('none')
 
         $('#cancel_unit').empty()
+        $('#cancel_unit').append('<option value="">币种</option>')
         $('#cancel_unit').append(_feeUnit)
 
         $("#payPrice5").val(0)
@@ -1516,6 +1517,7 @@ $(function(){
         $('#send_file').addClass('none')
 
         $('#cancel_unit').empty()
+        $('#cancel_unit').append('<option value="">币种</option>')
         $('#cancel_unit').append(_feeUnit)
         $("#payPrice5").val(0)
 
@@ -2034,8 +2036,10 @@ $(function(){
 	    }
 	    if (feeItem == "") {
 	        comModel("请选择账单！")
+            return
 	    } if ($('#cancel_type').val() == "") {
 	        comModel("请选择销账类别！")
+	        return
 	    } else {
 	        var parm = {
 	            'state': 1,
