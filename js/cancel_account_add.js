@@ -219,14 +219,19 @@ $(document).ready(function() {
 
 	    if ($("#unit").val() == '') {
 	        comModel("币种不能为空！")
+	        return
 	    } else if ($("#bank").val() == '') {
 	        comModel("银行不能为空！")
+	        return
 	    } else if ($("#cancel_money").val() == '') {
 	        comModel("实际销账金额不能为空！")
+	        return
 	    } else if ($("#code").val() == '') {
 	        comModel("编号不能为空！")
+	        return
 	    } else if (str.length == 0) {
 	        comModel("请选择销账明细！")
+	        return
 	    } else {
 	        var jsonData = {
 	            'state': state,

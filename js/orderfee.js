@@ -1891,8 +1891,10 @@ $(function(){
 	    }
 	    if (feeItem == "") {
 	        comModel("请选择费用项目！")
+	        return
 	    } else if ($('#payNumber').val() == "") {
 	        comModel("请填写账单号码！")
+	        return
 	    }else{
 	        var parm = {
 	            'bookingId': Id,
@@ -1942,6 +1944,7 @@ $(function(){
 	    }
 	    if (feeItem == "") {
 	        comModel("请选择账单！")
+	        return
 	    } else {
 	        var parm = {
 	            'bookingId': Id,
@@ -1993,6 +1996,7 @@ $(function(){
 	    }
 	    if (feeItem == "") {
 	        comModel("请选择账单！")
+	        return
 	    } else {
 	        var parm = {
 	            'bookingId': Id,
@@ -2091,6 +2095,7 @@ $(function(){
 	    }
 	    if (feeItem == "") {
 	        comModel("请选择费用项目！")
+	        return
 	    } else {
 	        var parm = {
 	            'bookingId': Id,
@@ -2118,8 +2123,10 @@ $(function(){
 	$('#send_file').on('click', function () {
 	    if ($('#filename').val() == "") {
 	        comModel("请填写文件名称！")
+	        return
 	    } else if ($("#Pname").val() == "") {
 	        comModel("请选择上传的文件！")
+	        return
 	    } else {
 	        var parm = {
 	            'bookingId': Id,
