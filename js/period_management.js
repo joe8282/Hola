@@ -74,9 +74,9 @@ function initTable() {
             			        if (rowData.acpe_state == 1) {
             			            $(td).html('待审核');
             			        } else if (rowData.acpe_state == 2) {
-            			            $(td).html("已通过<br/><br/>审核人：" + rowData.usin_name + "<br/>审核时间：" + rowData.acpe_opetionTime.substring(0, 10) + "<br/>备注：" + rowData.acpe_opetionBeizhu);
+            			            $(td).html("<b>已通过</b><br/>审核人：" + rowData.usin_name + "<br/>审核时间：" + rowData.acpe_opetionTime.substring(0, 10) + "<br/>备注：" + rowData.acpe_opetionBeizhu);
             			        } else if (rowData.acpe_state == 3) {
-            			            $(td).html("未通过<br/><br/>审核人：" + rowData.usin_name + "<br/>审核时间：" + rowData.acpe_opetionTime.substring(0, 10) + "<br/>备注：" + rowData.acpe_opetionBeizhu);
+            			            $(td).html("<b>未通过</b><br/>审核人：" + rowData.usin_name + "<br/>审核时间：" + rowData.acpe_opetionTime.substring(0, 10) + "<br/>备注：" + rowData.acpe_opetionBeizhu);
             			        }
             			    }
             			},
@@ -178,7 +178,7 @@ $('#passState').on('click', function () {
 $('#nopassState').on('click', function () {
     var jsonData = {
         'Id': cancelId,
-        'state': 5,
+        'state': 3,
         'opetionUser': userID,
         'opetionBeizhu': $("#opetionBeizhu").val()
     };

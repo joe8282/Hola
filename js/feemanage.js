@@ -732,6 +732,7 @@ $(function(){
             "aaSorting": [[0, "desc"]],
             //		"bProcessing": true,
             "aoColumns": [
+                { "mDataProp": "bill_payType" },
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "bill_payNumber" },
 			    {
@@ -772,11 +773,11 @@ $(function(){
                                 perGet = "<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;"
                             }
                             $(nTd).html(perDetail)
-                                .append(perDel)
-                                .append(perSend)
-                                .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append(perGet)
-                                .append("<a href='#'>发票</a>")
+                                //.append(perDel)
+                                //.append(perSend)
+                                .append("<a href='invoicedetail.html?billid=" + oData.bill_id + "' target='_blank'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                //.append(perGet)
+                                //.append("<a href='#'>发票</a>")
                         } else {
                             //$(nTd).html("<a href='crmcompanycontactadd.html?action=modify&Id=" + sData + "'> " + get_lan('edit') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
@@ -1005,13 +1006,13 @@ $(function(){
                             if (oData.caac_state == 1) {
                                 return ('待审核');
                             } else if (oData.caac_state == 2) {
-                                return ("已通过未销账<br/><br/>审核人：" + oData.usin_name + "<br/>审核时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
+                                return ("<b>已通过未销账</b><br/>审核人：" + oData.usin_name + "<br/>审核时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
                             } else if (oData.caac_state == 3) {
                                 return ("已销账");
                             } else if (oData.caac_state == 4) {
                                 return ("已返销");
                             } else if (oData.caac_state == 5) {
-                                return ("已取消<br/><br/>取消人：" + oData.usin_name + "<br/>取消时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
+                                return ("<b>已取消</b><br/>取消人：" + oData.usin_name + "<br/>取消时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
                             }
                         }
                     },
@@ -1031,6 +1032,13 @@ $(function(){
                         }
                         $(td).html("<a href='javascript:void(0);' onclick='_detailBillGetFun(" + cellData + ")'>" + get_lan('detail') + "</a><br/>")
                             .append(_cancelString)
+
+                        if (rowData.caac_state == 3) {
+                            $(td).parent().find("td").css("background-color", "#AFFFAF");
+                        }
+                        if (rowData.caac_state == 1) {
+                            $(td).parent().find("td").css("background-color", "#FFC1C1");
+                        }
                     }
                 },
             ],
