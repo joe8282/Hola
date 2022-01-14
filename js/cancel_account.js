@@ -44,7 +44,7 @@ function initTable() {
 	    "bInfo": false,
 	    //		"bDestory": true,
 	    //		"bRetrieve": true,
-	    "bFilter": false,
+	    //"bFilter": false,
 	    "bSort": false,
 		//"aaSorting": [[ 6, "desc" ]],
 		//"aoColumnDefs":[//设置列的属性，此处设置第一列不排序
@@ -55,22 +55,22 @@ function initTable() {
             { "mDataProp": "comp_name" },
 			{
 			    "mDataProp": "caac_typeId",
-			    "createdCell": function (td, cellData, rowData, row, col) {
+			    "mRender": function (td, cellData, rowData, row, col) {
                     var typeName = ''
                     if (rowData["caac_typeId"] == "1") { typeName = '应付销账' }
                     if (rowData["caac_typeId"] == "2") { typeName = '应收销账' }
                     if (rowData["caac_typeId"] == "3") { typeName = '对冲' }
-                    $(td).html(typeName);
+                    return (typeName);
 			    }
 			},
             { "mDataProp": "caac_code" },
                         {
                             "mDataProp": "caac_money",
-                            "createdCell": function (td, cellData, rowData, row, col) {
+                            "mRender": function (td, cellData, rowData, row, col) {
                                 if (rowData.caac_file != "") {
-                                    $(td).html(rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/orderPic/" + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
+                                    return (rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/orderPic/" + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
                                 } else {
-                                    $(td).html(rowData.caac_money);
+                                    return (rowData.caac_money);
                                 }
                             }
                         },
@@ -78,11 +78,11 @@ function initTable() {
             { "mDataProp": "caac_beizhu" },
             {
                 "mDataProp": "caac_addTime",
-                "createdCell": function (td, cellData, rowData, row, col) {
+                "mRender": function (td, cellData, rowData, row, col) {
                     if (rowData.caac_addTime != null) {
-                	    $(td).html(rowData.caac_addTime.substring(0, 10));
+                        return (rowData.caac_addTime.substring(0, 10));
                 	} else {
-                	    $(td).html("NULL");
+                        return ("NULL");
                 	}
                 }
             },		
@@ -134,14 +134,14 @@ function initTable() {
 	});
 	
     // Apply the search
-    table.api().columns().eq(0).each(function(colIdx) {
-        $('input', table.api().column(colIdx).footer()).on('keyup change', function () {
-            table.api()
-                .column(colIdx)
-                .search(this.value)
-                .draw();
-        });
-    });
+    //table.api().columns().eq(0).each(function(colIdx) {
+    //    $('input', table.api().column(colIdx).footer()).on('keyup change', function () {
+    //        table.api()
+    //            .column(colIdx)
+    //            .search(this.value)
+    //            .draw();
+    //    });
+    //});
     
 	return table;
 }

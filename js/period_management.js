@@ -58,7 +58,7 @@ function initTable() {
 			{
 			    "mDataProp": "acpe_money",
 			    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-			        $(nTd).html(oData.acpe_money + oData.acpe_currency)
+			        $(nTd).html(oData.acpe_currency + " "+ fmoney(oData.acpe_money,0))
 			    }
 			},
 			{ "mDataProp": "acpe_way" },

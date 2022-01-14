@@ -2956,7 +2956,9 @@ function _detailBillGetFun(Id) {
         var _data = data.Data
         $(".bill_toCompany").text(_data.comp_name)
         $(".bill_addTime").text(_data.caac_addTime.substring(0, 10))
-        $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
+        if (_data.rema_content != '') {
+            $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
+        }
         $(".bill_payNumber").text(_data.caac_preCode)
         $(".bill_payPrice").text(_data.caac_money)
         $(".bill_currency").text(_data.caac_currency)
