@@ -97,6 +97,7 @@ $(function(){
 	    $('.InvNo').text(_data.bill_payNumber);
 	    $('#remark').text(_data.bill_beizhu);
 	    $('#bankInfo').html(_data.rema_content.replace(/\n/g, '<br/>'));
+	    $('.debitOrCre').text(_data.bill_payType.toUpperCase() + " NOTE");
 
         var arrItem = _data.bill_feeItem.split(',');
 

@@ -979,6 +979,7 @@ $(function(){
             "aaSorting": [[0, "desc"]],
             //		"bProcessing": true,
             "aoColumns": [
+                { "mDataProp": "bill_payType" },
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "bill_payNumber" },
 			    {
@@ -1931,7 +1932,8 @@ $(function(){
 	            'userName': userName,
 	            'toCompany': $('#toCompany_2').val(),
 	            'payNumber': $('#payNumber').val(),
-                'typeId': 1,
+	            'typeId': 1,
+	            'payType': $("input[name='invDebOrCrd']:checked").val(),
                 //'typeId': $("input[name='invDebOrCrd']:checked").val(),
 	            'bank': $('#bank').val(),
 	            'beizhu': $('#beizhu').val(),
