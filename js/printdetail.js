@@ -254,6 +254,11 @@ $(document).ready(function () {
                                 }
                             } else {
                                 if ($(this).attr("itemrelation").indexOf("book_") >= 0) {
+                                    //if ($(this).attr("itemrelation") == ("book_allContainer") >= 0) {
+                                    //    value = "SAY" + mblData[$(this).attr("itemrelation")] + "CONTAINERS ONLY"
+                                    //} else {
+                                        
+                                    //}
                                     value = mblData[$(this).attr("itemrelation")]
                                 } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0) {
                                     if (typeId==3) {

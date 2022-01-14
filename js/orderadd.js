@@ -2558,6 +2558,8 @@ $(function(){
     					var volume0 = _data.bobi_volume.split(' ')
     					$('#volumeNum3').val(volume0[0])
     					$('#volume3').val(volume0[1]).trigger("change")
+    					$('#weightShow3').val(_data.bobi_weight)
+    					$('#volumeShow3').val(_data.bobi_volume)
     					$('#inShipper3').val(HtmlDecode(_data.bobi_shipper))
     					$('#Shipper3').val(_data.bobi_shipper).trigger("change")
     					$('#inConsignee3').val(HtmlDecode(_data.bobi_consignee))
@@ -3147,6 +3149,8 @@ $(function(){
 					$('#weightNum2').val(weightNum2)
 					$('#volumeNum2').val(volumeNum2)
 					$('#vgmNum2').val(vgmNum2)
+					$('#weightShow2').val(weightNum2 + " " + $('#weight2').val())
+					$('#volumeShow2').val(volumeNum2 + " " + $('#volume2').val())
 					
 				} else {
 					comModel("新增HBL订单信息失败")
@@ -3169,7 +3173,7 @@ $(function(){
 			containerType00 = containerdata.toString()
 		}		
 		
-		var containerData00=''
+		var containerData00='', packageNum33 = 0, weightNum33 = 0, volumeNum33 = 0, vgmNum33=0
 		for(var i = 0; i < $('.containerlist3 div').length; i++) {			
     		var containerType = $('.containerlist3 div').eq(i).find('#containerType30').val()
     		var number = $('.containerlist3 div').eq(i).find('#number30').val()
@@ -3182,16 +3186,27 @@ $(function(){
     		var goodsName = $('.containerlist3 div').eq(i).find('#goodsName30').val()
 			var oneData = containerType + ',' + number + ',' + sealNumber + ',' + package0 + ',' + weight0 + ',' + volume0 + ',' + vgm0 + ',' + customsCode + ',' + goodsName + ';'
 			if($('.containerlist3 div').eq(i).find('input[name="containerli"]').is(":checked")){
-				containerData00 = containerData00 + oneData				
+			    containerData00 = containerData00 + oneData
+			    packageNum33 = packageNum33 + $('.containerlist3 div').eq(i).find('#packageNum30').val() * 1
+			    weightNum33 = weightNum33 + $('.containerlist3 div').eq(i).find('#weightNum30').val() * 1
+			    volumeNum33 = volumeNum33 + $('.containerlist3 div').eq(i).find('#volumeNum30').val() * 1
+			    vgmNum33 = vgmNum33 + $('.containerlist3 div').eq(i).find('#vgmNum30').val() * 1
 			}
     	}
 		
-		packageNum3 = $('#packageNum3').val()
-		weightNum3 = $('#weightNum3').val()
-		volumeNum3 = $('#volumeNum3').val()
+
+		//packageNum3 = $('#packageNum3').val()
+		//weightNum3 = $('#weightNum3').val()
+		//volumeNum3 = $('#volumeNum3').val()
+	    //vgmNum3 = $('#vgmNum3').val()
+		packageNum3 = packageNum33
+		weightNum3 = weightNum33
+		volumeNum3 = volumeNum33
+		vgmNum3 = vgmNum33
 		package3 = packageNum3 + ' ' + $('#package3').val()
 		weight3 = weightNum3 + ' ' + $('#weight3').val()
 		volume3 = volumeNum3 + ' ' + $('#volume3').val()
+		vgm3 = vgmNum3 + ' ' + $('#vgm3').val()
 		packageMarks3 = HtmlEncode($('#packageMarks3').val())
 		goodAbout3 = HtmlEncode($('#goodAbout3').val())
 		bill3Type = $('#billType3').val()
@@ -3201,8 +3216,7 @@ $(function(){
 		alsoNotify3 = HtmlEncode($('#inAlsoNotify3').val())
 		billBeizhu3 = HtmlEncode($('#inBillBeizhu3').val())
 		bill2Beizhu3 = HtmlEncode($('#inBill2Beizhu3').val())
-		vgmNum3 = $('#vgmNum3').val()
-		vgm3 = vgmNum3 + ' ' + $('#vgm3').val()
+
 		//allContainer3 = $('#allContainer3').val()
 		shippingTerm3 = $('#shippingTerm3').val()
 		shippingFeeTerm3 = $('#shippingFeeTerm3').val()
@@ -3239,7 +3253,14 @@ $(function(){
 			common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=modifybill', parm, function(data) {
 				if(data.State == 1) {
 					comModel("保存成功")
-					//location.reload()
+				    //location.reload()
+					$('#packageNum3').val(packageNum3)
+					$('#weightNum3').val(weightNum3)
+					$('#volumeNum3').val(volumeNum3)
+					$('#vgmNum3').val(vgmNum3)
+					$('#weightShow3').val(weightNum3 + " " + $('#weight3').val())
+					$('#volumeShow3').val(volumeNum3 + " " + $('#volume3').val())
+
 				} else {
 					console.log(data.State)
 					comModel("保存失败")
