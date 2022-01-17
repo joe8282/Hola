@@ -7,4 +7,48 @@
 
 .none{display: none;}
 
+        .select2-container--default .select2-selection--single {
+            border-radius: 0px;
+            height: 27px;
+            line-height: 27px;
+            border: 1px solid #ccc;
+            margin-bottom: 4px;
+        }
+
+        #select2-crmuser-container {
+            height: 27px;
+            line-height: 27px;
+        }
+
+        .input-group input {
+            height: 27px;
+            line-height: 27px;
+        }
+
+        .select2-drop {
+            z-index: 10050 !important;
+        }
+
+        .select2-search-choice-close {
+            margin-top: 0 !important;
+            right: 2px !important;
+            min-height: 10px;
+        }
+
+            .select2-search-choice-close:before {
+                color: black !important;
+            }
+        /*防止select2不会自动失去焦点*/
+        .select2-container {
+            z-index: 16000 !important;
+        }
+
+        .select2-drop-mask {
+            z-index: 15990 !important;
+        }
+
+        .select2-drop-active {
+            z-index: 15995 !important;
+        }
+
 
