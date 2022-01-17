@@ -144,7 +144,7 @@ function initTable() {
 // 						.append("<a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a>");
 				"createdCell": function (td, cellData, rowData, row, col) {
 				    $(td).html("<a href='cancel_account_add.html?action=add&toCompanyId=" + cellData + "'>销账处理</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-				    .append("<a href='javascript:void(0);' onclick='_billFun(" + cellData + ")'>查看未销账</a>")
+				    .append("<a href='javascript:void(0);' onclick='_billFun(" + cellData + ",\"" + rowData.comp_name+ "\")'>查看未销账</a>")
 				}
 			},
 		],
@@ -194,7 +194,8 @@ function initTable() {
 	return table;
 }
 
-function _billFun(toCompany) {
+function _billFun(toCompany, companyName) {
+    $('#company_name').text(companyName)
     var bTable = $("#zhangdan").dataTable({
         //"iDisplayLength":10,
         "sAjaxSource": dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=1&companyId=' + companyID + '&tocompany=' + toCompany,
@@ -207,7 +208,6 @@ function _billFun(toCompany) {
         "aaSorting": [[0, "desc"]],
         //		"bProcessing": true,
         "aoColumns": [
-            { "mDataProp": "comp_name" },
                             {
                                 "mDataProp": "bofe_feeType",
                                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
