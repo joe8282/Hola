@@ -2090,10 +2090,10 @@ $(function(){
     	            allPackageNum = parseInt(allPackageNum) + parseInt($('.containerList').eq(i).find('#packageNum0').val())
     	        }
     	        if ($('.containerList').eq(i).find('#weightNum0').val() != '') {
-    	            allWeightNum = parseInt(allWeightNum) + parseInt($('.containerList').eq(i).find('#weightNum0').val())
+    	            allWeightNum = parseFloat(allWeightNum.toFixed(2)) + parseFloat($('.containerList').eq(i).find('#weightNum0').val())
     	        }
     	        if ($('.containerList').eq(i).find('#volumeNum0').val() != '') {
-    	            allVolumeNum = parseInt(allVolumeNum) + parseInt($('.containerList').eq(i).find('#volumeNum0').val())
+    	            allVolumeNum = parseFloat(allVolumeNum.toFixed(2)) + parseFloat($('.containerList').eq(i).find('#volumeNum0').val())
     	        }
     	        if ($('.containerList').eq(i).find('#vgmNum0').val() != '') {
     	            allVgmNum = parseInt(allVgmNum) + parseInt($('.containerList').eq(i).find('#vgmNum0').val())
@@ -3645,6 +3645,7 @@ function GetContainerSum(){
 		(package0_sum>0?($('#packageNum').val(package0_sum) & $("#package option[value='"+package0_sel+"']").prop("selected", true)):"");
 		(weightNum0_sum > 0 ? ($('#weightNum').val(weightNum0_sum.toFixed(3)) & $("#weight option[value='" + weightNum0_sel + "']").prop("selected", true) & $('#weightShow').val(weightNum0_sum.toFixed(3) + ' ' + weightNum0_sel)) : "");
 	}
+	
 }
 
 })
