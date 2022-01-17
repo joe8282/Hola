@@ -207,6 +207,7 @@ function _billFun(toCompany) {
         "aaSorting": [[0, "desc"]],
         //		"bProcessing": true,
         "aoColumns": [
+            { "mDataProp": "comp_name" },
                             {
                                 "mDataProp": "bofe_feeType",
                                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
