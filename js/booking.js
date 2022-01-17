@@ -353,10 +353,10 @@ function initTable(fromId) {
 // //				}			    
 // 			},
 			{
-				"mDataProp": "book_okTime",
+			    "mDataProp": "book_truePortTime",
 				"mRender": function (td, cellData, rowData, row, col) {
-					if(rowData.book_okTime!=null){
-					    return (rowData.book_okTime.substring(0, 10));
+				    if (rowData.book_truePortTime != null) {
+					    return (rowData.book_truePortTime.substring(0, 10));
 					}else{
 					    return ("");
 					}
@@ -548,10 +548,10 @@ function initTable(fromId) {
     			}
     		},    		
     		{
-    			"mDataProp": "book_okPortTime",
+    		    "mDataProp": "book_truePortTime",
     			"mRender": function (td, cellData, rowData, row, col) {
-    				if(rowData.book_okPortTime != null) {
-    				    return (rowData.book_okPortTime.substring(0, 10));
+    			    if (rowData.book_truePortTime != null) {
+    			        return (rowData.book_truePortTime.substring(0, 10));
     				} else {
     				    return ("");
     				}

@@ -64,6 +64,8 @@ function initTable() {
 			    }
 			},
             { "mDataProp": "caac_code" },
+            { "mDataProp": "rema_type" },
+            { "mDataProp": "caac_currency" },
                         {
                             "mDataProp": "caac_money",
                             "mRender": function (td, cellData, rowData, row, col) {
@@ -74,7 +76,7 @@ function initTable() {
                                 }
                             }
                         },
-            { "mDataProp": "caac_currency" },
+            
             { "mDataProp": "caac_beizhu" },
             {
                 "mDataProp": "caac_addTime",
