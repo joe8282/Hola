@@ -1727,19 +1727,24 @@ Purchase: http://wrapbootstrap.com
         });
 
         $('#bookingTime').datepicker().on('changeDate', function (e) {
-            $('#okTrailerTime').datepicker('setStartDate', $("#bookingTime").val());
+            $('#okTrailerTime').datepicker('setDate', $("#bookingTime").val());
         });
 
         $('#okTrailerTime').datepicker().on('changeDate', function (e) {
-            $('#okPortTime').datepicker('setStartDate', $("#okTrailerTime").val());
-            $('#truePortTime').datepicker('setStartDate', $("#okTrailerTime").val());
+            $('#okPortTime').datepicker('setDate', $("#okTrailerTime").val());
+            $('#truePortTime').datepicker('setDate', $("#okTrailerTime").val());
             //$('#okPortTime').datepicker('setDate', $("#okTrailerTime").val());
             //$('#truePortTime').datepicker('setDate', $("#okTrailerTime").val());
         });
 
         $('#okPortTime').datepicker().on('changeDate', function (e) {
-            $('#okPortTime2').datepicker('setStartDate', $("#okPortTime").val());
-            $('#truePortTime2').datepicker('setStartDate', $("#okPortTime").val());
+            $('#truePortTime').datepicker('setDate', $("#okPortTime").val());
+            $('#okPortTime2').datepicker('setDate', $("#okPortTime").val());
+            $('#truePortTime2').datepicker('setDate', $("#okPortTime").val());
+        });
+
+        $('#truePortTime').on('click', function () {
+            $('#truePortTime').datepicker('setDate', new Date());
         });
 
 

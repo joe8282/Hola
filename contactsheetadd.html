@@ -903,13 +903,13 @@ Purchase: http://wrapbootstrap.com
         $('#okTrailerTime').datepicker().on('changeDate', function (e) {
             $('#okBillTime').datepicker('setDate', getNewDay(formatTime(e.date), 2));
             $('#okPortTime').datepicker('setDate', $("#okBillTime").val());
-            $('#okBillTime').datepicker('setStartDate', $("#okTrailerTime").val());
-            $('#okPortTime').datepicker('setStartDate', $("#okBillTime").val());
+            //$('#okBillTime').datepicker('setStartDate', $("#okTrailerTime").val());
+            //$('#okPortTime').datepicker('setStartDate', $("#okBillTime").val());
         });
 
         $('#okBillTime').datepicker().on('changeDate', function (e) {
             $('#okPortTime').datepicker('setDate', $("#okBillTime").val());
-            $('#okPortTime').datepicker('setStartDate', $("#okBillTime").val());
+            //$('#okPortTime').datepicker('setStartDate', $("#okBillTime").val());
         });
 
 

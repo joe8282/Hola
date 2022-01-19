@@ -721,9 +721,9 @@ $(function(){
     //账单管理
     function GetBill() {
         var table = $("#example").dataTable({
-            //"iDisplayLength":10,
+            "iDisplayLength":10,
             "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&companyId='+companyID,
-            'bPaginate': false,
+            'bPaginate': true,
             "bInfo": false,
             //		"bDestory": true,
             //		"bRetrieve": true,
@@ -786,7 +786,33 @@ $(function(){
 
                     }
                 },
-            ]
+            ],
+            "oLanguage": {
+                //			"sUrl": "js/zh-CN.txt"
+                //			"sSearch": "快速过滤："
+                "sProcessing": "正在加载数据，请稍后...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": get_lan('nodata'),
+                "sEmptyTable": "表中无数据存在！",
+                "sInfo": get_lan('page'),
+                "sInfoEmpty": "显示0到0条记录",
+                "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+                //"sInfoPostFix": "",
+                "sSearch": get_lan('search'),
+                //"sUrl": "",
+                //"sLoadingRecords": "载入中...",
+                //"sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": get_lan('first'),
+                    "sPrevious": get_lan('previous'),
+                    "sNext": get_lan('next'),
+                    "sLast": get_lan('last'),
+                }
+                //"oAria": {
+                //    "sSortAscending": ": 以升序排列此列",
+                //    "sSortDescending": ": 以降序排列此列"
+                //}
+            }
         });
         return table;
     }
@@ -794,9 +820,9 @@ $(function(){
     //发票申请管理
     function GetInvoice() {
         var table = $("#InvoiceList").dataTable({
-            //"iDisplayLength":10,
+            "iDisplayLength":10,
             "sAjaxSource": dataUrl + 'ajax/invoice.ashx?action=read&companyId='+companyID,
-            'bPaginate': false,
+            'bPaginate': true,
             "bInfo": false,
             //		"bDestory": true,
             //		"bRetrieve": true,
@@ -841,7 +867,33 @@ $(function(){
 
                     }
                 },
-            ]
+            ],
+            "oLanguage": {
+                //			"sUrl": "js/zh-CN.txt"
+                //			"sSearch": "快速过滤："
+                "sProcessing": "正在加载数据，请稍后...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": get_lan('nodata'),
+                "sEmptyTable": "表中无数据存在！",
+                "sInfo": get_lan('page'),
+                "sInfoEmpty": "显示0到0条记录",
+                "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+                //"sInfoPostFix": "",
+                "sSearch": get_lan('search'),
+                //"sUrl": "",
+                //"sLoadingRecords": "载入中...",
+                //"sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": get_lan('first'),
+                    "sPrevious": get_lan('previous'),
+                    "sNext": get_lan('next'),
+                    "sLast": get_lan('last'),
+                }
+                //"oAria": {
+                //    "sSortAscending": ": 以升序排列此列",
+                //    "sSortDescending": ": 以降序排列此列"
+                //}
+            }
         });
         return table;
     }
@@ -902,9 +954,9 @@ $(function(){
     //收款销账列表
     function GetBillGet() {
         var table = $("#billGetList").dataTable({
-            //"iDisplayLength":10,
+            "iDisplayLength":10,
             "sAjaxSource": dataUrl + 'ajax/bill.ashx?action=read&typeId=4&companyId=' + companyID,
-            'bPaginate': false,
+            'bPaginate': true,
             "bInfo": false,
             //		"bDestory": true,
             //		"bRetrieve": true,
@@ -947,7 +999,33 @@ $(function(){
 
                     }
                 },
-            ]
+            ],
+            "oLanguage": {
+                //			"sUrl": "js/zh-CN.txt"
+                //			"sSearch": "快速过滤："
+                "sProcessing": "正在加载数据，请稍后...",
+                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                "sZeroRecords": get_lan('nodata'),
+                "sEmptyTable": "表中无数据存在！",
+                "sInfo": get_lan('page'),
+                "sInfoEmpty": "显示0到0条记录",
+                "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+                //"sInfoPostFix": "",
+                "sSearch": get_lan('search'),
+                //"sUrl": "",
+                //"sLoadingRecords": "载入中...",
+                //"sInfoThousands": ",",
+                "oPaginate": {
+                    "sFirst": get_lan('first'),
+                    "sPrevious": get_lan('previous'),
+                    "sNext": get_lan('next'),
+                    "sLast": get_lan('last'),
+                }
+                //"oAria": {
+                //    "sSortAscending": ": 以升序排列此列",
+                //    "sSortDescending": ": 以降序排列此列"
+                //}
+            }
         });
         return table;
     }

@@ -16,6 +16,58 @@ $(function(){
 	$('.financial3').addClass("active")	
 	$('#title1').text(get_lan('nav_4_5'))
 	$('#title2').text(get_lan('nav_4_5'))
+
+	$('.glyphicon-print').on('click', function () {
+	    printContent();
+	})
+
+    //转化保存为PDF
+	var downPdf = document.getElementById("glyphicon-save");
+	downPdf.onclick = function () {
+	    $('#page-body').width("592.28pt");
+	    html2canvas(
+                document.getElementById("printContent"),
+                {
+                    dpi: 300,//导出pdf清晰度
+                    onrendered: function (canvas) {
+                        var contentWidth = canvas.width;
+                        var contentHeight = canvas.height;
+
+                        //一页pdf显示html页面生成的canvas高度;
+                        var pageHeight = contentWidth / 592.28 * 841.89;
+                        //未生成pdf的html页面高度
+                        var leftHeight = contentHeight;
+                        //pdf页面偏移
+                        var position = 0;
+                        //html页面生成的canvas在pdf中图片的宽高（a4纸的尺寸[595.28,841.89]）
+                        var imgWidth = 595.28;
+                        var imgHeight = 592.28 / contentWidth * contentHeight;
+
+                        var pageData = canvas.toDataURL('image/jpeg', 1.0);
+                        var pdf = new jsPDF('', 'pt', 'a4');
+
+                        //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+                        //当内容未超过pdf一页显示的范围，无需分页
+                        if (leftHeight < pageHeight) {
+                            pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                        } else {
+                            while (leftHeight > 0) {
+                                pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+                                leftHeight -= pageHeight;
+                                position -= 841.89;
+                                //避免添加空白页
+                                if (leftHeight > 0) {
+                                    pdf.addPage();
+                                }
+                            }
+                        }
+                        pdf.save('content.pdf');
+                    },
+                    //背景设为白色（默认为黑色）
+                    background: "#FBFBFB"
+                })
+	    $('#page-body').width("auto");
+	}
 	
 	var Id = GetQueryString('Id');
 
@@ -140,6 +192,59 @@ $(function(){
 	}, 5000)
 
 })
+
+
+function printContent() {
+    $("#printContent").print({
+        globalStyles: true,//是否包含父文档的样式，默认为true
+        mediaPrint: false,//是否包含media='print'的链接标签。会被globalStyles选项覆盖，默认为false
+        stylesheet: null,//外部样式表的URL地址，默认为null
+        noPrintSelector: ".no-print",//不想打印的元素的jQuery选择器，默认为".no-print"
+        iframe: false,//是否使用一个iframe来替代打印表单的弹出窗口，true为在本页面进行打印，false就是说新开一个页面打印，默认为true
+        append: null,//将内容添加到打印内容的后面
+        prepend: null,//将内容添加到打印内容的前面，可以用来作为要打印内容
+        deferred: $.Deferred((function () { //回调函数
+            console.log('Printing done');
+            //生成图片并保存文件记录，JOE新增
+            html2canvas(document.getElementById("printContent"), {
+                onrendered: function (canvas) {
+                    var url = canvas.toDataURL('image/jpeg', 1.0);
+                    //console.log(url)
+                    // ajax 上传图片  
+                    $.post(dataUrl + "ajax/uploadPic.ashx", { image: url, companyId: companyID }, function (ret) {
+                        if (ret.State == '100') {
+                            //$('#Nav').val(ret.Nav);
+                            $('#Pname').val(ret.Pname);
+                            var parm = {
+                                'bookingId': 149, //按实际修改
+                                'companyId': 4, //按实际修改
+                                'userId': userID,
+                                'typeId': 1,
+                                'name': '打印保存图片', //按实际修改
+                                'nav': ret.Nav,
+                                "url": ret.Pname,
+
+                            }
+                            console.log(parm)
+                            common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
+                                if (data.State == 1) {
+                                    comModel("成功")
+                                } else {
+                                    comModel("失败")
+                                }
+                            }, function (error) {
+                            }, 2000)
+                        } else {
+                            alert('上传失败');
+                        }
+                    }, 'json');
+                },
+                //背景设为白色（默认为黑色）
+                background: "#FBFBFB"
+            })
+        }))
+    });
+}
 
 
 
