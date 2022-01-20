@@ -2401,6 +2401,7 @@ $(function(){
     		$('#outCode').val(_data.book_outCode)
     		$('#billCode').val(_data.book_billCode)
     		$('#sono').val(_data.book_sono)
+    		$('#contractNo').val(_data.book_contractNo)
     		$('#outCode').val(_data.book_outCode)
     		$("#crmuser").val(_data.book_crmCompanyId).trigger("change")
     		//$("#crmcontact").val(_data.book_crmContactId).trigger("change")
@@ -3371,6 +3372,7 @@ $(function(){
 		
 		billCode = $('#billCode').val()
 		sono = $('#sono').val()
+		contractNo = $('#contractNo').val()
 		alsoNotify = HtmlEncode($('#inAlsoNotify').val())
 		billBeizhu = HtmlEncode($('#inBillBeizhu').val())
 		bill2Beizhu = HtmlEncode($('#inBill2Beizhu').val())
@@ -3422,6 +3424,7 @@ $(function(){
 					'fromId': 0,
 					'orderCode': orderCode,
 					'sono': sono,
+					'contractNo': contractNo,
 					'outCode': outCode,
 					'typeId': 0,
 					'isTemplate': isTemplate,
@@ -3535,6 +3538,7 @@ $(function(){
 					'crmCompanyId': crmCompanyId,
 					'crmContactId': 0,
 					'sono': sono,
+					'contractNo': contractNo,
 					'outCode': outCode,
 					'movementType': movementType,
 					'incoterm': incoterm,

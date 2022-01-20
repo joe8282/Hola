@@ -1951,7 +1951,6 @@ $(function(){
 	            'feeItem': feeItem
 	        }
 	        console.log(parm)
-            return false
 	        common.ajax_req('POST', false, dataUrl, 'bill.ashx?action=new', parm, function (data) {
 	            if (data.State == 1) {
 	                comModel("新增成功")

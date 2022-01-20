@@ -321,10 +321,22 @@ Purchase: http://wrapbootstrap.com
                                                     </select></div>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">合约号</label>
+                                                    <input type="text" id="contractNo" placeholder="合约号" style="float: right; width: 240px;">
+                                                </div>
+                                                <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">起运港</label>
                                                     <div style="float: right; width:240px;"><select id="port1" style="width: 100%;">
                                                         <option value=""></option>
                                                     </select></div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label style="width:80px; height: 24px; line-height: 24px;">中转港</label>
+                                                    <div style="float: right; width:240px;">
+                                                        <select id="port5" style="width: 100%;">
+                                                            <option value=""></option>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">卸货港</label>
@@ -341,12 +353,6 @@ Purchase: http://wrapbootstrap.com
                                                 <div class="form-group">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">目的地</label>
                                                     <div style="float: right; width:240px;"><select id="port4" style="width: 100%;">
-                                                        <option value=""></option>
-                                                    </select></div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label style="width:80px; height: 24px; line-height: 24px;">中转港</label>
-                                                    <div style="float: right; width:240px;"><select id="port5" style="width: 100%;">
                                                         <option value=""></option>
                                                     </select></div>
                                                 </div>
@@ -377,7 +383,7 @@ Purchase: http://wrapbootstrap.com
                                                         </span>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group" style="display:none;">
                                                     <label style="width:80px; height: 24px; line-height: 24px;">预到港日</label>
                                                     <div class="input-group" style="width:240px;;float: right;">
                                                         <input class="form-control date-picker no-padding-right" id="okPortTime2" type="text" data-date-format="yyyy-mm-dd">
