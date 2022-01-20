@@ -254,15 +254,25 @@ $(document).ready(function () {
                                 }
                             } else {
                                 if ($(this).attr("itemrelation").indexOf("book_") >= 0) {
-                                    //if ($(this).attr("itemrelation") == ("book_allContainer") >= 0) {
-                                    //    value = "SAY" + mblData[$(this).attr("itemrelation")] + "CONTAINERS ONLY"
-                                    //} else {
-                                        
-                                    //}
-                                    value = mblData[$(this).attr("itemrelation")]
+                                    if ($(this).attr("itemrelation") == "book_allContainer" && mblData[$(this).attr("itemrelation")]!="") {
+                                        var num = 0
+                                        var allContailner = mblData[$(this).attr("itemrelation")].split(';')
+                                        for (var i = 0; i < allContailner.length - 1;i++) { num += parseInt(allContailner[i].split('×')[0]) }
+                                        value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + mblData[$(this).attr("itemrelation")] + ")CONTAINERS ONLY"
+                                    } else {
+                                        value = mblData[$(this).attr("itemrelation")]
+                                    } 
                                 } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0) {
-                                    if (typeId==3) {
-                                        value = hblData[$(this).attr("itemrelation")]
+                                    if (typeId == 3) {
+                                        if ($(this).attr("itemrelation") == "bobi_allcount" && hblData[$(this).attr("itemrelation")] != "") {
+                                            var num = 0
+                                            var allContailner = hblData[$(this).attr("itemrelation")].split(';')
+                                            for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
+                                            value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + hblData[$(this).attr("itemrelation")] + ")CONTAINERS ONLY"
+                                        } else {
+                                            value = hblData[$(this).attr("itemrelation")]
+                                        }
+                                        
                                     }   
                                 }
                             }
@@ -667,10 +677,24 @@ $(document).ready(function () {
 		            }
 		        } else {
 		            if ($(this).val().indexOf("book_") >= 0) {
-		                value = mblData[$(this).val()]
+		                if ($(this).val() == "book_allContainer" && mblData[$(this).val()] != "") {
+		                    var num = 0
+		                    var allContailner = mblData[$(this).val()].split(';')
+		                    for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
+		                    value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + mblData[$(this).val()] + ")CONTAINERS ONLY"
+		                } else {
+		                    value = mblData[$(this).val()]
+		                }
 		            } else if ($(this).val().indexOf("bobi_") >= 0) {
-		                if (typeId == 3) {
-		                    value = hblData[$(this).val()]
+		                if (typeId == 3) {          
+		                    if ($(this).val() == "bobi_allcount" && hblData[$(this).val()] != "") {
+		                        var num = 0
+		                        var allContailner = hblData[$(this).val()].split(';')
+		                        for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
+		                        value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + hblData[$(this).val()] + ")CONTAINERS ONLY"
+		                    } else {
+		                        value = hblData[$(this).val()]
+		                    }
 		                }
 		                
 		            }
