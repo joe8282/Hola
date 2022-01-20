@@ -447,6 +447,7 @@ $(function(){
 		$('#sendcontainer').addClass('none')
 		$('#send_file').addClass('none')
 		$('#send1').removeClass('none')
+		$('#isChange').prop("checked", false);
 	})
 	$('.filetab').on('click', function () {
 	    $('#sendbt1').addClass('none')
@@ -539,6 +540,8 @@ $(function(){
 		$('#sendcontainer').addClass('none')
 		$('#send_file').addClass('none')
 		$('.HBLNav').text('新增HBL订单信息')
+
+		$('#isChange').prop("checked", false);
 		
 		$('#shippingTerm2').val($('#shippingTerm').val())
 		$('#shippingFeeTerm2').val($('#shippingFeeTerm').val())
@@ -2014,6 +2017,32 @@ $(function(){
         $('#isLock').prop('disabled', false);
     })
 
+    $('#isChange').on('click', function () {
+        if ($("#isChange").is(":checked")) {
+            if ($('.billmodiy').length==1) {
+                var weightNum = $('#weightNum').val();
+                var weight = $('#weight').val();
+                $('#weightNum3').val(weightNum)
+                $('#weight3').val(weight).trigger("change")
+                $('#weightShow3').val(weightNum + ' ' + weight)
+
+                var volumeNum = $('#weightNum').val();
+                var volume = $('#weight').val();
+                $('#volumeNum3').val(volumeNum)
+                $('#volume3').val(volume).trigger("change")
+                $('#volumeShow3').val(volumeNum + ' ' + volume)
+
+                $('#package3').val($('#packageNum').val())
+                $('#package3').val($('#package').val()).trigger("change")
+
+                $('#vgm3').val($('#vgmNum').val())
+                $('#vgm3').val($('#vgm').val()).trigger("change")
+            }
+
+        }
+        else {
+        }
+    })
 
     
     //集装箱处理
@@ -2534,6 +2563,8 @@ $(function(){
     		
     				$("#iscontainer3").attr("checked", true)
     				$("#containerlist3").removeClass('none')
+
+    				$('#isChange').prop("checked", false);
     		
     				billId = $(this).attr('billId')
     				if (action == 'modify') {

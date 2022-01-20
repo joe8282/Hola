@@ -283,12 +283,13 @@ Purchase: http://wrapbootstrap.com
                                 <li class="tab-red"><a class="followtab" data-toggle="tab" href="#FOLLOW">订单动态</a></li>
                                 <li class="dropdown">
                                     <a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="HBLNav">HBL订单信息</span> <b class="caret"></b></a>
-                                    <ul class="dropdown-menu dropdown-blue" id="billList">
+                                    <ul class="dropdown-menu dropdown-blue" id="billList" style="z-index:99999;">
                                         <li><a class="billnew" data-toggle="tab" href="#dropdown1">新增</a></li>
                                         <!--<li><a class="billmodiy" data-toggle="tab" href="#dropdown2">@fat</a></li>-->
                                     </ul>
                                 </li>
                                 <li style="float: right; padding-top: 5px; padding-right: 10px;" id="lock_per">
+                                    <span><input name="isChange" type="checkbox" id="isChange"> 同步</span>
                                     <!--<i class="glyphicon glyphicon-lock red" style="margin: 10px; cursor: pointer;"></i>-->
                                     <span><input name="isLock" type="checkbox" id="isLock"> 是否锁定</span>
                                 </li>
