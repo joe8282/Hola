@@ -1452,6 +1452,9 @@ $(function(){
         $('#send_invoice').addClass('none')
 
         _getFee($('#toCompany_2').val())
+
+        $(".checkAll").prop("checked", false);
+        $("input[name='feeli']").prop("checked", false)
     })
     $('.invoicetab').on('click', function () {
         $('#send_invoice').removeClass('none')
@@ -1467,6 +1470,8 @@ $(function(){
         // $("#toCompany_3").change(function () {
         //     _getFee3($('#toCompany_3').val())
         // })
+        $(".checkAll").prop("checked", false);
+        $("input[name='feeli']").prop("checked", false)
     })
     $('.billpaytab').on('click', function () {
         $('#send_bill_pay').removeClass('none')
@@ -1522,6 +1527,8 @@ $(function(){
         // $("#toCompany_5").change(function () {
         //     _getFee4($('#toCompany_5').val())
         // })
+        $(".checkAll_shoufu").prop("checked", false);
+        $("input[name='feeli']").prop("checked", false)
     })
     $('.cancel_billpaytab').on('click', function () {
         $('#send_bill_get').removeClass('none')
@@ -1561,6 +1568,8 @@ $(function(){
         // $("#toCompany_5").change(function () {
         //     _getFee4($('#toCompany_5').val())
         // })
+        $(".checkAll_shoufu").prop("checked", false);
+        $("input[name='feeli']").prop("checked", false)
     })
     $('.gysbilltab').on('click', function () {
         $('#send_bill_gys').removeClass('none')
@@ -1942,6 +1951,7 @@ $(function(){
 	            'feeItem': feeItem
 	        }
 	        console.log(parm)
+            return false
 	        common.ajax_req('POST', false, dataUrl, 'bill.ashx?action=new', parm, function (data) {
 	            if (data.State == 1) {
 	                comModel("新增成功")
@@ -2747,7 +2757,128 @@ $(function(){
         }, 2000)
     }
 
+    $(".checkAll").on("click", function () {
+        if ($(this).prop('checked')) {
+            var ck = $("input[name='feeli']").prop("checked", true);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+            var fee00data = [];
+            var fee00dataTostring = [];
+            var _arrfee00Unit = [];
+            var z = "0";
+            var fee00dataCurrency;
+            var _arrfee00dataAmount = [];
+            var _arrfee00dataGather = [];
+            $(".fee00 input[name='feeli']:checked").each(function (index, item) {
+                fee00data.push($(this).attr("getUnit") + " " + $(this).attr("getAllfee"));
+                if ($.inArray($(this).attr("getUnit"), _arrfee00Unit) == -1) {
+                    _arrfee00Unit.push($(this).attr("getUnit"));
+                }
+            });
 
+            if (_arrfee00Unit.length > 1) {
+                _arrfee00dataGather = [];
+                for (var i = 0; i < _arrfee00Unit.length; i++) {
+
+                    $(".fee00 input[name='feeli']:checked").each(function () {
+                        if ($(this).attr("getUnit") == _arrfee00Unit[i]) {
+                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                            z = +z * 1 + (+$(this).attr("getAllfee")) * 1;
+                        }
+                    })
+                    _arrfee00dataAmount.push(z.toFixed(2));
+                    fee00dataCurrency = fee00dataCurrency + _arrfee00Unit[i] + " " + (i > 0 ? parseFloat(+_arrfee00dataAmount[i] - +_arrfee00dataAmount[i - 1]).toFixed(2) : parseFloat(_arrfee00dataAmount[i]).toFixed(2)) + ", ";
+                    _arrfee00dataGather.push(_arrfee00Unit[i] + " " + (i > 0 ? parseFloat(+_arrfee00dataAmount[i] - +_arrfee00dataAmount[i - 1]).toFixed(2) : parseFloat(_arrfee00dataAmount[i]).toFixed(2)));
+                }
+                _arrfee00dataGather_toString = _arrfee00dataGather.toString();
+            } else if (_arrfee00Unit.length == 0) {
+                _arrfee00dataGather_toString = "";
+            } else {
+                _arrfee00dataGather = [];
+                $(".fee00 input[name='feeli']:checked").each(function () {
+                    //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                    z = +z * 1 + (+$(this).attr("getAllfee")) * 1;
+                })
+                _arrfee00dataGather.push(_arrfee00Unit[0] + " " + z);
+                _arrfee00dataGather_toString = _arrfee00dataGather.toString();
+            }
+        } else {
+            var ck = $("input[name='feeli']").prop("checked", false);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+            var fee00data = [];
+            var fee00dataTostring = [];
+            var _arrfee00Unit = [];
+            var z = "0";
+            var fee00dataCurrency;
+            var _arrfee00dataAmount = [];
+            var _arrfee00dataGather = [];
+            $(".fee00 input[name='feeli']:checked").each(function (index, item) {
+                fee00data.push($(this).attr("getUnit") + " " + $(this).attr("getAllfee"));
+                if ($.inArray($(this).attr("getUnit"), _arrfee00Unit) == -1) {
+                    _arrfee00Unit.push($(this).attr("getUnit"));
+                }
+            });
+
+            if (_arrfee00Unit.length > 1) {
+                _arrfee00dataGather = [];
+                for (var i = 0; i < _arrfee00Unit.length; i++) {
+
+                    $(".fee00 input[name='feeli']:checked").each(function () {
+                        if ($(this).attr("getUnit") == _arrfee00Unit[i]) {
+                            //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                            z = +z * 1 + (+$(this).attr("getAllfee")) * 1;
+                        }
+                    })
+                    _arrfee00dataAmount.push(z.toFixed(2));
+                    fee00dataCurrency = fee00dataCurrency + _arrfee00Unit[i] + " " + (i > 0 ? parseFloat(+_arrfee00dataAmount[i] - +_arrfee00dataAmount[i - 1]).toFixed(2) : parseFloat(_arrfee00dataAmount[i]).toFixed(2)) + ", ";
+                    _arrfee00dataGather.push(_arrfee00Unit[i] + " " + (i > 0 ? parseFloat(+_arrfee00dataAmount[i] - +_arrfee00dataAmount[i - 1]).toFixed(2) : parseFloat(_arrfee00dataAmount[i]).toFixed(2)));
+                }
+                _arrfee00dataGather_toString = _arrfee00dataGather.toString();
+            } else if (_arrfee00Unit.length == 0) {
+                _arrfee00dataGather_toString = "";
+            } else {
+                _arrfee00dataGather = [];
+                $(".fee00 input[name='feeli']:checked").each(function () {
+                    //数值前添加+号  number加号和数值加号需要用空格隔开 即实现加法运算
+                    z = +z * 1 + (+$(this).attr("getAllfee")) * 1;
+                })
+                _arrfee00dataGather.push(_arrfee00Unit[0] + " " + z);
+                _arrfee00dataGather_toString = _arrfee00dataGather.toString();
+            }
+        }
+
+
+    });
+    $(".checkAll_shoufu").on("click", function () {
+        if ($(this).prop('checked')) {
+            if ($("#cancel_unit").val() == '') {
+                comModel("请选择币种")
+                $(this).prop("checked", false)
+                return
+            } else {
+                var ck = $("input[name='feeli']").prop("checked", true);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+                $("input[name='feeli']:checked").each(function (i, o) {
+                    var value_one = 0
+                    var value = $(this).attr("getAllfee");
+                    var value_unit = $(this).attr("getUnit")
+                    if (value_unit == $("#cancel_unit").val()) {
+                        value_one = value_one + value * 1
+                    } else {
+                        value_one = value_one + value * exchangeRate
+                    }
+                    //console.log($(this).parent().parent().find("label:eq(8)").html())
+                    $(this).parent().parent().find("label:eq(9)").text(value_one)
+                    $(this).attr("getCancelfee", value_one)
+                    cancel_all_money = cancel_all_money + value_one
+                });
+                $("#payPrice5").val(cancel_all_money)
+            }
+        } else {
+            var ck = $("input[name='feeli']").prop("checked", false);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+            $("input[name='feeli']").each(function (i, o) {
+                $(this).parent().parent().find("label:eq(9)").text('0')
+                $(this).attr("getCancelfee", "0")
+            });
+            $("#payPrice5").val("0")
+        }
+    });
 
 })
 
