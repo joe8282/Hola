@@ -2032,11 +2032,14 @@ $(function(){
                 $('#volume3').val(volume).trigger("change")
                 $('#volumeShow3').val(volumeNum + ' ' + volume)
 
-                $('#package3').val($('#packageNum').val())
+                $('#packageNum3').val($('#packageNum').val())
                 $('#package3').val($('#package').val()).trigger("change")
 
-                $('#vgm3').val($('#vgmNum').val())
+                $('#vgmNum3').val($('#vgmNum').val())
                 $('#vgm3').val($('#vgm').val()).trigger("change")
+
+                $('#packageMarks3').val($('#packageMarks').val())
+                $('#goodAbout3').val($('#goodAbout').val())
             }
 
         }
