@@ -2216,8 +2216,8 @@ function _detailBillFun(Id) {
                     var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.bofe_feeType + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.book_orderCode + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
+                        //'<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.book_orderCode + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
@@ -2286,7 +2286,7 @@ function _detailInvoiceFun(Id) {
                     var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_feeType + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.book_orderCode + '</label>' +
+                        //'<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.book_orderCode + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data.bofe_feeUnit + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data.bofe_fee + '</label>' +
@@ -2415,8 +2415,8 @@ function _detailBillGetFun(Id) {
                     var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.bofe_feeType + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.bofe_feeUnit + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:25%; float: left;">' + _data.book_orderCode + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.book_orderCode + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:25%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
