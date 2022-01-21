@@ -2215,7 +2215,8 @@ function _detailBillFun(Id) {
                     xuhao = xuhao + 1;
                     var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_feeType + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.bofe_feeType + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.book_orderCode + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
@@ -2285,11 +2286,12 @@ function _detailInvoiceFun(Id) {
                     var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_feeType + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_numUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.book_orderCode + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data.bofe_feeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data.bofe_fee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data.bofe_num + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;">' + _data.bofe_numUnit + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_allFee + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_receiptRate + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:7%; float: left;">' + _data.bofe_settlementRate + '</label>' +
@@ -2383,6 +2385,7 @@ function _detailBillGetFun(Id) {
             $(".bill_bank").html(_data.rema_content.replace(/\n/g, '<br/>'))
         }
         $(".bill_payNumber").text(_data.caac_preCode)
+        $(".bill_currency").text(_data.caac_currency)
         $(".bill_payPrice").text(_data.caac_money)
         $(".bill_beizhu").text(_data.caac_beizhu)
         if (_data.caac_file != "") {
@@ -2411,14 +2414,15 @@ function _detailBillGetFun(Id) {
                     xuhao = xuhao + 1;
                     var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.bofe_feeType + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:30%; float: left;">' + _getFeeItemFun(_data.bofe_feeItem) + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.bofe_feeType + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.bofe_feeUnit + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:25%; float: left;">' + _data.book_orderCode + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_feeUnit + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_fee + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_num + '</label>' +
                         '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data.bofe_numUnit + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.bofe_allFee + '</label>' +
-                        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data.bofe_cancelMoney + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.bofe_allFee + '</label>' +
+                        '<label for="inputPassword3" class="margin-right-10" style="width:8%; float: left;">' + _data.bofe_cancelMoney + '</label>' +
                     '</div></p>'
                     $(".fee_44").append(feelist)
                 }
