@@ -258,7 +258,7 @@ $(document).ready(function () {
                                         var num = 0
                                         var allContailner = mblData[$(this).attr("itemrelation")].split(';')
                                         for (var i = 0; i < allContailner.length - 1;i++) { num += parseInt(allContailner[i].split('×')[0]) }
-                                        value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + mblData[$(this).attr("itemrelation")] + ")CONTAINERS ONLY"
+                                        value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + mblData[$(this).attr("itemrelation")] + ") CONTAINERS ONLY"
                                     } else {
                                         value = mblData[$(this).attr("itemrelation")]
                                     } 
@@ -268,7 +268,7 @@ $(document).ready(function () {
                                             var num = 0
                                             var allContailner = hblData[$(this).attr("itemrelation")].split(';')
                                             for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
-                                            value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + hblData[$(this).attr("itemrelation")] + ")CONTAINERS ONLY"
+                                            value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + hblData[$(this).attr("itemrelation")] + ") CONTAINERS ONLY"
                                         } else {
                                             value = hblData[$(this).attr("itemrelation")]
                                         }
@@ -681,7 +681,7 @@ $(document).ready(function () {
 		                    var num = 0
 		                    var allContailner = mblData[$(this).val()].split(';')
 		                    for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
-		                    value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + mblData[$(this).val()] + ")CONTAINERS ONLY"
+		                    value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + mblData[$(this).val()] + ") CONTAINERS ONLY"
 		                } else {
 		                    value = mblData[$(this).val()]
 		                }
@@ -691,7 +691,7 @@ $(document).ready(function () {
 		                        var num = 0
 		                        var allContailner = hblData[$(this).val()].split(';')
 		                        for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
-		                        value = numberToEnglish(num, 'SAY').toUpperCase() + "(" + hblData[$(this).val()] + ")CONTAINERS ONLY"
+		                        value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + hblData[$(this).val()] + ") CONTAINERS ONLY"
 		                    } else {
 		                        value = hblData[$(this).val()]
 		                    }
