@@ -2396,10 +2396,15 @@ function _detailBillGetFun(Id) {
             $('#showimg55').hide()
         }
 
+
         if (_data.caac_state != 1) {
             $("#opetionBeizhu").val(_data.caac_opetionBeizhu)
             $('#passState').hide()
             $('#nopassState').hide()
+        } else {
+            $("#opetionBeizhu").val(_data.caac_opetionBeizhu)
+            $('#passState').show()
+            $('#nopassState').show()
         }
 
         var arrItem = _data.caac_feeItem.split(',')
