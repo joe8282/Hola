@@ -2379,6 +2379,7 @@ function _detailBillGetFun(Id) {
         console.log(data.Data)
         //初始化信息
         var _data = data.Data
+        $(".bill_preCode").text("付款号码：" + _data.caac_preCode)
         $(".bill_toCompany").text(_data.comp_name)
         $(".bill_addTime").text(_data.caac_addTime.substring(0, 10))
         if (_data.rema_content != null) {
