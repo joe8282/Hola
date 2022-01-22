@@ -15,10 +15,13 @@ var en2 = {
         
 var oTable;
 var filesTable;
+var loadTime = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ");
 
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book5').addClass("active")
+
+	
 	
 //	var crmCompanyId = '0',crmContactId = '0';
 //	if(GetQueryString('crmId')!=null){
@@ -2352,7 +2355,8 @@ $(function(){
 		})
 
 		common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbyid", {
-    		"Id": Id
+		    "Id": Id,
+		    "loadTime":true
     	}, function(data) {
     	    console.log(data.Data)
     		//初始化信息
@@ -3306,10 +3310,19 @@ $(function(){
 		}
 	})
 	
-	/*下一步*/
-	$('#send1,#send2,#send3').on('click', function() {   
-		var bt = $(this).attr("id");
-		
+    /*下一步*/
+    $('#send1,#send2,#send3').on('click', function () {
+
+        if (action == 'modify') {
+            _isUpdateFun($(this).attr("id"));
+            
+        }
+    })
+
+    function _doFun(bt_id) {
+
+        var bt = bt_id;
+
 		//crmContactId = $('#crmcontact').val(),
 		outCode = $('#outCode').val(),
 			movementType = $('#movementType').val(),
@@ -3621,7 +3634,36 @@ $(function(){
 			}
 		}
 
-	});
+	};
+
+    //是否更新
+    function _isUpdateFun(bt_id) {
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbyid", {
+            "Id": Id
+        }, function (data) {
+            console.log(data.Data.book_updateTime.replace('T', " "))
+            console.log(loadTime)
+            //初始化信息
+            if (data.Data.book_updateTime != null && data.Data.book_updateTime.replace('T', " ") > loadTime) {
+                bootbox.confirm("<div style='font-size:16px; color:red;'>提示：订单处理期间已被其他人更新编辑过，是否还继续提交更新？</div><div>最近一次更新时间为：" + data.Data.book_updateTime.substr(0, 19).replace("T", " ") + "</div><div>可进入订单动态查看操作记录。</div>", function (result) {
+                    if (result) {      
+                        _doFun(bt_id)
+                        setTimeout(function() {
+                            loadTime = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ");
+                        }, 1000);
+                        
+                    }
+                });
+            } else {
+                _doFun(bt_id)
+                setTimeout(function () {
+                    loadTime = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ");
+                }, 1000);
+                
+            }
+        })
+
+    }
 
 	///当其中一个SELECT改变的时候，询问其他的是否也需要改变, by daniel 20190730
 	$('.containerAll').delegate('select','change', function() {
@@ -3775,6 +3817,10 @@ function _deleteFileFun(id) {
         }
     });
 }
+
+
+
+
 
 /*
 	add this plug in
