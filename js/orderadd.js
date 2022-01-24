@@ -3316,6 +3316,8 @@ $(function(){
         if (action == 'modify') {
             _isUpdateFun($(this).attr("id"));
             
+        } else {
+            _doFun($(this).attr("id"))
         }
     })
 
