@@ -305,6 +305,7 @@ $(document).ready(function () {
         $("#name").hide();
         $("#size").hide();
         $("#weight").hide();
+        $("#color").hide();
         $('#setForm').each(function (index) {
             $('#setForm')[index].reset();
         });
@@ -334,6 +335,7 @@ $(document).ready(function () {
 		$("#name").hide();
 		$("#size").hide();
 		$("#weight").hide();
+		$("#color").hide();
 		$('#setForm').each(function (index) {
 		    $('#setForm')[index].reset();
 		});
@@ -361,6 +363,7 @@ $(document).ready(function () {
 		$("#name").hide();
 		$("#size").hide();
 		$("#weight").hide();
+		$("#color").hide();
         $('#setForm').each(function (index) {
 		    $('#setForm')[index].reset();
         });
@@ -388,6 +391,7 @@ $(document).ready(function () {
 		$("#name").hide();
 		$("#size").hide();
 		$("#weight").hide();
+		$("#color").hide();
 		$('#setForm').each(function (index) {
 		    $('#setForm')[index].reset();
 		});
@@ -415,6 +419,7 @@ $(document).ready(function () {
 		$("#name").show();
 		$("#size").show();
 		$("#weight").show();
+		$("#color").show();
 		$('#setForm').each(function (index) {
 		    $('#setForm')[index].reset();
 		});
@@ -443,6 +448,7 @@ $(document).ready(function () {
 	    $("#name").hide();
 	    $("#size").show();
 	    $("#weight").show();
+	    $("#color").show();
 	    $('#setForm').each(function (index) {
 	        $('#setForm')[index].reset();
 	    });
@@ -462,6 +468,7 @@ $(document).ready(function () {
 	    $("#relation").hide();
 	    $("#size").hide();
 	    $("#weight").hide();
+	    $("#color").hide();
 	})
 	$("#btnImgSave").click(function () {
 	    var img = $("#imgfile")[0].files[0];
@@ -523,6 +530,8 @@ $(document).ready(function () {
 		    $("#" + $("#itemId").val() + "").css("font-size", $(this).val());
 		}else if($(this).attr("id")=="itemWeight"){
 		    $("#" + $("#itemId").val() + "").css("font-weight", $(this).val());
+		} else if ($(this).attr("id") == "itemColor") {
+		    $("#" + $("#itemId").val() + "").css("color", $(this).val());
 		} else if ($(this).attr("id") == "itemRelation") {
 		    $("#" + $("#itemId").val() + "").attr("itemrelation", $(this).val());
 		    //console.log(value)
@@ -707,7 +716,7 @@ $(document).ready(function () {
 	})
 	$('#printControl textarea').keyup(function () {
 	    if ($(this).attr("id") == "itemName") {    
-	        $("#" + $("#itemId").val() + " p").text($(this).val());
+	        $("#" + $("#itemId").val() + " p").html($(this).val().replace(/\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)/g, "<br>"))
 	    }
 	})
 
