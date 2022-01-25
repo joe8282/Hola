@@ -140,9 +140,40 @@ $(document).ready(function() {
 
 	
 
+	//$("#checkAll").on("click", function () {
+	//    var xz = $(this).prop("checked");//判断全选按钮的选中状态
+	//    var ck = $("input[name='checkList']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	//});
 	$("#checkAll").on("click", function () {
-	    var xz = $(this).prop("checked");//判断全选按钮的选中状态
-	    var ck = $("input[name='checkList']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	    if ($(this).prop('checked')) {
+	        if ($("#unit").val() == '') {
+	            comModel("请选择币种")
+	            $(this).prop("checked", false)
+	            return
+	        } else {
+	            var ck = $("input[name='checkList']").prop("checked", true);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	            $("input[name='checkList']:checked").each(function (i, o) {
+	                var value_one = 0
+	                var value = $(this).parents('tr').find("td:eq(5)").text();
+	                var value_unit = $(this).parents('tr').find("td:eq(4)").text();
+	                if (value_unit == $("#unit").val()) {
+	                    value_one = value_one + value * 1
+	                } else {
+	                    value_one = value_one + value * exchangeRate
+	                }
+	                //console.log($(this).parent().parent().find("label:eq(8)").html())
+	                $(this).parents('tr').find("td:eq(6)").text(value_one)
+	                cancel_all_money = cancel_all_money + value_one
+	            });
+	            $("#cancel_money").val(cancel_all_money)
+	        }
+	    } else {
+	        var ck = $("input[name='checkList']").prop("checked", false);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	        $("input[name='checkList']").each(function (i, o) {
+	            $(this).parents('tr').find("td:eq(6)").text('')
+	        });
+	        $("#cancel_money").val('')
+	    }
 	});
 
 	$('#example').delegate('#editEmail', 'click', function() {
@@ -470,13 +501,13 @@ function initTable(toCompany, action, feeType) {
         url = dataUrl + 'ajax/booking.ashx?action=readfee&which=table&state=2&companyId=' + companyID + '&tocompany=' + toCompany
     }
     var table = $("#zhangdan").dataTable({
-		//"iDisplayLength":10,
+		"iDisplayLength":20,
         "sAjaxSource": url,
 	    'bPaginate': false,
 	    "bInfo": false,
 	    //		"bDestory": true,
 	    //		"bRetrieve": true,
-	    "bFilter": false,
+	    //"bFilter": false,
 	    "bSort": false,
 	    "aaSorting": [[0, "desc"]],
 	    //		"bProcessing": true,
@@ -484,7 +515,7 @@ function initTable(toCompany, action, feeType) {
             				{
             				    "mDataProp": "bofe_id",
             				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-            				        $(nTd).html("<input type='checkbox' name='checkList' onclick='_checkFun(this," + iRow + ")' value='" + sData + "'>");
+            				        $(nTd).html("<input type='checkbox' name='checkList' onclick='_checkFun(this," + iRow + ")' getUnit='" + oData.bofe_feeUnit + "' getAllfee='" + oData.bofe_allFee + "' getCancelfee='0' value='" + sData + "'>");
             				    }
             				},
                             {
