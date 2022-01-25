@@ -16,18 +16,18 @@ $(function(){
 	$('.crm1').addClass("active")	
 	$('#title1').text(get_lan('nav_2_1'))
 	$('#title2').text(get_lan('nav_2_1')) 
-	$('#inputCompanyName').on('change',function(){ // 添加一个字段就是公司的CODE，这里自动获取CODE，也可以修改，20190815 by daniel
-		var com_name=$('#inputCompanyName').val().split(" ");
-		var _codes="";
-		if($('#inputCompanyCode').val()==""){
-			for (var i = 0; i< com_name.length; i++) {
-				var _code=com_name[i].substring(0,1);
-				_codes=_codes+_code;
-			}
-			$('#inputCompanyCode').val(_codes);
-		}
-		//alert(com_name[0]).toUpperCase()
-	});
+	//$('#inputCompanyName').on('change',function(){ // 添加一个字段就是公司的CODE，这里自动获取CODE，也可以修改，20190815 by daniel
+	//	var com_name=$('#inputCompanyName').val().split(" ");
+	//	var _codes="";
+	//	if($('#inputCompanyCode').val()==""){
+	//		for (var i = 0; i< com_name.length; i++) {
+	//			var _code=com_name[i].substring(0,1);
+	//			_codes=_codes+_code;
+	//		}
+	//		$('#inputCompanyCode').val(_codes);
+	//	}
+	//	//alert(com_name[0]).toUpperCase()
+	//});
 	$('.yincang').hide();
 	$('#send00').hide();
 	
@@ -164,7 +164,11 @@ $(function(){
 	    if (action == 'add') {
 	        var reg = new RegExp("^(.+)@(.+)$"); //邮箱正则表达式
 			if(!CompanyName) {
-				comModel("请输入公司名称")
+			    comModel("请输入公司名称")
+			} else if (!CompanyCode) {
+			    comModel("请输入公司代码")
+			} else if (CompanyCode.length<4) {
+			    comModel("公司代码不能小于4位数")
 			} else if(!CompanyContent) {
 				comModel("请输入公司简介")
 			} else if(!CompanyCountry) {
