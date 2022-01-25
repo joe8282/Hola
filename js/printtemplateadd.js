@@ -23,13 +23,13 @@ $(document).ready(function () {
     $("#addTime").click(function () {
         var topHeight = $(document).scrollTop() + 10 + "px";
         var _divLength = getCode()
-        var Label = '<div name="nowtime" id="nowtime' + _divLength + '" itemrelation="" itemtype="nowtime" style="height:50px; width:120px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Now Time</p></div>';
+        var Label = '<div name="nowtime" id="nowtime' + _divLength + '" itemrelation="" itemtype="nowtime" style="height:50px; width:120px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; color:#000000; z-index:99; position:absolute;"><p>Now Time</p></div>';
         $("#printArea").append(Label);
         $("#relation").hide();
         $("#name").hide();
-        $("#size").hide();
-        $("#weight").hide();
-        $("#color").hide();
+        $("#size").show();
+        $("#weight").show();
+        $("#color").show();
         $('#setForm').each(function (index) {
             $('#setForm')[index].reset();
         });
@@ -53,7 +53,7 @@ $(document).ready(function () {
 	    //var _divLength = parseInt(_divLastId.substring(4)) + 1
         //var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
         var _divLength = getCode()
-	    var HLine = '<div name="hline" id="hline' + _divLength + '" itemrelation="" itemtype="hline" style="border-top:1px solid black; height:10px; width:100px; left:10px; top:'+topHeight+'; font-size:12px; font-weight:400; position:absolute;"></div>';
+        var HLine = '<div name="hline" id="hline' + _divLength + '" itemrelation="" itemtype="hline" style="border-top:1px solid black; height:10px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; color:#000000; position:absolute;"></div>';
 		$("#printArea").append(HLine);
 		$("#relation").hide();
 		$("#name").hide();
@@ -81,7 +81,7 @@ $(document).ready(function () {
 	    //}
         //var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
         var _divLength = getCode()
-	    var VLine = '<div name="vline" id="vline' + _divLength + '" itemrelation="" itemtype="vline" style="border-left:1px solid black; height:100px; width:10px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; position:absolute;"></div>';
+        var VLine = '<div name="vline" id="vline' + _divLength + '" itemrelation="" itemtype="vline" style="border-left:1px solid black; height:100px; width:10px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; color:#000000; position:absolute;"></div>';
 		$("#printArea").append(VLine);
 		$("#relation").hide();
 		$("#name").hide();
@@ -109,7 +109,7 @@ $(document).ready(function () {
 	    //}
         //var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
         var _divLength = getCode()
-	    var Square = '<div name="square" id="square' + _divLength + '" itemrelation="" itemtype="square" style="border:1px solid black; height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; position:absolute;"></div>';
+        var Square = '<div name="square" id="square' + _divLength + '" itemrelation="" itemtype="square" style="border:1px solid black; height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; color:#000000; position:absolute;"></div>';
 		$("#printArea").append(Square);
 		$("#relation").hide();
 		$("#name").hide();
@@ -137,7 +137,7 @@ $(document).ready(function () {
 	    //}
         //var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
         var _divLength = getCode()
-	    var Label = '<div name="label" id="label' + _divLength + '" itemrelation="" itemtype="label" style="height:50px; width:120px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p>Label and Text Area</p></div>';
+        var Label = '<div name="label" id="label' + _divLength + '" itemrelation="" itemtype="label" style="height:50px; width:120px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; color:#000000; z-index:99; position:absolute;"><p>Label and Text Area</p></div>';
 		$("#printArea").append(Label);
 		$("#relation").hide();
 		$("#name").show();
@@ -166,7 +166,7 @@ $(document).ready(function () {
 	    //}
         //var _divLength = parseInt(_divLastId.replace(/[^0-9]/ig, "")) + 1
         var _divLength = getCode()
-        var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; z-index:99; position:absolute;"><p style="line-height:120%;">Data Content</p></div>';
+        var Data = '<div name="data" id="data' + _divLength + '" itemrelation="" itemtype="data" style="height:100px; width:100px; left:10px; top:' + topHeight + '; font-size:12px; font-weight:400; color:#000000; z-index:99; position:absolute;"><p style="line-height:120%;">Data Content</p></div>';
 	    $("#printArea").append(Data);
 	    $("#relation").show();
 	    $("#name").hide();
@@ -314,17 +314,18 @@ $(document).ready(function () {
 		    $("#itemId").val($(this).attr("id"));
 		    $("#itemType").val($(this).attr("itemtype"));
 		}
-		$("#itemName").val($(this).text());
+		$("#itemName").val($(this).find('p').html().replace(/(<br>)/g, "\r\n"));
 		//$("#itemPosition").val(x+"px,"+y+"px");
 		$("#itemRelation").val($(this).attr("itemrelation"));
 		$("#itemSize").val($(this).css("font-size"));
 		$("#itemWeight").val($(this).css("font-weight"));
+		$("#itemColor").val($(this).css("color"));
 		//$("#itemRemark").val($(this).attr("itemremark"));
 	    //$("#itemDim").val(_width+"px,"+_height+"px");
 		var itemtype = $(this).attr("itemtype")
-		if (itemtype == 'hline' || itemtype == 'vline' || itemtype == 'square' || itemtype == 'img') { $("#name").hide(); $("#relation").hide(); $("#size").hide(); $("#weight").hide(); }
-		if (itemtype == 'label') { $("#name").show(); $("#relation").hide(); $("#size").show(); $("#weight").show(); }
-		if (itemtype == 'data') { $("#name").hide(); $("#relation").show(); $("#size").show(); $("#weight").show(); }
+		if (itemtype == 'hline' || itemtype == 'vline' || itemtype == 'square' || itemtype == 'img') { $("#name").hide(); $("#relation").hide(); $("#size").hide(); $("#weight").hide(); $("#color").hide(); }
+		if (itemtype == 'label') { $("#name").show(); $("#relation").hide(); $("#size").show(); $("#weight").show(); $("#color").show(); }
+		if (itemtype == 'data') { $("#name").hide(); $("#relation").show(); $("#size").show(); $("#weight").show(); $("#color").show(); }
 		
 	});	
 	//当松开层移动的时候，背景色消失
