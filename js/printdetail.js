@@ -842,7 +842,7 @@ $(document).ready(function () {
 	    //return false
 	    var content = $("#printArea").html()
 	    $("#printArea").print({
-	        globalStyles: true,//是否包含父文档的样式，默认为true
+	        globalStyles: false,//是否包含父文档的样式，默认为true
 	        mediaPrint: false,//是否包含media='print'的链接标签。会被globalStyles选项覆盖，默认为false
 	        stylesheet: null,//外部样式表的URL地址，默认为null
 	        noPrintSelector: ".no-print",//不想打印的元素的jQuery选择器，默认为".no-print"
