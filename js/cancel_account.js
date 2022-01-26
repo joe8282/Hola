@@ -63,6 +63,7 @@ function initTable() {
                     return (typeName);
 			    }
 			},
+            { "mDataProp": "caac_preCode" },
             { "mDataProp": "caac_code" },
             { "mDataProp": "rema_type" },
             { "mDataProp": "caac_currency" },

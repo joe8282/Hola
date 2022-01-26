@@ -1058,7 +1058,12 @@ $(function(){
                             //    }
                             //},
                 { "mDataProp": "comp_name" },
-                    { "mDataProp": "caac_preCode" },
+                                        {
+                                            "mDataProp": "caac_preCode",
+                                            "mRender": function (nTd, sData, oData, iRow, iCol) {
+                                                return (oData.caac_preCode + "<br/>销账编号：<a href='cancel_account_add.html?action=modify&Id=" + oData.caac_id + "&toCompanyId=" + oData.caac_toCompany + "'>" + oData.caac_code + "</a>");
+                                            }
+                                        },
 { "mDataProp": "rema_type" },
                     {
                         "mDataProp": "caac_addTime",
