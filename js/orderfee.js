@@ -501,10 +501,10 @@ $(function(){
                         $('.feeList').eq(i).attr("orderName", "1")
                     }
                 }
-                $('#toCompany_2').append(_CompanySettle);
-                $('#toCompany_3').append(_CompanySettle);
-                $('#toCompany_4').append(_CompanySettle);
-                $('#toCompany_5').append(_CompanySettle);
+                $('#toCompany_2').html('<option value="">请选择</option>' + _CompanySettle);
+                $('#toCompany_3').html('<option value="">请选择</option>' + _CompanySettle);
+                $('#toCompany_4').html('<option value="">请选择</option>' + _CompanySettle);
+                $('#toCompany_5').html('<option value="">请选择</option>' + _CompanySettle);
                 //$('#toCompany_6').append(_CompanySettle);
                 feeNewOrder();
                 gatherDebitCredit();
@@ -1889,7 +1889,12 @@ $(function(){
                 var feeoneData = feeId + ',' + feeType + ',' + toCompany + ',' + feeItem + ',' + feeUnit + ',' + feeNum + ',' + feePrice + ',' + numUnit + ',' + receiptRate + ',' + receiptFeeUnit + ',' + receiptFee + ',' + feeBeizhu + ';'
                     feeData = feeData + feeoneData
                 //}
-            }
+		    }
+		    if ($.inArray(($('.feeList').eq(i).find('.toCompany').val() + ';' + $('.feeList').eq(i).find('.toCompany').find("option:selected").text()), _toCompanySettleArr) < 0) {
+		        _toCompanySettleArr.push($('.feeList').eq(i).find('.toCompany').val() + ';' + $('.feeList').eq(i).find('.toCompany').find("option:selected").text());
+		        _htmlCompanySettle = '<option value="' + $('.feeList').eq(i).find('.toCompany').val() + '">' + $('.feeList').eq(i).find('.toCompany').find("option:selected").text() + '</option>';
+		        _CompanySettle = _CompanySettle + _htmlCompanySettle
+		    }
 		}
 		console.log(feeData)
 		if (flat == true) {
@@ -1907,7 +1912,9 @@ $(function(){
 		console.log(parm)
 		common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfee', parm, function(data) {
 			if(data.State == 1) {
-				comModel("保存成功")
+			    comModel("保存成功")
+			    $('#toCompany_4').html('<option value="">请选择</option>' + _CompanySettle);
+			    $('#toCompany_5').html('<option value="">请选择</option>' + _CompanySettle);
 			} else {
 				comModel("保存失败")
 			}
