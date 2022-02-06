@@ -479,24 +479,29 @@ function initTable(fromId) {
                     if (rowData.book_billCode != "") {
                         _str = _str + "<br/><span style='color:#999;'>MBL NO.:</span><br/>" + rowData.book_billCode
                     }
-                    if (rowData.book_allContainer != "") {
-                        common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbill", {
-                            "bookingId": rowData.book_id
-                        }, function (data) {
-                            if (data.State == 1) {
-                                var _data = data.Data;
-                                if (_data.length > 0) {
-                                    _str = _str + "<br/><span style='color:#999;'>HBL NO.:</span><br/>"
-                                    for (var i = 0; i < _data.length; i++) {
-                                        _str = _str + _data[i].bobi_billCode + '<br/>'
-                                    }
-                                }
-
-                            }
-                        }, function (err) {
-                            console.log(err)
-                        }, 2000)
+                    if (rowData.book_hblno != null) {
+                        _str = _str + "<br/><span style='color:#999;'>HBL NO.:</span><br/>"
+                        _str = _str + rowData.book_hblno.replaceAll(";", "<br/>")
                     }
+                    //if (rowData.book_allContainer != "") {
+                    //    common.ajax_req("get", false, dataUrl, "booking.ashx?action=readbill", {
+                    //        "bookingId": rowData.book_id
+                    //    }, function (data) {
+                    //        if (data.State == 1) {
+                    //            var _data = data.Data;
+                    //            if (_data.length > 0) {
+                    //                _str = _str + "<br/><span style='color:#999;'>HBL NO.:</span><br/>"
+                    //                for (var i = 0; i < _data.length; i++) {
+                    //                    _str = _str + _data[i].bobi_billCode + '<br/>'
+                    //                }
+                    //            }
+
+                    //        }
+                    //    }, function (err) {
+                    //        console.log(err)
+                    //    }, 2000)
+
+                    //}
 
                     return (_str)
                 }
@@ -568,8 +573,9 @@ function initTable(fromId) {
     		//},
     		{
     		    "mDataProp": "orderstate_name_cn",
+    		    "sWidth":"120px",
     		    "mRender": function (td, cellData, rowData, row, col) {
-                    var shoufuText = ''
+    		        //var shoufuText = '无应收/无应付'
     		        //common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
     		        //    "bookingId": rowData.book_id
     		        //}, function (data) {
@@ -579,14 +585,14 @@ function initTable(fromId) {
     		        //            var yingshouText = '无应收', yingfuText = '无应付'
     		        //            var yingshou_num = 0, yingfu_num = 0, yingshou_num_finsh = 0, yingfu_num_finsh = 0
     		        //            for (var i = 0; i < _data.length; i++) {
-    		        //                if (_data.bofe_feeType == 'debit') {
+    		        //                if (_data[i].bofe_feeType == "debit") {              
     		        //                    yingshou_num += 1
-    		        //                    if (_data.bofe_state == 3) {
+    		        //                    if (_data[i].bofe_state == 3) {
     		        //                        yingshou_num_finsh += 1
     		        //                    }
-    		        //                } else if (_data.bofe_feeType == 'credit') {
+    		        //                } else if (_data[i].bofe_feeType == "credit") {
     		        //                    yingfu_num += 1
-    		        //                    if (_data.bofe_state == 3) {
+    		        //                    if (_data[i].bofe_state == 3) {
     		        //                        yingfu_num_finsh += 1
     		        //                    }
     		        //                }
@@ -605,7 +611,7 @@ function initTable(fromId) {
     		        //            } else if (yingfu_num = yingfu_num_finsh) {
     		        //                yingfuText = '已付款'
     		        //            }
-    		        //            shoufuText = yingfuText + '/' + yingfuText
+    		        //            shoufuText = yingshouText + '/' + yingfuText
     		        //        } else {
     		        //            shoufuText = '无应收/无应付'
     		        //        }
@@ -616,9 +622,9 @@ function initTable(fromId) {
     		        //}, 2000)
 
     		        if (rowData.book_state != 3) {
-    		            return (shoufuText +"<br/>"+rowData.orderstate_name_cn);
+    		            return (rowData.book_shoufu_state + "<br/><br/>" + rowData.orderstate_name_cn);
     		        } else {
-    		            return (shoufuText + "<br/>" + "<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>已取消</a>");
+    		            return (rowData.book_shoufu_state + "<br/><br/>" + "<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>已取消</a>");
     		        }
     				
     			}    			
