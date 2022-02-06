@@ -281,6 +281,7 @@ Purchase: http://wrapbootstrap.com
                                 <li class="tab-red"><a class="ordertab" href="#FEE" id="orderFee">费用管理</a></li>
                                 <li class="tab-red"><a class="filetab" data-toggle="tab" href="#FILE">文件信息</a></li>
                                 <li class="tab-red"><a class="followtab" data-toggle="tab" href="#FOLLOW">订单动态</a></li>
+                                <li class="tab-red"><a class="opentab" data-toggle="tab" href="#OPENGOODS">放单</a></li>
                                 <li class="dropdown">
                                     <a data-toggle="dropdown" class="dropdown-toggle" href="#"><span class="HBLNav">HBL订单信息</span> <b class="caret"></b></a>
                                     <ul class="dropdown-menu dropdown-blue" id="billList" style="z-index:99999;">
@@ -1090,6 +1091,89 @@ Purchase: http://wrapbootstrap.com
                                         </div>
                                     </div>
                                 </div>
+                                <div id="OPENGOODS" class="tab-pane">
+                                    <div class="form-group open_goods">
+                                        <div class="margin-bottom-20">
+                                            <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%" id="openGoodsList">
+                                                <thead>
+                                                    <tr class="tableTitle">
+                                                        <th>公司名称</th>
+                                                        <th>放货方式</th>
+                                                        <th>放订单号</th>
+                                                        <th>放单形式</th>
+                                                        <th>压订单号</th>
+                                                        <th>申请人/时间</th>
+                                                        <th>审核人/时间</th>
+                                                        <th>状态</th>
+                                                        <th>操作</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div id="horizontal-form">
+                                            <form class="form-horizontal" role="form">
+                                                <div class="form-group no-margin-bottom">
+                                                    <label for="inputPassword3" class="col-sm-5" style="text-align:left;">选择客户 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3" style="text-align:left;">放货方式 <sup></sup></label>
+                                                    <!--<label for="inputPassword3" class="col-sm-3">银行 <sup></sup></label>-->
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-5">
+                                                        <select id="toCompany_6" style="width: 100%;">
+                                                            <option value="">请选择</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <select id="opgo_openType" style="width: 100%;">
+                                                            <!--<option value="">请选择</option>-->
+                                                            <option value="到账放货">到账放货</option>
+                                                            <option value="未到账放货">未到账放货</option>
+                                                            <option value="整箱压单">整箱压单</option>
+                                                            <option value="非整箱压单">非整箱压单</option>
+                                                        </select>
+                                                    </div>
+                                                    <!--<div class="col-sm-3">
+                                                    </div>-->
+                                                </div>
+                                                <div class="form-group no-margin-bottom">
+                                                    <label for="inputPassword3" class="col-sm-3" style="text-align:left;">放订单号 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3" style="text-align:left;">放单形式 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-3" style="text-align:left;">压订单号 <sup></sup></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-3">
+                                                        <input type="email" class="form-control" id="opgo_orderCode_open" placeholder="放订单号">
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <select id="opgo_orderType" style="width: 100%;">
+                                                            <!--<option value="">请选择</option>-->
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-3">
+                                                        <input type="email" class="form-control" id="opgo_orderCode_close" placeholder="压订单号">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group no-margin-bottom">
+                                                    <label for="inputPassword3" class="col-sm-12" style="text-align:left;">备注 <sup></sup></label>
+                                                    <!--<label for="inputPassword3" class="col-sm-6">上传图片 <sup></sup></label>-->
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12"><textarea class="form-control" rows="3" id="beizhu6" placeholder="备注"></textarea></div>
+                                                    <!--<div class="col-sm-4">
+                                                        <input type="file" class="file" id="img5" accept="image/*">
+                                                        <input type="hidden" id="Nav5" />
+                                                        <input type="hidden" id="Pname5" />
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <p style="margin-top:0px;"><img id="showimg5" style="width:60px;"></p>
+                                                    </div>-->
+                                                </div>
+                                                <div class="form-group">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div id="dropdown1" class="tab-pane">
                                     <div class="form-horizontal" role="form">
 
@@ -1464,6 +1548,7 @@ Purchase: http://wrapbootstrap.com
                                             <button type="submit" id="sendbt1" class="btn btn-darkorange none">保存</button>
                                             <button type="submit" id="sendbt2" class="btn btn-darkorange none">保存</button>
                                             <button type="submit" id="send_file" class="btn btn-darkorange none">保存</button>
+                                            <button type="submit" id="send_openGoods" class="btn btn-darkorange">保存</button>
                                         </div>
                                     </div>
                                 </div>
@@ -1690,6 +1775,42 @@ Purchase: http://wrapbootstrap.com
         </div>
         <!--End Large Modal Templates-->
 
+    <!--放货详情 LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-lg" id="myModal4" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel_Cancel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><span id="mySmallModalLabel_Cancel">放货申请详情</span><span class="bill_preCode" style="padding-left:10px;"></span></h4>
+                </div>
+                <div class="modal-body" style="padding: 20px;">
+                    <div class="form-group">
+                        <div class="col-sm-6">公司名称：<span class="opgo_toCompany"></span></div>
+                        <div class="col-sm-6">申请人/日期：<span class="opgo_addTime"></span></div>
+                        <div class="col-sm-6">放货方式：<span class="opgo_openType"></span></div>
+                        <div class="col-sm-6">放单形式：<span class="opgo_orderType"></span></div>
+                        <div class="col-sm-6">放订单号：<span class="opgo_orderCode_open"></span></div>
+                        <div class="col-sm-6">压订单号：<span class="opgo_orderCode_close"></span></div>
+                        <div class="col-sm-12">备注：<span class="opgo_beizhu"></span></div>
+                    </div>
+                    <div style="clear:both;"></div>
+                    <div class="form-group" style="margin-top:20px;">
+                        <textarea class="form-control" rows="3" id="opetionBeizhu" placeholder="审核备注"></textarea>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="passState">审核通过</button>
+                    <button class="btn btn-danger" id="nopassState">审核不通过</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates--> 
+
     <!--Basic Scripts-->
     <script src="assets/js/jquery-2.0.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
@@ -1724,6 +1845,10 @@ Purchase: http://wrapbootstrap.com
         //          minimumInputLength: 3
         //      });
         $("#crmuser").select2({
+            language: "zh-CN",
+            minimumInputLength: 2
+        });
+        $("#toCompany_6").select2({
             language: "zh-CN",
             minimumInputLength: 2
         });

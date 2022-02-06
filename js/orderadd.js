@@ -14,7 +14,7 @@ var en2 = {
         };
         
 var oTable;
-var filesTable;
+var filesTable, openGoodsTable, openGoodsId;
 var loadTime = new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ");
 
 $(function(){
@@ -73,6 +73,7 @@ $(function(){
 
 	if (Id) {
 	    filesTable = GetFiles()
+	    openGoodsTable = GetOpenGoods()
 	}
 	
 
@@ -194,6 +195,105 @@ $(function(){
 		return table;
 	}
 	
+    /*新增放货申请*/
+	$('#send_openGoods').on('click', function () {
+	    if ($('#toCompany_6').val() == "") {
+	        comModel("请选择公司！")
+	        return
+	    } else {
+	        var parm = {
+	            'state': 1,
+	            'bookingId': Id,
+	            'companyId': companyID,
+	            'userId': userID,
+	            'toCompany': $('#toCompany_6').val(),
+	            'openType': $('#opgo_openType').val(),
+	            'orderCode_open': $('#opgo_orderCode_open').val(),
+	            'orderCode_close': $('#opgo_orderCode_close').val(),
+	            'beizhu': $('#beizhu6').val(),
+	            'orderType': $('#opgo_orderType').val()
+	        }
+	        console.log(parm)
+	        common.ajax_req('POST', false, dataUrl, 'opengoods.ashx?action=new', parm, function (data) {
+	            if (data.State == 1) {
+	                comModel("保存成功")
+	                openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
+	            } else {
+	                comModel("保存失败")
+	            }
+	        }, function (error) {
+	        }, 2000)
+	    }
+	});
+
+    //放货申请列表
+	function GetOpenGoods() {
+	    var table = $("#openGoodsList").dataTable({
+	        //"iDisplayLength":10,
+	        "sAjaxSource": dataUrl + 'ajax/opengoods.ashx?action=read&bookingId=' + Id,
+	        'bPaginate': false,
+	        "bInfo": false,
+	        //		"bDestory": true,
+	        //		"bRetrieve": true,
+	        "bFilter": false,
+	        "bSort": false,
+	        "aaSorting": [[0, "desc"]],
+	        //		"bProcessing": true,
+	        "aoColumns": [
+                { "mDataProp": "comp_name" },
+                { "mDataProp": "opgo_openType" },
+                { "mDataProp": "opgo_orderCode_open" },
+                { "mDataProp": "opgo_orderType" },
+                { "mDataProp": "opgo_orderCode_close" },
+			    {
+			        "mDataProp": "opgo_addTime",
+			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+			            $(nTd).html("申请人：" + oData.addUser + "<br/>申请时间：" + oData.opgo_addTime.substring(0, 10));
+			        }
+			    },
+                			    {
+                			        "mDataProp": "opgo_opetionTime",
+                			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                			            if (oData.opgo_opetionTime!=null) {
+                			                $(nTd).html("审核人：" + oData.checkUser + "<br/>审核时间：" + oData.opgo_opetionTime.substring(0, 10));
+                			            }
+                			        }
+                			    },
+			    {
+			        "mDataProp": "opgo_state",
+			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+			            if (oData.opgo_state == 1) {
+			                $(nTd).html('待审核');
+			            } else if (oData.opgo_state == 2) {
+			                $(nTd).html("审核通过");
+			            } else if (oData.opgo_state == 3) {
+			                $(nTd).html("审核不通过");
+			            }
+			        }
+			    },
+                {
+                    "mDataProp": "opgo_id",
+                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                        if (oData.opgo_state == 1) {
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailOpenGoodsFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteOpenGoodsFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //    .append("<a href='#'>发票</a>")
+                        } else {
+                            $(nTd).html("<a href='javascript:void(0);' onclick='_detailOpenGoodsFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //.append("<a href='javascript:void(0);' onclick='_deleteBillGetFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                            //.append("<a href='javascript:void(0);' onclick='_deleteContactFun(" + sData + ")'>" + get_lan('delete') + "</a><br/>")
+                            //.append("<a href='javascript:void(0);' onclick='_primaryFun(" + sData + ")'>" + get_lan('primary') + "</a>")
+                        }
+
+                    }
+                },
+	        ]
+	    });
+	    return table;
+	}
 
     //文件列表
 	function GetFiles() {
@@ -451,6 +551,15 @@ $(function(){
 		$('#send_file').addClass('none')
 		$('#send1').removeClass('none')
 		$('#isChange').prop("checked", false);
+		$('#send_openGoods').addClass('none')
+	})
+	$('.opentab').on('click', function () {
+	    $('#sendbt1').addClass('none')
+	    $('#sendbt2').addClass('none')
+	    $('#sendcontainer').addClass('none')
+	    $('#send1').addClass('none')
+	    $('#send_file').addClass('none')
+	    $('#send_openGoods').removeClass('none')
 	})
 	$('.filetab').on('click', function () {
 	    $('#sendbt1').addClass('none')
@@ -458,6 +567,7 @@ $(function(){
 	    $('#sendcontainer').addClass('none')
 	    $('#send1').addClass('none')
 	    $('#send_file').removeClass('none')
+	    $('#send_openGoods').addClass('none')
 	})
 	$('.followtab').on('click', function() {
 		$("#FOLLOWLIST").empty()
@@ -524,7 +634,7 @@ $(function(){
 		$('#send1').addClass('none')
 		$('#send_file').addClass('none')
 		$('#sendcontainer').removeClass('none')
-
+		$('#send_openGoods').addClass('none')
 		// $('#selectSamevalueTooltip').tooltip('toggle')
 		// setTimeout(function(){
 		// 	$('#selectSamevalueTooltip').tooltip('hide');
@@ -542,6 +652,7 @@ $(function(){
 		$('#send1').addClass('none')
 		$('#sendcontainer').addClass('none')
 		$('#send_file').addClass('none')
+		$('#send_openGoods').addClass('none')
 		$('.HBLNav').text('新增HBL订单信息')
 
 		$('#isChange').prop("checked", false);
@@ -859,7 +970,8 @@ $(function(){
 		if(_data != null) {
 			for(var i = 0; i < _data.length; i++) {
 			    var _html = '<option value="' + _data[i].comp_id + '" data-adminId=' + _data[i].comp_adminId + ' data-customerId=' + _data[i].comp_customerId + '>' + _data[i].comp_name + '</option>';
-				$('#crmuser').append(_html)
+			    $('#crmuser').append(_html)
+			    $('#toCompany_6').append(_html)
 			}
 		}	
 	}, function(err) {
@@ -1598,6 +1710,7 @@ $(function(){
 			$('#billType').append(_html)
 			$('#billType2').append(_html)
 			$('#billType3').append(_html)
+			$('#opgo_orderType').append(_html)
 		}
 		$("#billType").val('OMBL').trigger("change")
 		$("#billType2").val('OHBL').trigger("change")
@@ -2573,7 +2686,9 @@ $(function(){
     				$("#containerlist3").removeClass('none')
 
     				$('#isChange').prop("checked", false);
-    		
+
+    				$('#send_openGoods').addClass('none')
+
     				billId = $(this).attr('billId')
     				if (action == 'modify') {
     				    loadContainer2(2, billId)
@@ -3822,7 +3937,128 @@ function _deleteFileFun(id) {
 
 
 
+/*放货详情*/
+function _detailOpenGoodsFun(Id) {
+    $("#myModal4").modal("show");
+    $("#opetionBeizhu").val('')
+    openGoodsId = Id
+    common.ajax_req("get", true, dataUrl, "opengoods.ashx?action=readbyid", {
+        "Id": Id
+    }, function (data) {
+        console.log(data.Data)
+        //初始化信息
+        var _data = data.Data
+        $(".opgo_toCompany").text(_data.comp_name)
+        $(".opgo_addTime").text(_data.addUser + "/" + _data.opgo_addTime.substring(0, 10))
+        $(".opgo_openType").text(_data.opgo_openType)
+        $(".opgo_orderType").text(_data.opgo_orderType)
+        $(".opgo_orderCode_open").text(_data.opgo_orderCode_open)
+        $(".opgo_orderCode_close").text(_data.opgo_orderCode_close)
+        $(".opgo_beizhu").text(_data.opgo_beizhu)
 
+        if (_data.opgo_state != 1) {
+            $("#opetionBeizhu").val(_data.opgo_opetionBeizhu)
+            $('#passState').hide()
+            $('#nopassState').hide()
+        } else {
+            $("#opetionBeizhu").val(_data.opgo_opetionBeizhu)
+            $('#passState').show()
+            $('#nopassState').show()
+        }
+
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+}
+
+$('#passState').on('click', function () {
+    var jsonData = {
+        'Id': openGoodsId,
+        'state': 2,
+        'opetionUser': userID,
+        'opetionBeizhu': $("#opetionBeizhu").val()
+    };
+    $.ajax({
+        url: dataUrl + 'ajax/opengoods.ashx?action=modify',
+        data: jsonData,
+        dataType: "json",
+        type: "post",
+        success: function (backdata) {
+            if (backdata.State == 1) {
+                comModel("提交成功！")
+                $("#myModal4").modal("hide");
+                openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
+            } else {
+                comModel("提交失败！")
+                //location.href = 'emailpp_group.html';
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+})
+
+
+$('#nopassState').on('click', function () {
+    var jsonData = {
+        'Id': openGoodsId,
+        'state': 3,
+        'opetionUser': userID,
+        'opetionBeizhu': $("#opetionBeizhu").val()
+    };
+    $.ajax({
+        url: dataUrl + 'ajax/opengoods.ashx?action=modify',
+        data: jsonData,
+        dataType: "json",
+        type: "post",
+        success: function (backdata) {
+            if (backdata.State == 1) {
+                comModel("提交成功！")
+                $("#myModal4").modal("hide");
+                openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
+            } else {
+                comModel("提交失败！")
+                //location.href = 'emailpp_group.html';
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+})
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteOpenGoodsFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/opengoods.ashx?action=cancel',
+                data: {
+                    "Id": id
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
+                    } else {
+                        alert("Delete Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+}
 
 /*
 	add this plug in
