@@ -560,6 +560,7 @@ $(function(){
 	    $('#send1').addClass('none')
 	    $('#send_file').addClass('none')
 	    $('#send_openGoods').removeClass('none')
+	    loadOpenGoods()
 	})
 	$('.filetab').on('click', function () {
 	    $('#sendbt1').addClass('none')
@@ -971,7 +972,6 @@ $(function(){
 			for(var i = 0; i < _data.length; i++) {
 			    var _html = '<option value="' + _data[i].comp_id + '" data-adminId=' + _data[i].comp_adminId + ' data-customerId=' + _data[i].comp_customerId + '>' + _data[i].comp_name + '</option>';
 			    $('#crmuser').append(_html)
-			    $('#toCompany_6').append(_html)
 			}
 		}	
 	}, function(err) {
@@ -3843,6 +3843,91 @@ function GetContainerSum(){
 		(weightNum0_sum > 0 ? ($('#weightNum').val(weightNum0_sum.toFixed(3)) & $("#weight option[value='" + weightNum0_sel + "']").prop("selected", true) & $('#weightShow').val(weightNum0_sum.toFixed(3) + ' ' + weightNum0_sel)) : "");
 	}
 	
+}
+
+//放货初始加载
+function loadOpenGoods() {
+    common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+        "bookingId": Id
+    }, function (data) {
+        console.log(data.Data)
+        if (data.State == 1) {
+            $("#toCompany_6").empty()
+            var _data = data.Data;
+            var _toCompanySettleArr = [], _CompanySettle=[]
+            for (var i = 0; i < _data.length; i++) {
+                if ($.inArray((_data[i].bofe_toCompany + ';' + _data[i].comp_name), _toCompanySettleArr) < 0) {
+                    _toCompanySettleArr.push(_data[i].bofe_toCompany + ';' + _data[i].comp_name);
+                    _htmlCompanySettle = '<option value="' + _data[i].bofe_toCompany + '">' + _data[i].comp_name + '</option>';
+                    _CompanySettle = _CompanySettle + _htmlCompanySettle
+                }
+            }
+            $('#toCompany_6').html('<option value="">请选择</option>' + _CompanySettle);
+        }
+
+    }, function (err) {
+        console.log(err)
+    }, 4000)
+
+
+
+    $("#toCompany_6").on("change", function () {
+        var _code = []
+        common.ajax_req("get", false, dataUrl, "opengoods.ashx?action=read", {
+            "toCompany": $('#toCompany_6').val()
+        }, function (data) {
+            var _data = data.data;
+            for (var i = 0; i < _data.length; i++) {
+                _code.push(_data[i].opgo_orderCode_open);
+                _code.push(_data[i].opgo_orderCode_close);
+            }
+        }, function (err) {
+            console.log(err)
+        }, 4000)
+
+        common.ajax_req("get", false, dataUrl, "booking.ashx?action=read", {
+            "crmId": $('#toCompany_6').val()
+        }, function (data) {
+            if (data.data != null) {
+                $("#opgo_orderCode_open").empty()
+                $("#opgo_orderCode_close").empty()
+                var _data = data.data;
+                var _toCompanySettleArr = [], _CompanySettle = ""
+                _toCompanySettleArr = _code
+                for (var i = 0; i < _data.length; i++) {
+                    //console.log(_data[i].book_orderCode)
+                    if ($.inArray(_data[i].book_orderCode, _toCompanySettleArr) < 0) {
+                        _toCompanySettleArr.push(_data[i].book_orderCode);
+                        _htmlCompanySettle = '<option value="' + _data[i].book_orderCode + '">' + _data[i].book_orderCode + '</option>';
+                        _CompanySettle = _CompanySettle + _htmlCompanySettle
+                    }
+                }
+                $('#opgo_orderCode_open').html('<option value="">请选择</option>' + _CompanySettle);
+                $('#opgo_orderCode_close').html('<option value="">请选择</option>' + _CompanySettle);
+            } else {
+                $('#opgo_orderCode_open').html('<option value="">请选择</option>');
+                $('#opgo_orderCode_close').html('<option value="">请选择</option>');
+            }
+
+
+        }, function (err) {
+            console.log(err)
+        }, 4000)
+
+    })
+
+    $("#opgo_orderCode_open").on("change", function () {
+        $("#opgo_orderCode_close option[value='" + $("#opgo_orderCode_open").val() + "']").hide()
+    })
+
+    $("#opgo_orderCode_close").on("change", function () {
+        if ($("#opgo_orderCode_open").val()=='') {
+            comModel("请先选择放单号")
+            $("#opgo_orderCode_close").val('')
+            return false;
+        }
+    })
+
 }
 
 })

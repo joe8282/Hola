@@ -622,9 +622,9 @@ function initTable(fromId) {
     		        //}, 2000)
 
     		        if (rowData.book_state != 3) {
-    		            return (rowData.book_shoufu_state + "<br/><br/>" + rowData.orderstate_name_cn);
+    		            return (rowData.orderstate_name_cn + "<br/>" + rowData.book_shoufu_state);
     		        } else {
-    		            return (rowData.book_shoufu_state + "<br/><br/>" + "<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>已取消</a>");
+    		            return ("<a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>已取消</a>" + "<br/>" + rowData.book_shoufu_state);
     		        }
     				
     			}    			

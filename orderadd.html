@@ -1142,7 +1142,10 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="col-sm-3">
-                                                        <input type="email" class="form-control" id="opgo_orderCode_open" placeholder="放订单号">
+                                                        <!--<input type="email" class="form-control" id="opgo_orderCode_open" placeholder="放订单号">-->
+                                                        <select id="opgo_orderCode_open" style="width: 100%;">
+                                                            <option value="">请选择</option>
+                                                        </select>
                                                     </div>
                                                     <div class="col-sm-3">
                                                         <select id="opgo_orderType" style="width: 100%;">
@@ -1150,7 +1153,10 @@ Purchase: http://wrapbootstrap.com
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-3">
-                                                        <input type="email" class="form-control" id="opgo_orderCode_close" placeholder="压订单号">
+                                                        <!--<input type="email" class="form-control" id="opgo_orderCode_close" placeholder="压订单号">-->
+                                                        <select id="opgo_orderCode_close" style="width: 100%;">
+                                                            <option value="">请选择</option>
+                                                        </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group no-margin-bottom">
@@ -1848,10 +1854,10 @@ Purchase: http://wrapbootstrap.com
             language: "zh-CN",
             minimumInputLength: 2
         });
-        $("#toCompany_6").select2({
-            language: "zh-CN",
-            minimumInputLength: 2
-        });
+        //$("#toCompany_6").select2({
+        //    language: "zh-CN",
+        //    minimumInputLength: 2
+        //});
         //--Bootstrap Date Picker--
         $('.date-picker').datepicker({
             autoclose: true,
