@@ -1724,6 +1724,7 @@ $(function(){
 		$('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
 //		//单位
 		$('.feeList:last').find('#numUnit').append(_numUnit)
+		$('.feeList:last').find('#numUnit').val($('.feeList').eq(-2).find('#numUnit').val()).trigger("change")
         $('.feeList:last').find('#feeType').val('debit').trigger("change")
         $('.feeList:last').css("background-color", "#b0e0e6")
 
@@ -1804,6 +1805,7 @@ $(function(){
         $('.feeList:last').find('#receiptFeeUnit').append(_feeUnit)
 //      //单位
         $('.feeList:last').find('#numUnit').append(_numUnit)
+        $('.feeList:last').find('#numUnit').val($('.feeList').eq(-2).find('#numUnit').val()).trigger("change")
         $('.feeList:last').find('#feeType').val('credit').trigger("change")
         $('.feeList:last').css("background-color", "pink")
 
