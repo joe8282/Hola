@@ -218,6 +218,7 @@ $(function(){
 	            if (data.State == 1) {
 	                comModel("保存成功")
 	                openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
+	                loadOpenGoods()
 	            } else {
 	                comModel("保存失败")
 	            }
@@ -3853,6 +3854,8 @@ function loadOpenGoods() {
         console.log(data.Data)
         if (data.State == 1) {
             $("#toCompany_6").empty()
+            $("#opgo_orderCode_open").empty()
+            $("#opgo_orderCode_close").empty()
             var _data = data.Data;
             var _toCompanySettleArr = [], _CompanySettle=[]
             for (var i = 0; i < _data.length; i++) {
@@ -4056,64 +4059,6 @@ function _detailOpenGoodsFun(Id) {
     }, 1000)
 }
 
-$('#passState').on('click', function () {
-    var jsonData = {
-        'Id': openGoodsId,
-        'state': 2,
-        'opetionUser': userID,
-        'opetionBeizhu': $("#opetionBeizhu").val()
-    };
-    $.ajax({
-        url: dataUrl + 'ajax/opengoods.ashx?action=modify',
-        data: jsonData,
-        dataType: "json",
-        type: "post",
-        success: function (backdata) {
-            if (backdata.State == 1) {
-                comModel("提交成功！")
-                $("#myModal4").modal("hide");
-                openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
-            } else {
-                comModel("提交失败！")
-                //location.href = 'emailpp_group.html';
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
-
-})
-
-
-$('#nopassState').on('click', function () {
-    var jsonData = {
-        'Id': openGoodsId,
-        'state': 3,
-        'opetionUser': userID,
-        'opetionBeizhu': $("#opetionBeizhu").val()
-    };
-    $.ajax({
-        url: dataUrl + 'ajax/opengoods.ashx?action=modify',
-        data: jsonData,
-        dataType: "json",
-        type: "post",
-        success: function (backdata) {
-            if (backdata.State == 1) {
-                comModel("提交成功！")
-                $("#myModal4").modal("hide");
-                openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
-            } else {
-                comModel("提交失败！")
-                //location.href = 'emailpp_group.html';
-            }
-        },
-        error: function (error) {
-            console.log(error);
-        }
-    });
-
-})
 
 /**
  * 删除
@@ -4133,6 +4078,7 @@ function _deleteOpenGoodsFun(id) {
                 success: function (backdata) {
                     if (backdata.State == 1) {
                         openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
+                        loadOpenGoods()
                     } else {
                         alert("Delete Failed！");
                     }
