@@ -243,9 +243,9 @@ $(function(){
 	        "aoColumns": [
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "opgo_openType" },
-                { "mDataProp": "opgo_orderCode_open" },
+                { "mDataProp": "book_orderCode_open" },
                 { "mDataProp": "opgo_orderType" },
-                { "mDataProp": "opgo_orderCode_close" },
+                { "mDataProp": "book_orderCode_close" },
 			    {
 			        "mDataProp": "opgo_addTime",
 			        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -3901,7 +3901,7 @@ function loadOpenGoods() {
                     //console.log(_data[i].book_orderCode)
                     if ($.inArray(_data[i].book_orderCode, _toCompanySettleArr) < 0) {
                         _toCompanySettleArr.push(_data[i].book_orderCode);
-                        _htmlCompanySettle = '<option value="' + _data[i].book_orderCode + '">' + _data[i].book_orderCode + '</option>';
+                        _htmlCompanySettle = '<option value="' + _data[i].book_id + '">' + _data[i].book_orderCode + '</option>';
                         _CompanySettle = _CompanySettle + _htmlCompanySettle
                     }
                 }
@@ -4040,8 +4040,8 @@ function _detailOpenGoodsFun(Id) {
         $(".opgo_addTime").text(_data.addUser + "/" + _data.opgo_addTime.substring(0, 10))
         $(".opgo_openType").text(_data.opgo_openType)
         $(".opgo_orderType").text(_data.opgo_orderType)
-        $(".opgo_orderCode_open").text(_data.opgo_orderCode_open)
-        $(".opgo_orderCode_close").text(_data.opgo_orderCode_close)
+        $(".opgo_orderCode_open").text(_data.book_orderCode_open)
+        $(".opgo_orderCode_close").text(_data.book_orderCode_close)
         $(".opgo_beizhu").text(_data.opgo_beizhu)
 
         if (_data.opgo_state != 1) {
