@@ -45,7 +45,7 @@ function GetOpenGoods() {
                         {
                             "mDataProp": "comp_name",
                             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                                $(nTd).html(oData.comp_name + "<br/>账期信息：<br/>" + oData.company_period);
+                                $(nTd).html(oData.comp_name + "<br/>" + oData.company_period);
                             }
                         },
             { "mDataProp": "opgo_openType" },
