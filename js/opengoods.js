@@ -45,29 +45,29 @@ function GetOpenGoods() {
                         {
                             "mDataProp": "comp_name",
                             "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                                $(nTd).html(oData.comp_name + "<br/>" + oData.company_period);
+                                $(nTd).html("<a href='crmcompanydetail.html?Id=" + oData.opgo_toCompany + "' target='_blank'>" + oData.comp_name + "</a><br/>" + oData.company_period);
                             }
                         },
             { "mDataProp": "opgo_openType" },
                                     {
-                                        "mDataProp": "opgo_orderCode_open",
+                                        "mDataProp": "book_orderCode_open",
                                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                                             if (oData.book_truePortTime_open != null) {
-                                                $(nTd).html(oData.opgo_orderCode_open + "</br>" + oData.book_port1_open + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_open + "</br>" + oData.book_movementType_open + " / " + oData.book_allContainer_open + "</br>实离港日：" + oData.book_truePortTime_open.substring(0, 10));
+                                                $(nTd).html("<a href='orderadd.html?action=modify&Id="+oData.opgo_orderCode_open+"' target='_blank'>"+oData.book_orderCode_open + "</a></br>" + oData.book_port1_open + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_open + "</br>" + oData.book_movementType_open + " / " + oData.book_allContainer_open + "</br>实离港日：" + oData.book_truePortTime_open.substring(0, 10));
                                             } else {
-                                                $(nTd).html(oData.opgo_orderCode_open + "</br>" + oData.book_port1_open + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_open + "</br>" + oData.book_movementType_open + " / " + oData.book_allContainer_open);
+                                                $(nTd).html("<a href='orderadd.html?action=modify&Id=" + oData.opgo_orderCode_open + "' target='_blank'>" + oData.book_orderCode_open + "</a></br>" + oData.book_port1_open + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_open + "</br>" + oData.book_movementType_open + " / " + oData.book_allContainer_open);
                                             }
                                             
                                         }
                                     },
             { "mDataProp": "opgo_orderType" },
                                     {
-                                        "mDataProp": "opgo_orderCode_close",
+                                        "mDataProp": "book_orderCode_close",
                                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                                             if (oData.book_truePortTime_close != null) {
-                                                $(nTd).html(oData.opgo_orderCode_close + "</br>" + oData.book_port1_close + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_close + "</br>" + oData.book_movementType_close + " / " + oData.book_allContainer_close + "</br>实离港日：" + oData.book_truePortTime_close.substring(0, 10));
+                                                $(nTd).html("<a href='orderadd.html?action=modify&Id=" + oData.opgo_orderCode_close + "' target='_blank'>" + oData.book_orderCode_close + "</a></br>" + oData.book_port1_close + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_close + "</br>" + oData.book_movementType_close + " / " + oData.book_allContainer_close + "</br>实离港日：" + oData.book_truePortTime_close.substring(0, 10));
                                             } else {
-                                                $(nTd).html(oData.opgo_orderCode_close + "</br>" + oData.book_port1_close + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_close + "</br>" + oData.book_movementType_close + " / " + oData.book_allContainer_close);
+                                                $(nTd).html("<a href='orderadd.html?action=modify&Id=" + oData.opgo_orderCode_close + "' target='_blank'>" + oData.book_orderCode_close + "</a></br>" + oData.book_port1_close + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_close + "</br>" + oData.book_movementType_close + " / " + oData.book_allContainer_close);
                                             }
                                         }
                                     },

@@ -3899,8 +3899,8 @@ function loadOpenGoods() {
                 _toCompanySettleArr = _code
                 for (var i = 0; i < _data.length; i++) {
                     //console.log(_data[i].book_orderCode)
-                    if ($.inArray(_data[i].book_orderCode, _toCompanySettleArr) < 0) {
-                        _toCompanySettleArr.push(_data[i].book_orderCode);
+                    if ($.inArray(_data[i].book_id, _toCompanySettleArr) < 0) {
+                        _toCompanySettleArr.push(_data[i].book_id);
                         _htmlCompanySettle = '<option value="' + _data[i].book_id + '">' + _data[i].book_orderCode + '</option>';
                         _CompanySettle = _CompanySettle + _htmlCompanySettle
                     }
