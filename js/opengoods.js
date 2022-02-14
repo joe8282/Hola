@@ -42,11 +42,35 @@ function GetOpenGoods() {
         "aaSorting": [[0, "desc"]],
         //		"bProcessing": true,
         "aoColumns": [
-            { "mDataProp": "comp_name" },
+                        {
+                            "mDataProp": "comp_name",
+                            "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                $(nTd).html(oData.comp_name + "<br/>账期信息：<br/>" + oData.company_period);
+                            }
+                        },
             { "mDataProp": "opgo_openType" },
-            { "mDataProp": "opgo_orderCode_open" },
+                                    {
+                                        "mDataProp": "opgo_orderCode_open",
+                                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                            if (oData.book_truePortTime_open != null) {
+                                                $(nTd).html(oData.opgo_orderCode_open + "</br>" + oData.book_port1_open + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_open + "</br>" + oData.book_movementType_open + " / " + oData.book_allContainer_open + "</br>实离港日：" + oData.book_truePortTime_open.substring(0, 10));
+                                            } else {
+                                                $(nTd).html(oData.opgo_orderCode_open + "</br>" + oData.book_port1_open + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_open + "</br>" + oData.book_movementType_open + " / " + oData.book_allContainer_open);
+                                            }
+                                            
+                                        }
+                                    },
             { "mDataProp": "opgo_orderType" },
-            { "mDataProp": "opgo_orderCode_close" },
+                                    {
+                                        "mDataProp": "opgo_orderCode_close",
+                                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                            if (oData.book_truePortTime_close != null) {
+                                                $(nTd).html(oData.opgo_orderCode_close + "</br>" + oData.book_port1_close + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_close + "</br>" + oData.book_movementType_close + " / " + oData.book_allContainer_close + "</br>实离港日：" + oData.book_truePortTime_close.substring(0, 10));
+                                            } else {
+                                                $(nTd).html(oData.opgo_orderCode_close + "</br>" + oData.book_port1_close + " <i class='fa fa-long-arrow-right'></i> " + oData.book_port2_close + "</br>" + oData.book_movementType_close + " / " + oData.book_allContainer_close);
+                                            }
+                                        }
+                                    },
             {
                 "mDataProp": "opgo_addTime",
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {

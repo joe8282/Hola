@@ -97,7 +97,9 @@ function GetDetail()
 			$('.companyUpdateTime').text(_data.comp_updateTime.substring(0, 19).replace('T',' '))
 			$('.companyRemark').text(_data.comp_remark)
 			var _badgesArr = new Array();
-			_badgesArr=_data.comp_badges.split(";");
+			if (_data.comp_badges != null) {
+			    _badgesArr = _data.comp_badges.split(";");
+			}
 			for(var z=0;z<_badgesArr.length;z++){
 				var appendBadges='<span class="label label-success">'+_badgesArr[z]+'</span> '
 				$('.companyBadges').append(appendBadges)
