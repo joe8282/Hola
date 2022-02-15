@@ -240,6 +240,7 @@ Purchase: http://wrapbootstrap.com
                                     </div>
                                     <div class="header-information companyBadges" style="margin-top: 5px;">
                                     </div>
+                                    <div class="header-information" style="margin-top: 5px; font-size:14px;"><a href="#" id="modifyInvoice" style="color:#ff0000">完善发票信息</a></div>
                                 </div>
                                 <div class="col-lg-5 col-md-12 col-sm-12 col-xs-12 profile-stats">
                                     <div class="row">
@@ -744,6 +745,40 @@ Purchase: http://wrapbootstrap.com
         <!-- Main Container -->
 
     </div>
+
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-sm" id="myOrderCancelModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">完善发票信息</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <form class="form-horizontal" id="resForm00">
+                        <div class="form-group">
+                            <p>名称：<input type="text" id="inputCompanyName" style="width: 80%;"></p>
+                            <p>税号：<input type="text" id="inputTaxID" style="width: 80%;"></p>
+                            <p>地址：<input type="text" id="inputAddress" style="width: 80%;"></p>
+                            <p>银行：<input type="text" id="inputBank" style="width: 80%;"></p>
+                            <p>账号：<input type="text" id="inputAccount" style="width: 80%;"></p>
+                            <p>邮件：<input type="text" id="inputEmail" style="width: 80%;"></p>
+                            <p>电话：<input type="text" id="inputTel" style="width: 80%;"></p>
+                            <p>备注：<input type="text" id="inputBeizhu" style="width: 80%;"></p>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnInvoiceSave" set-lan="html:submit">确定</button>
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">取消</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
 
     <!--Basic Scripts-->
     <script src="assets/js/jquery-2.0.3.min.js"></script>

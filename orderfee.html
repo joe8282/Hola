@@ -551,8 +551,8 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group no-margin-bottom">
                                                     <label for="inputPassword3" class="col-sm-3">提交日期 <sup></sup></label>
-                                                    <label for="inputPassword3" class="col-sm-2">发票随机号码 <sup></sup></label>
                                                     <label for="inputPassword3" class="col-sm-2">发票格式 <sup></sup></label>
+                                                    <label for="inputPassword3" class="col-sm-2">总额 <sup></sup></label>
                                                     <label for="inputPassword3" class="col-sm-2">装港 <sup></sup></label>
                                                     <label for="inputPassword3" class="col-sm-2">卸港 <sup></sup></label>
                                                 </div>
@@ -566,13 +566,13 @@ Purchase: http://wrapbootstrap.com
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <input type="email" class="form-control" id="number" placeholder="">
-                                                    </div>
-                                                    <div class="col-sm-2">
                                                         <select id="iformat" style="width: 100%;">
                                                             <option value="新税务格式">新税务格式</option>
                                                             <option value="新格式">新格式</option>
                                                         </select>
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                        <input type="email" class="form-control" id="number" placeholder="金额">
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <input type="email" class="form-control" id="port1" placeholder="">
@@ -585,24 +585,24 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">发票抬头 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="invoiceTitle" placeholder=""></div>
-                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">邮寄地址 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logisticsAddress" placeholder=""></div>
+                                                    <!--<label for="inputPassword3" class="col-sm-1 control-label no-padding-right">邮寄地址 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logisticsAddress" placeholder=""></div>-->
+                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">联系邮箱 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logisticsContact" placeholder="联系邮箱"></div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">税务登记号 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="invoiceTaxNumber" placeholder=""></div>
-                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">收件人 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logisticsContact" placeholder=""></div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">地址电话 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="invoiceAddressTel" placeholder=""></div>
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">联系电话 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logisticsTel" placeholder=""></div>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">银行信息 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="invoiceBrank" placeholder=""></div>
-                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">发票号码 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="cninvoiceNumber" placeholder=""></div>
+                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">联系地址 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="invoiceAddressTel" placeholder=""></div> 
                                                 </div>
-                                                <div class="form-group">
+                                                <!--<div class="form-group">
+                                                    <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">发票号码 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="cninvoiceNumber" placeholder=""></div>
+                                                </div>-->
+                                                <!--<div class="form-group">
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">快递公司 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logistics" placeholder=""></div>
                                                     <label for="inputPassword3" class="col-sm-1 control-label no-padding-right">寄送单号 <sup></sup></label><div class="col-sm-4"><input type="email" class="form-control" id="logisticsNumber" placeholder=""></div>
-                                                </div>
+                                                </div>-->
                                                 <div class="form-group">
                                                 </div>
                                                 <div class="form-group bordered-top-1 bordered-gray">
@@ -1077,7 +1077,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="form-group">
                             <div class="col-sm-6">结算对象：<span class="invo_toCompany"></span></div>
                             <div class="col-sm-6">提交日期：<span class="invo_addTime"></span></div>
-                            <div class="col-sm-6">发票随机号码：<span class="invo_number"></span></div>
+                            <div class="col-sm-6">金额：<span class="invo_number"></span></div>
                             <div class="col-sm-6">折合币种：<span class="invo_feeUnit"></span></div>
                             <div class="col-sm-6">船名：<span class="invo_vesselName"></span></div>
                             <div class="col-sm-6">航次：<span class="invo_voyage"></span></div>
@@ -1086,13 +1086,13 @@ Purchase: http://wrapbootstrap.com
                             <div class="col-sm-6">卸港：<span class="invo_port2"></span></div>
                             <div class="col-sm-6">发票抬头：<span class="invo_invoiceTitle"></span></div>
                             <div class="col-sm-6">税务登记号：<span class="invo_invoiceTaxNumber"></span></div>
-                            <div class="col-sm-6">邮寄地址：<span class="invo_logisticsAddress"></span></div>
-                            <div class="col-sm-6">收件人：<span class="invo_logisticsContact"></span></div>
-                            <div class="col-sm-6">地址电话：<span class="invo_invoiceAddressTel"></span></div>
+                            <!--<div class="col-sm-6">邮寄地址：<span class="invo_logisticsAddress"></span></div>-->
+                            <div class="col-sm-6">联系邮箱：<span class="invo_logisticsContact"></span></div>
+                            <div class="col-sm-6">联系地址：<span class="invo_invoiceAddressTel"></span></div>
                             <div class="col-sm-6">联系电话：<span class="invo_logisticsTel"></span></div>
                             <div class="col-sm-6">发票号码：<span class="invo_invoiceNumber"></span></div>
-                            <div class="col-sm-6">快递公司：<span class="invo_logistics"></span></div>
-                            <div class="col-sm-6">寄送单号：<span class="invo_logisticsNumber"></span></div>
+                            <!--<div class="col-sm-6">快递公司：<span class="invo_logistics"></span></div>
+                            <div class="col-sm-6">寄送单号：<span class="invo_logisticsNumber"></span></div>-->
                             <div class="col-sm-12">银行信息：<span class="invo_invoiceBrank"></span></div>
                         </div>
                         <div style="clear:both;"></div>

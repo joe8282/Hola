@@ -14,6 +14,7 @@ var en2 = {
 var _feeItemArr = new Array();
 var cancel_type = 1;
 var cancelId = 0;
+var invoiceId = 0;
 $(function(){
     hasPermission('1310'); //权限控制：查看费用管理
     hasPermission('1315');
@@ -833,7 +834,7 @@ $(function(){
             "aoColumns": [
                 { "mDataProp": "comp_name" },
                 { "mDataProp": "book_orderCode" },
-                { "mDataProp": "invo_number" },
+                { "mDataProp": "invo_invoiceNumber" },
                 { "mDataProp": "invo_format" },
 			    {
 			        "mDataProp": "invo_addTime",
@@ -842,7 +843,17 @@ $(function(){
 			        }
 			    },
                 { "mDataProp": "invo_feeUnit" },
-                { "mDataProp": "invo_state" },
+                
+                                    {
+                                        "mDataProp": "invo_state",
+                                        "mRender": function (nTd, sData, oData, iRow, iCol) {
+                                            if (oData.invo_state == 1) {
+                                                return ('未开票');
+                                            } else if (oData.invo_state == 2) {
+                                                return ('已开票');
+                                            } 
+                                        }
+                                    },
                 {
                     "mDataProp": "invo_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -861,6 +872,10 @@ $(function(){
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发票</a>")
                         } else {
+                            var perDetail = perDel = ""
+                            if (isPermission('1316') == 1) {
+                                perDetail = "<a href='javascript:void(0);' onclick='_detailInvoiceFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;"
+                            }
                             $(nTd).html(perDetail)
                                 .append(perDel)
                         }
@@ -2249,6 +2264,7 @@ function _detailBillFun(Id) {
 
 /*发票详情*/
 function _detailInvoiceFun(Id) {
+    invoiceId = Id
     $("#myModal2").modal("show");
     $(".fee_22").empty()
     common.ajax_req("get", true, dataUrl, "invoice.ashx?action=readbyid", {
@@ -2268,14 +2284,22 @@ function _detailInvoiceFun(Id) {
         $(".invo_port2").text(_data.invo_port2)
         $(".invo_invoiceTitle").text(_data.invo_invoiceTitle)
         $(".invo_invoiceTaxNumber").text(_data.invo_invoiceTaxNumber)
-        $(".invo_logisticsAddress").text(_data.invo_logisticsAddress)
+        //$(".invo_logisticsAddress").text(_data.invo_logisticsAddress)
         $(".invo_logisticsContact").text(_data.invo_logisticsContact)
         $(".invo_invoiceAddressTel").text(_data.invo_invoiceAddressTel)
         $(".invo_logisticsTel").text(_data.invo_logisticsTel)
         $(".invo_invoiceBrank").text(_data.invo_invoiceBrank)
         $(".invo_invoiceNumber").text(_data.invo_invoiceNumber)
-        $(".invo_logistics").text(_data.invo_logistics)
-        $(".invo_logisticsNumber").text(_data.invo_logisticsNumber)
+        //$(".invo_logistics").text(_data.invo_logistics)
+        //$(".invo_logisticsNumber").text(_data.invo_logisticsNumber)
+
+        if (_data.invo_state != 1) {
+            $("#invoiceNumber").val(_data.invo_invoiceNumber)
+            $('#invoiceState').hide()
+        } else {
+            $("#invoiceNumber").val(_data.caac_opetionBeizhu)
+            $('#invoiceState').show()
+        }
 
         var arrItem = _data.invo_feeItem.split(',')
         var xuhao = 0;
@@ -2495,6 +2519,35 @@ $('#nopassState').on('click', function () {
                 comModel("提交成功！")
                 $("#myModal4").modal("hide");
                 cancelApplyTable.fnReloadAjax(cancelApplyTable.fnSettings());
+            } else {
+                comModel("提交失败！")
+                //location.href = 'emailpp_group.html';
+            }
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+})
+
+/*确认开票*/
+$('#invoiceState').on('click', function () {
+    var jsonData = {
+        'Id': invoiceId,
+        'state': 2,
+        'invoiceNumber': $('#invoiceNumber').val(),
+    };
+    $.ajax({
+        url: dataUrl + 'ajax/invoice.ashx?action=modify',
+        data: jsonData,
+        dataType: "json",
+        type: "post",
+        success: function (backdata) {
+            if (backdata.State == 1) {
+                comModel("提交成功！")
+                $("#myModal2").modal("hide");
+                invoiceTable.fnReloadAjax(invoiceTable.fnSettings());
             } else {
                 comModel("提交失败！")
                 //location.href = 'emailpp_group.html';

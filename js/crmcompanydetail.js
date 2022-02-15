@@ -15,6 +15,7 @@ var oTable, oblTable, oFollow, oDemand, ogetOrderSum, relatedComTable, filesTabl
 var typeId;
 var Id = GetQueryString('Id');
 var userCompanyId;
+var contact_email = "";
 
 $(document).ready(function() {
 //	initModal();
@@ -36,7 +37,7 @@ $(document).ready(function() {
 	$('.crm2').addClass("active")	
 	$('#title1').text(get_lan('nav_2_5'))
 	$('#title2').text(get_lan('nav_2_5'))
-	$('#mySmallModalLabel').text(get_lan('nav_2_5'))
+	//$('#mySmallModalLabel').text(get_lan('nav_2_5'))
 	
 	$('#send5').hide()
 	
@@ -58,7 +59,67 @@ $(document).ready(function() {
 	$('#send00').hide()
 
 	$('#send77').hide()
-	
+
+	$('#modifyInvoice').on('click', function () {
+	    $("#myOrderCancelModal").modal("show");
+
+	    $('#inputCompanyName').val($('.companyName').text())
+	    $('#inputAddress').val($('.companyAddress').text())
+	    $('#inputEmail').val(contact_email)
+	    $('#inputTel').val($('.companyTel').text())
+
+	    common.ajax_req('Get', true, dataUrl, 'crmcompanyinvoice.ashx?action=readbyid', {
+	        'companyId': userCompanyId
+	    }, function (data) {
+	        if (data.State == 1) {
+	            $('#inputCompanyName').val(data.Data.crin_companyName)
+	            $('#inputAddress').val(data.Data.crin_address)
+	            $('#inputTaxID').val(data.Data.crin_taxID)
+	            $('#inputBank').val(data.Data.crin_bank)
+	            $('#inputAccount').val(data.Data.crin_account)
+	            $('#inputEmail').val(contact_email)
+	            $('#inputTel').val(data.Data.crin_tel)
+	            $('#inputBeizhu').val(data.Data.crin_beizhu)
+	        } else {
+	            $('#inputCompanyName').val($('.companyName').text())
+	            $('#inputAddress').val($('.companyAddress').text())
+	            $('#inputEmail').val(contact_email)
+	            $('#inputTel').val($('.companyTel').text())
+	        }
+	    }, function (error) {
+	        //console.log(parm)
+	    }, 2000)
+
+
+	});
+
+	$('#btnInvoiceSave').on('click', function () {
+
+	    var parm = {
+	        'companyId': userCompanyId,
+	        'beizhu': $('#inputBeizhu').val(),
+	        'userId': userID,
+	        'actionId': companyID,
+	        'companyName': $('#inputCompanyName').val(),
+	        'taxID': $('#inputTaxID').val(),
+	        'address': $('#inputAddress').val(),
+	        'bank': $('#inputBank').val(),
+	        'account': $('#inputAccount').val(),
+	        'email': $('#inputEmail').val(),
+	        'tel': $('#inputTel').val(),
+	    }
+	    common.ajax_req('POST', true, dataUrl, 'crmcompanyinvoice.ashx?action=modify', parm, function (data) {
+	        if (data.State == 1) {
+	            $("#myOrderCancelModal").modal("hide");
+	            comModel("修改发票信息成功")
+	        } else {
+	            $("#myOrderCancelModal").modal("hide");
+	            comModel("修改发票信息失败")
+	        }
+	    }, function (error) {
+	        console.log(parm)
+	    }, 4000)
+	});
 	
 });
 function GetDetail() 
@@ -119,6 +180,9 @@ function GetDetail()
 	}, 2000)
 	
 	$('#send22').hide()
+
+
+
 }
 
 /**
@@ -199,7 +263,8 @@ function GetContact2() {
 				_data[i].coco_facebook?(_htmlFacebook='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_facebook+'</i></div>'):_htmlFacebook="";
 				_data[i].coco_linkedin?(_htmlLinkedin='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_linkedin+'</i></div>'):_htmlLinkedin="";
 				_data[i].coco_qq?(_htmlQq='<div class="databox-text"><i class="stat-icon icon-xlg fa fa-skype" style="font-size: 14px; margin: 5px;"> '+_data[i].coco_qq+'</i></div>'):_htmlQq="";
-				if(_data[i].coco_first==1){
+				if (_data[i].coco_first == 1) {
+				    contact_email = _data[i].coco_email
 					_htmlFirstStyle='background-image: linear-gradient(to right,#f9f499,#fff)';
 				} else {
 				    if (isPermission('1617') != 1) {

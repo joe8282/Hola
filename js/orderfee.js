@@ -1051,7 +1051,7 @@ $(function(){
             //		"bProcessing": true,
             "aoColumns": [
                 { "mDataProp": "comp_name" },
-                { "mDataProp": "invo_number" },
+                { "mDataProp": "invo_invoiceNumber" },
                 { "mDataProp": "invo_format" },
 			    {
 			        "mDataProp": "invo_addTime",
@@ -1060,7 +1060,16 @@ $(function(){
 			        }
 			    },
                 { "mDataProp": "invo_feeUnit" },
-                { "mDataProp": "invo_state" },
+                                    {
+                                        "mDataProp": "invo_state",
+                                        "mRender": function (nTd, sData, oData, iRow, iCol) {
+                                            if (oData.invo_state == 1) {
+                                                return ('未开票');
+                                            } else if (oData.invo_state == 2) {
+                                                return ('已开票');
+                                            }
+                                        }
+                                    },
                 {
                     "mDataProp": "invo_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -1619,6 +1628,31 @@ $(function(){
     })
     $("#toCompany_3").change(function () {
         _getFee3($('#toCompany_3').val())
+
+        common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+            "Id": $('#toCompany_3').val()
+        }, function(data) {
+            //初始化信息;
+            var _data = data.Data;
+            userCompanyId = _data.comp_customerId;
+            common.ajax_req('Get', true, dataUrl, 'crmcompanyinvoice.ashx?action=readbyid', {
+                'companyId': userCompanyId
+            }, function (data) {
+                if (data.State == 1) {
+                    $('#invoiceTitle').val(data.Data.crin_companyName)
+                    $('#invoiceAddressTel').val(data.Data.crin_address)
+                    $('#invoiceTaxNumber').val(data.Data.crin_taxID)
+                    $('#invoiceBrank').val(data.Data.crin_bank)
+                    //$('#inputAccount').val(data.Data.crin_account)
+                    $('#logisticsContact').val(data.Data.crin_email)
+                    $('#logisticsTel').val(data.Data.crin_tel)
+                    //$('#inputBeizhu').val(data.Data.crin_beizhu)
+                }
+            }, function (error) {
+                //console.log(parm)
+            }, 2000)
+        })
+
     })
     $("#toCompany_4").change(function () {
         //if($("#billPayList tbody td").hasClass("dataTables_empty")){
@@ -2988,9 +3022,9 @@ function _detailInvoiceFun(Id) {
         $(".invo_invoiceAddressTel").text(_data.invo_invoiceAddressTel)
         $(".invo_logisticsTel").text(_data.invo_logisticsTel)
         $(".invo_invoiceBrank").text(_data.invo_invoiceBrank)
-        $(".invo_invoiceNumber").text(_data.invo_invoiceNumber)
-        $(".invo_logistics").text(_data.invo_logistics)
-        $(".invo_logisticsNumber").text(_data.invo_logisticsNumber)
+        //$(".invo_invoiceNumber").text(_data.invo_invoiceNumber)
+        //$(".invo_logistics").text(_data.invo_logistics)
+        //$(".invo_logisticsNumber").text(_data.invo_logisticsNumber)
 
         var arrItem = _data.invo_feeItem.split(',')
         var xuhao = 0;

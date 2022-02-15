@@ -379,7 +379,7 @@ Purchase: http://wrapbootstrap.com
                         <div class="form-group">
                             <div class="col-sm-6">结算对象：<span class="invo_toCompany"></span></div>
                             <div class="col-sm-6">提交日期：<span class="invo_addTime"></span></div>
-                            <div class="col-sm-6">发票随机号码：<span class="invo_number"></span></div>
+                            <div class="col-sm-6">金额：<span class="invo_number"></span></div>
                             <div class="col-sm-6">折合币种：<span class="invo_feeUnit"></span></div>
                             <div class="col-sm-6">船名：<span class="invo_vesselName"></span></div>
                             <div class="col-sm-6">航次：<span class="invo_voyage"></span></div>
@@ -388,14 +388,14 @@ Purchase: http://wrapbootstrap.com
                             <div class="col-sm-6">卸港：<span class="invo_port2"></span></div>
                             <div class="col-sm-6">发票抬头：<span class="invo_invoiceTitle"></span></div>
                             <div class="col-sm-6">税务登记号：<span class="invo_invoiceTaxNumber"></span></div>
-                            <div class="col-sm-6">邮寄地址：<span class="invo_logisticsAddress"></span></div>
-                            <div class="col-sm-6">收件人：<span class="invo_logisticsContact"></span></div>
-                            <div class="col-sm-6">地址电话：<span class="invo_invoiceAddressTel"></span></div>
+                            <!--<div class="col-sm-6">邮寄地址：<span class="invo_logisticsAddress"></span></div>-->
+                            <div class="col-sm-6">联系邮箱：<span class="invo_logisticsContact"></span></div>
+                            <div class="col-sm-6">联系地址：<span class="invo_invoiceAddressTel"></span></div>
                             <div class="col-sm-6">联系电话：<span class="invo_logisticsTel"></span></div>
                             <div class="col-sm-6">银行信息：<span class="invo_invoiceBrank"></span></div>
                             <div class="col-sm-6">发票号码：<span class="invo_invoiceNumber"></span></div>
-                            <div class="col-sm-6">快递公司：<span class="invo_logistics"></span></div>
-                            <div class="col-sm-6">寄送单号：<span class="invo_logisticsNumber"></span></div>
+                            <!--<div class="col-sm-6">快递公司：<span class="invo_logistics"></span></div>
+                            <div class="col-sm-6">寄送单号：<span class="invo_logisticsNumber"></span></div>-->
                         </div>
                         <div style="clear:both;"></div>
                         <div class="form-group bordered-top-1 bordered-gray margin-top-20">
@@ -420,6 +420,8 @@ Purchase: http://wrapbootstrap.com
                         <div style="clear:both;"></div>
                     </div>
                     <div class="modal-footer">
+                        <input class="form-control" id="invoiceNumber" style="width:50%;" placeholder="填写发票号码" />
+                        <button class="btn btn-primary" id="invoiceState">确认开票</button>
                         <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true" set-lan="html:cancel">关闭</button>
                     </div>
                 </div>
