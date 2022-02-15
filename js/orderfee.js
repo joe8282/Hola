@@ -3022,7 +3022,7 @@ function _detailInvoiceFun(Id) {
         $(".invo_invoiceAddressTel").text(_data.invo_invoiceAddressTel)
         $(".invo_logisticsTel").text(_data.invo_logisticsTel)
         $(".invo_invoiceBrank").text(_data.invo_invoiceBrank)
-        //$(".invo_invoiceNumber").text(_data.invo_invoiceNumber)
+        $(".invo_invoiceNumber").text(_data.invo_invoiceNumber)
         //$(".invo_logistics").text(_data.invo_logistics)
         //$(".invo_logisticsNumber").text(_data.invo_logisticsNumber)
 
