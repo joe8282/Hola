@@ -1108,9 +1108,9 @@ $(function(){
                             } else if (oData.caac_state == 2) {
                                 return ("<b>已通过未销账</b><br/>审核人：" + oData.usin_name + "<br/>审核时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
                             } else if (oData.caac_state == 3) {
-                                return ("已销账");
+                                return ("<b>已销账</b><br/>处理人：" + oData.usin_name + "<br/>处理时间：" + oData.caac_opetionTime.substring(0, 10));
                             } else if (oData.caac_state == 4) {
-                                return ("已返销");
+                                return ("<b>已返销</b><br/>处理人：" + oData.usin_name + "<br/>处理时间：" + oData.caac_opetionTime.substring(0, 10));
                             } else if (oData.caac_state == 5) {
                                 return ("<b>已取消</b><br/>取消人：" + oData.usin_name + "<br/>取消时间：" + oData.caac_opetionTime.substring(0, 10) + "<br/>备注：" + oData.caac_opetionBeizhu);
                             }
