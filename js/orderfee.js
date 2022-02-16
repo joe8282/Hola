@@ -339,6 +339,42 @@ $(function(){
         //}
     })
 
+    /////计算发票的总额。
+    $('.fee33').delegate("input[name='feeli']", 'click', function () {
+
+        console.log($(this).prop('checked'))
+        if ($("#unit3").val() == '') {
+            comModel("请选择币种")
+            $(this).prop("checked", false)
+            return
+        } else {
+            var value_one = 0
+            var value = $(this).attr("getAllfee");
+            var value_unit = $(this).attr("getUnit")
+            if (value_unit == $("#unit3").val()) {
+                value_one = value_one + value * 1
+            } else {
+                value_one = value_one + value * exchangeRate
+                console.log("11")
+                console.log(exchangeRate)
+            }
+            if ($(this).prop('checked')) {
+                //console.log($(this).parent().parent().find("label:eq(8)").html())
+                $(this).parent().parent().find("label:eq(8)").text(value_one)
+                $(this).attr("getCancelfee", value_one)
+                cancel_all_money = cancel_all_money + value_one
+                $("#number").val(cancel_all_money)
+            } else {
+                $(this).parent().parent().find("label:eq(8)").text('0')
+                $(this).attr("getCancelfee", "0")
+                cancel_all_money = cancel_all_money - value_one
+                $("#number").val(cancel_all_money)
+
+            }
+        }
+
+    })
+
 
     //添加本地 费用列表的结算公司
     $("#toCompanyLocal").select2({
@@ -965,6 +1001,34 @@ $(function(){
         cancel_all_money = 0;
     })
 
+    $("#unit3").change(function () {
+        var opt = $("#unit3").val();
+        if (opt == 'USD') {
+            common.ajax_req("get", true, dataUrl, "exchangerate.ashx?action=readbyowner", {
+                "owner": opt,
+                "other": 'RMB'
+            }, function (data) {
+                if (data.State == 1) {
+                    exchangeRate = data.Data.rate_exchangeRate
+                }
+            })
+        } else if (opt == 'RMB') {
+            common.ajax_req("get", true, dataUrl, "exchangerate.ashx?action=readbyowner", {
+                "owner": opt,
+                "other": 'USD'
+            }, function (data) {
+                if (data.State == 1) {
+                    exchangeRate = data.Data.rate_exchangeRate
+                }
+            })
+        } else {
+            alert("暂时只支持美元、人名币");
+        }
+        $("#number").val(0);
+        $(".fee33 input:checkbox").prop("checked", false);
+        cancel_all_money = 0;
+    })
+
     //账单列表
     function GetBill() {
         var table = $("#example").dataTable({
@@ -1060,6 +1124,7 @@ $(function(){
 			        }
 			    },
                 { "mDataProp": "invo_feeUnit" },
+                { "mDataProp": "invo_number" },
                                     {
                                         "mDataProp": "invo_state",
                                         "mRender": function (nTd, sData, oData, iRow, iCol) {
@@ -2735,7 +2800,7 @@ $(function(){
                 for (var i = 0; i < _data.length; i++) {
                     if (_data[i].bofe_invoiceNumber=="0") {  //20211105 判断该挑费用是否已经有了发票号码
                         var feelist = '<div class="margin-left-40 margin-top-10" style="clear:both;">' +
-                                '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" /></label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="feeli" value="' + _data[i].bofe_id + '" getUnit="' + _data[i].bofe_feeUnit + '" getAllfee="' + _data[i].bofe_allFee + '" getCancelfee="0" /></label>' +
                                 '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].book_orderCode + '</label>' +
                                 '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _getFeeItemFun(_data[i].bofe_feeItem) + '</label>' +
                                 '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_feeUnit + '</label>' +
@@ -2743,10 +2808,11 @@ $(function(){
                                 '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_num + '</label>' +
                                 '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_numUnit + '</label>' +
                                 '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_allFee + '</label>' +
-                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
-                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
-                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
-                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
+                                '<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_cancelMoney + '</label>' +
+                                //'<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptRate + '</label>' +
+                                //'<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_settlementRate + '</label>' +
+                                //'<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFeeUnit + '</label>' +
+                                //'<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">' + _data[i].bofe_receiptFee + '</label>' +
                             '</div>'
                         $(".fee33").prepend(feelist)
                     }
@@ -2892,7 +2958,44 @@ $(function(){
 
 
     });
+    $(".checkAll_invoice").on("click", function () {
+        $("#number").val("0")
+        cancel_all_money = 0
+        if ($(this).prop('checked')) {
+            if ($("#unit3").val() == '') {
+                comModel("请选择币种")
+                $(this).prop("checked", false)
+                return
+            } else {
+                var ck = $("input[name='feeli']").prop("checked", true);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+                $("input[name='feeli']:checked").each(function (i, o) {
+                    var value_one = 0
+                    var value = $(this).attr("getAllfee");
+                    var value_unit = $(this).attr("getUnit")
+                    if (value_unit == $("#unit3").val()) {
+                        value_one = value_one + value * 1
+                    } else {
+                        value_one = value_one + value * exchangeRate
+                    }
+                    //console.log($(this).parent().parent().find("label:eq(8)").html())
+                    $(this).parent().parent().find("label:eq(8)").text(value_one)
+                    $(this).attr("getCancelfee", value_one)
+                    cancel_all_money = cancel_all_money + value_one
+                });
+                $("#number").val(cancel_all_money)
+            }
+        } else {
+            var ck = $("input[name='feeli']").prop("checked", false);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+            $("input[name='feeli']").each(function (i, o) {
+                $(this).parent().parent().find("label:eq(8)").text('0')
+                $(this).attr("getCancelfee", "0")
+            });
+            $("#number").val("0")
+        }
+    });
     $(".checkAll_shoufu").on("click", function () {
+        $("#payPrice5").val("0")
+        cancel_all_money = 0
         if ($(this).prop('checked')) {
             if ($("#cancel_unit").val() == '') {
                 comModel("请选择币种")
@@ -2900,8 +3003,8 @@ $(function(){
                 return
             } else {
                 var ck = $("input[name='feeli']").prop("checked", true);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
-                var value_one = 0
                 $("input[name='feeli']:checked").each(function (i, o) {
+                    var value_one = 0
                     var value = $(this).attr("getAllfee");
                     var value_unit = $(this).attr("getUnit")
                     if (value_unit == $("#cancel_unit").val()) {

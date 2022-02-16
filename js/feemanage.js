@@ -844,6 +844,7 @@ $(function(){
 			        }
 			    },
                 { "mDataProp": "invo_feeUnit" },
+                { "mDataProp": "invo_number" },
                 
                                     {
                                         "mDataProp": "invo_state",

@@ -517,6 +517,7 @@ Purchase: http://wrapbootstrap.com
                                                         <th>发票格式</th>
                                                         <th>提交日期</th>
                                                         <th>折合币种</th>
+                                                        <th>金额</th>
                                                         <th>状态</th>
                                                         <th>操作</th>
                                                     </tr>
@@ -539,7 +540,7 @@ Purchase: http://wrapbootstrap.com
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <select id="unit3" style="width: 100%;">
-                                                            <!--<option value="">请选择</option>-->
+                                                            <option value="">币种</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-2">
@@ -572,7 +573,7 @@ Purchase: http://wrapbootstrap.com
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-2">
-                                                        <input type="email" class="form-control" id="number" placeholder="金额">
+                                                        <input type="email" class="form-control" id="number" placeholder="金额" disabled>
                                                     </div>
                                                     <div class="col-sm-2">
                                                         <input type="email" class="form-control" id="port1" placeholder="">
@@ -607,7 +608,7 @@ Purchase: http://wrapbootstrap.com
                                                 </div>
                                                 <div class="form-group bordered-top-1 bordered-gray">
                                                     <div class="margin-left-40 margin-top-20">
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" class='checkAll'></label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:2%; float: left;"><input type="checkbox" class='checkAll_invoice'></label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">账单号码</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">费用项目</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">币种</label>
@@ -615,10 +616,11 @@ Purchase: http://wrapbootstrap.com
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">数量</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">单位</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">总额</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据汇率</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">计算金额</label>
+                                                        <!--<label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据汇率</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">结算汇率</label>
                                                         <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据币种</label>
-                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据金额</label>
+                                                        <label for="inputPassword3" class="margin-right-10" style="width:6%; float: left;">收据金额</label>-->
                                                     </div>
                                                 </div>
                                                 <div class="form-group fee33">
