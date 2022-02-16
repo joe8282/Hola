@@ -2900,8 +2900,8 @@ $(function(){
                 return
             } else {
                 var ck = $("input[name='feeli']").prop("checked", true);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+                var value_one = 0
                 $("input[name='feeli']:checked").each(function (i, o) {
-                    var value_one = 0
                     var value = $(this).attr("getAllfee");
                     var value_unit = $(this).attr("getUnit")
                     if (value_unit == $("#cancel_unit").val()) {

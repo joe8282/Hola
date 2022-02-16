@@ -60,6 +60,26 @@ $(document).ready(function() {
 
 	$('#send77').hide()
 
+	common.ajax_req('Get', false, dataUrl, 'crmcompanyinvoice.ashx?action=readbyid', {
+	    'companyId': userCompanyId
+	}, function (data) {
+	    if (data.State == 1) {
+	        $('#invoiceInfo').show()
+	        $('#_CompanyName').text(data.Data.crin_companyName)
+	        $('#_Address').text(data.Data.crin_address)
+	        $('#_TaxID').text(data.Data.crin_taxID)
+	        $('#_Bank').text(data.Data.crin_bank)
+	        $('#_Account').text(data.Data.crin_account)
+	        $('#_Email').text(data.Data.crin_email)
+	        $('#_Tel').text(data.Data.crin_tel)
+	        $('#_Beizhu').text(data.Data.crin_beizhu)
+	    } else {
+	        $('#invoiceInfo').hide()
+	    }
+	}, function (error) {
+	    //console.log(parm)
+	}, 2000)
+
 	$('#modifyInvoice').on('click', function () {
 	    $("#myOrderCancelModal").modal("show");
 
@@ -68,7 +88,7 @@ $(document).ready(function() {
 	    $('#inputEmail').val(contact_email)
 	    $('#inputTel').val($('.companyTel').text())
 
-	    common.ajax_req('Get', true, dataUrl, 'crmcompanyinvoice.ashx?action=readbyid', {
+	    common.ajax_req('Get', false, dataUrl, 'crmcompanyinvoice.ashx?action=readbyid', {
 	        'companyId': userCompanyId
 	    }, function (data) {
 	        if (data.State == 1) {
@@ -77,7 +97,7 @@ $(document).ready(function() {
 	            $('#inputTaxID').val(data.Data.crin_taxID)
 	            $('#inputBank').val(data.Data.crin_bank)
 	            $('#inputAccount').val(data.Data.crin_account)
-	            $('#inputEmail').val(contact_email)
+	            $('#inputEmail').val(data.Data.crin_email)
 	            $('#inputTel').val(data.Data.crin_tel)
 	            $('#inputBeizhu').val(data.Data.crin_beizhu)
 	        } else {
@@ -108,13 +128,13 @@ $(document).ready(function() {
 	        'email': $('#inputEmail').val(),
 	        'tel': $('#inputTel').val(),
 	    }
-	    common.ajax_req('POST', true, dataUrl, 'crmcompanyinvoice.ashx?action=modify', parm, function (data) {
+	    common.ajax_req('POST', false, dataUrl, 'crmcompanyinvoice.ashx?action=modify', parm, function (data) {
 	        if (data.State == 1) {
 	            $("#myOrderCancelModal").modal("hide");
-	            comModel("修改发票信息成功")
+	            comModel("修改发票信息成功",true)
 	        } else {
 	            $("#myOrderCancelModal").modal("hide");
-	            comModel("修改发票信息失败")
+	            comModel("修改发票信息失败", true)
 	        }
 	    }, function (error) {
 	        console.log(parm)
@@ -124,7 +144,7 @@ $(document).ready(function() {
 });
 function GetDetail() 
 {
-	common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=readbyid", {
+    common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=readbyid", {
 		"Id": Id
 	}, function(data) {
 		//初始化信息;
@@ -243,7 +263,7 @@ function GetDetail()
 
 function GetContact2() {
 		$(".companyPersons").empty();
-	common.ajax_req("get", true, dataUrl, "crmcompanycontact.ashx?action=readtop", {
+	common.ajax_req("get", false, dataUrl, "crmcompanycontact.ashx?action=readtop", {
 	    "companyId": userCompanyId,
         "actionId": companyID
 	}, function(data) {
