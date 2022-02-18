@@ -1893,6 +1893,7 @@ $(function(){
             language: "zh-CN",
             minimumInputLength: 2
         });
+        $('.feeList:last').find('.toCompany').val($('.feeList').eq(-2).find('.toCompany').val()).trigger("change")
 //      //费用类型
         $('.feeList:last').find('.feeItem').append(_feeItem)
         $("#feeItem"+feeboxAll_len).select2({
