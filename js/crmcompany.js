@@ -97,9 +97,9 @@ function initTable() {
 //				}
 				"render": function(data, type, row) {
 					if(row["comp_isSupplier"]=="1"){
-					    return "<span class='badge badge-primary'>" + row["comp_rank"] + "</span> <a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'>" + row["comp_name"] + "</a> [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i><br/>" + row["comp_contactName"]
+					    return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'>" + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i><br/>" + row["comp_contactName"]
 					}else{
-					    return "<span class='badge badge-primary'>" + row["comp_rank"] + "</span> <a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'> " + row["comp_name"] + "</a> [" + row["comp_code"] + "] <br/>" + row["comp_contactName"]
+					    return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'> " + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "] <br/>" + row["comp_contactName"]
 					}
 					
 				}
