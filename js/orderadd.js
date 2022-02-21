@@ -200,6 +200,12 @@ $(function(){
 	    if ($('#toCompany_6').val() == "") {
 	        comModel("请选择公司！")
 	        return
+	    }else if($('#opgo_orderCode_open').val()==""){
+	        comModel("请选择放订单号！")
+	        return
+	    } else if ($('#opgo_orderCode_close').val() == "") {
+	        comModel("请选择压订单号！")
+	        return
 	    } else {
 	        var parm = {
 	            'state': 1,
