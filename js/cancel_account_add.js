@@ -145,6 +145,8 @@ $(document).ready(function() {
 	//    var ck = $("input[name='checkList']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
 	//});
 	$("#checkAll").on("click", function () {
+	    $("#cancel_money").val('')
+	    cancel_all_money = 0
 	    if ($(this).prop('checked')) {
 	        if ($("#unit").val() == '') {
 	            comModel("请选择币种")
