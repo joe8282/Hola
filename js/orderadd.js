@@ -1721,7 +1721,7 @@ $(function(){
 	}, 1000)
 	
 	//贸易条款
-	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
 		'typeId': 3,
 		'companyId': companyID
 	}, function(data) {
@@ -1735,7 +1735,7 @@ $(function(){
 	}, 1000)
 	
 	//运输方式
-	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
 		'typeId': 7,
 		'companyId': companyID
 	}, function(data) {
@@ -2527,10 +2527,8 @@ $(function(){
     		$("#luruId").val(_data.book_luruId).trigger("change")
     		$("#kefuId").val(_data.book_kefuId).trigger("change")
     		$("#caozuoId").val(_data.book_caozuoId).trigger("change")
-    		$("#movementType").val(_data.book_movementType).trigger("change")
-    	    //$("#incoterm").val(_data.book_incoterm).trigger("change")
-    		$('#movementType').html('<option value="' + _data.book_movementType + '">' + _data.book_movementType + '</option>').trigger("change")
-    		$('#incoterm').html('<option value="' + _data.book_incoterm + '">' + _data.book_incoterm + '</option>').trigger("change")
+    		$("#movementType").val(_data.book_movementType)
+    	    $("#incoterm").val(_data.book_incoterm)
     		//$("#port1").val(_data.book_port1).trigger("change")
     		$('#port1').html('<option value="' + _data.book_port1 + '">' + _data.book_port1 + '</option>').trigger("change")
     		$('#port2').html('<option value="' + _data.book_port2 + '">' + _data.book_port2 + '</option>').trigger("change")
