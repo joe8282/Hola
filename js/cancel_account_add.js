@@ -553,7 +553,7 @@ $(document).ready(function() {
 
 
 	$("#sureSave").on("click", function () {
-	    //$("input[name='checkList']").attr("checked", false)
+	    $("input[name='checkList']").attr("checked", false)
 	    var all_money = 0
 	    Ids = "";
 	    $("input[name='applyli']:checked").each(function (i, o) {
@@ -564,7 +564,7 @@ $(document).ready(function() {
 	        }, function (data) {
 	            var maillist = data.Data.caac_feeItem.split(',')
 	            for (var i = 0; i < maillist.length; i++) {
-	                $("input[name='checkList'][value='" + maillist[i] + "']").attr("checked", true)
+	                $("input[name='checkList'][value='" + maillist[i] + "']").prop("checked", true)
 	            }
 	            all_money += data.Data.caac_money
 	        })
