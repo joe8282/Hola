@@ -224,7 +224,7 @@ Purchase: http://wrapbootstrap.com
                 <div class="page-body">
                 	<div class="widget">
                         <div class="widget-body">
-                            <div style="margin-bottom: 10px;">
+                            <div>
                                 <form class="form-horizontal" role="form">
                                     <div class="form-group">
                                         <label class="col-sm-1 control-label no-padding-right">销账类别</label>
@@ -277,6 +277,7 @@ Purchase: http://wrapbootstrap.com
                                     <button class="btn btn-primary" id="btnAddSave_apply">确定销账</button>
                                 </div>
                             </div>
+                            <div><button class="btn btn-primary" id="btnGetAllApply">合并销账</button></div>
                             <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%" id="zhangdan">
                                 <thead>
                                     <tr class="tableTitle">
@@ -302,6 +303,40 @@ Purchase: http://wrapbootstrap.com
         </div>
         <!-- /Page Container -->
         <!-- Main Container -->
+
+        <!--合并销账 LArge Modal Templates-->
+        <div class="modal fade bs-example-modal-lg" id="myModal5" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel_Cancel_Apply" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">合并销账</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 20px;">
+                        <div class="form-group bordered-top-1 bordered-gray margin-top-20">
+                            <div class="margin-top-10">
+                                <label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"><input type="checkbox" class='checkAll_apply'></label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">销账申请号码</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">银行</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">提交日期</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">币种</label>
+                                <label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">申请销账金额</label>
+                            </div>
+                        </div>
+                        <div class="form-group all_apply">
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" id="sureSave">确认</button>
+                        <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!--End Large Modal Templates--> 
 
     </div>   
 

@@ -14,7 +14,7 @@ var typeId;
 var exchangeRate;
 var cancel_all_money = 0;
 var _feeItemArr = new Array();
-
+var Ids = ""
 $(document).ready(function() {
 //	initModal();
     this.title = get_lan('nav_5_11')
@@ -30,6 +30,7 @@ $(document).ready(function() {
 	$("#btnBackSave").hide();
 	$("#btnBackSave").click(_editSaveFun);
 	$("#btnAddSave_apply").hide();
+	$("#btnGetAllApply").hide();
 	var codeType='';
 	if (feeType == 'credit') {
 	    $("#cancel_type").val(2).trigger("change")
@@ -335,10 +336,11 @@ $(document).ready(function() {
 	$("#btnAddSave_apply").on("click", function () {
 	    var jsonData = {
 	        'Id': Id,
+	        'Ids': Ids,
 	        'state': 3,
 	        'code': $("#code").val(),
 	        'bank': $("#bank").val(),
-	        'opetionUser':userID
+	        'opetionUser': userID
 	    };
 	    $.ajax({
 	        url: dataUrl + 'ajax/cancelaccount.ashx?action=modify',
@@ -423,7 +425,8 @@ $(document).ready(function() {
 	        console.log(err)
 	    }, 5000)
 
-	} else if (action == 'apply') {
+	} else if (action == 'apply') { 
+	    $("#btnGetAllApply").show();
 	    $("#btnAddSave").hide();
 	    $("#btnAddSave_apply").show();
 	    $('input,textarea').prop('disabled', true);
@@ -481,12 +484,96 @@ $(document).ready(function() {
 	            //} else {
 	            //    $("#btnBackSave").show(); // 2021-10-15 DANIEL修改：计算完后才显示这个按钮
 	            //}
-	        }, 2000)
+	        }, 500)
 
 	    }, function (err) {
 	        console.log(err)
 	    }, 5000)
 	}
+
+
+	$("#btnGetAllApply").on("click", function () {
+	    $("#myModal5").modal("show");
+	    $(".all_apply").empty()
+	    $('.checkAll_apply').prop('checked', false);
+	    var jsonData = {
+	        'state': 2,
+	        'preCode': 'has',
+	        'typeId': $('#cancel_type').val(),
+	        'companyId': companyID,
+	        'toCompany': toCompany,
+	        'currency': $('#unit').val(),
+	    };
+	    $.ajax({
+	        url: dataUrl + '/ajax/cancelaccount.ashx?action=read',
+	        data: jsonData,
+	        dataType: "json",
+	        type: "get",
+	        success: function (backdata) {
+	            var _data = backdata.data;
+	            for (var i = 0; i < _data.length; i++) {
+	                var _html = ""
+	                if (_data[i].caac_id == Id) {
+	                    _html = '<div class="margin-top-10" style="clear:both;"><label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="applyli" value="' + _data[i].caac_id + '" disabled checked></label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].caac_preCode + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].rema_type + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].caac_addTime.substring(0, 10) + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].caac_currency + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].caac_money + '</label></div>'
+	                } else {
+	                    _html = '<div class="margin-top-10" style="clear:both;"><label for="inputPassword3" class="margin-right-10" style="width:5%; float: left;"><input type="checkbox" style="margin:0px; padding:0px;" name="applyli" value="' + _data[i].caac_id + '"></label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].caac_preCode + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].rema_type + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].caac_addTime.substring(0, 10) + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].caac_currency + '</label>'
+                            + '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].caac_money + '</label></div>'
+	                }
+	                $(".all_apply").prepend(_html)
+	            }
+	            if (Ids != "") {
+	                var maillist = Ids.split(',')
+	                for (var i = 0; i < maillist.length - 1; i++) {
+	                    $("input[name='applyli'][value='" + maillist[i] + "']").attr("checked", true)
+	                }
+	            }
+
+	        },
+	        error: function (error) {
+	            console.log(error);
+	        }
+	    });
+
+	    $('#myModal5 input').prop('disabled', false);
+	})
+
+	$(".checkAll_apply").on("click", function () {
+	    var xz = $(this).prop("checked");//判断全选按钮的选中状态
+	    var ck = $("input[name='applyli']").prop("checked", xz);  //让class名为qx的选项的选中状态和全选按钮的选中状态一致。
+	})
+
+
+	$("#sureSave").on("click", function () {
+	    //$("input[name='checkList']").attr("checked", false)
+	    var all_money = 0
+	    Ids = "";
+	    $("input[name='applyli']:checked").each(function (i, o) {
+	        Ids += $(this).val();
+	        Ids += ",";
+	        common.ajax_req("get", false, dataUrl, "cancelaccount.ashx?action=readbyid", {
+	            "Id": $(this).val()
+	        }, function (data) {
+	            var maillist = data.Data.caac_feeItem.split(',')
+	            for (var i = 0; i < maillist.length; i++) {
+	                $("input[name='checkList'][value='" + maillist[i] + "']").attr("checked", true)
+	            }
+	            all_money += data.Data.caac_money
+	        })
+	    });
+	    $("#cancel_money").val(all_money)
+	    $("#myModal5").modal("hide");
+
+
+	})
 
 });
 
@@ -747,8 +834,6 @@ function _checkFun(obj, iRow) {
 
     
 }
-
-
 
 /*
 add this plug in
