@@ -419,7 +419,8 @@ function _setCrmRoleFun() {
     }, 1000)
 
     common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
-        "companyId": companyID
+        "companyId": companyID,
+        "state": 0
     }, function (data) {
         console.log(data.data)
         var _data = data.data
