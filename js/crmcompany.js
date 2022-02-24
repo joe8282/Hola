@@ -22,14 +22,23 @@ var typeId;
 $(document).ready(function() {
     //	initModal();
 
-	if (GetQueryString('type')) {
-		hasPermission('1601'); //权限控制
-	    this.title = get_lan('nav_2_2')
-	    $('.navli2').addClass("active open")
-	    $('.crm2').addClass("active")
-	    $('#title1').text(get_lan('nav_2_2'))
-	    $('#title2').text(get_lan('nav_2_2'))
-	    $('#mySmallModalLabel').text(get_lan('nav_2_2'))
+    if (GetQueryString('type') == 'myselft') {
+        hasPermission('1601'); //权限控制
+        this.title = get_lan('nav_2_2')
+        $('.navli2').addClass("active open")
+        $('.crm2').addClass("active")
+        $('#title1').text(get_lan('nav_2_2'))
+        $('#title2').text(get_lan('nav_2_2'))
+        $('#mySmallModalLabel').text(get_lan('nav_2_2'))
+    }else if (GetQueryString('type') == 'isSupplier') {
+        hasPermission('1618'); //权限控制
+        //	initModal();
+        this.title = get_lan('nav_2_3')
+        $('.navli2').addClass("active open")
+        $('.crm3').addClass("active")	
+        $('#title1').text(get_lan('nav_2_3'))
+        $('#title2').text(get_lan('nav_2_3'))
+        $('#mySmallModalLabel').text(get_lan('nav_2_3'))
 	} else {
 		hasPermission('1618'); //权限控制
 	    this.title = get_lan('nav_2_0')
@@ -63,9 +72,11 @@ function initTable() {
     });
 
     var tourl = ''
-    if (GetQueryString('type')) {
+    if (GetQueryString('type') == 'myselft') {
         tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID + '&state=0'
-    } else {
+    } else if (GetQueryString('type') == 'isSupplier') {
+        tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&isSupplier=1'
+    }else {
         tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&state=0'
     }
     
