@@ -189,16 +189,16 @@ var permissionData = [{
 	    text: "查看财务管理-删除发票"
 	}, {
 	    value: "1318",  //feemanage.html  JOE
-	    text: "查看财务管理-付款列表"
+	    text: "查看财务管理-应收销账申请管理"
 	}, {
 	    value: "1319",  //feemanage.html  JOE
-	    text: "查看财务管理-删除付款"
+	    text: "查看财务管理-应收销账申请详情"
 	}, {
 	    value: "1320",  //feemanage.html  JOE
-	    text: "查看财务管理-收款列表"
+	    text: "查看财务管理-应付销账申请管理"
 	}, {
 	    value: "1321",  //feemanage.html  JOE
-	    text: "查看财务管理-删除收款"
+	    text: "查看财务管理-应付销账申请收款"
 	}, {
 	    value: "1322", //receivable_report.html  已设置 20210601
 		text: "查看应收报表"
@@ -217,6 +217,15 @@ var permissionData = [{
 	}, {
 	    value: "1327", //financial_statement.html  JOE
 		text: "打印对账通知单"
+	}, {
+	    value: "1328", //financial_statement.html  JOE
+	    text: "销账管理"
+	}, {
+	    value: "1329", //financial_statement.html  JOE
+	    text: "销账记录"
+	}, {
+	    value: "1330", //financial_statement.html  JOE
+	    text: "账期管理"
 	}]
 }, {
 	value: '14',
@@ -364,6 +373,9 @@ var permissionData = [{
 	}, {
 	    value: "1617",//crmcompanydetail.html  JOE
 		text: "设置主要联系人"
+	}, {
+	    value: "1618",//crmcompanydetail.html  JOE
+	    text: "审核客户"
 	}]
 }, {
 	value: '17',
@@ -434,5 +446,8 @@ var permissionData = [{
 	}, {
 	    value: "1722", //profit_report.html  JOE
 		text: "打印利润报表"
+	}, {
+	    value: "1723", //profit_report.html  JOE
+	    text: "放货管理"
 	}]
 }]

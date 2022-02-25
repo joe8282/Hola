@@ -23,7 +23,7 @@ var _feeItemArr = new Array();
 $(document).ready(function() {
     //	initModal();
 
-    //hasPermission('1601'); //权限控制
+    hasPermission('1328'); //权限控制
     this.title = get_lan('nav_5_11')
     $('.navli5').addClass("active open")
     $('.financial11').addClass("active")

@@ -190,16 +190,19 @@ function initTable() {
 				        perSend = "<li><a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a></li>"
 				    }
 				    var stateString = ""
-				    if (GetQueryString('type') == null) {
-				        if (rowData.comp_state == 1) {
-				            stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",2," + '"确认审核通过？"' + ")'>" + get_lan('check_pass') + "</a></li><li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",4," + '"确认审核不通过？"' + ")'>" + get_lan('check_no_pass') + "</a></li>"
-				        } else if (rowData.comp_state == 2) {
-				            stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",3," + '"确认停用？"' + ")'>" + get_lan('stop') + "</a></li>"
-				        } else if (rowData.comp_state == 3) {
-				            stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",2," + '"确认启动？"' + ")'>" + get_lan('start') + "</a></li>"
+				    if (isPermission('1605') == 1) {
+				        if (GetQueryString('type') == null) {
+				            if (rowData.comp_state == 1) {
+				                stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",2," + '"确认审核通过？"' + ")'>" + get_lan('check_pass') + "</a></li><li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",4," + '"确认审核不通过？"' + ")'>" + get_lan('check_no_pass') + "</a></li>"
+				            } else if (rowData.comp_state == 2) {
+				                stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",3," + '"确认停用？"' + ")'>" + get_lan('stop') + "</a></li>"
+				            } else if (rowData.comp_state == 3) {
+				                stateString = "<li><a href='javascript:void(0);' onclick='_stateFun(" + rowData.comp_id + ",2," + '"确认启动？"' + ")'>" + get_lan('start') + "</a></li>"
+				            }
+
 				        }
-				        
 				    }
+
 	    			$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='crmcompanydetail.html?Id="+rowData.comp_id +"'> " + get_lan('follow') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"

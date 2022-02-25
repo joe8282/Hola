@@ -22,7 +22,7 @@ var typeId;
 $(document).ready(function() {
     //	initModal();
 
-    //hasPermission('1601'); //权限控制
+    hasPermission('1330'); //权限控制
     this.title = get_lan('nav_5_14')
     $('.navli5').addClass("active open")
     $('.financial14').addClass("active")

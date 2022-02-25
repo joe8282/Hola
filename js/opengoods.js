@@ -13,7 +13,7 @@ var en2 = {
 var oTable;
 
 $(document).ready(function() {
-    //hasPermission('1306'); //权限控制：
+    hasPermission('1723'); //权限控制：
     //if (isPermission('1307') != 1) {
     //    $('#addFun').hide()
     //}

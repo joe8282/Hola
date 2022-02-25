@@ -604,7 +604,7 @@ function initTable(toCompany, action, feeType) {
             				{
             				    "mDataProp": "bofe_id",
             				    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-            				        $(nTd).html("<input type='checkbox' name='checkList' onclick='_checkFun(this," + iRow + ")' getUnit='" + oData.bofe_feeUnit + "' getAllfee='" + oData.bofe_allFee + "' getCancelfee='0' value='" + sData + "'>");
+            				        $(nTd).html("<input type='checkbox' name='checkList' class='input_fee' onclick='_checkFun(this," + iRow + ")' getUnit='" + oData.bofe_feeUnit + "' getAllfee='" + oData.bofe_allFee + "' getCancelfee='0' value='" + sData + "'>");
             				    }
             				},
                             {
@@ -790,9 +790,12 @@ function _checkFun(obj, iRow) {
         comModel("请选择币种")
         obj.checked = false
     } else {
+        console.log(obj.closest("tr"))
         //console.log(exchangeRate)
         //console.log(obj.checked)
         //console.log(iRow)
+        var tr = obj.closest("tr")
+        //console.log($(tr).find('td:eq(5)').text())
         var value_one = 0
         // var value = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(4)").text()
         // var value_unit = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(3)").text()
@@ -812,8 +815,11 @@ function _checkFun(obj, iRow) {
         //     $("#cancel_money").val(cancel_all_money)
             
         // }
-        var value = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(5)").text()
-        var value_unit = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(4)").text()
+
+        //var value = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(5)").text()
+        //var value_unit = $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(4)").text()
+        var value = $(tr).find("td:eq(5)").text()
+        var value_unit = $(tr).find("td:eq(4)").text()
         if (value_unit == $("#unit").val()) {
             value_one = value_one + value * 1
         } else {
@@ -821,11 +827,11 @@ function _checkFun(obj, iRow) {
         }
         
         if (obj.checked) {
-            $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(6)").text(value_one)
+            $(tr).find("td:eq(6)").text(value_one)
             cancel_all_money = cancel_all_money + value_one
             $("#cancel_money").val(cancel_all_money)
         } else {
-            $("#zhangdan>tbody>tr:eq(" + iRow + ")").find("td:eq(6)").text('')
+            $(tr).find("td:eq(6)").text('')
             cancel_all_money = cancel_all_money - value_one
             $("#cancel_money").val(cancel_all_money)
             
