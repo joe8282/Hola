@@ -35,7 +35,9 @@ $(function(){
 //		_selectBill(crmCompanyId)
 //	}
 
-	//var Id = GetQueryString('Id');
+    //var Id = GetQueryString('Id');
+
+
     var _toCompany='',_feeItem='',_feeUnit='',_numUnit='';
     
     var _toCompanySettleArr=new Array();
@@ -1488,6 +1490,38 @@ $(function(){
     //    $('#send_file').addClass('none')
     //    $('#send_invoice').addClass('none')
     //})
+
+    var to = GetQueryString('to')
+    if (to == '4') {
+        $('#send_invoice').removeClass('none')
+        $('#send_shoufu').addClass('none')
+        $('#send_bill').addClass('none')
+        $('#send_bill_pay').addClass('none')
+        $('#send_bill_get').addClass('none')
+        $('#send_bill_gys').addClass('none')
+        $('#send_file').addClass('none')
+
+        $('#unit3').append(_feeUnit)
+    } else if (to == '5') {
+        $('#send_bill_get').removeClass('none')
+        $('#send_shoufu').addClass('none')
+        $('#send_bill').addClass('none')
+        $('#send_bill_pay').addClass('none')
+        $('#send_bill_gys').addClass('none')
+        $('#send_file').addClass('none')
+        cancel_type = 1
+        cancelApplyTable = GetCancelApply()
+    } else if (to == '6') {
+        $('#send_bill_get').removeClass('none')
+        $('#send_shoufu').addClass('none')
+        $('#send_bill').addClass('none')
+        $('#send_bill_pay').addClass('none')
+        $('#send_bill_gys').addClass('none')
+        $('#send_file').addClass('none')
+        cancel_type = 2
+        cancelApplyTable = GetCancelApply()
+    }
+
     $('.billtab').on('click', function () {
         $('#send_bill').removeClass('none')
         $('#send_shoufu').addClass('none')

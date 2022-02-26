@@ -1749,7 +1749,7 @@ a:active {
 }
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-messages {
  width:300px;
- padding-top:10px
+ padding-top:0px
 }
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-messages li {
  border-bottom:1px solid #f3f3f3
@@ -1763,7 +1763,7 @@ a:active {
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-messages li .message {
  display:inline-block;
  position:relative;
- width:225px
+ width:280px
 }
 .navbar .navbar-inner .navbar-header .navbar-account .account-area>li .dropdown-menu.dropdown-messages li .message span {
  display:block
