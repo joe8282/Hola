@@ -1101,7 +1101,7 @@ function initTable(fromId) {
              oTable.fnReloadAjax(oTable.fnSettings());
          } else {
              $("#myOrderCancelModal").modal("hide");
-             comModel("取消失败")
+             comModel(data.Data)
              oTable.fnReloadAjax(oTable.fnSettings());
          }
      }, function (error) {
