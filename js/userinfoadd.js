@@ -9,6 +9,8 @@ var en2 = {
             "con_top_2" : "System Management",       
         };
 
+var Id = GetQueryString('Id');
+var action = GetQueryString('action');
 $(function(){
 	this.title = get_lan('nav_0_3')
 	$('.navli0').addClass("active open")
@@ -21,8 +23,7 @@ $(function(){
 	$('#permissionModify2').hide()
 	$('#data_permissionModify1').hide()
 	$('#data_permissionModify2').hide()
-	var Id = GetQueryString('Id');
-	var action = GetQueryString('action');	
+
 	var CompanyName, CompanyRemark, CompanyDepartmentId, CompanyCode, CompanyPosition, CompanyTel, CompanyPhone, CompanyEmail,CompanySalary, CompanyWelfare,CreateTime, CancelTime, AccountPw;
 	var departmentData;
 
