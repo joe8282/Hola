@@ -31,11 +31,22 @@ $(function(){
     //转化保存为PDF
 	var downPdf = document.getElementById("glyphicon-save");
 	downPdf.onclick = function () {
+	    //html2canvas(document.getElementById('printContent'), {
+	    //    dpi: 300,
+	    //    scale:2,
+	    //    onrendered: function (canvas) {
+	    //        document.body.appendChild(canvas);
+	    //    },
+	    //    // width: 300,
+	    //    // height: 300
+	    //});
+
 		$('#page-body').width("592.28pt");
 	    html2canvas(
                 document.getElementById("printContent"),
                 {
                     dpi: 300,//导出pdf清晰度
+                    useCORS: true, // 【重要】开启跨域配置
                     onrendered: function (canvas) {
                         var contentWidth = canvas.width;
                         var contentHeight = canvas.height;
@@ -73,7 +84,8 @@ $(function(){
                     //背景设为白色（默认为黑色）
                     background: "#FBFBFB"
                 })
-		$('#page-body').width("auto");
+	    $('#page-body').width("auto");
+
 	}
 
 	var Id = GetQueryString('cancel_Id');
