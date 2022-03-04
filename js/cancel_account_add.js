@@ -239,6 +239,7 @@ $(document).ready(function() {
 	})
 
 	$("#btnAddSave").on("click", function () {
+	    $("#btnAddSave").hide();
 	    var str = '';
 	    $("input[name='checkList']:checked").each(function (i, o) {
 	        str += $(this).val();
@@ -293,6 +294,7 @@ $(document).ready(function() {
 	                    location.href = 'cancel_account.html';
 	                } else {
 	                    comModel("提交失败！")
+	                    $("#btnAddSave").show()
 	                    //location.href = 'emailpp_group.html';
 	                }
 	            },
@@ -334,6 +336,7 @@ $(document).ready(function() {
 	});
 
 	$("#btnAddSave_apply").on("click", function () {
+	    $("#btnAddSave_apply").hide();
 	    var jsonData = {
 	        'Id': Id,
 	        'Ids': Ids,
@@ -353,6 +356,7 @@ $(document).ready(function() {
 	                location.href = 'cancel_account.html';
 	            } else {
 	                comModel("提交失败！")
+	                $("#btnAddSave_apply").show();
 	                //location.href = 'emailpp_group.html';
 	            }
 	        },
