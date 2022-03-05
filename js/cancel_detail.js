@@ -11,7 +11,7 @@ var en2 = {
 
 var _feeItemArr = new Array();
 var _tomail = ''
-
+var bookingId = 0;
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -97,13 +97,14 @@ $(function(){
 	    console.log(data.Data)
 	    //初始化信息
 	    var _data = data.Data
+	    bookingId = _data.caac_bookingId;
 
 	    //var _data2 = data.Data2
 	    //alert(_data.bill_companyId)
 	    getUserCompany(_data.caac_companyId);
 	    getToCompany(_data.caac_toCompany);
 	    getShpmInfo(_data.caac_bookingId);
-	    loadContainer(1, _data.caac_bookingId)
+	    loadContainer(1, _data.caac_bookingId);
 	    if (_data.caac_typeId == 1) {
 	        $('.debitOrCre').text("收款申请");
 	        typeText = "收款申请"
@@ -348,11 +349,11 @@ function printContent(){
                                 //$('#Nav').val(ret.Nav);
                                 $('#Pname').val(ret.Pname);
                                 var parm = {
-                                    'bookingId': 149, //按实际修改
-                                    'companyId': 4, //按实际修改
+                                    'bookingId': bookingId, //按实际修改
+                                    'companyId': companyID, //按实际修改
                                     'userId': userID,
-                                    'typeId': 1,
-                                    'name': '打印保存图片', //按实际修改
+                                    'typeId': 2,
+                                    'name': '销账导出详细文件', //按实际修改
                                     'nav': ret.Nav,
                                     "url": ret.Pname,
 

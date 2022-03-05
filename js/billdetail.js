@@ -11,7 +11,7 @@ var en2 = {
 
 var _feeItemArr = new Array();
 var _tomail = ''
-
+var bookingId = 0;
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -68,7 +68,35 @@ $(function(){
                                 }
                             }
                         }
-                        pdf.save('content.pdf');
+                        // ajax 上传文件 
+                        $.post(dataUrl + "ajax/uploadFile.ashx", { files: pdf, companyId: companyID }, function (ret) {
+                            if (ret.State == '100') {
+                                //$('#Nav').val(ret.Nav);
+                                var parm = {
+                                    'bookingId': bookingId, //按实际修改
+                                    'companyId': companyID, //按实际修改
+                                    'userId': userID,
+                                    'typeId': 1,
+                                    'name': '账单导出详细文件', //按实际修改
+                                    'nav': ret.Nav,
+                                    "url": ret.Pname,
+
+                                }
+                                console.log(parm)
+                                common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
+                                    if (data.State == 1) {
+                                        comModel("成功")
+                                    } else {
+                                        comModel("失败")
+                                    }
+                                }, function (error) {
+                                }, 2000)
+                            } else {
+                                alert('上传失败');
+                            }
+                        }, 'json');
+
+                        pdf.save(ret.Pname);
                     },
                     //背景设为白色（默认为黑色）
                     background: "#FBFBFB"
@@ -85,7 +113,7 @@ $(function(){
 	    console.log(data.Data)
 	    //初始化信息
 	    var _data = data.Data
-
+	    bookingId = _data.caac_bookingId;
 	    //var _data2 = data.Data2
 	    //alert(_data.bill_companyId)
 	    getUserCompany(_data.bill_companyId);
@@ -324,11 +352,11 @@ function printContent(){
                                 //$('#Nav').val(ret.Nav);
                                 $('#Pname').val(ret.Pname);
                                 var parm = {
-                                    'bookingId': 149, //按实际修改
-                                    'companyId': 4, //按实际修改
+                                    'bookingId': bookingId, //按实际修改
+                                    'companyId': companyID, //按实际修改
                                     'userId': userID,
                                     'typeId': 1,
-                                    'name': '打印保存图片', //按实际修改
+                                    'name': '账单导出详细文件', //按实际修改
                                     'nav': ret.Nav,
                                     "url": ret.Pname,
 

@@ -8,6 +8,7 @@ var en2 = {
     "con_top_1": "Home",
     "con_top_2": "Rates MANAGEMENT",
 };
+var Id = GetQueryString('Id');
 
 $(function(){
     hasPermission('1304'); //权限控制：查看费用详细清单	
@@ -68,8 +69,6 @@ $(function(){
                 })
 	    $('#page-body').width("auto");
 	}
-	
-	var Id = GetQueryString('Id');
 
 	common.ajax_req("get", false, dataUrl, "pricesheet.ashx?action=readbyid", {
 	    "Id": Id
@@ -216,11 +215,11 @@ function printContent() {
                             //$('#Nav').val(ret.Nav);
                             $('#Pname').val(ret.Pname);
                             var parm = {
-                                'bookingId': 149, //按实际修改
-                                'companyId': 4, //按实际修改
+                                'bookingId': Id, //按实际修改
+                                'companyId': companyID, //按实际修改
                                 'userId': userID,
-                                'typeId': 1,
-                                'name': '打印保存图片', //按实际修改
+                                'typeId': 3,
+                                'name': '报价单导出详细文件', //按实际修改
                                 'nav': ret.Nav,
                                 "url": ret.Pname,
 
