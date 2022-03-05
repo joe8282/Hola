@@ -72,7 +72,6 @@ $(function(){
                         // ajax 上传文件 
                         $.post(dataUrl + "ajax/uploadFile2.ashx", { filename: pdfData, companyId: companyID }, function (ret) {
                             if (ret.State == '100') {
-                                //$('#Nav').val(ret.Nav);
                                 var parm = {
                                     'bookingId': bookingId, //按实际修改
                                     'companyId': companyID, //按实际修改
@@ -114,7 +113,7 @@ $(function(){
 	    console.log(data.Data)
 	    //初始化信息
 	    var _data = data.Data
-	    bookingId = _data.caac_bookingId;
+	    bookingId = _data.bill_bookingId;
 	    //var _data2 = data.Data2
 	    //alert(_data.bill_companyId)
 	    getUserCompany(_data.bill_companyId);
@@ -333,8 +332,6 @@ function printContent(){
                         // ajax 上传图片  
                         $.post(dataUrl + "ajax/uploadPic.ashx", { image: url, companyId: companyID }, function (ret) {
                             if (ret.State == '100') {
-                                //$('#Nav').val(ret.Nav);
-                                $('#Pname').val(ret.Pname);
                                 var parm = {
                                     'bookingId': bookingId, //按实际修改
                                     'companyId': companyID, //按实际修改
