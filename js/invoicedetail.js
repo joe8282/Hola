@@ -86,6 +86,7 @@ $(function(){
                                 common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
                                     if (data.State == 1) {
                                         comModel("成功")
+                                        pdf.save(ret.Pname);
                                     } else {
                                         comModel("失败")
                                     }
@@ -95,8 +96,6 @@ $(function(){
                                 alert('上传失败');
                             }
                         }, 'json');
-
-                        pdf.save(ret.Pname);
                     },
                     //背景设为白色（默认为黑色）
                     background: "#FBFBFB"
