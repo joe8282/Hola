@@ -62,7 +62,34 @@ $(function(){
                                 }
                             }
                         }
-                        pdf.save('content.pdf');
+                        var pdfData = pdf.output('datauristring')
+                        // ajax 上传文件 
+                        $.post(dataUrl + "ajax/uploadFile2.ashx", { filename: pdfData, companyId: companyID }, function (ret) {
+                            if (ret.State == '100') {
+                                var parm = {
+                                    'bookingId': Id, //按实际修改
+                                    'companyId': companyID, //按实际修改
+                                    'userId': userID,
+                                    'typeId': 3,
+                                    'name': '报价单导出详细文件', //按实际修改
+                                    'nav': ret.Nav,
+                                    "url": ret.Pname,
+
+                                }
+                                console.log(parm)
+                                common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
+                                    if (data.State == 1) {
+                                        comModel("成功")
+                                        pdf.save(ret.Pname);
+                                    } else {
+                                        comModel("失败")
+                                    }
+                                }, function (error) {
+                                }, 2000)
+                            } else {
+                                alert('上传失败');
+                            }
+                        }, 'json');
                     },
                     //背景设为白色（默认为黑色）
                     background: "#FBFBFB"
