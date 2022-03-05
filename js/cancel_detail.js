@@ -366,42 +366,42 @@ function printContent(){
 	    deferred: $.Deferred((function () { //回调函数
 	        console.log('Printing done');
             //生成图片并保存文件记录，JOE新增
-	        html2canvas(document.getElementById("printContent"),{
-                    onrendered: function (canvas) {
-                        var url = canvas.toDataURL('image/jpeg', 1.0);
-                        //console.log(url)
-                        // ajax 上传图片  
-                        $.post(dataUrl + "ajax/uploadPic.ashx", { image: url, companyId: companyID }, function (ret) {
-                            if (ret.State == '100') {
-                                //$('#Nav').val(ret.Nav);
-                                $('#Pname').val(ret.Pname);
-                                var parm = {
-                                    'bookingId': bookingId, //按实际修改
-                                    'companyId': companyID, //按实际修改
-                                    'userId': userID,
-                                    'typeId': 2,
-                                    'name': '销账导出详细文件', //按实际修改
-                                    'nav': ret.Nav,
-                                    "url": ret.Pname,
+	        //html2canvas(document.getElementById("printContent"),{
+            //        onrendered: function (canvas) {
+            //            var url = canvas.toDataURL('image/jpeg', 1.0);
+            //            //console.log(url)
+            //            // ajax 上传图片  
+            //            $.post(dataUrl + "ajax/uploadPic.ashx", { image: url, companyId: companyID }, function (ret) {
+            //                if (ret.State == '100') {
+            //                    //$('#Nav').val(ret.Nav);
+            //                    $('#Pname').val(ret.Pname);
+            //                    var parm = {
+            //                        'bookingId': bookingId, //按实际修改
+            //                        'companyId': companyID, //按实际修改
+            //                        'userId': userID,
+            //                        'typeId': 2,
+            //                        'name': '销账导出详细文件', //按实际修改
+            //                        'nav': ret.Nav,
+            //                        "url": ret.Pname,
 
-                                }
-                                console.log(parm)
-                                common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
-                                    if (data.State == 1) {
-                                        comModel("成功")
-                                    } else {
-                                        comModel("失败")
-                                    }
-                                }, function (error) {
-                                }, 2000)
-                            } else {
-                                alert('上传失败');
-                            }
-                        }, 'json');
-                    },
-                    //背景设为白色（默认为黑色）
-                    background: "#FBFBFB"
-            })
+            //                    }
+            //                    console.log(parm)
+            //                    common.ajax_req('POST', false, dataUrl, 'files.ashx?action=new', parm, function (data) {
+            //                        if (data.State == 1) {
+            //                            comModel("成功")
+            //                        } else {
+            //                            comModel("失败")
+            //                        }
+            //                    }, function (error) {
+            //                    }, 2000)
+            //                } else {
+            //                    alert('上传失败');
+            //                }
+            //            }, 'json');
+            //        },
+            //        //背景设为白色（默认为黑色）
+            //        background: "#FBFBFB"
+            //})
 	    }))
 	});  
 }
