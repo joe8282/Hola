@@ -75,6 +75,7 @@ function initTable() {
     if (GetQueryString('type') == 'myselft') {
         tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + userID + '&state=0'
     } else if (GetQueryString('type') == 'isSupplier') {
+        $(".isSupplier").hide()
         tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&isSupplier=1'
     }else {
         tourl = dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&state=0'
@@ -106,12 +107,21 @@ function initTable() {
 //				"createdCell": function (td, cellData, rowData, row, col) {
 //					$(td).html("<a href='crmcompanydetail.html?Id="+rowData.comp_id +"'> " + rowData.comp_name + "</a><br/>"+rowData.comp_contactName);
 //				}
-				"render": function(data, type, row) {
-					if(row["comp_isSupplier"]=="1"){
-					    return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'>" + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i><br/>" + row["comp_contactName"]
-					}else{
-					    return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'> " + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "] <br/>" + row["comp_contactName"]
-					}
+			    "render": function (data, type, row) {
+			        if (GetQueryString('type') == 'isSupplier') {
+			            if (row["comp_isSupplier"] == "1") {
+			                return row["comp_name"] + "<br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i><br/>" + row["comp_contactName"]
+			            } else {
+			                return row["comp_name"] + "<br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "] <br/>" + row["comp_contactName"]
+			            }
+			        } else {
+			            if (row["comp_isSupplier"] == "1") {
+			                return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'>" + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i><br/>" + row["comp_contactName"]
+			            } else {
+			                return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'> " + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "] <br/>" + row["comp_contactName"]
+			            }
+			        }
+
 					
 				}
 			},
@@ -261,6 +271,13 @@ function initTable() {
                 .draw();
         });
     });
+
+    if (GetQueryString('type') == 'isSupplier') {
+        table.api().column(3).visible(false)
+        table.api().column(4).visible(false)
+        table.api().column(8).visible(false)
+    }
+    
     
 	return table;
 }
