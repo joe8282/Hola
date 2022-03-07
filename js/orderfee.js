@@ -20,7 +20,7 @@ var exchangeRate;
 var cancel_all_money = 0;
 var cancel_type = 1;
 var toCompany_yingfu = 0, toCompany_yingshou = 0
-
+var feeFlat = false
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -1517,6 +1517,10 @@ $(function(){
         loadFee()
     })
     $('.billtab').on('click', function () {
+        if (feeFlat == true) {
+            comModel("还没保存费用，请先提交保存")
+            return false
+        }
         $('#send_bill').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill_pay').addClass('none')
@@ -1531,6 +1535,10 @@ $(function(){
         $("input[name='feeli']").prop("checked", false)
     })
     $('.invoicetab').on('click', function () {
+        if (feeFlat == true) {
+            comModel("还没保存费用，请先提交保存")
+            return false
+        }
         $('#send_invoice').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
@@ -1548,6 +1556,10 @@ $(function(){
         $("input[name='feeli']").prop("checked", false)
     })
     $('.billpaytab').on('click', function () {
+        if (feeFlat == true) {
+            comModel("还没保存费用，请先提交保存")
+            return false
+        }
         $('#send_bill_pay').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
@@ -1562,6 +1574,10 @@ $(function(){
         // })
     })
     $('.cancel_billgettab').on('click', function () {
+        if (feeFlat == true) {
+            comModel("还没保存费用，请先提交保存")
+            return false
+        }
         $('#send_bill_get').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
@@ -1605,6 +1621,10 @@ $(function(){
         $("input[name='feeli']").prop("checked", false)
     })
     $('.cancel_billpaytab').on('click', function () {
+        if (feeFlat == true) {
+            comModel("还没保存费用，请先提交保存")
+            return false
+        }
         $('#send_bill_get').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
@@ -1646,6 +1666,10 @@ $(function(){
         $("input[name='feeli']").prop("checked", false)
     })
     $('.gysbilltab').on('click', function () {
+        if (feeFlat == true) {
+            comModel("还没保存费用，请先提交保存")
+            return false
+        }
         $('#send_bill_gys').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
@@ -1674,6 +1698,10 @@ $(function(){
         }, 2000)
     })
     $('.filetab').on('click', function () {
+        if (feeFlat == true) {
+            comModel("还没保存费用，请先提交保存")
+            return false
+        }
         $('#send_file').removeClass('none')
         $('#send_shoufu').addClass('none')
         $('#send_bill').addClass('none')
@@ -1778,7 +1806,8 @@ $(function(){
     })
 
 	//添加应收应付
-	$('#addFee1').on('click', function() {
+    $('#addFee1').on('click', function () {
+        feeFlat = true
         feeboxAll_len=$('.feeList').length+1;
         var feeboxRow = '<div class="col-sm-12 feeList"><input type="hidden" id="feeId" value="0"><input type="hidden" id="isLock" value="0">' +
             '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
@@ -1862,7 +1891,8 @@ $(function(){
         }, 2000)
 		
 	})
-	$('#addFee2').on('click', function() {	
+    $('#addFee2').on('click', function () {
+        feeFlat = true
         feeboxAll_len=$('.feeList').length+1;
         var feeboxRow = '<div class="col-sm-12 feeList"><input type="hidden" id="feeId" value="0"><input type="hidden" id="isLock" value="0">' +
             '<button type="submit" class="removeFee btn btn-danger input-xs" style="width:30px;float: left;"><i class="fa fa-times-circle"></i></button>'+
@@ -1957,6 +1987,8 @@ $(function(){
 	        if (data.State == 1) {
 	            _this.remove()
 	            comModel("删除成功")
+	            gatherDebitCredit();
+	            $('#send_shoufu').trigger('click')
 	        } else {
 	            comModel("删除失败")
 	        }
@@ -1968,6 +2000,7 @@ $(function(){
 	
 	/*保存应收应付*/
 	$('#send_shoufu').on('click', function () {
+	    gatherDebitCredit();
 	    var feeData = ''
         var flat = false
 		for (var i = 0; i < $('.feeList').length; i++) {
@@ -2019,6 +2052,7 @@ $(function(){
 		common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=newfee', parm, function(data) {
 			if(data.State == 1) {
 			    comModel("保存成功")
+			    location.reload()
 			    $('#toCompany_4').html('<option value="">请选择</option>' + _CompanySettle);
 			    $('#toCompany_5').html('<option value="">请选择</option>' + _CompanySettle);
 			} else {
