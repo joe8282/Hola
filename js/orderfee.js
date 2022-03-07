@@ -21,6 +21,8 @@ var cancel_all_money = 0;
 var cancel_type = 1;
 var toCompany_yingfu = 0, toCompany_yingshou = 0
 var feeFlat = false
+var preId = 0
+var nextId = 0
 $(function(){
 	$('.navli3').addClass("active open")
 	$('.book3').addClass("active")
@@ -56,6 +58,28 @@ $(function(){
     //转回到订单详情
     $('#orderDetail').on('click', function() {
         location.href = 'orderadd.html?action=modify&Id='+Id;
+    })
+
+
+    common.ajax_req("get", false, dataUrl, "booking.ashx?action=prenext", {
+        "companyId": companyID,
+        "Id": Id
+    }, function (data) {
+        console.log(data)
+        preId = data.preId
+        nextId = data.nextId
+        if (preId == 0) { $('#pre').hide() }
+        if (nextId == 0) { $('#next').hide() }
+
+    }, function (err) {
+        console.log(err)
+    }, 2000)
+
+    $('#pre').on('click', function () {
+        location.href = "orderfee.html?Id=" + preId
+    })
+    $('#next').on('click', function () {
+        location.href = "orderfee.html?Id=" + nextId
     })
 
     common.ajax_req("get", false, dataUrl, "weiinfo.ashx?action=read", {

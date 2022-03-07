@@ -74,6 +74,27 @@ $(function(){
 	if (Id) {
 	    filesTable = GetFiles()
 	    openGoodsTable = GetOpenGoods()
+
+	    common.ajax_req("get", false, dataUrl, "booking.ashx?action=prenext", {
+	        "companyId": companyID,
+	        "Id": Id
+	    }, function (data) {
+	        console.log(data)
+	        preId = data.preId
+	        nextId = data.nextId
+	        if (preId == 0) { $('#pre').hide() }
+	        if (nextId == 0) { $('#next').hide() }
+
+	    }, function (err) {
+	        console.log(err)
+	    }, 2000)
+
+	    $('#pre').on('click', function () {
+	        location.href = "orderadd.html?action=modify&Id=" + preId
+	    })
+	    $('#next').on('click', function () {
+	        location.href = "orderadd.html?action=modify&Id=" + nextId
+	    })
 	}
 	
 
@@ -82,7 +103,9 @@ $(function(){
     //打印
 	if (action == 'add') {
     	hasPermission('1702'); //权限控制
-		$('#printDetail').hide() 
+    	$('#printDetail').hide()
+    	$('#pre').hide()
+    	$('#next').hide()
 	}else{
     	hasPermission('1703'); //权限控制
 	}
