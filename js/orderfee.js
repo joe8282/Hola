@@ -63,7 +63,9 @@ $(function(){
 
     common.ajax_req("get", false, dataUrl, "booking.ashx?action=prenext", {
         "companyId": companyID,
-        "Id": Id
+        "Id": Id,
+        "userId": childrenIds,
+        "userOtherId": userID
     }, function (data) {
         console.log(data)
         preId = data.preId
