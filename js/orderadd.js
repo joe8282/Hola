@@ -78,7 +78,7 @@ $(function(){
 	    common.ajax_req("get", false, dataUrl, "booking.ashx?action=prenext", {
 	        "companyId": companyID,
 	        "Id": Id,
-	        "userId": childrenIds,
+	        "userId": childrenIds.toString(),
 	        "userOtherId": userID
 	    }, function (data) {
 	        console.log(data)
