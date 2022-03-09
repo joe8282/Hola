@@ -3457,8 +3457,8 @@ $(function(){
     /*下一步*/
     $('#send1,#send2,#send3').on('click', function () {
         document.getElementById("send1").setAttribute("disabled", true)
-        document.getElementById("send2").setAttribute("disabled", true)
-        document.getElementById("send3").setAttribute("disabled", true)
+        //document.getElementById("send2").setAttribute("disabled", true)
+        //document.getElementById("send3").setAttribute("disabled", true)
         if (action == 'modify') {
             _isUpdateFun($(this).attr("id"));
             
@@ -3679,8 +3679,8 @@ $(function(){
 		
 					} else {
 					    document.getElementById("send1").removeAttribute("disabled", true)
-					    document.getElementById("send2").removeAttribute("disabled", true)
-					    document.getElementById("send3").removeAttribute("disabled", true)
+					    //document.getElementById("send2").removeAttribute("disabled", true)
+					    //document.getElementById("send3").removeAttribute("disabled", true)
 						comModel("新增失败")
 					}
 				}, function(error) {
@@ -3779,8 +3779,8 @@ $(function(){
 						comModel("修改失败")
 					}
 					document.getElementById("send1").removeAttribute("disabled", true)
-					document.getElementById("send2").removeAttribute("disabled", true)
-					document.getElementById("send3").removeAttribute("disabled", true)
+					//document.getElementById("send2").removeAttribute("disabled", true)
+					//document.getElementById("send3").removeAttribute("disabled", true)
 				}, function(error) {
 					console.log(parm)
 				}, 10000)
