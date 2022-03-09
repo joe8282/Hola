@@ -353,22 +353,22 @@ $(document).ready(function() {
 	            $('#allCount').text(data.data.length)
 
 	            for (i in obj2) {
-	                var _html = '<div class="item"></div><div class="mingxi"><table class="mingxi_table"></table></div><div style="width:100%;font-size:14px; font-weight:bold; "><div style="float:left;width:25%;">' + i + '</div><div class="d_num" style="float:left;width:25%;">' + i + '</div><div class="d_profit" style="float:left;width:25%;"></div><div class="d_bili" style="float:left;width:25%;"></div></div>';
+	                var _html = '<div class="item"></div><div style="width:100%;font-size:14px; font-weight:bold; "><div style="float:left;width:25%;">' + i + '</div><div class="d_num" style="float:left;width:25%;">' + i + '</div><div class="d_profit" style="float:left;width:25%;"></div><div class="d_bili" style="float:left;width:25%;"></div></div>';
 	                $('#statement_data').append(_html)
 	                var d_profit = 0, d_num = 0, d_bili = 0
 	                for (j in obj2[i]) {
 	                    var profit = 0, bili = 0
-	                    var _mingxi = '<tr><td>单号</td><td>客户</td><td>利润</td><td>占总利润</td></tr>'
+	                    var _mingxi = '<tr><td width="20%">单号</td><td width="40%">客户</td><td width="20%">离港日期</td><td width="10%">利润</td><td width="10%">占总利润</td></tr>'
 	                    for (k in obj2[i][j]) {
 	                        profit = profit + obj2[i][j][k]["book_profit"]
-	                        _mingxi += '<tr><td>' + obj2[i][j][k]["book_orderCode"] + '</td><td>' + obj2[i][j][k]["crm_name"] + '</td><td>' + obj2[i][j][k]["book_profit"] + '</td><td>' + (obj2[i][j][k]["book_profit"] / all_profit * 100).toFixed(2) + '%</td></tr>'
+	                        var book_okTrailerTime = ""
+	                        if (obj2[i][j][k]["book_okTrailerTime"] != null) { book_okTrailerTime = obj2[i][j][k]["book_okTrailerTime"].substring(0, 10) }
+	                        _mingxi += '<tr><td>' + obj2[i][j][k]["book_orderCode"] + '</td><td>' + obj2[i][j][k]["crm_name"] + '</td><td>' + book_okTrailerTime + '</td><td>' + obj2[i][j][k]["book_profit"] + '</td><td>' + (obj2[i][j][k]["book_profit"] / all_profit * 100).toFixed(2) + '%</td></tr>'
 	                    }
 	                    bili = (profit / all_profit * 100).toFixed(2) + '%'
-	                    $('.item:last').append('<div style="width:100%;"><div style="float:left;width:25%;">' + j + '</div><div style="float:left;width:25%;">' + obj2[i][j].length + '</div><div style="float:left;width:25%;">' + profit + '</div><div style="float:left;width:25%;">' + bili + '</div></div>')
+	                    $('.item:last').append('<div style="width:100%;"><div style="float:left;width:25%;">' + j + '</div><div style="float:left;width:25%;">' + obj2[i][j].length + '</div><div style="float:left;width:25%;">' + profit + '</div><div style="float:left;width:25%;">' + bili + '</div></div><div class="mingxi" style="padding:0 50px; width:100%; line-height:20px;"><table border="1px" style="width:100%;">' + _mingxi + '</table></div>')
 	                    d_profit = d_profit + profit
 	                    d_num = d_num + obj2[i][j].length
-
-	                    $('.mingxi').append(_mingxi)
 	                }
 	                d_bili = (d_profit / all_profit * 100).toFixed(2) + '%'
 	                $('.d_profit:last').text(d_profit)
@@ -382,6 +382,11 @@ $(document).ready(function() {
 	    }, 1000)
 	}
 
-
+	$('#ordermore').on('click', function () {
+	    if ($("#ordermore").is(":checked")) {
+	        $(".mingxi").show()
+	    }
+	    else { $(".mingxi").hide() }
+	})
 
 });
