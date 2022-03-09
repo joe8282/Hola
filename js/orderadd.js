@@ -3456,7 +3456,7 @@ $(function(){
 	
     /*下一步*/
     $('#send1,#send2,#send3').on('click', function () {
-
+        $(this).hide()
         if (action == 'modify') {
             _isUpdateFun($(this).attr("id"));
             
@@ -3676,6 +3676,7 @@ $(function(){
 						}
 		
 					} else {
+					    $(this).show()
 						comModel("新增失败")
 					}
 				}, function(error) {

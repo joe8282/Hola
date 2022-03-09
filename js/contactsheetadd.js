@@ -1626,7 +1626,8 @@ $(function(){
 	//})
 	
 	/*下一步*/
-	$('#send1,#send2,#send3').on('click', function() {   
+	$('#send1,#send2,#send3').on('click', function () {
+	    $(this).hide()
 		var bt = $(this).attr("id");
 		
 		crmContactId = $('#crmcontact').val(),
@@ -1894,7 +1895,8 @@ $(function(){
 						comModel("修改成功")
 						location.href = 'booking.html';
 					} else {
-						comModel("修改失败")
+					    comModel("修改失败")
+					    $(this).show()
 					}
 				}, function(error) {
 					console.log(parm)
