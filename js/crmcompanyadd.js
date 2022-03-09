@@ -125,7 +125,9 @@ $(function(){
 	}
 	
 	/*下一步*/
-	$('#send1,#send2').on('click', function() {
+	$('#send1,#send2').on('click', function () {
+	    document.getElementById("send1").setAttribute("disabled", true)
+	    document.getElementById("send2").setAttribute("disabled", true)
 		var bt= $(this).attr("id");
 		var cType=""
 		$("input[name=radio2]:checked").each(function() { 
@@ -229,6 +231,8 @@ $(function(){
 						}
 					} else if (data.State == 0) {
 					    //comModel(data.Data)
+					    document.getElementById("send1").removeAttribute("disabled", true)
+					    document.getElementById("send2").removeAttribute("disabled", true)
 					    bootbox.alert(data.Data);
 					} else {
 						comModel("新增客户失败")
@@ -278,8 +282,12 @@ $(function(){
 						comModel("修改成功")
 						location.href = 'crmcompanydetail.html?Id=' + Id;
 					} else if (data.State == 0) {
+					    document.getElementById("send1").removeAttribute("disabled", true)
+					    document.getElementById("send2").removeAttribute("disabled", true)
 					    comModel(data.Data)
 					} else {
+					    document.getElementById("send1").removeAttribute("disabled", true)
+					    document.getElementById("send2").removeAttribute("disabled", true)
 						comModel("修改失败")
 					}
 				}, function(error) {

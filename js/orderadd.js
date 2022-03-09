@@ -3456,9 +3456,9 @@ $(function(){
 	
     /*下一步*/
     $('#send1,#send2,#send3').on('click', function () {
-        document.getElementById("send1").removeAttribute("disabled", true)
-        document.getElementById("send2").removeAttribute("disabled", true)
-        document.getElementById("send3").removeAttribute("disabled", true)
+        document.getElementById("send1").setAttribute("disabled", true)
+        document.getElementById("send2").setAttribute("disabled", true)
+        document.getElementById("send3").setAttribute("disabled", true)
         if (action == 'modify') {
             _isUpdateFun($(this).attr("id"));
             
@@ -3773,11 +3773,14 @@ $(function(){
 		
 				common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=modify', parm, function(data) {
 					if(data.State == 1) {
-						comModel("修改成功")
+					    comModel("修改成功")
 						//location.href = 'booking.html';
 					} else {
 						comModel("修改失败")
 					}
+					document.getElementById("send1").removeAttribute("disabled", true)
+					document.getElementById("send2").removeAttribute("disabled", true)
+					document.getElementById("send3").removeAttribute("disabled", true)
 				}, function(error) {
 					console.log(parm)
 				}, 10000)
