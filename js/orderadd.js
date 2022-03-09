@@ -3456,7 +3456,9 @@ $(function(){
 	
     /*下一步*/
     $('#send1,#send2,#send3').on('click', function () {
-        $(this).hide()
+        document.getElementById("send1").removeAttribute("disabled", true)
+        document.getElementById("send2").removeAttribute("disabled", true)
+        document.getElementById("send3").removeAttribute("disabled", true)
         if (action == 'modify') {
             _isUpdateFun($(this).attr("id"));
             
@@ -3676,7 +3678,9 @@ $(function(){
 						}
 		
 					} else {
-					    $(this).show()
+					    document.getElementById("send1").removeAttribute("disabled", true)
+					    document.getElementById("send2").removeAttribute("disabled", true)
+					    document.getElementById("send3").removeAttribute("disabled", true)
 						comModel("新增失败")
 					}
 				}, function(error) {

@@ -1627,7 +1627,9 @@ $(function(){
 	
 	/*下一步*/
 	$('#send1,#send2,#send3').on('click', function () {
-	    $(this).hide()
+	    document.getElementById("send1").setAttribute("disabled", true)
+	    document.getElementById("send2").setAttribute("disabled", true)
+	    document.getElementById("send3").setAttribute("disabled", true)
 		var bt = $(this).attr("id");
 		
 		crmContactId = $('#crmcontact').val(),
@@ -1818,7 +1820,10 @@ $(function(){
 							location.href = 'contactsheetadd.html?action=add&companyId=' + companyId;		
 						}		
 					} else {
-						comModel("新增联系单失败")
+					    comModel("新增联系单失败")
+					    document.getElementById("send1").removeAttribute("disabled", true)
+					    document.getElementById("send2").removeAttribute("disabled", true)
+					    document.getElementById("send3").removeAttribute("disabled", true)
 					}
 				}, function(error) {
 					console.log(parm)
@@ -1896,7 +1901,9 @@ $(function(){
 						location.href = 'booking.html';
 					} else {
 					    comModel("修改失败")
-					    $(this).show()
+					    document.getElementById("send1").removeAttribute("disabled", true)
+					    document.getElementById("send2").removeAttribute("disabled", true)
+					    document.getElementById("send3").removeAttribute("disabled", true)
 					}
 				}, function(error) {
 					console.log(parm)
