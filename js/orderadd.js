@@ -3456,9 +3456,6 @@ $(function(){
 	
     /*下一步*/
     $('#send1,#send2,#send3').on('click', function () {
-        document.getElementById("send1").setAttribute("disabled", true)
-        //document.getElementById("send2").setAttribute("disabled", true)
-        //document.getElementById("send3").setAttribute("disabled", true)
         if (action == 'modify') {
             _isUpdateFun($(this).attr("id"));
             
@@ -3580,6 +3577,7 @@ $(function(){
 			if(crmCompanyId == '0') {
 				comModel("请选择委托人")
 			} else {
+			    document.getElementById("send1").setAttribute("disabled", true)
 			    var parm = {
 			        'whichId': 2, //1=联系单，2=订单，3=订舱单
 					'fromId': 0,
@@ -3678,7 +3676,7 @@ $(function(){
 						}
 		
 					} else {
-					    document.getElementById("send1").removeAttribute("disabled", true)
+					    document.getElementById("send1").removeAttribute("disabled", false)
 					    //document.getElementById("send2").removeAttribute("disabled", true)
 					    //document.getElementById("send3").removeAttribute("disabled", true)
 						comModel("新增失败")
@@ -3694,6 +3692,7 @@ $(function(){
 		    if (crmCompanyId == '0') {
 		        comModel("请选择委托人")
 		    } else {
+		        document.getElementById("send1").setAttribute("disabled", true)
 			    var parm = {
 			        'whichId': 2, //1=联系单，2=订单，3=订舱单
 					'Id': Id,
@@ -3778,7 +3777,7 @@ $(function(){
 					} else {
 						comModel("修改失败")
 					}
-					document.getElementById("send1").removeAttribute("disabled", true)
+					document.getElementById("send1").removeAttribute("disabled", false)
 					//document.getElementById("send2").removeAttribute("disabled", true)
 					//document.getElementById("send3").removeAttribute("disabled", true)
 				}, function(error) {

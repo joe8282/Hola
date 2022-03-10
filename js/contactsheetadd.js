@@ -1627,9 +1627,6 @@ $(function(){
 	
 	/*下一步*/
 	$('#send1,#send2,#send3').on('click', function () {
-	    document.getElementById("send1").setAttribute("disabled", true)
-	    document.getElementById("send2").setAttribute("disabled", true)
-	    document.getElementById("send3").setAttribute("disabled", true)
 		var bt = $(this).attr("id");
 		
 		crmContactId = $('#crmcontact').val(),
@@ -1739,6 +1736,9 @@ $(function(){
 			} else if(crmCompanyId == '0') {
 				comModel("请选择委托人")
 			} else {
+			    document.getElementById("send1").setAttribute("disabled", true)
+			    document.getElementById("send2").setAttribute("disabled", true)
+			    document.getElementById("send3").setAttribute("disabled", true)
 			    var parm = {
 			        'whichId': 1, //1=联系单，2=订单，3=订舱单
 					'fromId': 0,
@@ -1821,9 +1821,9 @@ $(function(){
 						}		
 					} else {
 					    comModel("新增联系单失败")
-					    document.getElementById("send1").removeAttribute("disabled", true)
-					    document.getElementById("send2").removeAttribute("disabled", true)
-					    document.getElementById("send3").removeAttribute("disabled", true)
+					    document.getElementById("send1").removeAttribute("disabled", false)
+					    document.getElementById("send2").removeAttribute("disabled", false)
+					    document.getElementById("send3").removeAttribute("disabled", false)
 					}
 				}, function(error) {
 					console.log(parm)
@@ -1901,9 +1901,9 @@ $(function(){
 						location.href = 'booking.html';
 					} else {
 					    comModel("修改失败")
-					    document.getElementById("send1").removeAttribute("disabled", true)
-					    document.getElementById("send2").removeAttribute("disabled", true)
-					    document.getElementById("send3").removeAttribute("disabled", true)
+					    document.getElementById("send1").removeAttribute("disabled", false)
+					    document.getElementById("send2").removeAttribute("disabled", false)
+					    document.getElementById("send3").removeAttribute("disabled", false)
 					}
 				}, function(error) {
 					console.log(parm)
