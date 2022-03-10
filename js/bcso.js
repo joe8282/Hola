@@ -17,12 +17,12 @@ $(document).ready(function() {
     //if (isPermission('1307') != 1) {
     //    $('#addFun').hide()
     //}
-	this.title = "BS/CO管理"
-	$('.navli3').addClass("active open")
-	$('.book9').addClass("active")
-	$('#title1').text("BS/CO管理")
-	$('.widget-caption').text("BS/CO管理")
-	$('#title2').text("BS/CO管理")
+	this.title = "BC/SO管理"
+	$('.navli7').addClass("active open")
+	$('.rfq4').addClass("active")
+	$('#title1').text("BC/SO管理")
+	$('.widget-caption').text("BC/SO管理")
+	$('#title2').text("BC/SO管理")
 
 	oTable = GetOpenGoods();
 
@@ -36,7 +36,7 @@ $(document).ready(function() {
 	    for (var i = 0; i < files.length; i++) {
 	        data.append(files[i].name, files[i]);
 	        data.append("companyId", companyID);
-	        data.append("type", bcso);
+	        data.append("type", "bcso");
 	    }
 
 	    $.ajax({
@@ -83,6 +83,7 @@ $(document).ready(function() {
 	                comModel("新增成功")
 	                $('#Nav').val(""),
                     $("#Pname").val("")
+	                $("#myModal").modal("hide");
 	                oTable.fnReloadAjax(oTable.fnSettings());
 	            } else {
 	                comModel("新增失败")
@@ -98,7 +99,7 @@ $(document).ready(function() {
 function GetOpenGoods() {
     var table = $("#openGoodsList").dataTable({
         //"iDisplayLength":10,
-        "sAjaxSource": dataUrl + 'ajax/bsco.ashx?action=read&companyId=' + companyID,
+        "sAjaxSource": dataUrl + 'ajax/bcso.ashx?action=read&companyId=' + companyID,
         'bPaginate': false,
         "bInfo": false,
         //		"bDestory": true,
@@ -125,16 +126,20 @@ function GetOpenGoods() {
             { "mDataProp": "bcso_downNum" },
             { "mDataProp": "downUser" },
                                     {
-                                        "mDataProp": "bsco_downTime",
+                                        "mDataProp": "bcso_downTime",
                                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                                            $(nTd).html(oData.bsco_downTime.substring(0, 10));
+                                            if (oData.bsco_downTime != null) {
+                                                $(nTd).html(oData.bsco_downTime.substring(0, 10));
+                                            } else {
+                                                $(nTd).html('');
+                                            }
 
                                         }
                                     },
             {
-                "mDataProp": "bsco_id",
+                "mDataProp": "bcso_id",
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                    $(nTd).html("<a href='javascript:void(0);' onclick='_deleteOpenGoodsFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                    $(nTd).html("<a href='javascript:void(0);' onclick='_deleteBcSoFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
 
                 }
             },
@@ -142,6 +147,38 @@ function GetOpenGoods() {
     });
     return table;
 }
+
+/**
+ * 删除
+ * @param id
+ * @private
+ */
+function _deleteBcSoFun(id) {
+    bootbox.confirm("Are you sure?", function (result) {
+        if (result) {
+            $.ajax({
+                url: dataUrl + 'ajax/bcso.ashx?action=cancel',
+                data: {
+                    "Id": id
+                },
+                dataType: "json",
+                type: "post",
+                success: function (backdata) {
+                    if (backdata.State == 1) {
+                        oTable.fnReloadAjax(oTable.fnSettings());
+                    } else {
+                        alert("Delete Failed！");
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+    });
+}
+
 
 /*放货详情*/
 function _detailOpenGoodsFun(Id) {

@@ -126,8 +126,6 @@ $(function(){
 	
 	/*下一步*/
 	$('#send1,#send2').on('click', function () {
-	    document.getElementById("send1").setAttribute("disabled", true)
-	    document.getElementById("send2").setAttribute("disabled", true)
 		var bt= $(this).attr("id");
 		var cType=""
 		$("input[name=radio2]:checked").each(function() { 
@@ -188,6 +186,8 @@ $(function(){
 			} else if (!sellId) {
 			    comModel("请选择跟进业务员")
 			} else {
+			    document.getElementById("send1").setAttribute("disabled", true)
+			    document.getElementById("send2").setAttribute("disabled", true)
 				var parm = {
 					'upId': 0,
 					'companyId': companyID,
@@ -231,10 +231,12 @@ $(function(){
 						}
 					} else if (data.State == 0) {
 					    //comModel(data.Data)
-					    document.getElementById("send1").removeAttribute("disabled", true)
-					    document.getElementById("send2").removeAttribute("disabled", true)
+					    document.getElementById("send1").removeAttribute("disabled", false)
+					    document.getElementById("send2").removeAttribute("disabled", false)
 					    bootbox.alert(data.Data);
 					} else {
+					    document.getElementById("send1").removeAttribute("disabled", false)
+					    document.getElementById("send2").removeAttribute("disabled", false)
 						comModel("新增客户失败")
 					}
 				}, function(error) {
