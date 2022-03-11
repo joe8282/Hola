@@ -213,13 +213,13 @@ Purchase: http://wrapbootstrap.com
                         <a class="fullscreen" id="fullscreen-toggler" href="#">
                             <i class="glyphicon glyphicon-fullscreen"></i>
                         </a>
-                        <a class="label label-primary tooltip-darkorange" data-toggle='tooltip' data-placement='left' data-original-title='Add a new Local charge' id="newLocalchargeButton" href="#">
+                        <!--<a class="label label-primary tooltip-darkorange" data-toggle='tooltip' data-placement='left' data-original-title='Add A New' id="newLocalchargeButton" href="#">
                             <i class="fa fa-plus-circle"></i>
-                        </a>
-                        <a class="label label-primary tooltip-darkorange" data-toggle='tooltip' data-placement='left' data-original-title='Download localcharge sample.' id="downLocalchargeButton" href="/upload/LocalChargeUploadModel.xls">
+                        </a>-->
+                        <a class="label label-primary tooltip-darkorange" data-toggle='tooltip' data-placement='left' data-original-title='Download sample.' id="downLocalchargeButton" href="/upload/BcSoFileUploadModel.xls">
                             <i class="glyphicon glyphicon-save"></i>
                         </a>
-                        <a class="label label-primary tooltip-darkorange" data-toggle='tooltip' data-placement='left' data-original-title='Upload Localcharge list.' id="uploadLocalchargeButton" href="#">
+                        <a class="label label-primary tooltip-darkorange" data-toggle='tooltip' data-placement='left' data-original-title='Upload list.' id="uploadLocalchargeButton" href="#">
                             <i class="glyphicon glyphicon-open"></i>
                         </a>
                     </div>
@@ -259,14 +259,20 @@ Purchase: http://wrapbootstrap.com
                 			<table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%" id="example">
                 				<thead>
                 					<tr class="tableTitle">
-                                        <th>企业</th>
-                						<th>标签</th>
-                						<th>进出口</th>
-                						<th>承运人</th>
-                						<th>港口</th>
-                						<th>航线</th>                						
-                						<th>备注</th>                                 
-                                        <th>适用日期</th>
+                                        <th>客人</th>
+                						<th>船司</th>
+                						<th>SO NO.</th>
+                						<th>起运港</th>
+                						<th>目的港</th>
+                						<th>柜型</th>                						
+                						<th>截单日</th>                                 
+                                        <th>截关日</th>
+                                        <th>预开船司</th>
+                                        <th>船名/航次</th>
+                                        <th>舱位状态</th>
+                                        <th>成本</th>
+                                        <th>约号</th>
+                                        <th>备注</th>
                 						<th>操作</th>                						
                 					</tr>
                 				</thead>               	
@@ -308,7 +314,7 @@ Purchase: http://wrapbootstrap.com
     <script src="assets/js/bootbox/bootbox.js"></script>
     
     <script src="js/common.js"></script>
-    <script src="js/localchargelist.js"></script> 
+    <script src="js/bcsofile.js"></script> 
     <script src="js/lan.js"></script> 
     
     <!--Google Analytics::Demo Only-->

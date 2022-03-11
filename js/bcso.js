@@ -18,8 +18,8 @@ $(document).ready(function() {
     //    $('#addFun').hide()
     //}
 	this.title = "BC/SO管理"
-	$('.navli7').addClass("active open")
-	$('.rfq4').addClass("active")
+	$('.navli4').addClass("active open")
+	$('.rate6').addClass("active")
 	$('#title1').text("BC/SO管理")
 	$('.widget-caption').text("BC/SO管理")
 	$('#title2').text("BC/SO管理")

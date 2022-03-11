@@ -53,6 +53,13 @@ $(function () {
         $('#title1').text(get_lan('con_top_2'))
         $('.navli3').addClass("active open")
         $('.book5').addClass("active")
+    } else if (action == 'bcsofile') {
+        //hasPermission(''); //权限控制：上传集装箱列表
+        this.title = get_lan('现舱管理')
+        $('#title0').text(get_lan('运价管理中心'))
+        $('#title1').text(get_lan('现舱管理'))
+        $('.navli4').addClass("active open")
+        $('.rate7').addClass("active")
     }
 
 	InitExcelFile()
