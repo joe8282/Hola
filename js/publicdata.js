@@ -85,7 +85,7 @@ $(document).ready(function() {
 		
 		$('#mySmallModalLabel').text(get_lan('nav_1_4'))
 		$('#code').hide()
-		$('#nameEn').hide()
+		$('#nameCn').hide()
         $('#countryEn').hide()
         $('#countryCn').hide()		
         $('#inputNameEn').attr("placeholder","Container Typ")	
