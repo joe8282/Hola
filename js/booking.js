@@ -471,7 +471,7 @@ function initTable(fromId) {
     		},
             {
                 "mDataProp": "book_code",
-                "sWidth": "150px",
+                "sWidth": "170px",
                 "mRender": function (td, cellData, rowData, row, col) {
                     var _str = ""
                     if (rowData.book_sono != '') {
