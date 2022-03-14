@@ -89,9 +89,9 @@ function initTable() {
 //		"bRetrieve": true,
 //		"bFilter": false,
 		"bSort": true,
-		"aaSorting": [[ 6, "desc" ]],
+		"aaSorting": [[ 4, "desc" ]],
 		"aoColumnDefs":[//设置列的属性，此处设置第一列不排序
-            {"bSortable": false, "aTargets": [0,3,4,5,7]}
+            {"bSortable": false, "aTargets": [0,3,4,5,6]}
         ],
 //		"bProcessing": true,
 		"aoColumns": [
@@ -108,40 +108,46 @@ function initTable() {
 //					$(td).html("<a href='crmcompanydetail.html?Id="+rowData.comp_id +"'> " + rowData.comp_name + "</a><br/>"+rowData.comp_contactName);
 //				}
 			    "render": function (data, type, row) {
+			        var checkBoxArray = [];
+			        var _checkboxValues = "";
+			        checkBoxArray = row["comp_type"].split(",");
+			        for (var i = 0; i < checkBoxArray.length; i++) {
+			            var _checkboxValue = '<span class="badge badge-primary badge-square">' + checkBoxArray[i] + '</span> ';
+			            _checkboxValues = _checkboxValues + _checkboxValue;
+			        }
 			        if (GetQueryString('type') == 'isSupplier') {
 			            if (row["comp_isSupplier"] == "1") {
-			                return row["comp_name"] + "<br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i><br/>" + row["comp_contactName"]
+			                return row["comp_name"] + "<br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i>&nbsp;&nbsp;" + _checkboxValues
 			            } else {
-			                return row["comp_name"] + "<br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "] <br/>" + row["comp_contactName"]
+			                return row["comp_name"] + "<br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "]&nbsp;&nbsp;" + _checkboxValues
 			            }
 			        } else {
 			            if (row["comp_isSupplier"] == "1") {
-			                return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'>" + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i><br/>" + row["comp_contactName"]
+			                return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'>" + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span>  [" + row["comp_code"] + "] <i class='fa fa-file-text-o tooltip-info' data-toggle='tooltip' data-placement='top' data-original-title='Can be suppliers'></i>&nbsp;&nbsp;" + _checkboxValues
 			            } else {
-			                return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'> " + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "] <br/>" + row["comp_contactName"]
+			                return "<a href='crmcompanydetail.html?Id=" + row["comp_id"] + "'> " + row["comp_name"] + "</a><br/><span class='badge badge-primary'>" + row["comp_rank"] + "</span> [" + row["comp_code"] + "]&nbsp;&nbsp;" + _checkboxValues
 			            }
 			        }
 
 					
 				}
 			},
-			{ "mDataProp": "comp_type" ,
+			//{ "mDataProp": "comp_type" ,
+			//	"createdCell": function (td, cellData, rowData, row, col) {
+			//		var checkBoxArray=[];
+			//		var _checkboxValues="";
+			//		checkBoxArray = cellData.split(",");
+			//	    for(var i=0;i<checkBoxArray.length;i++){
+			//	    	var _checkboxValue = '<span class="badge badge-primary badge-square">'+checkBoxArray[i]+'</span> ';
+			//	    	_checkboxValues=_checkboxValues + _checkboxValue;
+			//	    }
+			//	    console.log(_checkboxValues)
+			//		$(td).html(_checkboxValues);
+			//	}
+			//},
+			{ "mDataProp": "comp_contactName" ,
 				"createdCell": function (td, cellData, rowData, row, col) {
-					var checkBoxArray=[];
-					var _checkboxValues="";
-					checkBoxArray = cellData.split(",");
-				    for(var i=0;i<checkBoxArray.length;i++){
-				    	var _checkboxValue = '<span class="badge badge-primary badge-square">'+checkBoxArray[i]+'</span> ';
-				    	_checkboxValues=_checkboxValues + _checkboxValue;
-				    }
-				    console.log(_checkboxValues)
-					$(td).html(_checkboxValues);
-				}
-			},
-			{ "mDataProp": "comp_contactPhone" },
-			{ "mDataProp": "comp_contactEmail" ,
-				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html('<a href="mailto:'+rowData.comp_contactEmail+'">'+rowData.comp_contactEmail+'<a>');
+				    $(td).html(rowData.comp_contactName + '<br/>' + rowData.comp_contactPhone + '<br/><a href="mailto:' + rowData.comp_contactEmail + '">' + rowData.comp_contactEmail + '<a>');
 				}	
 			},
 			{ "mDataProp": "comp_country",
@@ -182,7 +188,8 @@ function initTable() {
 			        } else if (rowData.comp_state == 4) {
 			            _stateText = "审核不通过"
 			        }
-			        $(td).html(_stateText);
+			        order_num = '<a href="booking.html">' + rowData.comp_order_num + '</a> 票'
+			        $(td).html(_stateText + '<br/>账期：' + rowData.comp_period + '<br/>订单：' + order_num);
 			    }
 			},
 			{
@@ -273,9 +280,8 @@ function initTable() {
     });
 
     if (GetQueryString('type') == 'isSupplier') {
-        table.api().column(3).visible(false)
-        table.api().column(4).visible(false)
-        table.api().column(8).visible(false)
+        table.api().column(2).visible(false)
+        table.api().column(6).visible(false)
     }
     
     
