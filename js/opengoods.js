@@ -136,8 +136,8 @@ function _detailOpenGoodsFun(Id) {
         $(".opgo_addTime").text(_data.addUser + "/" + _data.opgo_addTime.substring(0, 10))
         $(".opgo_openType").text(_data.opgo_openType)
         $(".opgo_orderType").text(_data.opgo_orderType)
-        $(".opgo_orderCode_open").text(_data.opgo_orderCode_open)
-        $(".opgo_orderCode_close").text(_data.opgo_orderCode_close)
+        $(".opgo_orderCode_open").text(_data.book_orderCode_open)
+        $(".opgo_orderCode_close").text(_data.book_orderCode_close)
         $(".opgo_beizhu").text(_data.opgo_beizhu)
 
         if (_data.opgo_state != 1) {

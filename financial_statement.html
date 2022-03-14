@@ -299,9 +299,24 @@ Purchase: http://wrapbootstrap.com
                                 <div style=" float:left;width:50%;text-align:left;"><span id="timeType"></span>&nbsp;&nbsp;<span id="timeFromTo"></span></div><div style="float:left;width:50%; text-align:right;">打印日期&nbsp;&nbsp;<span id="timePrint"></span></div>
                             </div>
                             <div style="line-height: 40px; ">
-                                <div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:12%;">工作号</div><div style="float:left;width:10%;">离港日期</div><div style="float:left;width:14%;">承运人单号</div><div style="float:left;width:12%;">起运港</div><div style="float:left;width:12%;">目的港</div><div style="float:left;width:16%;">箱号箱型</div><div style="float:left;width:8%;">USD</div><div style="float:left;width:8%;" class="OWNER_Unit">本位币</div><div style="float:left;width:8%;">天数</div></div>
-                                <div id="statement_data" style="float: left; width: 100%; text-align: center;"></div>
-                                <div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:50%;">总计单数：<span id="allCount"></span></div><div style="float:left;width:50%; ">总计： <span id="allPrice"></span></div></div>
+                                <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr class="tableTitle">
+                                            <th>工作号</th>
+                                            <th>离港日期</th>
+                                            <th>承运人单号</th>
+                                            <th>起运港</th>
+                                            <th>目的港</th>
+                                            <th>箱号箱型</th>
+                                            <th>USD</th>
+                                            <th class="OWNER_Unit">本位币</th>
+                                            <th>天数</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="statement_data"></tbody>
+                                </table>
+                                <!--<div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:12%;">工作号</div><div style="float:left;width:10%;">离港日期</div><div style="float:left;width:14%;">承运人单号</div><div style="float:left;width:12%;">起运港</div><div style="float:left;width:12%;">目的港</div><div style="float:left;width:16%;">箱号箱型</div><div style="float:left;width:8%;">USD</div><div style="float:left;width:8%;" class="OWNER_Unit">本位币</div><div style="float:left;width:8%;">天数</div></div>-->
+                                <div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:50%;">总计单数：<span id="allCount"></span></div><div style="float:left;width:50%; ">总计：<span class="OWNER_Unit">本位币</span><span id="allPrice"></span></div></div>
                                 <div style="float: left; width: 100%; padding: 20px; ">
                                     <div style="float: left; width: 49%; min-height: 100px; line-height: 180%; text-align: left; border: 1px solid #ccc; padding: 20px; "><p id="beizhu_content">备注内容</p></div>
                                     <div style="float: right; width: 49%; min-height: 100px; line-height: 180%; text-align: left; border: 1px solid #ccc; padding: 20px; "><p id="bank_content">银行信息</p></div>

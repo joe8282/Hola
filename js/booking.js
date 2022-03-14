@@ -471,13 +471,14 @@ function initTable(fromId) {
     		},
             {
                 "mDataProp": "book_code",
+                "sWidth": "120px",
                 "mRender": function (td, cellData, rowData, row, col) {
                     var _str = ""
                     if (rowData.book_sono != '') {
                         _str = _str + "<span style='color:#999;'>SO NO.：</span>" + rowData.book_sono
                     }
                     if (rowData.book_billCode != "") {
-                        _str = _str + "<br/><span style='color:#999;'>MBL NO.:</span><br/>" + rowData.book_billCode
+                        _str = _str + "<br/><span style='color:#999;'>MBL NO.:</span>" + rowData.book_billCode
                     }
                     if (rowData.book_hblno != null) {
                         _str = _str + "<br/><span style='color:#999;'>HBL NO.:</span><br/>"

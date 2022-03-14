@@ -180,18 +180,24 @@ $(document).ready(function() {
 	        //console.log(data)
 	        if (data.data != null) {
 
-	            var all_USD = 0, all_OWNER = 0, all_OWNER_ALL = 0
-	            for (i in data.data) {
-	                var feeUnit = data.data[i]["bofe_feeUnit"]
-	                if (feeUnit == 'USD') {
-	                    all_USD = all_USD + data.data[i]["bofe_allFee"]
-	                } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
-	                    all_OWNER = all_OWNER + data.data[i]["bofe_allFee"]
-	                }
-	            }
-	            all_OWNER_ALL = all_USD * exchangeRate + all_OWNER
-	            $('#allPrice').text(all_OWNER)
-	            $('#allCount').text(data.data.length)
+	            //var all_USD = 0, all_OWNER = 0, all_OWNER_ALL = 0
+	            //for (i in data.data) {
+	            //    var feeUnit = data.data[i]["bofe_feeUnit"]
+	            //    if (feeUnit == 'USD') {
+	            //        all_USD = all_USD + data.data[i]["bofe_allFee"]
+	            //    } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
+	            //        all_OWNER = all_OWNER + data.data[i]["bofe_allFee"]
+	            //    }
+	            //}
+
+	            //all_OWNER_ALL = all_USD * exchangeRate + all_OWNER
+	            //console.log(all_USD)
+	            //console.log(all_OWNER)
+	            //console.log(all_OWNER_ALL)
+	            //$('#allPrice').text(all_OWNER_ALL)
+	            //$('#allCount').text(data.data.length)
+
+	            var all_OWNER_ALL = 0
 
 	            for (i in data.data) {
 	                var all_USD = 0, all_OWNER = 0
@@ -208,15 +214,21 @@ $(document).ready(function() {
 	                            } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
 	                                all_OWNER = all_OWNER + data.Data[j]["bofe_allFee"]
 	                            }
+	                            all_OWNER_ALL += all_USD * exchangeRate + all_OWNER
 	                        }
 	                    }
 
 	                })
 
-	                var dateNum = daysDistance(data.data[i]["book_truePortTime"].substring(0, 10), getDate())
-	                var _html = '<div style="width:100%;"><div style="float:left;width:12%;">' + data.data[i]["book_orderCode"] + '</div><div style="float:left;width:10%;">' + data.data[i]["book_truePortTime"].substring(0, 10) + '</div><div style="float:left;width:14%;">' + data.data[i]["book_billCode"] + '</div><div style="float:left;width:12%;">' + data.data[i]["book_port1"] + '</div><div style="float:left;width:12%;">' + data.data[i]["book_port2"] + '</div><div style="float:left;width:16%;">' + data.data[i]["book_movementType"] + '/' + data.data[i]["book_allContainer"] + '</div><div style="float:left;width:8%;" id="USD_Price">' + all_USD + '</div><div style="float:left;width:8%;" class="OWNER_Unit" id="OWNER_Price">' + all_OWNER + '</div><div style="float:left;width:8%;">' + dateNum + '</div></div>';
+	                var dateNum = 0
+	                var book_truePortTime = ""
+	                if (data.data[i]["book_truePortTime"] != null) {
+	                    dateNum = daysDistance(data.data[i]["book_truePortTime"].substring(0, 10), getDate())
+	                    book_truePortTime = data.data[i]["book_truePortTime"].substring(0, 10)
+	                }
+	                
+	                var _html = '<tr><td>' + data.data[i]["book_orderCode"] + '</td><td>' + book_truePortTime + '</td><td>' + data.data[i]["book_billCode"] + '</td><td>' + data.data[i]["book_port1"] + '</td><td>' + data.data[i]["book_port2"] + '</td><td>' + data.data[i]["book_movementType"] + '/' + data.data[i]["book_allContainer"] + '</td><td id="USD_Price">' + all_USD + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER + '</td><td>' + dateNum + '</td></tr>';
 	                $('#statement_data').append(_html)
-
 
 	                //var d_USD = 0, d_OWNER = 0, d_OWNER_ALL = 0
 	                //for (j in obj2[i]) {
@@ -240,6 +252,9 @@ $(document).ready(function() {
 	                //$('.d_bili:last').text(d_OWNER_ALL)
 	                
 	            }
+
+	            $('#allPrice').text(all_OWNER_ALL)
+	            $('#allCount').text(data.data.length)
 	        }
 
 	    }, function (error) {

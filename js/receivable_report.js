@@ -11,7 +11,8 @@ var en2 = {
 
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
+    
     //	initModal();
     var type = GetQueryString('type')
     if (type == 'debit') {
@@ -106,6 +107,13 @@ $(document).ready(function() {
 	    //console.log(data)
 	    if (data.State == 1) {
 	        OWNER_Unit = data.Data.wein_currency
+	        if (type == 'debit') {
+	            $('.type_usd').text('应收USD')
+	            $('.OWNER_Unit0').text('应收'+OWNER_Unit)
+	        } else {
+	            $('.type_usd').text('应付USD')
+	            $('.OWNER_Unit0').text('应付' + OWNER_Unit)
+	        }
 	        $('.OWNER_Unit').text(OWNER_Unit)
 
 	        if (OWNER_Unit != 'USD') {
@@ -408,6 +416,7 @@ $(document).ready(function() {
 	        'kefuIds': kefuIds,
 	        'caozuoIds': caozuoIds,
 	        'crmIds': crmIds,
+	        //'state': 0,
 	    }, function (data) {
 	        //console.log(data)
 	        if (data.State == 1) {
@@ -470,42 +479,53 @@ $(document).ready(function() {
 	            }
 	            //console.log(obj2)
 
-	            var all_USD = 0, all_OWNER = 0, all_OWNER_ALL = 0
+	            var all_USD = 0, all_OWNER = 0, all_STATE1 = 0, all_STATE2 = 0, all_OWNER_ALL = 0
 	            for (i in data.Data) {
 	                var feeUnit = data.Data[i]["bofe_feeUnit"]
 	                if (feeUnit == 'USD') {
 	                    all_USD = all_USD + data.Data[i]["bofe_allFee"]
+	                    if (data.Data[i]["bofe_state"] != 3) { all_STATE1 = all_STATE1 + data.Data[i]["bofe_allFee"] }
 	                } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
 	                    all_OWNER = all_OWNER + data.Data[i]["bofe_allFee"]
+	                    if (data.Data[i]["bofe_state"] != 3) { all_STATE2 = all_STATE2 + data.Data[i]["bofe_allFee"] }
 	                }
 	            }
-	            all_OWNER_ALL = all_USD * exchangeRate + all_OWNER
+	            all_OWNER_ALL = all_STATE1 * exchangeRate + all_STATE2
 	            $('#allProfit').text(all_OWNER)
 	            $('#allCount').text(all_USD)
+	            $('#allState1').text(all_STATE1)
+	            $('#allState2').text(all_STATE2)
 	            $('#allBili').text(all_OWNER_ALL)
 
 	            for (i in obj2) {
-	                var _html = '<div class="item"></div><div style="width:100%;font-size:14px; font-weight:bold;"><div style="float:left;width:25%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">' + i + '</div><div class="d_num" style="float:left;width:25%;"></div><div class="d_profit" style="float:left;width:25%;"></div><div class="d_bili" style="float:left;width:25%;"></div></div>';
+	                var _html = '<div class="item"></div><div style="width:100%;font-size:14px; font-weight:bold;"><div style="float:left;width:16%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">' + i + '</div><div class="d_num" style="float:left;width:16%;"></div><div class="d_profit" style="float:left;width:16%;"></div><div class="d_state1" style="float:left;width:16%;"></div><div class="d_state2" style="float:left;width:16%;"></div><div class="d_bili" style="float:left;width:16%;"></div></div>';
 	                $('#statement_data').append(_html)
-	                var d_USD = 0, d_OWNER = 0, d_OWNER_ALL = 0
+	                var d_USD = 0, d_OWNER = 0, d_STATE1 = 0, d_STATE2 = 0, d_OWNER_ALL = 0
 	                for (j in obj2[i]) {
-	                    var USD = 0, OWNER = 0, OWNER_ALL = 0
+	                    var USD = 0, OWNER = 0, STATE1 = 0, STATE2 = 0, OWNER_ALL = 0
 	                    for (k in obj2[i][j]) {
 	                        var feeUnit = obj2[i][j][k]["bofe_feeUnit"]
 	                        if (feeUnit == 'USD') {
 	                            USD = USD + obj2[i][j][k]["bofe_allFee"]
+	                            if (obj2[i][j][k]["bofe_state"] != 3) { STATE1 = STATE1 + obj2[i][j][k]["bofe_allFee"] }
 	                        } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
 	                            OWNER = OWNER + obj2[i][j][k]["bofe_allFee"]
+	                            if (obj2[i][j][k]["bofe_state"] != 3) { STATE2 = STATE2 + obj2[i][j][k]["bofe_allFee"] }
 	                        }
 	                    }
-	                    OWNER_ALL = USD*exchangeRate + OWNER
-	                    $('.item:last').append('<div style="width:100%;"><div style="float:left;width:25%;">' + j + '</div><div style="float:left;width:25%;">' + USD + '</div><div style="float:left;width:25%;">' + OWNER + '</div><div style="float:left;width:25%;">' + OWNER_ALL + '</div></div>')
+	                    //OWNER_ALL = USD * exchangeRate + OWNER
+	                    OWNER_ALL = STATE1 * exchangeRate + STATE2
+	                    $('.item:last').append('<div style="width:100%;"><div style="float:left;width:16%;">' + j + '</div><div style="float:left;width:16%;">' + USD + '</div><div style="float:left;width:16%;">' + OWNER + '</div><div style="float:left;width:16%;">' + STATE1 + '</div><div style="float:left;width:16%;">' + STATE2 + '</div><div style="float:left;width:16%;">' + OWNER_ALL + '</div></div>')
 	                    d_USD = d_USD + USD
 	                    d_OWNER = d_OWNER + OWNER
+	                    d_STATE1 = d_STATE1 + STATE1
+	                    d_STATE2 = d_STATE2 + STATE2
 	                    d_OWNER_ALL = d_OWNER_ALL + OWNER_ALL
 	                }
 	                $('.d_num:last').text(d_USD)
 	                $('.d_profit:last').text(d_OWNER)
+	                $('.d_state1:last').text(d_STATE1)
+	                $('.d_state2:last').text(d_STATE2)
 	                $('.d_bili:last').text(d_OWNER_ALL)
 	                
 	            }
@@ -515,7 +535,5 @@ $(document).ready(function() {
 	        //console.log(parm)
 	    }, 1000)
 	}
-
-
 
 });

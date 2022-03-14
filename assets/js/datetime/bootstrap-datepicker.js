@@ -666,7 +666,7 @@
 			var parentsZindex = [0];
 			this.element.parents().each(function(){
 				var itemZIndex = $(this).css('z-index');
-				if (itemZIndex !== 'auto' && Number(itemZIndex) !== 0) parentsZindex.push(Number(itemZIndex));
+				if (itemZIndex !== 'auto' && Number(itemZIndex) !== 0) parentsZindex.push(Number(99999));
 			});
 			var zIndex = Math.max.apply(Math, parentsZindex) + this.o.zIndexOffset;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
