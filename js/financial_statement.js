@@ -218,7 +218,7 @@ $(document).ready(function() {
 	                                all_OWNER = all_OWNER + data.Data[j]["bofe_allFee"]
 	                                all_OWNER_ALL = all_OWNER_ALL + data.Data[j]["bofe_allFee"]
 	                            }
-	                            all_ALL += all_USD * exchangeRate * 1 + all_OWNER * 1
+	                            all_ALL += all_USD * exchangeRate + all_OWNER
 	                        }
 	                    }
 
@@ -259,7 +259,7 @@ $(document).ready(function() {
 
 	            $('#allUSDPrice').text(all_USD_ALL)
 	            $('#allOWNPrice').text(all_OWNER_ALL)
-	            $('#allPrice').text(all_ALL)
+	            $('#allPrice').text(all_ALL.toFixed(2))
 	            $('#allCount').text(data.data.length)
 	        }
 
