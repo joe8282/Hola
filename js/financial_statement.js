@@ -197,24 +197,28 @@ $(document).ready(function() {
 	            //$('#allPrice').text(all_OWNER_ALL)
 	            //$('#allCount').text(data.data.length)
 
+	            var all_ALL = 0
+	            var all_USD_ALL = 0
 	            var all_OWNER_ALL = 0
-
 	            for (i in data.data) {
 	                var all_USD = 0, all_OWNER = 0
 	                common.ajax_req('GET', false, dataUrl, 'booking.ashx?action=readfee', {
 	                    'bookingId': data.data[i]["book_id"],
 	                    'feeType': 'debit',
+	                    'state': 0,
 	                }, function (data) {
 	                    if (data.State == 1) {
 	                        for (j in data.Data) {
 	                            var feeUnit = data.Data[j]["bofe_feeUnit"]
 	                            if (feeUnit == 'USD') {
 	                                all_USD = all_USD + data.Data[j]["bofe_allFee"]
+	                                all_USD_ALL = all_USD_ALL + data.Data[j]["bofe_allFee"]
 	                                $('#statement_data').text()
 	                            } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
 	                                all_OWNER = all_OWNER + data.Data[j]["bofe_allFee"]
+	                                all_OWNER_ALL = all_OWNER_ALL + data.Data[j]["bofe_allFee"]
 	                            }
-	                            all_OWNER_ALL += all_USD * exchangeRate + all_OWNER
+	                            all_ALL += all_USD * exchangeRate * 1 + all_OWNER * 1
 	                        }
 	                    }
 
@@ -253,7 +257,9 @@ $(document).ready(function() {
 	                
 	            }
 
-	            $('#allPrice').text(all_OWNER_ALL)
+	            $('#allUSDPrice').text(all_USD_ALL)
+	            $('#allOWNPrice').text(all_OWNER_ALL)
+	            $('#allPrice').text(all_ALL)
 	            $('#allCount').text(data.data.length)
 	        }
 
