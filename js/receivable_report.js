@@ -11,10 +11,13 @@ var en2 = {
 
 };
 
+var type = GetQueryString('type')
+var sellIds = [], luruIds = [], kefuIds = [], caozuoIds = [], userIds, crmIds = []
+var _feeItemArr = new Array();
+
 $(document).ready(function () {
     
     //	initModal();
-    var type = GetQueryString('type')
     if (type == 'debit') {
         hasPermission('1322'); //权限控制：查看应收报表
         console.log(isPermission('1323'))
@@ -61,7 +64,7 @@ $(document).ready(function () {
 
     $('#send').on('click', function () {
 
-        var sellIds = [], luruIds = [], kefuIds = [], caozuoIds = [], userIds, crmIds = []
+        //var sellIds = [], luruIds = [], kefuIds = [], caozuoIds = [], userIds, crmIds = []
 
 	    if ($("#sellId").val() != null) {
 	        sellIds = $("#sellId").val()
@@ -382,6 +385,19 @@ $(document).ready(function () {
 	    } // 函数用于呈现当前的选择
 	});
 
+    //费用类型
+	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+	    'typeId': 6,
+	    'companyId': companyID
+	}, function (data) {
+	    var _data = data.data;
+	    console.log(_data)
+	    for (var i = 0; i < _data.length; i++) {
+	        _feeItemArr.push(_data[i].puda_id + ';' + _data[i].puda_name_cn + ' / ' + _data[i].puda_name_en)
+	    }
+	}, function (error) {
+	}, 1000)
+
 	function GetStatement(timeType, timeWhich, sellIds, luruIds, kefuIds, caozuoIds, crmIds)
 	{
 	    $('#timePrint').text(getDate())
@@ -477,7 +493,7 @@ $(document).ready(function () {
 	                }
 
 	            }
-	            //console.log(obj2)
+	            console.log(obj2)
 
 	            var all_USD = 0, all_OWNER = 0, all_STATE1 = 0, all_STATE2 = 0, all_OWNER_ALL = 0
 	            for (i in data.Data) {
@@ -497,13 +513,15 @@ $(document).ready(function () {
 	            $('#allState2').text(all_STATE2)
 	            $('#allBili').text(all_OWNER_ALL)
 
-	            for (i in obj2) {
-	                var _html = '<div class="item"></div><div style="width:100%;font-size:14px; font-weight:bold;"><div style="float:left;width:16%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;">' + i + '</div><div class="d_num" style="float:left;width:16%;"></div><div class="d_profit" style="float:left;width:16%;"></div><div class="d_state1" style="float:left;width:16%;"></div><div class="d_state2" style="float:left;width:16%;"></div><div class="d_bili" style="float:left;width:16%;"></div></div>';
+	            for (i in obj2) {  
+	                var toCompany = 0
+	                var _html = '<div class="item"></div><div style="width:100%;font-size:14px; font-weight:bold;" class="company"></div>';
 	                $('#statement_data').append(_html)
 	                var d_USD = 0, d_OWNER = 0, d_STATE1 = 0, d_STATE2 = 0, d_OWNER_ALL = 0
 	                for (j in obj2[i]) {
 	                    var USD = 0, OWNER = 0, STATE1 = 0, STATE2 = 0, OWNER_ALL = 0
 	                    for (k in obj2[i][j]) {
+	                        toCompany = obj2[i][j][k]["bofe_toCompany"]
 	                        var feeUnit = obj2[i][j][k]["bofe_feeUnit"]
 	                        if (feeUnit == 'USD') {
 	                            USD = USD + obj2[i][j][k]["bofe_allFee"]
@@ -515,13 +533,14 @@ $(document).ready(function () {
 	                    }
 	                    //OWNER_ALL = USD * exchangeRate + OWNER
 	                    OWNER_ALL = STATE1 * exchangeRate + STATE2
-	                    $('.item:last').append('<div style="width:100%;"><div style="float:left;width:16%;">' + j + '</div><div style="float:left;width:16%;">' + USD + '</div><div style="float:left;width:16%;">' + OWNER + '</div><div style="float:left;width:16%;">' + STATE1 + '</div><div style="float:left;width:16%;">' + STATE2 + '</div><div style="float:left;width:16%;">' + OWNER_ALL + '</div></div>')
+	                    $('.item:last').append('<div style="width:100%;"><div style="float:left;width:16%;" onclick="_detailFun(2,\'' + i + '\',' + toCompany + ',\'' + j + '\')"><a href="#">' + j + '</a></div><div style="float:left;width:16%;">' + USD + '</div><div style="float:left;width:16%;">' + OWNER + '</div><div style="float:left;width:16%;">' + STATE1 + '</div><div style="float:left;width:16%;">' + STATE2 + '</div><div style="float:left;width:16%;">' + OWNER_ALL + '</div></div>')
 	                    d_USD = d_USD + USD
 	                    d_OWNER = d_OWNER + OWNER
 	                    d_STATE1 = d_STATE1 + STATE1
 	                    d_STATE2 = d_STATE2 + STATE2
 	                    d_OWNER_ALL = d_OWNER_ALL + OWNER_ALL
 	                }
+	                $('.company:last').append('<div style="float:left;width:16%;overflow: hidden;white-space: nowrap;text-overflow:ellipsis;"  onclick="_detailFun(1,\''+i+'\',' + toCompany + ')"><a href="#">' + i + '</a></div><div class="d_num" style="float:left;width:16%;"></div><div class="d_profit" style="float:left;width:16%;"></div><div class="d_state1" style="float:left;width:16%;"></div><div class="d_state2" style="float:left;width:16%;"></div><div class="d_bili" style="float:left;width:16%;"></div>')
 	                $('.d_num:last').text(d_USD)
 	                $('.d_profit:last').text(d_OWNER)
 	                $('.d_state1:last').text(d_STATE1)
@@ -537,3 +556,58 @@ $(document).ready(function () {
 	}
 
 });
+
+function _detailFun(typeId,text,value,time) {
+    $("#myModal").modal("show");
+    $("#mingxi").empty()
+    $("#mySmallModalLabel").text("查看明细-" + text)
+    var timeWhich = $("input[name='radio1']:checked").val()
+    var time0 = $('#month').val()
+    var time1 = $('#date1').val()
+    var time2 = $('#date2').val()
+    if (typeId == 2) {
+        timeWhich = 1
+        time0 = time.substr(0, 4) + '-' + time.substr(4, 2)
+    }
+    common.ajax_req("get", true, dataUrl, "booking.ashx?action=readfee", {
+        'companyId': companyID,
+        'feeType': type,
+        'timeType': $("input[name='radio2']:checked").val(),
+        'timeWhich': timeWhich,
+        'time0': time0,
+        'time1': time1,
+        'time2': time2,
+        'sellIds': sellIds.toString(),
+        'luruIds': luruIds.toString(),
+        'kefuIds': kefuIds.toString(),
+        'caozuoIds': caozuoIds.toString(),
+        'crmIds': value,
+    }, function (data) {
+        console.log(data.Data)
+        if (data.State == 1) {
+            //初始化信息
+            var _data = data.Data
+            for (var i = 0; i < _data.length; i++) {
+                var feelist = '<tr><td>' + (i + 1) + '</td><td>' + text + '</td><td>' + _data[i].book_orderCode + '</td><td>' + _getFeeItemFun(_data[i].bofe_feeItem) + '</td><td>' + _data[i].bofe_feeUnit + '</td><td>' + _data[i].bofe_fee + '</td><td>' + _data[i].bofe_num + '</td><td>' + _data[i].bofe_numUnit + '</td><td>' + _data[i].bofe_allFee + '</td></tr>'
+                $("#mingxi").append(feelist)
+            }
+  
+        }
+
+    }, function (err) {
+        console.log(err)
+    }, 1000)
+}
+
+function _getFeeItemFun(o) {
+    //console.log("111111111111111111111111111111111111")
+    var z = new Array();
+    var x;
+    for (var i = 0; i < _feeItemArr.length; i++) {
+        if (_feeItemArr[i].indexOf(o) >= 0) {
+            z = _feeItemArr[i].split(";");
+            x = z[1];
+        }
+    }
+    return x;
+}

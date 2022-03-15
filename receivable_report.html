@@ -315,6 +315,43 @@ Purchase: http://wrapbootstrap.com
         <!-- /Page Container -->
         <!-- Main Container -->
     </div>
+
+    <!--LArge Modal Templates-->
+    <div class="modal fade bs-example-modal-lg" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none; z-index:999999">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="mySmallModalLabel">查看明细</h4>
+                </div>
+                <div class="modal-body" style="padding: 10px 40px;">
+                    <table class="table table-striped table-hover table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                            <tr class="tableTitle">
+                                <th>序号</th>
+                                <th>客户</th>
+                                <th>单号</th>
+                                <th>费用项目</th>
+                                <th>币种</th>
+                                <th>金额</th>
+                                <th>数量</th>
+                                <th>单位</th>
+                                <th>总额</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mingxi"></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <!--End Large Modal Templates-->
+
+
     <!--Basic Scripts-->
     <script src="assets/js/jquery-2.0.3.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
