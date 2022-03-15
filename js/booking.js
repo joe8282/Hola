@@ -300,6 +300,7 @@ function initTable(fromId) {
 		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&crmId=' + companyID + '&fromId=' + fromId + '&userId=' + childrenIds + '&userOtherId=' + userID + "&all=true"
     	tableTitle='<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>订舱时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
+    	$('.tableFoot').html('<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>订舱时间</th><th>状态</th><th></th>')
     	columns = [
     		{
     			"mDataProp": "book_sellId",
@@ -434,7 +435,8 @@ function initTable(fromId) {
 		hasPermission('1713'); //权限控制
 		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&userOtherId=' + userID + "&all=true"
 		tableTitle = '<th>人员</th><th>单号/订舱号</th><th>SO NO. / MBL NO.</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
-    	$('.tableTitle').html(tableTitle)
+		$('.tableTitle').html(tableTitle)
+		$('.tableFoot').html('<th>人员</th><th>单号/订舱号</th><th>SO NO. / MBL NO.</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th></th>')
     	columns = [
     		{
     			"mDataProp": "book_sellId",
@@ -663,16 +665,24 @@ function initTable(fromId) {
             {"bSortable": false, "aTargets": [3,6,7,8]}
         ]
     }
+
+    var table_tfoot_th_len = $('#example tfoot th').length; 
+    $('#example tfoot th').each(function () {
+        var title = $('#example thead th').eq($(this).index()).text();
+        if ($(this).index() != table_tfoot_th_len - 1) {  // 最后一行不需要显示搜索栏 20190815 by daniel
+            $(this).html('<input style="width:100%;" type="text" placeholder="搜索 ' + title + '" />');
+        }
+    });
     
 	var table = $("#example").dataTable({
-		//"iDisplayLength":10,
+		"iDisplayLength":10,
 //		"stateSave": true,
 		"sAjaxSource": ajaxUrl,
-//		'bPaginate': true,
+		'bPaginate': true,
 //		"bDestory": true,
 //		"bRetrieve": true,
 //		"bFilter": false,
-		"bLengthChange":false,
+		"bLengthChange": true,
         "aaSorting": aaaSorting,
         "aoColumnDefs": aaaColumDefs,
 //		"bSort": true,
@@ -716,6 +726,16 @@ function initTable(fromId) {
 			//}
 		}
 	});
+
+	table.api().columns().eq(0).each(function (colIdx) {
+	    $('input', table.api().column(colIdx).footer()).on('keyup change', function () {
+	        table.api()
+                .column(colIdx)
+                .search(this.value)
+                .draw();
+	    });
+	});
+
 	return table;
 }
 
