@@ -71,7 +71,7 @@ function initTable() {
                             "mDataProp": "caac_money",
                             "mRender": function (td, cellData, rowData, row, col) {
                                 if (rowData.caac_file != "") {
-                                    return (rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + "uppic/orderPic/" + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
+                                    return (rowData.caac_money + '&nbsp;&nbsp;<a href="' + dataUrl + rowData.caac_file + '" target="_blank"><i class="glyphicon glyphicon-picture"></a></i>');
                                 } else {
                                     return (rowData.caac_money);
                                 }

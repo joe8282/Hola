@@ -384,7 +384,7 @@ $(document).ready(function() {
 	        $("#bank").val(data.Data.caac_bank).trigger("change")
 	        $("#beizhu").val(data.Data.caac_beizhu)
 	        if (data.Data.caac_file != "") {
-	            $('#showimg').attr('src', dataUrl+"uppic/feePic/" + data.Data.caac_file);
+	            $('#showimg').attr('src', dataUrl + data.Data.caac_file);
 	        }
 	        cancel_all_money = data.Data.caac_money
 	        var maillist = data.Data.caac_feeItem.split(',')
