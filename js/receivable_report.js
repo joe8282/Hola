@@ -582,6 +582,7 @@ function _detailFun(typeId,text,value,time) {
         'kefuIds': kefuIds.toString(),
         'caozuoIds': caozuoIds.toString(),
         'crmIds': value,
+        'state': 0,
     }, function (data) {
         console.log(data.Data)
         if (data.State == 1) {
