@@ -145,7 +145,7 @@ $(function(){
 		console.log(crmId)
 		containerType = _data.book_allContainer;
 		forwarder_id = _data.book_forwarder;
-		if (_data.book_fee_locked == 1) { $(".caozuoBtu").hide(); }
+		if (_data.book_fee_locked == 1) { isLock = 1; $(".caozuoBtu").hide(); $("#isLock").attr("checked", true);}
 		else { $(".caozuoBtu").show(); }
 	}, function(err) {
 		console.log(err)
