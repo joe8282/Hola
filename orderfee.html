@@ -277,12 +277,15 @@ Purchase: http://wrapbootstrap.com
                                 <li class="tab-red"><a class="cancel_billpaytab" data-toggle="tab" href="#SHOUKUANG">应付销账申请</a></li>
                                 <li class="tab-red"><a class="gysbilltab" data-toggle="tab" href="#GONGYINGSHANG">承运商账单</a></li>
                                 <li class="tab-red"><a class="filetab" data-toggle="tab" href="#WENJIAN">相关文件</a></li>
+                                <li style="float: right; padding-top: 5px; padding-right: 10px;" id="lock_per">
+                                    <span><input name="isLock" type="checkbox" id="isLock"> 是否锁定</span>
+                                </li>
                             </ul>
 
                             <div class="tab-content">
                                 <div id="SHOUFU" class="tab-pane in active">
                                     <div class="scrollbar">
-                                        <div style="margin-bottom: 10px;">
+                                        <div class="caozuoBtu" style="margin-bottom: 10px;">
                                             <div class="btn-group">
                                                 <!--button type="submit" id="addFee1" class="btn"></button-->
                                                 <a class="btn btn-blue btn-sm" id="addFee1">添加应收</a>
@@ -300,7 +303,7 @@ Purchase: http://wrapbootstrap.com
                                                 </ul>
                                             </div>
                                             <a class="btn btn-blue btn-sm" id="copyFee">复制费用</a>
-</div>
+                                        </div>
                                         <div style="margin: 10px 0 10px 0; margin-bottom: 1px solid #ccc; font-size: 16px;">
                                             <strong>利润：<span id="profit" style="margin-right: 20px;"></span></strong> | 应收：<span id="debitTotal" style="margin-right: 20px;"></span> | 应付：<span id="creditTotal" style="margin-right: 20px;"></span> 
                                         </div>

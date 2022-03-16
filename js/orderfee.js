@@ -52,6 +52,7 @@ $(function(){
     var containerType;    
     var _arrExchangeRate= new Array();
     var _arrfee00dataGather_toString;
+    var isLock = 0;
 
     initLocalchargeListTable();
 
@@ -60,6 +61,24 @@ $(function(){
         location.href = 'orderadd.html?action=modify&Id='+Id;
     })
 
+    $('#isLock').on('click', function () {
+        if ($("#isLock").is(":checked")) {
+            isLock = 1;
+        }
+        else {
+            isLock = 0;
+        }
+        common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=modify', { 'Id': Id, 'book_fee_locked': isLock }, function (data) {
+            if (data.State == 1) {
+                comModel("操作成功")
+                if (isLock == 1) { $(".caozuoBtu").hide(); }
+                else { $(".caozuoBtu").show(); }
+            } else {
+                comModel("操作失败")
+            }
+        }, function (error) {
+        }, 1000)
+    })
 
     common.ajax_req("get", false, dataUrl, "booking.ashx?action=prenext", {
         "companyId": companyID,
@@ -126,6 +145,8 @@ $(function(){
 		console.log(crmId)
 		containerType = _data.book_allContainer;
 		forwarder_id = _data.book_forwarder;
+		if (_data.book_fee_locked == 1) { $(".caozuoBtu").hide(); }
+		else { $(".caozuoBtu").show(); }
 	}, function(err) {
 		console.log(err)
 	}, 1000)
