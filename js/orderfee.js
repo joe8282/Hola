@@ -71,8 +71,8 @@ $(function(){
         common.ajax_req('POST', false, dataUrl, 'booking.ashx?action=modify', { 'Id': Id, 'book_fee_locked': isLock }, function (data) {
             if (data.State == 1) {
                 comModel("操作成功")
-                if (isLock == 1) { $(".caozuoBtu").hide(); }
-                else { $(".caozuoBtu").show(); }
+                if (isLock == 1) { $(".caozuoBtu").hide(); $("#send_shoufu").hide(); }
+                else { $(".caozuoBtu").show(); $("#send_shoufu").show(); }
             } else {
                 comModel("操作失败")
             }
@@ -145,7 +145,7 @@ $(function(){
 		console.log(crmId)
 		containerType = _data.book_allContainer;
 		forwarder_id = _data.book_forwarder;
-		if (_data.book_fee_locked == 1) { isLock = 1; $(".caozuoBtu").hide(); $("#isLock").attr("checked", true);}
+		if (_data.book_fee_locked == 1) { isLock = 1; $(".caozuoBtu").hide(); $("#send_shoufu").hide(); $("#isLock").attr("checked", true); }
 		else { $(".caozuoBtu").show(); }
 	}, function(err) {
 		console.log(err)
