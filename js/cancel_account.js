@@ -84,7 +84,7 @@ function initTable() {
                                     "sWidth": "15%",
                                     "mRender": function (nTd, sData, oData, iRow, iCol) {
                                         if (oData.caac_opetionUser != 0) {
-                                            return (oData.usin_name + "<br/>" + oData.caac_opetionTime);
+                                            return (oData.usin_name + "<br/>" + oData.caac_opetionTime.substring(0, 10));
                                         } else {
                                             return ("");
                                         }
