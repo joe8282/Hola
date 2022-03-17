@@ -279,7 +279,7 @@ Purchase: http://wrapbootstrap.com
                                     </div>
                                 </div>
                             </form>
-                            <div class="form-group"><div class="col-sm-offset-1 col-sm-11"><button type="submit" id="send" class="btn btn-blue">显示报表</button></div></div>
+                            <div class="form-group"><div class="col-sm-offset-1 col-sm-11"><button type="submit" id="send" class="btn btn-blue">显示报表</button>&nbsp;&nbsp;&nbsp;&nbsp;<span class="widget-caption"><input type="checkbox" class="inverted" id="ordermore" checked> 是否显示明细</span></div></div>
                             <div>&nbsp;</div>
                         </div>
                     </div>
@@ -308,15 +308,17 @@ Purchase: http://wrapbootstrap.com
                                             <th>起运港</th>
                                             <th>目的港</th>
                                             <th>箱号箱型</th>
-                                            <th>USD</th>
-                                            <th class="OWNER_Unit">本位币</th>
+                                            <th>应收USD</th>
+                                            <th>应收<span class="OWNER_Unit">本位币</span></th>
+                                            <th>应付USD</th>
+                                            <th>应付<span class="OWNER_Unit">本位币</span></th>
                                             <th>天数</th>
                                         </tr>
                                     </thead>
                                     <tbody id="statement_data"></tbody>
                                 </table>
                                 <!--<div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:12%;">工作号</div><div style="float:left;width:10%;">离港日期</div><div style="float:left;width:14%;">承运人单号</div><div style="float:left;width:12%;">起运港</div><div style="float:left;width:12%;">目的港</div><div style="float:left;width:16%;">箱号箱型</div><div style="float:left;width:8%;">USD</div><div style="float:left;width:8%;" class="OWNER_Unit">本位币</div><div style="float:left;width:8%;">天数</div></div>-->
-                                <div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:25%;">总计单数：<span id="allCount"></span></div><div style="float: left; width: 25%; ">总计USD：<span id="allUSDPrice"></span></div><div style="float: left; width: 25%; ">总计<span class="OWNER_Unit">本位币</span>：<span id="allOWNPrice"></span></div><div style="float: left; width: 25%; ">折合总计：<span class="OWNER_Unit">本位币</span><span id="allPrice"></span></div></div>
+                                <div style="float: left; width: 100%; text-align: center; height: 40px; font-size: 16px; font-weight: bold; border: 1px solid #ccc; "><div style="float:left;width:16%;">总计单数：<span id="allCount"></span></div><div style="float: left; width: 16%; ">应收USD总计：<span id="allUSDPrice"></span></div><div style="float: left; width: 16%; ">应收<span class="OWNER_Unit">本位币</span>总计：<span id="allOWNPrice"></span></div><div style="float: left; width: 16%; ">应付USD总计：<span id="allUSDPrice_fu"></span></div><div style="float: left; width: 16%; ">应付<span class="OWNER_Unit">本位币</span>总计：<span id="allOWNPrice_fu"></span></div><div style="float: left; width: 20%; ">折合总计：<span class="OWNER_Unit">本位币</span><span id="allPrice"></span></div></div>
                                 <div style="float: left; width: 100%; padding: 20px; ">
                                     <div style="float: left; width: 49%; min-height: 100px; line-height: 180%; text-align: left; border: 1px solid #ccc; padding: 20px; "><p id="beizhu_content">备注内容</p></div>
                                     <div style="float: right; width: 49%; min-height: 100px; line-height: 180%; text-align: left; border: 1px solid #ccc; padding: 20px; "><p id="bank_content">银行信息</p></div>

@@ -11,6 +11,8 @@ var en2 = {
 
 };
 
+var _feeItemArr = new Array();
+
 $(document).ready(function() {
     hasPermission('1326'); //权限控制：查看对账通知单
     if (isPermission('1327') != 1) {
@@ -80,6 +82,20 @@ $(document).ready(function() {
 	        
 	    }
 	})
+
+
+    //费用类型
+	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+	    'typeId': 6,
+	    'companyId': companyID
+	}, function (data) {
+	    var _data = data.data;
+	    console.log(_data)
+	    for (var i = 0; i < _data.length; i++) {
+	        _feeItemArr.push(_data[i].puda_id + ';' + _data[i].puda_name_cn + ' / ' + _data[i].puda_name_en)
+	    }
+	}, function (error) {
+	}, 1000)
 
 	common.ajax_req("get", false, dataUrl, "crmcompany.ashx?action=read", {
 	    "companyId": companyID
@@ -198,27 +214,41 @@ $(document).ready(function() {
 	            //$('#allCount').text(data.data.length)
 
 	            var all_ALL = 0
+	            var all_ALL_fu = 0
 	            var all_USD_ALL = 0
 	            var all_OWNER_ALL = 0
+	            var all_USD_ALL_fu = 0
+	            var all_OWNER_ALL_fu = 0
 	            for (i in data.data) {
-	                var all_USD = 0, all_OWNER = 0
+	                var all_USD = 0, all_OWNER = 0, all_USD_fu = 0, all_OWNER_fu = 0
 	                common.ajax_req('GET', false, dataUrl, 'booking.ashx?action=readfee', {
 	                    'bookingId': data.data[i]["book_id"],
-	                    'feeType': 'debit',
+	                    //'feeType': 'debit',
 	                    'state': 0,
 	                }, function (data) {
 	                    if (data.State == 1) {
 	                        for (j in data.Data) {
 	                            var feeUnit = data.Data[j]["bofe_feeUnit"]
-	                            if (feeUnit == 'USD') {
-	                                all_USD = all_USD + data.Data[j]["bofe_allFee"]
-	                                all_USD_ALL = all_USD_ALL + data.Data[j]["bofe_allFee"]
-	                                $('#statement_data').text()
-	                            } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
-	                                all_OWNER = all_OWNER + data.Data[j]["bofe_allFee"]
-	                                all_OWNER_ALL = all_OWNER_ALL + data.Data[j]["bofe_allFee"]
+	                            if (data.Data[j]["bofe_feeType"] == 'debit') {
+	                                if (feeUnit == 'USD') {
+	                                    all_USD = all_USD + data.Data[j]["bofe_allFee"]
+	                                    all_USD_ALL = all_USD_ALL + data.Data[j]["bofe_allFee"]
+	                                    //$('#statement_data').text()
+	                                } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
+	                                    all_OWNER = all_OWNER + data.Data[j]["bofe_allFee"]
+	                                    all_OWNER_ALL = all_OWNER_ALL + data.Data[j]["bofe_allFee"]
+	                                }
+	                            } else {
+	                                if (feeUnit == 'USD') {
+	                                    all_USD_fu = all_USD_fu + data.Data[j]["bofe_allFee"]
+	                                    all_USD_ALL_fu = all_USD_ALL_fu + data.Data[j]["bofe_allFee"]
+	                                } else if (feeUnit == OWNER_Unit && OWNER_Unit != 'USD') {
+	                                    all_OWNER_fu = all_OWNER_fu + data.Data[j]["bofe_allFee"]
+	                                    all_OWNER_ALL_fu = all_OWNER_ALL_fu + data.Data[j]["bofe_allFee"]
+	                                }
 	                            }
-	                            all_ALL += all_USD * exchangeRate + all_OWNER
+
+	                            
 	                        }
 	                    }
 
@@ -231,7 +261,24 @@ $(document).ready(function() {
 	                    book_truePortTime = data.data[i]["book_truePortTime"].substring(0, 10)
 	                }
 	                
-	                var _html = '<tr><td>' + data.data[i]["book_orderCode"] + '</td><td>' + book_truePortTime + '</td><td>' + data.data[i]["book_billCode"] + '</td><td>' + data.data[i]["book_port1"] + '</td><td>' + data.data[i]["book_port2"] + '</td><td>' + data.data[i]["book_movementType"] + '/' + data.data[i]["book_allContainer"] + '</td><td id="USD_Price">' + all_USD + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER + '</td><td>' + dateNum + '</td></tr>';
+	                var mingxi = ""
+	                common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
+	                    'bookingId': data.data[i]["book_id"],
+	                }, function (data) {
+	                    //console.log(data.Data)
+	                    if (data.State == 1) {
+	                        //初始化信息
+	                        var _data = data.Data
+	                        for (var i = 0; i < _data.length; i++) {
+	                            mingxi += '<tr><td>' + (i + 1) + '</td><td>' + _data[i].comp_name + '</td><td>' + _getFeeItemFun(_data[i].bofe_feeItem) + '</td><td>' + _data[i].bofe_feeUnit + '</td><td>' + _data[i].bofe_fee + '</td><td>' + _data[i].bofe_num + '</td><td>' + _data[i].bofe_numUnit + '</td><td>' + _data[i].bofe_allFee + '</td></tr>'
+	                        }
+	                    }
+	                }, function (err) {
+	                    console.log(err)
+	                }, 1000)
+
+	                var _html = '<tr><td>' + data.data[i]["book_orderCode"] + '</td><td>' + book_truePortTime + '</td><td>' + data.data[i]["book_billCode"] + '</td><td>' + data.data[i]["book_port1"] + '</td><td>' + data.data[i]["book_port2"] + '</td><td>' + data.data[i]["book_movementType"] + '/' + data.data[i]["book_allContainer"] + '</td><td id="USD_Price">' + all_USD + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER + '</td><td id="USD_Price">' + all_USD_fu + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER_fu + '</td><td>' + dateNum + '</td></tr><tr><td colspan="11" class="mingxi"><table cellspacing="0" width="100%"><tr><thead><th>序号</th><th>客户</th><th>费用项目</th><th>币种</th><th>金额</th><th>数量</th><th>单位</th><th>总额</th></tr></thead><tbody>' + mingxi + '</tbody></table></td></tr>';
+
 	                $('#statement_data').append(_html)
 
 	                //var d_USD = 0, d_OWNER = 0, d_OWNER_ALL = 0
@@ -257,9 +304,14 @@ $(document).ready(function() {
 	                
 	            }
 
+	            all_ALL = all_USD_ALL * exchangeRate + all_OWNER_ALL
+	            all_ALL_fu = all_USD_ALL_fu * exchangeRate + all_OWNER_ALL_fu
+
 	            $('#allUSDPrice').text(all_USD_ALL)
 	            $('#allOWNPrice').text(all_OWNER_ALL)
-	            $('#allPrice').text(all_ALL.toFixed(2))
+	            $('#allUSDPrice_fu').text(all_USD_ALL_fu)
+	            $('#allOWNPrice_fu').text(all_OWNER_ALL_fu)
+	            $('#allPrice').text((all_ALL-all_ALL_fu).toFixed(2))
 	            $('#allCount').text(data.data.length)
 	        }
 
@@ -268,6 +320,24 @@ $(document).ready(function() {
 	    }, 1000)
 	}
 
-
+	$('#ordermore').on('click', function () {
+	    if ($("#ordermore").is(":checked")) {
+	        $(".mingxi").show()
+	    }
+	    else { $(".mingxi").hide() }
+	})
 
 });
+
+function _getFeeItemFun(o) {
+    //console.log("111111111111111111111111111111111111")
+    var z = new Array();
+    var x;
+    for (var i = 0; i < _feeItemArr.length; i++) {
+        if (_feeItemArr[i].indexOf(o) >= 0) {
+            z = _feeItemArr[i].split(";");
+            x = z[1];
+        }
+    }
+    return x;
+}
