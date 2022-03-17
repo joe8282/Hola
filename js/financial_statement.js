@@ -264,6 +264,7 @@ $(document).ready(function() {
 	                var mingxi = ""
 	                common.ajax_req("get", false, dataUrl, "booking.ashx?action=readfee", {
 	                    'bookingId': data.data[i]["book_id"],
+	                    'state': 0,
 	                }, function (data) {
 	                    //console.log(data.Data)
 	                    if (data.State == 1) {
@@ -277,7 +278,7 @@ $(document).ready(function() {
 	                    console.log(err)
 	                }, 1000)
 
-	                var _html = '<tr><td>' + data.data[i]["book_orderCode"] + '</td><td>' + book_truePortTime + '</td><td>' + data.data[i]["book_billCode"] + '</td><td>' + data.data[i]["book_port1"] + '</td><td>' + data.data[i]["book_port2"] + '</td><td>' + data.data[i]["book_movementType"] + '/' + data.data[i]["book_allContainer"] + '</td><td id="USD_Price">' + all_USD + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER + '</td><td id="USD_Price">' + all_USD_fu + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER_fu + '</td><td>' + dateNum + '</td></tr><tr><td colspan="11" class="mingxi"><table cellspacing="0" width="100%"><tr><thead><th>序号</th><th>客户</th><th>费用项目</th><th>币种</th><th>金额</th><th>数量</th><th>单位</th><th>总额</th></tr></thead><tbody>' + mingxi + '</tbody></table></td></tr>';
+	                var _html = '<tr><td>' + data.data[i]["book_orderCode"] + '</td><td>' + book_truePortTime + '</td><td>' + data.data[i]["book_billCode"] + '</td><td>' + data.data[i]["book_port1"] + '</td><td>' + data.data[i]["book_port2"] + '</td><td>' + data.data[i]["book_movementType"] + '/' + data.data[i]["book_allContainer"] + '</td><td id="USD_Price">' + all_USD + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER + '</td><td id="USD_Price">' + all_USD_fu + '</td><td class="OWNER_Unit" id="OWNER_Price">' + all_OWNER_fu + '</td><td>' + dateNum + '</td></tr><tr><td colspan="11" class="mingxi"><table cellspacing="0" width="100%"><tr><thead><th width="5%">序号</th><th width="20%">客户</th><th width="10%">费用项目</th><th width="5%">币种</th><th width="5%">金额</th><th width="5%">数量</th><th width="5%">单位</th><th width="5%">总额</th></tr></thead><tbody>' + mingxi + '</tbody></table></td></tr>';
 
 	                $('#statement_data').append(_html)
 
