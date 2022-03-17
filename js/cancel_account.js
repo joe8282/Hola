@@ -57,8 +57,8 @@ function initTable() {
 			    "mDataProp": "caac_typeId",
 			    "mRender": function (td, cellData, rowData, row, col) {
                     var typeName = ''
-                    if (rowData["caac_typeId"] == "1") { typeName = '应付销账' }
-                    if (rowData["caac_typeId"] == "2") { typeName = '应收销账' }
+                    if (rowData["caac_typeId"] == "1") { typeName = '应收销账' }
+                    if (rowData["caac_typeId"] == "2") { typeName = '应付销账' }
                     if (rowData["caac_typeId"] == "3") { typeName = '对冲' }
                     return (typeName);
 			    }

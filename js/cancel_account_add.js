@@ -239,7 +239,6 @@ $(document).ready(function() {
 	})
 
 	$("#btnAddSave").on("click", function () {
-	    $("#btnAddSave").hide();
 	    var str = '';
 	    $("input[name='checkList']:checked").each(function (i, o) {
 	        str += $(this).val();
@@ -267,6 +266,7 @@ $(document).ready(function() {
 	        comModel("请选择销账明细！")
 	        return
 	    } else {
+	        $("#btnAddSave").hide();
 	        var jsonData = {
 	            'state': state,
 	            'companyId': companyID,
