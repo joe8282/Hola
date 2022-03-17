@@ -79,6 +79,18 @@ function initTable() {
                         },
             
             { "mDataProp": "caac_beizhu" },
+                                {
+                                    "mDataProp": "caac_id",
+                                    "sWidth": "15%",
+                                    "mRender": function (nTd, sData, oData, iRow, iCol) {
+                                        if (oData.caac_opetionUser != 0) {
+                                            return (oData.usin_name + "<br/>" + oData.caac_opetionTime);
+                                        } else {
+                                            return ("");
+                                        }
+                                        
+                                    }
+                                },
             {
                 "mDataProp": "caac_addTime",
                 "mRender": function (td, cellData, rowData, row, col) {
