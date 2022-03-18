@@ -1729,7 +1729,7 @@ $(function(){
 	}	
 
 	//提单类型
-	common.ajax_req('GET', true, dataUrl, 'publicdata.ashx?action=readbytypeid', {
+	common.ajax_req('GET', false, dataUrl, 'publicdata.ashx?action=readbytypeid', {
 		'typeId': 12,
 		'companyId': companyID
 	}, function(data) {
@@ -2665,6 +2665,7 @@ $(function(){
     		    $('#truePortTime2').datepicker('setDate', _data.book_truePortTime2.substring(0, 10));
     		}      		
     		$('#allContainer').val(_data.book_allContainer)
+    		$("#billType").val(_data.book_bill1Type).trigger("change")
     		$("#shippingTerm").val(_data.book_shippingTerm).trigger("change")
     		$("#shippingFeeTerm").val(_data.book_shippingFeeTerm).trigger("change")
     		$('#payAddress').val(_data.book_payAddress)
