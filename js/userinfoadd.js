@@ -11,6 +11,7 @@ var en2 = {
 
 var Id = GetQueryString('Id');
 var action = GetQueryString('action');
+var _departmentArr = new Array();
 $(function(){
 	this.title = get_lan('nav_0_3')
 	$('.navli0').addClass("active open")
@@ -36,6 +37,7 @@ $(function(){
 		for(var i = 0; i < _data.length; i++) {
 			var _html = '<option value="' + _data[i].code_id + '">' + _data[i].code_name + '</option>';
 			$('#e1').append(_html)
+			_departmentArr.push(_data[i].code_id + ';' + _data[i].code_name)
 		}
 	}, function(error) {
 		console.log(parm)
@@ -156,6 +158,7 @@ $(function(){
 	            //console.log(data.Data)
 	            //初始化信息
 	            var _data = data.Data
+	            $(".username").text(_getDepartmentFun(_data.usin_departmentId) + " - " + _data.usin_name)
 	            var permission = _data.usin_permission.split(',')
 	            for (var i = 0; i < permission.length - 1; i++) {
 	                $("#permission").find("input:checkbox[value='" + permission[i] + "']").prop('checked', true);
@@ -192,6 +195,7 @@ $(function(){
 	            //console.log(data.Data)
 	            //初始化信息
 	            var _data = data.Data
+	            $(".username").text(_getDepartmentFun(_data.usin_departmentId) + " - " + _data.usin_name)
 	            var data_permission = _data.usin_data_permission.split(',')
 	            for (var i = 0; i < data_permission.length - 1; i++) {
 	                $("#data_permission").find("input:checkbox[value='" + data_permission[i] + "']").prop('checked', true);
@@ -494,4 +498,15 @@ $("#btnAddSave").on("click", function () {
     }
 });
 
+function _getDepartmentFun(o) {
+    var z = new Array();
+    var x;
+    for (var i = 0; i < _departmentArr.length; i++) {
+        if (_departmentArr[i].indexOf(o) >= 0) {
+            z = _departmentArr[i].split(";");
+            x = z[1];
+        }
+    }
+    return x;
+}
 

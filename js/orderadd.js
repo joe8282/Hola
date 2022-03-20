@@ -297,6 +297,8 @@ $(function(){
 			                $(nTd).html("审核通过");
 			            } else if (oData.opgo_state == 3) {
 			                $(nTd).html("审核不通过");
+			            } else if (oData.opgo_state == 4) {
+			                $(nTd).html("已取消");
 			            }
 			        }
 			    },
@@ -305,7 +307,7 @@ $(function(){
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                         if (oData.opgo_state == 1) {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailOpenGoodsFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteOpenGoodsFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteOpenGoodsFun(" + sData + ")'>" + get_lan('cancel') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -4097,17 +4099,18 @@ function _detailOpenGoodsFun(Id) {
 
 
 /**
- * 删除
+ * 取消放货
  * @param id
  * @private
  */
 function _deleteOpenGoodsFun(id) {
-    bootbox.confirm("Are you sure?", function (result) {
+    bootbox.confirm("确认要取消吗?", function (result) {
         if (result) {
             $.ajax({
-                url: dataUrl + 'ajax/opengoods.ashx?action=cancel',
+                url: dataUrl + 'ajax/opengoods.ashx?action=modify',
                 data: {
-                    "Id": id
+                    "Id": id,
+                    "state": 4
                 },
                 dataType: "json",
                 type: "post",
@@ -4116,7 +4119,7 @@ function _deleteOpenGoodsFun(id) {
                         openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
                         loadOpenGoods()
                     } else {
-                        alert("Delete Failed！");
+                        alert("取消失败！");
                     }
                 },
                 error: function (error) {
