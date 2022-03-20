@@ -362,7 +362,7 @@ $(document).ready(function() {
 	                    for (k in obj2[i][j]) {
 	                        profit = profit + obj2[i][j][k]["book_profit"]
 	                        var book_okTrailerTime = ""
-	                        if (obj2[i][j][k]["book_okTrailerTime"] != null) { book_okTrailerTime = obj2[i][j][k]["book_okTrailerTime"].substring(0, 10) }
+	                        if (obj2[i][j][k]["book_truePortTime"] != null) { book_okTrailerTime = obj2[i][j][k]["book_truePortTime"].substring(0, 10) }
 	                        _mingxi += '<tr><td>' + obj2[i][j][k]["book_orderCode"] + '</td><td>' + obj2[i][j][k]["crm_name"] + '</td><td>' + book_okTrailerTime + '</td><td>' + obj2[i][j][k]["book_profit"] + '</td><td>' + (obj2[i][j][k]["book_profit"] / all_profit * 100).toFixed(2) + '%</td></tr>'
 	                    }
 	                    bili = (profit / all_profit * 100).toFixed(2) + '%'
