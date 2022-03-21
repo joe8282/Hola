@@ -12,6 +12,7 @@ var en2 = {
 var Id = GetQueryString('Id');
 var action = GetQueryString('action');
 var _departmentArr = new Array();
+var oTable;
 $(function(){
 	this.title = get_lan('nav_0_3')
 	$('.navli0').addClass("active open")
@@ -204,6 +205,8 @@ $(function(){
 	            console.log(err)
 	        }, 5000)
 	    }, 100)
+
+	    oTable = initTable();
 
 	}
 	
@@ -401,9 +404,85 @@ $(function(){
 	});
 
 
+    /**
+ * 表格初始化
+ * @returns {*|jQuery}
+ */
+	function initTable() {
 
-	
+	    var table = $("#example0").dataTable({
+	        "sAjaxSource": dataUrl + 'ajax/crmcompany.ashx?action=read&companyId=' + companyID,
+	        //"bLengthChange": false,
+	        'bPaginate': false,
+	        //"iDisplayLength": 10,
+	        //"aLengthMenu": [[100, 500], ["100", "500"]],//二组数组，第一组数量，第二组说明文字;
+	        //"aaSorting": [[7, 'desc']],
+	        "aoColumnDefs": [//设置列的属性，此处设置第一列不排序
+                //{"orderable": false, "targets":[0,1,6,7,8,10,11]},
+                { "bSortable": false, "aTargets": [0, 2] }
+	        ],
+	        "ordering": false,
+	        //		"bDestory": true,
+	        //		"bRetrieve": true,
+	        //		"bFilter": false,
+	        //"bSort": false,
+	        //"aaSorting": [[ 0, "desc" ]],
+	        //"stateSave": false,  //保存表格动态
+	        //"columnDefs":[{
+	        //    "targets": [ 0 ], //隐藏第0列，从第0列开始   
+	        //    "visible": false
+	        //}],
+	        "aoColumns": [
+                                {
+                                    "mDataProp": "comp_id",
+                                    "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                                        $(nTd).html("<input type='checkbox' name='checkList' value='" + sData + "'>");
+                                    }
+                                },
+               { "mDataProp": "usin_name" },
+               { "mDataProp": "comp_name" },
+               { "mDataProp": "comp_type" },
+               { "mDataProp": "comp_contactPhone" },
+               { "mDataProp": "comp_country" },
+	        ],
+	        //		"bProcessing": true,
+	        //		"sDom": "<'row-fluid'<'span6 myBtnBox'><'span6'f>r>t<'row-fluid'<'span6'i><'span6 'p>>",
+	        //		"sPaginationType": "bootstrap",
+
+	        "oLanguage": {
+	            //			"sUrl": "js/zh-CN.txt"
+	            //			"sSearch": "快速过滤："
+	            "sProcessing": "正在加载数据，请稍后...",
+	            "sLengthMenu": "每页显示 _MENU_ 条记录",
+	            "sZeroRecords": get_lan('nodata'),
+	            "sEmptyTable": "表中无数据存在！",
+	            "sInfo": get_lan('page'),
+	            "sInfoEmpty": "显示0到0条记录",
+	            "sInfoFiltered": "数据表中共有 _MAX_ 条记录",
+	            //"sInfoPostFix": "",
+	            "sSearch": get_lan('search'),
+	            //"sUrl": "",
+	            //"sLoadingRecords": "载入中...",
+	            //"sInfoThousands": ",",
+	            "oPaginate": {
+	                "sFirst": get_lan('first'),
+	                "sPrevious": get_lan('previous'),
+	                "sNext": get_lan('next'),
+	                "sLast": get_lan('last'),
+	            }
+	            //"oAria": {
+	            //    "sSortAscending": ": 以升序排列此列",
+	            //    "sSortDescending": ": 以降序排列此列"
+	            //}
+	        }
+	    });
+
+	    return table;
+	}
+
 })
+
+
 
 /*客户管理权限设置*/
 function _setCrmRoleFun() {
@@ -412,7 +491,7 @@ function _setCrmRoleFun() {
     var roleId = [];
     common.ajax_req("get", true, dataUrl, "crmcompanyrole.ashx?action=read", {
         "companyId": companyID,
-        "userId": Id
+        "userId": userID
     }, function (data) {
         console.log(data.data)
         var _data = data.data
@@ -423,37 +502,36 @@ function _setCrmRoleFun() {
         console.log(err)
     }, 1000)
 
-    common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
-        "companyId": companyID
-    }, function (data) {
-        console.log(data.data)
-        var _data = data.data
-        for (var i = 0; i < _data.length; i++) {
-            var xuhao=i+1
-            var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
-            '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;"><input type="checkbox" name="checkList" value=' + _data[i].comp_id + '></label>' +
-            '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
-            '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].usin_name + '</label>' +
-            '<label for="inputPassword3" class="margin-right-10" style="width:27%; float: left;">' + _data[i].comp_name + '</label>' +
-            '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].comp_type + '</label>' +
-            '<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _data[i].comp_contactPhone + '</label>' +
-            //'<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _data[i].comp_contactEmail + '</label>' +
-            '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].comp_country + '</label>' +
-            '</div></p>'
-            $(".crmCompanyList").append(feelist)
+    setTimeout(function () {
+        for (var i = 0; i < roleId.length; i++) {
+            console.log(roleId[i])
+            $("input[name='checkList'][value='" + roleId[i] + "']").attr("checked", true)
         }
-
-        setTimeout(function () {
-            for (var i = 0; i < roleId.length; i++) {
-                console.log(roleId[i])
-                $("input[name='checkList'][value='" + roleId[i] + "']").attr("checked", true)
-            }
-        }, 1000)
-
-
-    }, function (err) {
-        console.log(err)
     }, 1000)
+
+    //common.ajax_req("get", true, dataUrl, "crmcompany.ashx?action=read", {
+    //    "companyId": companyID
+    //}, function (data) {
+    //    console.log(data.data)
+    //    var _data = data.data
+    //    for (var i = 0; i < _data.length; i++) {
+    //        var xuhao=i+1
+    //        var feelist = '<p style="clear:both;"><div class="margin-top-10">' +
+    //        '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;"><input type="checkbox" name="checkList" value=' + _data[i].comp_id + '></label>' +
+    //        '<label for="inputPassword3" class="margin-right-10" style="width:4%; float: left;">' + xuhao + '</label>' +
+    //        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].usin_name + '</label>' +
+    //        '<label for="inputPassword3" class="margin-right-10" style="width:27%; float: left;">' + _data[i].comp_name + '</label>' +
+    //        '<label for="inputPassword3" class="margin-right-10" style="width:20%; float: left;">' + _data[i].comp_type + '</label>' +
+    //        '<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _data[i].comp_contactPhone + '</label>' +
+    //        //'<label for="inputPassword3" class="margin-right-10" style="width:15%; float: left;">' + _data[i].comp_contactEmail + '</label>' +
+    //        '<label for="inputPassword3" class="margin-right-10" style="width:10%; float: left;">' + _data[i].comp_country + '</label>' +
+    //        '</div></p>'
+    //        $(".crmCompanyList").append(feelist)
+    //    }
+
+    //}, function (err) {
+    //    console.log(err)
+    //}, 1000)
 }
 
 

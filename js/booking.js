@@ -298,9 +298,9 @@ function initTable(fromId) {
     if(fromId=='1'){
 		hasPermission('1701'); //权限控制
 		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&crmId=' + companyID + '&fromId=' + fromId + '&userId=' + childrenIds + '&userOtherId=' + userID + "&all=true"
-    	tableTitle='<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>订舱时间</th><th>状态</th><th>操作</th>'
+		tableTitle = '<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>建单时间</th><th>状态</th><th>操作</th>'
     	$('.tableTitle').html(tableTitle)
-    	$('.tableFoot').html('<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>订舱时间</th><th>状态</th><th></th>')
+    	$('.tableFoot').html('<th>销售</th><th>订舱委托号</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量</th><th>货好时间</th><th>建单时间</th><th>状态</th><th></th>')
     	columns = [
     		{
     			"mDataProp": "book_sellId",
@@ -434,9 +434,9 @@ function initTable(fromId) {
     }else{
 		hasPermission('1713'); //权限控制
 		ajaxUrl = dataUrl + 'ajax/booking.ashx?action=read&companyId=' + companyID + '&userId=' + childrenIds + '&userOtherId=' + userID + "&all=true"
-		tableTitle = '<th>人员</th><th>单号/订舱号</th><th>SO NO. / MBL NO.</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
+		tableTitle = '<th>人员</th><th>单号/订舱号</th><th>SO NO. / MBL NO.</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>建单时间</th><th>离港时间</th><th>状态</th><th>操作</th>'
 		$('.tableTitle').html(tableTitle)
-		$('.tableFoot').html('<th>人员</th><th>单号/订舱号</th><th>SO NO. / MBL NO.</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>订舱时间</th><th>离港时间</th><th>状态</th><th></th>')
+		$('.tableFoot').html('<th>人员</th><th>单号/订舱号</th><th>SO NO. / MBL NO.</th><th>客户名称</th><th>起运港 <i class="fa fa-long-arrow-right"></i> 目的港 / 货量 / 船名-航次</th><th>建单时间</th><th>离港时间</th><th>状态</th><th></th>')
     	columns = [
     		{
     			"mDataProp": "book_sellId",
