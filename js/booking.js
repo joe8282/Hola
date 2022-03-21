@@ -637,7 +637,7 @@ function initTable(fromId) {
 				"createdCell": function (td, cellData, rowData, row, col) {
 				    var perCancel = ""
 				    if (rowData.book_orderState == 12 && rowData.book_state != 3) {
-				        perCancel = "<li><a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu + "\")'>" + get_lan('cancel') + "</a></li>"
+				        perCancel = "<li><a chref='javascript:void(0);' onclick='_cancelOrderFun(" + rowData.book_id + "," + rowData.book_state + ",\"" + rowData.book_beizhu.replace(/'/g,'"') + "\")'>" + get_lan('cancel') + "</a></li>"
 				    }
 				    if (rowData.book_state != 3) {
 				        $(td).html("<div class='btn-group' style='z-index:auto; width:70px;'><a class='btn btn-blue btn-sm' href='orderadd.html?action=modify&Id=" + cellData + "'> " + get_lan('detail') + "</a>"
