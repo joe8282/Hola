@@ -646,7 +646,7 @@ $("#e2,#e3").select2({
 	},
 	placeholder: '请选择', //默认文字提示
 	language: "zh-CN",
-	tags: true, //允许手动添加
+	tags: false, //允许手动添加
 	selectOnClose: true, //自动选择最匹配的那个数据
 	//allowClear: true, //允许清空
 	//minimumResultsForSearch: 1,

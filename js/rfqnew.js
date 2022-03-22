@@ -139,7 +139,7 @@ $(function(){
 		},
 		placeholder: '请选择港口', //默认文字提示
 		language: "zh-CN",
-		tags: true, //允许手动添加
+		tags: false, //允许手动添加
 		allowClear: true, //允许清空
         //templateResult: formatState,
 		escapeMarkup: function(markup) {

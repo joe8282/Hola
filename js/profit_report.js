@@ -116,7 +116,7 @@ $(document).ready(function() {
 	    },
 	    placeholder: '请选择销售人员', //默认文字提示
 	    language: "zh-CN",
-	    tags: true, //允许手动添加
+	    tags: false, //允许手动添加
 	    allowClear: true, //允许清空
 	    escapeMarkup: function (markup) {
 	        return markup;
@@ -166,7 +166,7 @@ $(document).ready(function() {
 	    },
 	    placeholder: '请选择录单人员', //默认文字提示
 	    language: "zh-CN",
-	    tags: true, //允许手动添加
+	    tags: false, //允许手动添加
 	    allowClear: true, //允许清空
 	    escapeMarkup: function (markup) {
 	        return markup;
@@ -216,7 +216,7 @@ $(document).ready(function() {
 	    },
 	    placeholder: '请选择客服人员', //默认文字提示
 	    language: "zh-CN",
-	    tags: true, //允许手动添加
+	    tags: false, //允许手动添加
 	    allowClear: true, //允许清空
 	    escapeMarkup: function (markup) {
 	        return markup;
@@ -266,7 +266,7 @@ $(document).ready(function() {
 	    },
 	    placeholder: '请选择操作人员', //默认文字提示
 	    language: "zh-CN",
-	    tags: true, //允许手动添加
+	    tags: false, //允许手动添加
 	    allowClear: true, //允许清空
 	    escapeMarkup: function (markup) {
 	        return markup;

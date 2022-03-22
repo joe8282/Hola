@@ -62,7 +62,7 @@ $(function(){
 		},
 		placeholder: '请选择', //默认文字提示
 		language: "zh-CN",
-		tags: true, //允许手动添加
+		tags: false, //允许手动添加
 		allowClear: true, //允许清空
 		escapeMarkup: function(markup) {
 			return markup;
@@ -113,7 +113,7 @@ $(function(){
 		},
 		placeholder: '请选择', //默认文字提示
 		language: "zh-CN",
-		tags: true, //允许手动添加
+		tags: false, //允许手动添加
 		allowClear: true, //允许清空
 		escapeMarkup: function(markup) {
 			return markup;
