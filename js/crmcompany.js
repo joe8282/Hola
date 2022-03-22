@@ -98,8 +98,8 @@ function initTable() {
             			{
             			    "mDataProp": "usin_name",
             			    "sWidth": "180px",
-            			    "createdCell": function (td, cellData, rowData, row, col) {
-            			        $(td).html("<span style='color:#999;'>建档：</span>" + rowData.usin_name + " <br/><span style='color:#999;'>业务：</span>" + rowData.sellName);
+            			    "render": function (td, cellData, rowData, row, col) {
+            			        return ("<span style='color:#999;'>建档：</span>" + rowData.usin_name + " <br/><span style='color:#999;'>业务：</span>" + rowData.sellName);
             			    }
             			},
 			{
@@ -145,9 +145,10 @@ function initTable() {
 			//		$(td).html(_checkboxValues);
 			//	}
 			//},
-			{ "mDataProp": "comp_contactName" ,
-				"createdCell": function (td, cellData, rowData, row, col) {
-				    $(td).html(rowData.comp_contactName + '<br/>' + rowData.comp_contactPhone + '<br/><a href="mailto:' + rowData.comp_contactEmail + '">' + rowData.comp_contactEmail + '<a>');
+			{
+			    "mDataProp": "comp_contactName",
+			    "render": function (td, cellData, rowData, row, col) {
+				    return (rowData.comp_contactName + '<br/>' + rowData.comp_contactPhone + '<br/><a href="mailto:' + rowData.comp_contactEmail + '">' + rowData.comp_contactEmail + '<a>');
 				}	
 			},
 			{ "mDataProp": "comp_country",
@@ -165,8 +166,8 @@ function initTable() {
 			// },			
 			{
 				"mDataProp": "comp_followTime",
-				"createdCell": function (td, cellData, rowData, row, col) {
-					$(td).html(rowData.comp_followTime.substring(0, 10)+"<br>"+rowData.comp_updateTime.substring(0, 10));
+				"render": function (td, cellData, rowData, row, col) {
+				    return (rowData.comp_followTime.substring(0, 10) + "<br>" + rowData.comp_updateTime.substring(0, 10));
 				}			
 			},	
 			// {
@@ -177,7 +178,7 @@ function initTable() {
 			// },				
 			{
 			    "mDataProp": "comp_state",
-			    "createdCell": function (td, cellData, rowData, row, col) {
+			    "render": function (td, cellData, rowData, row, col) {
 			        var _stateText = ""
 			        if (rowData.comp_state == 1) {
 			            _stateText = "待审核"
@@ -189,7 +190,7 @@ function initTable() {
 			            _stateText = "审核不通过"
 			        }
 			        order_num = '<a href="booking.html">' + rowData.comp_order_num + '</a> 票'
-			        $(td).html(_stateText + '<br/>账期：' + rowData.comp_period + '<br/>订单：' + order_num);
+			        return (_stateText + '<br/>账期：' + rowData.comp_period + '<br/>订单：' + order_num);
 			    }
 			},
 			{
@@ -201,7 +202,7 @@ function initTable() {
 // 						.append("<a href='crmcompanycontactadd.html?action=add&companyId="+rowData.comp_customerId +"'>" + get_lan('addcontact') + "</a><br/>")
 // //						.append("<a href='bookingadd.html?action=add&crmId="+cellData +"&fromId=1'>" + get_lan('addbooking') + "</a><br/>")
 // 						.append("<a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a>");
-				"createdCell": function (td, cellData, rowData, row, col) {
+				"render": function (td, cellData, rowData, row, col) {
 				    var perSend = ""
 				    if (isPermission('1605') == 1) {
 				        perSend = "<li><a href='javascript:void(0);' onclick='_sendEmail(" + cellData + ")'>" + get_lan('sendemail') + "</a></li>"
@@ -220,7 +221,7 @@ function initTable() {
 				        }
 				    }
 
-	    			$(td).html("<div class='btn-group'><a class='btn btn-blue btn-sm' href='crmcompanydetail.html?Id="+rowData.comp_id +"'> " + get_lan('follow') + "</a>"
+				    return ("<div class='btn-group'><a class='btn btn-blue btn-sm' href='crmcompanydetail.html?Id=" + rowData.comp_id + "'> " + get_lan('follow') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
 	                    +"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a></li>"
