@@ -519,7 +519,7 @@ $(document).ready(function () {
 	                $("#myModal_img").modal("hide");
 
 	            } else {
-	                alert('上传失败');
+	                alert(ret.Data);
 	            }
 	        }, 'json');
 	    } // reader onload end  

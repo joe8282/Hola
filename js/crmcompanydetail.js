@@ -1612,7 +1612,7 @@ $("#img5").on("change", function () {
                 $('#Pname5').val(ret.Pname);
                 //$('#showimg').html('<img src="' + ret.Data + '">');
             } else {
-                alert('上传失败');
+                alert(ret.Data);
             }
         }, 'json');
     } // reader onload end  

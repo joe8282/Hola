@@ -232,7 +232,7 @@ $(document).ready(function() {
 	                $('#Pname').val(ret.Pname);
 	                //$('#showimg').html('<img src="' + ret.Data + '">');
 	            } else {
-	                alert('上传失败');
+	                alert(ret.Data);
 	            }
 	        }, 'json');
 	    } // reader onload end  
