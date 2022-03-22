@@ -1621,7 +1621,7 @@ $(function(){
 						if(typeId==1){billTypeName='SHIPPER';}
 						else if(typeId==2){billTypeName='CONSIGNEE';}
 						else if(typeId==3){billTypeName='NOTIFYPARTY';}
-						billContent=HtmlEncode($("#inputBillContent").val());
+						billContent = HtmlEncode($("#inputBillContent").val()).toUpperCase();
 						if(!billContent){
 							comModel("请输入提单内容信息")
 							return false;
@@ -3277,10 +3277,10 @@ $(function(){
 		packageMarks2 = HtmlEncode($('#packageMarks2').val())
 		goodAbout2 = HtmlEncode($('#goodAbout2').val())
 		bill2Type = $('#billType2').val()
-		bill2Shipper = HtmlEncode($('#inShipper2').val())
-		bill2Consignee = HtmlEncode($('#inConsignee2').val())
-		bill2NotifyParty = HtmlEncode($('#inNotifyParty2').val())
-		alsoNotify2 = HtmlEncode($('#inAlsoNotify2').val())
+		bill2Shipper = HtmlEncode($('#inShipper2').val()).toUpperCase()
+		bill2Consignee = HtmlEncode($('#inConsignee2').val()).toUpperCase()
+		bill2NotifyParty = HtmlEncode($('#inNotifyParty2').val()).toUpperCase()
+		alsoNotify2 = HtmlEncode($('#inAlsoNotify2').val()).toUpperCase()
 		billBeizhu2 = HtmlEncode($('#inBillBeizhu2').val())
 		bill2Beizhu2 = HtmlEncode($('#inBill2Beizhu2').val())
 		//allContainer2 = $('#allContainer2').val()
@@ -3396,10 +3396,10 @@ $(function(){
 		packageMarks3 = HtmlEncode($('#packageMarks3').val())
 		goodAbout3 = HtmlEncode($('#goodAbout3').val())
 		bill3Type = $('#billType3').val()
-		bill3Shipper = HtmlEncode($('#inShipper3').val())
-		bill3Consignee = HtmlEncode($('#inConsignee3').val())
-		bill3NotifyParty = HtmlEncode($('#inNotifyParty3').val())
-		alsoNotify3 = HtmlEncode($('#inAlsoNotify3').val())
+		bill3Shipper = HtmlEncode($('#inShipper3').val()).toUpperCase()
+		bill3Consignee = HtmlEncode($('#inConsignee3').val()).toUpperCase()
+		bill3NotifyParty = HtmlEncode($('#inNotifyParty3').val()).toUpperCase()
+		alsoNotify3 = HtmlEncode($('#inAlsoNotify3').val()).toUpperCase()
 		billBeizhu3 = HtmlEncode($('#inBillBeizhu3').val())
 		bill2Beizhu3 = HtmlEncode($('#inBill2Beizhu3').val())
 
@@ -3527,14 +3527,14 @@ $(function(){
 		warehouseOutTime = $('#warehouseOutTime').val()
 		warehouseBeizhu = $('#warehouseBeizhu').val()
 		bill1Type = $('#billType').val()
-		bill1Shipper = HtmlEncode($('#inShipper').val())
-		bill1Consignee = HtmlEncode($('#inConsignee').val())
-		bill1NotifyParty = HtmlEncode($('#inNotifyParty').val())
+		bill1Shipper = HtmlEncode($('#inShipper').val()).toUpperCase()
+		bill1Consignee = HtmlEncode($('#inConsignee').val()).toUpperCase()
+		bill1NotifyParty = HtmlEncode($('#inNotifyParty').val()).toUpperCase()
 		
 		billCode = $('#billCode').val()
 		sono = $('#sono').val()
 		contractNo = $('#contractNo').val()
-		alsoNotify = HtmlEncode($('#inAlsoNotify').val())
+		alsoNotify = HtmlEncode($('#inAlsoNotify').val()).toUpperCase()
 		billBeizhu = HtmlEncode($('#inBillBeizhu').val())
 		bill2Beizhu = HtmlEncode($('#inBill2Beizhu').val())
 		port4 = $('#port4').val()

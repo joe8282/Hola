@@ -631,7 +631,7 @@ $(function(){
 						if(typeId==1){billTypeName='SHIPPER';}
 						else if(typeId==2){billTypeName='CONSIGNEE';}
 						else if(typeId==3){billTypeName='NOTIFYPARTY';}
-						billContent=HtmlEncode($("#inputBillContent").val());
+						billContent = HtmlEncode($("#inputBillContent").val()).toUpperCase();
 						if(!billContent){
 							comModel("请输入提单内容信息")
 							return false;
@@ -1694,13 +1694,13 @@ $(function(){
 		warehouseOutTime = $('#warehouseOutTime').val()
 		warehouseBeizhu = $('#warehouseBeizhu').val()
 		bill1Type = $("input[name='bill1Type']:checked").val()
-		bill1Shipper = HtmlEncode($('#inShipper').val())
-		bill1Consignee = HtmlEncode($('#inConsignee').val())
-		bill1NotifyParty = HtmlEncode($('#inNotifyParty').val())
+		bill1Shipper = HtmlEncode($('#inShipper').val()).toUpperCase()
+		bill1Consignee = HtmlEncode($('#inConsignee').val()).toUpperCase()
+		bill1NotifyParty = HtmlEncode($('#inNotifyParty').val()).toUpperCase()
 		bill2Type = $("input[name='bill1Type2']:checked").val()
-		bill2Shipper = HtmlEncode($('#inShipper2').val())
-		bill2Consignee = HtmlEncode($('#inConsignee2').val())
-		bill2NotifyParty = HtmlEncode($('#inNotifyParty2').val())
+		bill2Shipper = HtmlEncode($('#inShipper2').val()).toUpperCase()
+		bill2Consignee = HtmlEncode($('#inConsignee2').val()).toUpperCase()
+		bill2NotifyParty = HtmlEncode($('#inNotifyParty2').val()).toUpperCase()
 		
 		var crmdata = [];
 		$("input[name='crmli']:checked").each(function(index, item) {
