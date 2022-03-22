@@ -224,13 +224,13 @@ function initTable() {
 				    return ("<div class='btn-group'><a class='btn btn-blue btn-sm' href='crmcompanydetail.html?Id=" + rowData.comp_id + "'> " + get_lan('follow') + "</a>"
 	    				+"<a class='btn btn-blue btn-sm dropdown-toggle' data-toggle='dropdown' href='javascript:void(0);'><i class='fa fa-angle-down'></i></a>"
 	                    +"<ul class='dropdown-menu dropdown-azure'>"
-	                    +"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'> " + get_lan('edit') + "</a></li>"
+	                    + "<li><a href='crmcompanyadd.html?action=modify&Id=" + rowData.comp_id + "'> " + get_lan('edit') + "</a></li>"
 	                    //+"<li><a href='crmcompanyadd.html?action=modify&Id="+cellData +"'>" + get_lan('follow') + "</a></li>"
 	                    + "<li><a href='crmcompanycontactadd.html?action=add&userCompanyId=" + rowData.comp_customerId + "'>" + get_lan('addcontact') + "</a></li>"
-	                    + "<li><a href='contactsheetadd.html?action=add&crmId=" + cellData + "'>" + get_lan('addbooking') + "</a></li>"
+	                    + "<li><a href='contactsheetadd.html?action=add&crmId=" + rowData.comp_id + "'>" + get_lan('addbooking') + "</a></li>"
 	                    + perSend
 	                    +"<li class='divider'></li>"
-	                    + "<li><a href='javascript:void(0);' onclick='_deleteFun(" + cellData + ")'>" + ((rowData.comp_state == 1) ? get_lan('delete') : "") + "</a></li>"
+	                    + "<li><a href='javascript:void(0);' onclick='_deleteFun(" + rowData.comp_id + ")'>" + ((rowData.comp_state == 1) ? get_lan('delete') : "") + "</a></li>"
                         + stateString
 	                    +"</ul></div>")
 	                    // 这里修改了列表的操作样式 by daniel 20190803
