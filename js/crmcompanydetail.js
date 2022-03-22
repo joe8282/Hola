@@ -1530,13 +1530,14 @@ function GetFiles() {
         //		"bProcessing": true,
         "aoColumns": [
             { "mDataProp": "cofi_name" },
+                        { "mDataProp": "usin_name" },
             {
                 "mDataProp": "cofi_updateTime",
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
                     $(nTd).html(oData.cofi_updateTime.substring(0, 10));
                 }
             },
-            { "mDataProp": "usin_name" },
+
             {
                 "mDataProp": "cofi_id",
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {

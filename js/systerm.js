@@ -48,6 +48,15 @@ $(function(){
 		console.log(err)
 	}, 2000)
 
+	common.ajax_req('GET', false, dataUrl, 'booking.ashx?action=read', {
+	    'companyId': companyID,
+	}, function (data) {
+	    //console.log(data)
+	    if (data.data != null) {
+	        $('#inputPreNum').attr("disabled", "disabled")
+	    }
+	})
+
 	/*下一步*/
 	$('#send1').on('click', function() {
 
