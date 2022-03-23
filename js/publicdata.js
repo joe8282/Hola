@@ -615,11 +615,11 @@ function _addFun() {
 	var jsonData = {
 		'companyId': companyID,
 		'typeId': typeId,
-		'code': $("#inputCode").val(),
-		'nameEn': $("#inputNameEn").val(),
-		'nameCn': $("#inputNameCn").val(),
-		'countryEn': $("#inputCountryEn").val(),
-		'countryCn': $("#inputCountryCn").val()
+		'code': $("#inputCode").val().toUpperCase(),
+		'nameEn': $("#inputNameEn").val().toUpperCase(),
+		'nameCn': $("#inputNameCn").val().toUpperCase(),
+		'countryEn': $("#inputCountryEn").val().toUpperCase(),
+		'countryCn': $("#inputCountryCn").val().toUpperCase()
 	};
 	$.ajax({
 		url: dataUrl+'ajax/publicdata.ashx?action=new',
@@ -647,11 +647,11 @@ function _addFun() {
  */
 function _editFunAjax() {
 	var Id = $("#objectId").val();
-	var code = $("#inputCode").val();
-	var nameEn = $("#inputNameEn").val();
-	var nameCn = $("#inputNameCn").val();
-	var countryEn = $("#inputCountryEn").val();
-	var countryCn = $("#inputCountryCn").val();
+	var code = $("#inputCode").val().toUpperCase();
+	var nameEn = $("#inputNameEn").val().toUpperCase();
+	var nameCn = $("#inputNameCn").val().toUpperCase();
+	var countryEn = $("#inputCountryEn").val().toUpperCase();
+	var countryCn = $("#inputCountryCn").val().toUpperCase();
 	var jsonData = {
 		"Id": Id,
 		'companyId': companyID,		
