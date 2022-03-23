@@ -69,7 +69,8 @@ $(document).ready(function() {
 	        $('#_Address').text(data.Data.crin_address)
 	        $('#_TaxID').text(data.Data.crin_taxID)
 	        $('#_Bank').text(data.Data.crin_bank)
-	        $('#_Account').text(data.Data.crin_account)
+	        $('#_Account_cny').text(data.Data.crin_account_cny)
+	        $('#_Account_usd').text(data.Data.crin_account_usd)
 	        $('#_Email').text(data.Data.crin_email)
 	        $('#_Tel').text(data.Data.crin_tel)
 	        $('#_Beizhu').text(data.Data.crin_beizhu)
@@ -96,7 +97,8 @@ $(document).ready(function() {
 	            $('#inputAddress').val(data.Data.crin_address)
 	            $('#inputTaxID').val(data.Data.crin_taxID)
 	            $('#inputBank').val(data.Data.crin_bank)
-	            $('#inputAccount').val(data.Data.crin_account)
+	            $('#inputAccount_cny').val(data.Data.crin_account_cny)
+	            $('#inputAccount_usd').val(data.Data.crin_account_usd)
 	            $('#inputEmail').val(data.Data.crin_email)
 	            $('#inputTel').val(data.Data.crin_tel)
 	            $('#inputBeizhu').val(data.Data.crin_beizhu)
@@ -124,7 +126,8 @@ $(document).ready(function() {
 	        'taxID': $('#inputTaxID').val(),
 	        'address': $('#inputAddress').val(),
 	        'bank': $('#inputBank').val(),
-	        'account': $('#inputAccount').val(),
+	        'account_cny': $('#inputAccount_cny').val(),
+	        'account_usd': $('#inputAccount_usd').val(),
 	        'email': $('#inputEmail').val(),
 	        'tel': $('#inputTel').val(),
 	    }
