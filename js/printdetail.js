@@ -260,7 +260,7 @@ $(document).ready(function () {
                                         for (var i = 0; i < allContailner.length - 1;i++) { num += parseInt(allContailner[i].split('×')[0]) }
                                         value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + mblData[$(this).attr("itemrelation")] + ") CONTAINERS ONLY"
                                     } else {
-                                        value = mblData[$(this).attr("itemrelation")]
+                                        value = HtmlDecode(mblData[$(this).attr("itemrelation")])
                                     } 
                                 } else if ($(this).attr("itemrelation").indexOf("bobi_") >= 0) {
                                     if (typeId == 3) {
@@ -270,7 +270,7 @@ $(document).ready(function () {
                                             for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
                                             value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + hblData[$(this).attr("itemrelation")] + ") CONTAINERS ONLY"
                                         } else {
-                                            value = hblData[$(this).attr("itemrelation")]
+                                            value = HtmlDecode(hblData[$(this).attr("itemrelation")])
                                         }
                                         
                                     }   
@@ -692,7 +692,7 @@ $(document).ready(function () {
 		                    for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
 		                    value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + mblData[$(this).val()] + ") CONTAINERS ONLY"
 		                } else {
-		                    value = mblData[$(this).val()]
+		                    value = HtmlDecode(mblData[$(this).val()])
 		                }
 		            } else if ($(this).val().indexOf("bobi_") >= 0) {
 		                if (typeId == 3) {          
@@ -702,7 +702,7 @@ $(document).ready(function () {
 		                        for (var i = 0; i < allContailner.length - 1; i++) { num += parseInt(allContailner[i].split('×')[0]) }
 		                        value = numberToEnglish(num, 'SAY').toUpperCase() + " (" + hblData[$(this).val()] + ") CONTAINERS ONLY"
 		                    } else {
-		                        value = hblData[$(this).val()]
+		                        value = HtmlDecode(hblData[$(this).val()])
 		                    }
 		                }
 		                
