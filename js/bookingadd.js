@@ -184,7 +184,7 @@ $(function(){
 				$("#inShipper2").val(HtmlDecode(_data[0].cobi_content))
 				for(var i = 0; i < _data.length; i++) {
 					var content = _data[i].cobi_content.split('<br>')
-					var _html = '<option value="' + _data[i].cobi_content + '">' + content[0] + '</option>';
+					var _html = '<option value="' + _data[i].cobi_content + '">' + HtmlDecode(content[0]) + '</option>';
 					$('#Shipper').append(_html)
 					$('#Shipper2').append(_html)
 				}
@@ -223,7 +223,7 @@ $(function(){
 				$("#inConsignee2").val(HtmlDecode(_data[0].cobi_content))
 				for(var i = 0; i < _data.length; i++) {
 					var content = _data[i].cobi_content.split('<br>')
-					var _html = '<option value="' + _data[i].cobi_content + '">' + content[0] + '</option>';
+					var _html = '<option value="' + _data[i].cobi_content + '">' + HtmlDecode(content[0]) + '</option>';
 					$('#Consignee').append(_html)
 					$('#Consignee2').append(_html)
 				}
@@ -262,7 +262,7 @@ $(function(){
 				$("#inNotifyParty2").val(HtmlDecode(_data[0].cobi_content))
 				for(var i = 0; i < _data.length; i++) {
 					var content = _data[i].cobi_content.split('<br>')
-					var _html = '<option value="' + _data[i].cobi_content + '">' + content[0] + '</option>';
+					var _html = '<option value="' + _data[i].cobi_content + '">' + HtmlDecode(content[0]) + '</option>';
 					$('#NotifyParty').append(_html)
 					$('#NotifyParty2').append(_html)
 				}
@@ -326,32 +326,32 @@ $(function(){
 									comModel("新增提单信息成功")
 									var newBillContent=billContent.split('<br>')
 									if(where==1&&typeId==1){
-										$('#Shipper').prepend('<option value="'+billContent+'">'+newBillContent[0]+'</option>')
+									    $('#Shipper').prepend('<option value="'+billContent+'">'+HtmlDecode(newBillContent[0])+'</option>')
 										$('#Shipper').val(billContent).trigger("change")
 										$("#inShipper").val(HtmlDecode(billContent))
 									}
 									if(where==1&&typeId==2){
-										$('#Consignee').prepend('<option value="'+billContent+'">'+newBillContent[0]+'</option>')
+									    $('#Consignee').prepend('<option value="'+billContent+'">'+HtmlDecode(newBillContent[0])+'</option>')
 										$('#Consignee').val(billContent).trigger("change")										
 										$("#inConsignee").val(HtmlDecode(billContent))
 									}
 									if(where==1&&typeId==3){
-										$('#NotifyParty').prepend('<option value="'+billContent+'">'+newBillContent[0]+'</option>')
+									    $('#NotifyParty').prepend('<option value="'+billContent+'">'+HtmlDecode(newBillContent[0])+'</option>')
 										$('#NotifyParty').val(billContent).trigger("change")										
 										$("#inNotifyParty").val(HtmlDecode(billContent))
 									}	
 									if(where == 2 && typeId == 1) {
-										$('#Shipper2').prepend('<option value="' + billContent + '">' + newBillContent[0] + '</option>')
+									    $('#Shipper2').prepend('<option value="' + billContent + '">' + HtmlDecode(newBillContent[0]) + '</option>')
 										$('#Shipper2').val(billContent).trigger("change")
 										$("#inShipper2").val(HtmlDecode(billContent))
 									}
 									if(where == 2 && typeId == 2) {
-										$('#Consignee2').prepend('<option value="' + billContent + '">' + newBillContent[0] + '</option>')
+									    $('#Consignee2').prepend('<option value="' + billContent + '">' + HtmlDecode(newBillContent[0]) + '</option>')
 										$('#Consignee2').val(billContent).trigger("change")
 										$("#inConsignee2").val(HtmlDecode(billContent))
 									}
 									if(where == 2 && typeId == 3) {
-										$('#NotifyParty2').prepend('<option value="' + billContent + '">' + newBillContent[0] + '</option>')
+									    $('#NotifyParty2').prepend('<option value="' + billContent + '">' + HtmlDecode(newBillContent[0]) + '</option>')
 										$('#NotifyParty2').val(billContent).trigger("change")
 										$("#inNotifyParty2").val(HtmlDecode(billContent))
 									}
