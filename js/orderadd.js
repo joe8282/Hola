@@ -305,9 +305,9 @@ $(function(){
                 {
                     "mDataProp": "opgo_id",
                     "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                        if (oData.opgo_state == 1) {
+                        if (oData.opgo_state == 1 || oData.opgo_state == 4) {
                             $(nTd).html("<a href='javascript:void(0);' onclick='_detailOpenGoodsFun(" + sData + ")'>" + get_lan('detail') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
-                                .append("<a href='javascript:void(0);' onclick='_deleteOpenGoodsFun(" + sData + ")'>" + get_lan('cancel') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
+                                .append("<a href='javascript:void(0);' onclick='_deleteOpenGoodsFun(" + sData + ")'>" + get_lan('delete') + "</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>发送</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>导出</a>&nbsp;&nbsp;&nbsp;&nbsp;")
                             //    .append("<a href='#'>收款</a>&nbsp;&nbsp;&nbsp;&nbsp;")
@@ -4104,13 +4104,12 @@ function _detailOpenGoodsFun(Id) {
  * @private
  */
 function _deleteOpenGoodsFun(id) {
-    bootbox.confirm("确认要取消吗?", function (result) {
+    bootbox.confirm("确认要删除吗?", function (result) {
         if (result) {
             $.ajax({
-                url: dataUrl + 'ajax/opengoods.ashx?action=modify',
+                url: dataUrl + 'ajax/opengoods.ashx?action=cancel',
                 data: {
-                    "Id": id,
-                    "state": 4
+                    "Id": id
                 },
                 dataType: "json",
                 type: "post",
@@ -4119,7 +4118,7 @@ function _deleteOpenGoodsFun(id) {
                         openGoodsTable.fnReloadAjax(openGoodsTable.fnSettings());
                         loadOpenGoods()
                     } else {
-                        alert("取消失败！");
+                        alert("删除失败！");
                     }
                 },
                 error: function (error) {
