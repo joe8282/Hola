@@ -1439,7 +1439,7 @@ $(function(){
 		}, 1000)
 		$("#Shipper").click(function() {
 			var opt = $("#Shipper").val();
-			if(opt != '0') {
+			if (opt != '0') {
 				$("#inShipper").val(HtmlDecode(opt))
 			} else {
 			    _addBillFun(1, 1, customerId)
