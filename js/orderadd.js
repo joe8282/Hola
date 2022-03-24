@@ -59,7 +59,7 @@ $(function(){
     var feeData='',trailerData='',containerData='';
     var carrier,consignee,contractNo;
     //var crm='';
-    var orderCode,outCode;
+    var orderCode='',outCode;
     var sellId,luruId,kefuId,caozuoId;
     var forwarder,warehouse,warehouseAddress,warehouseContact,warehouseContactWay,warehouseInCode,warehouseInTime,warehouseOutCode,warehouseOutTime,warehouseBeizhu;
     var bill1Type,bill1Shipper,bill1Consignee,bill1NotifyParty;
@@ -2361,17 +2361,17 @@ $(function(){
 		$('#title1').text(get_lan('con_top_3'))
 		$('#title2').text(get_lan('con_top_3'))
 		$('#copyFun').hide()
-		common.ajax_req("get", true, dataUrl, "booking.ashx?action=getordercode", {
-		    "companyId": companyID
-		}, function (data) {
-		    //console.log(data)
-		    if (data.State == 1) {
-		        orderCode = data.Data
-		    } 
-		    $('#title3').html('订单号：' + orderCode)
-		    $('#warehouseInCode').val(orderCode + 'WH');
-		    $('#warehouseOutCode').val(orderCode + 'WH');
-		})
+		//common.ajax_req("get", true, dataUrl, "booking.ashx?action=getordercode", {
+		//    "companyId": companyID
+		//}, function (data) {
+		//    //console.log(data)
+		//    if (data.State == 1) {
+		//        orderCode = data.Data
+		//    } 
+		//    $('#title3').html('订单号：' + orderCode)
+		//    $('#warehouseInCode').val(orderCode + 'WH');
+		//    $('#warehouseOutCode').val(orderCode + 'WH');
+		//})
     	common.ajax_req("get", true, dataUrl, "weiinfo.ashx?action=read", {
     		"companyId": companyID
     	}, function(data) {
